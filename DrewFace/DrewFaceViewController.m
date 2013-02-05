@@ -28,7 +28,7 @@
     UIImageView *iv;
     
     // test input image in Documents Directory of iPhone
-    NSString *testFileName = @"testimage1.jpg";
+    NSString *testFileName = @"testimage2.jpg";
     UIImage *testimage;
     int w;
     int h;
@@ -49,7 +49,7 @@
         if (orientation==6) {
             // rotate CGImageRef data as well as the UIImage
             testimage = [UIImage imageWithCGImage:[self CGImageRotatedByAngle:testimage.CGImage angle:-M_PI/2.0]];
-        } else if (!orientation) {
+        } else if (orientation>0) {
             NSLog(@"Orientation not 0 or 6. Need to accommodate here");
         }
         iv = [[UIImageView alloc] initWithImage:testimage];
