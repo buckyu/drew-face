@@ -24,11 +24,10 @@
 
 -(IBAction)LoadTestImageJPEGButtonPressed {
     
-    // iOS UIImageView for debug and showing results on screen
-    UIImageView *iv;
+    [iv removeFromSuperview];
     
     // test input image in Documents Directory of iPhone
-    NSString *testFileName = @"testimage2.jpg";
+    NSString *testFileName = @"testimage1.jpg";
     UIImage *testimage;
     int w;
     int h;
@@ -44,11 +43,17 @@
         // check for 
         NSData *testimageNSData = [NSData dataWithContentsOfFile:testFilePath];
         CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)testimageNSData, NULL);
-        NSDictionary *metadata = (__bridge NSDictionary *) CGImageSourceCopyPropertiesAtIndex(source,0,NULL);
+        CFDictionaryRef dictRef = CGImageSourceCopyPropertiesAtIndex(source,0,NULL);
+        NSDictionary *metadata = (__bridge NSDictionary *) dictRef;
+        CFRelease(source);
+        CFRelease(dictRef);
         orientation = [[metadata valueForKey:@"Orientation"] integerValue];
+        
         if (orientation==6) {
             // rotate CGImageRef data as well as the UIImage
-            testimage = [UIImage imageWithCGImage:[self CGImageRotatedByAngle:testimage.CGImage angle:-M_PI/2.0]];
+            CGImageRef rotatedImageRef= [self CGImageRotatedByAngle:testimage.CGImage angle:-M_PI/2.0];
+            testimage = [UIImage imageWithCGImage:rotatedImageRef];
+            CGImageRelease(rotatedImageRef);
         } else if (orientation>0) {
             NSLog(@"Orientation not 0 or 6. Need to accommodate here");
         }
@@ -100,6 +105,11 @@
     UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
     iv.image = modifiedImage;
     
+    CGImageRelease(newImageRef);
+    CGContextRelease(newContextRef);
+    CGColorSpaceRelease(colorspaceRef);
+    
+    
     free(mutablebuffer);
 }
 
@@ -149,13 +159,14 @@
 	CGRect rotatedRect = CGRectApplyAffineTransform(imgRect, transform);
 	
 	CGColorSpaceRef colorSpace = CGImageGetColorSpace(imgRef);
+    CGBitmapInfo bitinfo = CGImageGetBitmapInfo(imgRef);
 	CGContextRef bmContext = CGBitmapContextCreate(NULL,
 												   rotatedRect.size.width,
 												   rotatedRect.size.height,
 												   8,
 												   0,
 												   colorSpace,
-												   CGImageGetBitmapInfo(imgRef));
+												   bitinfo);
 	CGContextSetAllowsAntialiasing(bmContext, YES);
 	CGContextSetInterpolationQuality(bmContext, kCGInterpolationHigh);
 	CGColorSpaceRelease(colorSpace);
@@ -168,7 +179,7 @@
 	
 	CGImageRef rotatedImage = CGBitmapContextCreateImage(bmContext);
 	CFRelease(bmContext);
-	
+    	
 	return rotatedImage;
 }
 

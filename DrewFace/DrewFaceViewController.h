@@ -12,7 +12,8 @@
 
 @interface DrewFaceViewController : UIViewController {
     
-    
+    // iOS UIImageView for debug and showing results on screen
+    UIImageView *iv;
     
 
 
