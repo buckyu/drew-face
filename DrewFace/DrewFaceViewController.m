@@ -28,40 +28,39 @@
     UIImageView *iv;
     
     // test input image in Documents Directory of iPhone
-    NSString *testFileName = @"testimage.jpg";
+    NSString *testFileName = @"testimage1.jpg";
     UIImage *testimage;
     int w;
     int h;
     CGFloat scaleDownfactor;
     int orientation = 0;
     
-    // load test input file and display on screen in UIImageView *iv
+    // load test input file
     NSString *docsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *testFilePath = [docsDirectory stringByAppendingPathComponent:testFileName];
     NSFileManager *manager = [NSFileManager defaultManager];
     if ([manager fileExistsAtPath:testFilePath]) {
         testimage = [UIImage imageWithContentsOfFile:testFilePath];
+        // check for 
         NSData *testimageNSData = [NSData dataWithContentsOfFile:testFilePath];
         CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)testimageNSData, NULL);
         NSDictionary *metadata = (__bridge NSDictionary *) CGImageSourceCopyPropertiesAtIndex(source,0,NULL);
         orientation = [[metadata valueForKey:@"Orientation"] integerValue];
-        BOOL DoRotateImage90Degrees = NO;
-        if (orientation>=5) {
-            DoRotateImage90Degrees = YES;
+        if (orientation==6) {
+            // rotate CGImageRef data as well as the UIImage
+            testimage = [UIImage imageWithCGImage:[self CGImageRotatedByAngle:testimage.CGImage angle:-M_PI/2.0]];
+        } else if (!orientation) {
+            NSLog(@"Orientation not 0 or 6. Need to accommodate here");
         }
         iv = [[UIImageView alloc] initWithImage:testimage];
-        if (DoRotateImage90Degrees) {
-            h = (int)testimage.size.width;
-            w = (int)testimage.size.height;
-        } else {
-            w = (int)testimage.size.width;
-            h = (int)testimage.size.height;
-        }
+        w = (int)testimage.size.width;
+        h = (int)testimage.size.height;
+        // scale image for iPhone screen keeping aspect ratio
         scaleDownfactor = (w>h)? 320.0/w : 320.0/h;
         iv.frame = CGRectMake(0, 100, w*scaleDownfactor, h*scaleDownfactor);
         [self.view addSubview:iv];
     } else {
-        // exit, can not continue
+        // exit, file not found, can not continue
         NSLog(@"%@ not in Documents Directory",testFileName);
         return;
     }
@@ -72,14 +71,18 @@
     CGDataProviderRef myDataProvider = CGImageGetDataProvider(testimage.CGImage);
     CFDataRef pixelData = CGDataProviderCopyData(myDataProvider);
     const uint8_t *testimagedata = CFDataGetBytePtr(pixelData);
+ 
     
-    // to test and prove we have a copy of the pixels in BGRA format for the original JPEG
+    // convert to grayscale for face detection
+    // Y = 0.299R + 0.587G + 0.114B
     uint8_t *mutablebuffer = (uint8_t *)malloc(w*h*4);
     memcpy(&mutablebuffer[0],testimagedata,w*h*4);
-    for (int i=0; i<h/2; i++) {
+    for (int i=0; i<h; i++) {
         for (int j=0; j<w; j++) {
-            // do something noticeable with the pixels
-            //*(mutablebuffer + i*w*4 + j*4 + 0) = 0xff;
+            uint8_t y = 0.299 * *(mutablebuffer + i*w*4 + j*4 + 0) + 0.587 * *(mutablebuffer + i*w*4 + j*4 + 1) + 0.114 * *(mutablebuffer + i*w*4 + j*4 + 3);
+            *(mutablebuffer + i*w*4 + j*4 + 0) = y;
+            *(mutablebuffer + i*w*4 + j*4 + 1) = y;
+            *(mutablebuffer + i*w*4 + j*4 + 2) = y;
         }
     }
     CFRelease(pixelData);
@@ -93,21 +96,19 @@
     
     CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
     
-    
-    UIImage *modifiedImage;
-    if (orientation==6) {
-        modifiedImage = [self imageRotate:[UIImage imageWithCGImage:newImageRef] rotatedby:M_PI/2.0];
-        iv.frame = CGRectMake(0, 100, iv.frame.size.height, iv.frame.size.width);
-    } else {
-        modifiedImage = [self imageRotate:[UIImage imageWithCGImage:newImageRef] rotatedby:0.0];
-    }
-    
-    
+    // show grayscale image om iPhone screen
+    UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
     iv.image = modifiedImage;
     
     free(mutablebuffer);
 }
 
+
+
+
+
+
+// helper functions for rotating UIImage and CGImageRef
 
 - (UIImage *)imageRotate:(UIImage *)origImage rotatedby:(CGFloat)rads
 {
@@ -132,9 +133,43 @@
     CGContextDrawImage(bitmap, CGRectMake(-origImage.size.width / 2, -origImage.size.height / 2, origImage.size.width, origImage.size.height), [origImage CGImage]);
     
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
     UIGraphicsEndImageContext();
     return newImage;
     
+}
+
+- (CGImageRef)CGImageRotatedByAngle:(CGImageRef)imgRef angle:(CGFloat)angleInRadians
+{
+	CGFloat width = CGImageGetWidth(imgRef);
+	CGFloat height = CGImageGetHeight(imgRef);
+	
+	CGRect imgRect = CGRectMake(0, 0, width, height);
+	CGAffineTransform transform = CGAffineTransformMakeRotation(angleInRadians);
+	CGRect rotatedRect = CGRectApplyAffineTransform(imgRect, transform);
+	
+	CGColorSpaceRef colorSpace = CGImageGetColorSpace(imgRef);
+	CGContextRef bmContext = CGBitmapContextCreate(NULL,
+												   rotatedRect.size.width,
+												   rotatedRect.size.height,
+												   8,
+												   0,
+												   colorSpace,
+												   CGImageGetBitmapInfo(imgRef));
+	CGContextSetAllowsAntialiasing(bmContext, YES);
+	CGContextSetInterpolationQuality(bmContext, kCGInterpolationHigh);
+	CGColorSpaceRelease(colorSpace);
+	CGContextTranslateCTM(bmContext,
+						  +(rotatedRect.size.width/2),
+						  +(rotatedRect.size.height/2));
+	CGContextRotateCTM(bmContext, angleInRadians);
+	CGContextDrawImage(bmContext, CGRectMake(-width/2, -height/2, width, height),
+					   imgRef);
+	
+	CGImageRef rotatedImage = CGBitmapContextCreateImage(bmContext);
+	CFRelease(bmContext);
+	
+	return rotatedImage;
 }
 
 
