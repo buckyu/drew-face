@@ -16,7 +16,7 @@
 
 }
 
-
+-(IBAction)LoadTestImageJPEGButtonPressed;
 
 
 @end
