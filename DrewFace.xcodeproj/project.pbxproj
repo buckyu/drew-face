@@ -18,6 +18,7 @@
 		1D6992FE16C014C200547D63 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D6992FD16C014C200547D63 /* Default-568h@2x.png */; };
 		1D69930116C014C200547D63 /* DrewFaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D69930016C014C200547D63 /* DrewFaceViewController.m */; };
 		1D69930416C014C200547D63 /* DrewFaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D69930216C014C200547D63 /* DrewFaceViewController.xib */; };
+		1DC1EDC716C0E99F0076AF9D /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DC1EDC616C0E99F0076AF9D /* ImageIO.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		1D6992FF16C014C200547D63 /* DrewFaceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DrewFaceViewController.h; sourceTree = "<group>"; };
 		1D69930016C014C200547D63 /* DrewFaceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DrewFaceViewController.m; sourceTree = "<group>"; };
 		1D69930316C014C200547D63 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DrewFaceViewController.xib; sourceTree = "<group>"; };
+		1DC1EDC616C0E99F0076AF9D /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,9 +46,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DC1EDC716C0E99F0076AF9D /* ImageIO.framework in Frameworks */,
+				1D6992EC16C014C200547D63 /* CoreGraphics.framework in Frameworks */,
 				1D6992E816C014C200547D63 /* UIKit.framework in Frameworks */,
 				1D6992EA16C014C200547D63 /* Foundation.framework in Frameworks */,
-				1D6992EC16C014C200547D63 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +76,7 @@
 		1D6992E616C014C200547D63 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1DC1EDC616C0E99F0076AF9D /* ImageIO.framework */,
 				1D6992E716C014C200547D63 /* UIKit.framework */,
 				1D6992E916C014C200547D63 /* Foundation.framework */,
 				1D6992EB16C014C200547D63 /* CoreGraphics.framework */,
@@ -265,6 +269,7 @@
 				GCC_PREFIX_HEADER = "DrewFace/DrewFace-Prefix.pch";
 				INFOPLIST_FILE = "DrewFace/DrewFace-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -277,6 +282,7 @@
 				GCC_PREFIX_HEADER = "DrewFace/DrewFace-Prefix.pch";
 				INFOPLIST_FILE = "DrewFace/DrewFace-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -301,6 +307,7 @@
 				1D69930916C014C200547D63 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
