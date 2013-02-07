@@ -19,6 +19,8 @@
 		1D69930116C014C200547D63 /* DrewFaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D69930016C014C200547D63 /* DrewFaceViewController.m */; };
 		1D69930416C014C200547D63 /* DrewFaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D69930216C014C200547D63 /* DrewFaceViewController.xib */; };
 		1DC1EDC716C0E99F0076AF9D /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DC1EDC616C0E99F0076AF9D /* ImageIO.framework */; };
+		1DE6DDF116C41A8300BAA92A /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE6DDF016C41A8300BAA92A /* opencv2.framework */; };
+		1DE6DDF916C41D5F00BAA92A /* OpenCvClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1DE6DDF816C41D5F00BAA92A /* OpenCvClass.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,9 @@
 		1D69930016C014C200547D63 /* DrewFaceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DrewFaceViewController.m; sourceTree = "<group>"; };
 		1D69930316C014C200547D63 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DrewFaceViewController.xib; sourceTree = "<group>"; };
 		1DC1EDC616C0E99F0076AF9D /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		1DE6DDF016C41A8300BAA92A /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		1DE6DDF716C41D5F00BAA92A /* OpenCvClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCvClass.h; sourceTree = "<group>"; };
+		1DE6DDF816C41D5F00BAA92A /* OpenCvClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCvClass.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DE6DDF116C41A8300BAA92A /* opencv2.framework in Frameworks */,
 				1DC1EDC716C0E99F0076AF9D /* ImageIO.framework in Frameworks */,
 				1D6992EC16C014C200547D63 /* CoreGraphics.framework in Frameworks */,
 				1D6992E816C014C200547D63 /* UIKit.framework in Frameworks */,
@@ -76,6 +82,7 @@
 		1D6992E616C014C200547D63 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1DE6DDF016C41A8300BAA92A /* opencv2.framework */,
 				1DC1EDC616C0E99F0076AF9D /* ImageIO.framework */,
 				1D6992E716C014C200547D63 /* UIKit.framework */,
 				1D6992E916C014C200547D63 /* Foundation.framework */,
@@ -92,6 +99,8 @@
 				1D6992FF16C014C200547D63 /* DrewFaceViewController.h */,
 				1D69930016C014C200547D63 /* DrewFaceViewController.m */,
 				1D69930216C014C200547D63 /* DrewFaceViewController.xib */,
+				1DE6DDF716C41D5F00BAA92A /* OpenCvClass.h */,
+				1DE6DDF816C41D5F00BAA92A /* OpenCvClass.mm */,
 				1D6992EE16C014C200547D63 /* Supporting Files */,
 			);
 			path = DrewFace;
@@ -181,6 +190,7 @@
 				1D6992F416C014C200547D63 /* main.m in Sources */,
 				1D6992F816C014C200547D63 /* DrewFaceAppDelegate.m in Sources */,
 				1D69930116C014C200547D63 /* DrewFaceViewController.m in Sources */,
+				1DE6DDF916C41D5F00BAA92A /* OpenCvClass.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +275,10 @@
 		1D69930816C014C200547D63 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DrewFace/DrewFace-Prefix.pch";
 				INFOPLIST_FILE = "DrewFace/DrewFace-Info.plist";
@@ -278,6 +292,10 @@
 		1D69930916C014C200547D63 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DrewFace/DrewFace-Prefix.pch";
 				INFOPLIST_FILE = "DrewFace/DrewFace-Info.plist";
