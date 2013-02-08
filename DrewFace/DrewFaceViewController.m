@@ -76,7 +76,6 @@
         return;
     }
     
-    ocv = nil;
     ocv = [OpenCvClass new];
     testimage = [ocv processUIImage:testimage];
     
