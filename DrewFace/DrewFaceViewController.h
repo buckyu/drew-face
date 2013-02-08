@@ -16,7 +16,9 @@
     
     // iOS UIImageView for debug and showing results on screen
     UIImageView *iv;
-    
+
+    // OpenCV processing class
+    OpenCvClass *ocv;
 
 
 }

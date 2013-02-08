@@ -19,6 +19,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
+    ocv = [OpenCvClass new];
+    
 }
 
 
@@ -40,7 +42,9 @@
     NSFileManager *manager = [NSFileManager defaultManager];
     if ([manager fileExistsAtPath:testFilePath]) {
         testimage = [UIImage imageWithContentsOfFile:testFilePath];
-        // check for 
+        
+
+        // check for orientation
         NSData *testimageNSData = [NSData dataWithContentsOfFile:testFilePath];
         CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)testimageNSData, NULL);
         CFDictionaryRef dictRef = CGImageSourceCopyPropertiesAtIndex(source,0,NULL);
@@ -57,6 +61,8 @@
         } else if (orientation>0) {
             NSLog(@"Orientation not 0 or 6. Need to accommodate here");
         }
+        
+        
         iv = [[UIImageView alloc] initWithImage:testimage];
         w = (int)testimage.size.width;
         h = (int)testimage.size.height;
@@ -70,47 +76,13 @@
         return;
     }
     
+    ocv = [OpenCvClass new];
+    testimage = [ocv processUIImage:testimage];
     
-    // "Bion's been working on a .NET Jpeg->pixel decoder in YCbCr for production use."
-    // Since the production system will have YCbCr available, iOS can be used here to get pixel values
-    CGDataProviderRef myDataProvider = CGImageGetDataProvider(testimage.CGImage);
-    CFDataRef pixelData = CGDataProviderCopyData(myDataProvider);
-    const uint8_t *testimagedata = CFDataGetBytePtr(pixelData);
- 
+    iv.image = testimage;
     
-    // convert to grayscale for face detection
-    // Y = 0.299R + 0.587G + 0.114B
-    uint8_t *mutablebuffer = (uint8_t *)malloc(w*h*4);
-    memcpy(&mutablebuffer[0],testimagedata,w*h*4);
-    for (int i=0; i<h; i++) {
-        for (int j=0; j<w; j++) {
-            uint8_t y = 0.299 * *(mutablebuffer + i*w*4 + j*4 + 0) + 0.587 * *(mutablebuffer + i*w*4 + j*4 + 1) + 0.114 * *(mutablebuffer + i*w*4 + j*4 + 3);
-            *(mutablebuffer + i*w*4 + j*4 + 0) = y;
-            *(mutablebuffer + i*w*4 + j*4 + 1) = y;
-            *(mutablebuffer + i*w*4 + j*4 + 2) = y;
-        }
-    }
-    CFRelease(pixelData);
+    
 
-    
-    
-    CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(testimage.CGImage);
-    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(testimage.CGImage);
-    
-    CGContextRef newContextRef = CGBitmapContextCreate(mutablebuffer, w, h, 8, w*4,colorspaceRef, bitmapInfo);
-    
-    CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
-    
-    // show grayscale image om iPhone screen
-    UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
-    iv.image = modifiedImage;
-    
-    CGImageRelease(newImageRef);
-    CGContextRelease(newContextRef);
-    CGColorSpaceRelease(colorspaceRef);
-    
-    
-    free(mutablebuffer);
 }
 
 

@@ -8,12 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+#import <opencv2/highgui/cap_ios.h>
+
 @interface OpenCvClass : NSObject {
     
-    
+
     
 }
 
 
 -(void)testCppFunc;
+
+-(UIImage *)processUIImage:(UIImage *)img;
+
 @end
