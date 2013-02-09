@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D19850D16C6E31600AF57CC /* haarcascade_frontalface_default.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1D19850C16C6E31600AF57CC /* haarcascade_frontalface_default.xml */; };
 		1D6992E816C014C200547D63 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6992E716C014C200547D63 /* UIKit.framework */; };
 		1D6992EA16C014C200547D63 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6992E916C014C200547D63 /* Foundation.framework */; };
 		1D6992EC16C014C200547D63 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6992EB16C014C200547D63 /* CoreGraphics.framework */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1D19850C16C6E31600AF57CC /* haarcascade_frontalface_default.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_frontalface_default.xml; sourceTree = "<group>"; };
 		1D6992E416C014C200547D63 /* DrewFace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DrewFace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D6992E716C014C200547D63 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1D6992E916C014C200547D63 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -109,6 +111,7 @@
 		1D6992EE16C014C200547D63 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1D19850C16C6E31600AF57CC /* haarcascade_frontalface_default.xml */,
 				1D6992EF16C014C200547D63 /* DrewFace-Info.plist */,
 				1D6992F016C014C200547D63 /* InfoPlist.strings */,
 				1D6992F316C014C200547D63 /* main.m */,
@@ -177,6 +180,7 @@
 				1D6992FC16C014C200547D63 /* Default@2x.png in Resources */,
 				1D6992FE16C014C200547D63 /* Default-568h@2x.png in Resources */,
 				1D69930416C014C200547D63 /* DrewFaceViewController.xib in Resources */,
+				1D19850D16C6E31600AF57CC /* haarcascade_frontalface_default.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

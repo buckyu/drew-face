@@ -26,9 +26,57 @@
     cv::Mat greyMat;
     cv::cvtColor(myCvMat, greyMat, CV_BGR2GRAY);
     
+    // face detection
+    
+    //IplImage myImage = greyMat;
+    IplImage myImage = myCvMat;
+    [self opencvFaceDetect:&myImage];
+    
     return [self UIImageFromCVMat:greyMat];
     
 }
+
+
+
+- (void) opencvFaceDetect:(IplImage *)myImage  {
+    
+    // Load XML
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default" ofType:@"xml"];
+    CvHaarClassifierCascade* cascade = (CvHaarClassifierCascade*)cvLoad([path cStringUsingEncoding:NSASCIIStringEncoding], NULL, NULL, NULL);
+
+    CvMemStorage* storage = cvCreateMemStorage(0);
+    
+    // Detect faces and draw rectangle on them
+    CvSeq* faces = cvHaarDetectObjects(myImage, cascade, storage, 1.1, 0, 0, cvSize(0,0), cvSize(20, 20));
+    
+
+    NSLog(@"%d",faces->total);
+    
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

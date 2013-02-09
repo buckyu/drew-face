@@ -76,12 +76,15 @@
         return;
     }
     
+    
+    
+    
     ocv = [OpenCvClass new];
     testimage = [ocv processUIImage:testimage];
     
     iv.image = testimage;
     
-
+    
     
     
     CGDataProviderRef myDataProvider = CGImageGetDataProvider(testimage.CGImage);
@@ -89,8 +92,6 @@
     const uint8_t *testimagedata = CFDataGetBytePtr(pixelData);
     
     
-    // convert to grayscale for face detection
-    // Y = 0.299R + 0.587G + 0.114B
     uint8_t *mutablebuffer = (uint8_t *)malloc(w*h*4);
     memcpy(&mutablebuffer[0],testimagedata,w*h*1);
     for (int i=0; i<h; i++) {
@@ -193,6 +194,10 @@
     	
 	return rotatedImage;
 }
+
+
+
+
 
 
 
