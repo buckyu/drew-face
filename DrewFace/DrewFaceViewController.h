@@ -6,24 +6,29 @@
 //  Copyright (c) 2013 FCW Consulting LLC. All rights reserved.
 //
 
+
 #import <UIKit/UIKit.h>
 #import <ImageIO/ImageIO.h>
 
 #import "OpenCvClass.h"
 
 
-@interface DrewFaceViewController : UIViewController {
+@interface DrewFaceViewController : UIViewController <OpenCvClassDelegate> {
+    
+    CGFloat scaleDownfactor;
     
     // iOS UIImageView for debug and showing results on screen
     UIImageView *iv;
 
     // OpenCV processing class
     OpenCvClass *ocv;
+    
+    CGRect faceRect;
 
 
 }
 
 -(IBAction)LoadTestImageJPEGButtonPressed;
-
+-(void)setFaceRect:(CGRect)faceRect;
 
 @end

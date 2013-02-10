@@ -10,6 +10,7 @@
 
 @implementation OpenCvClass
 
+@synthesize delegate;
 
 -(void)testCppFunc {
     NSLog(@"hello");
@@ -32,6 +33,7 @@
     IplImage myImage = myCvMat;
     [self opencvFaceDetect:&myImage];
     
+        
     return [self UIImageFromCVMat:greyMat];
     
 }
@@ -40,17 +42,31 @@
 
 - (void) opencvFaceDetect:(IplImage *)myImage  {
     
+    int w = myImage->width;
+    int h = myImage->height;
+    
     // Load XML
     NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default" ofType:@"xml"];
-    CvHaarClassifierCascade* cascade = (CvHaarClassifierCascade*)cvLoad([path cStringUsingEncoding:NSASCIIStringEncoding], NULL, NULL, NULL);
-
-    CvMemStorage* storage = cvCreateMemStorage(0);
+    CvHaarClassifierCascade *cascade = (CvHaarClassifierCascade *)cvLoad([path cStringUsingEncoding:NSASCIIStringEncoding], NULL, NULL, NULL);
+    CvMemStorage *storage = cvCreateMemStorage(0);
     
-    // Detect faces and draw rectangle on them
-    CvSeq* faces = cvHaarDetectObjects(myImage, cascade, storage, 1.1, 0, 0, cvSize(0,0), cvSize(20, 20));
+    CvSeq *faces = cvHaarDetectObjects(myImage, cascade, storage, 1.1, 3, 0, cvSize(w/5,w/5), cvSize(w, h));
     
-
-    NSLog(@"%d",faces->total);
+    NSLog(@"%d Faces Detected",faces->total);
+    
+    CGRect retval = CGRectMake(0, 0, 0, 0);
+    if (faces->total > 0) {
+        CvRect cvrect = *(CvRect*)cvGetSeqElem(faces, 0);
+        retval = CGRectMake(cvrect.x, cvrect.y, cvrect.width, cvrect.height);
+    } if (faces->total > 1) {
+        NSLog(@"Warning, multiple faces detected");
+    }
+    
+    // free objects
+    cvReleaseHaarClassifierCascade(&cascade);
+    cvReleaseMemStorage(&storage);
+    
+    [self.delegate setFaceRect:retval];
     
     
 }
@@ -99,7 +115,6 @@
     
     CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), image.CGImage);
     CGContextRelease(contextRef);
-    CGColorSpaceRelease(colorSpace);
     
     return cvMat;
 }

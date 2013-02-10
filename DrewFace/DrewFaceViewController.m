@@ -19,21 +19,16 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    ocv = [OpenCvClass new];
-    
 }
 
 
 -(IBAction)LoadTestImageJPEGButtonPressed {
     
-    [iv removeFromSuperview];
-    
     // test input image in Documents Directory of iPhone
-    NSString *testFileName = @"testimage1.jpg";
+    NSString *testFileName = @"testimage.jpg";
     UIImage *testimage;
     int w;
     int h;
-    CGFloat scaleDownfactor;
     int orientation = 0;
     
     // load test input file
@@ -42,16 +37,15 @@
     NSFileManager *manager = [NSFileManager defaultManager];
     if ([manager fileExistsAtPath:testFilePath]) {
         testimage = [UIImage imageWithContentsOfFile:testFilePath];
-        
 
         // check for orientation
         NSData *testimageNSData = [NSData dataWithContentsOfFile:testFilePath];
         CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)testimageNSData, NULL);
         CFDictionaryRef dictRef = CGImageSourceCopyPropertiesAtIndex(source,0,NULL);
         NSDictionary *metadata = (__bridge NSDictionary *) dictRef;
+        orientation = [[metadata valueForKey:@"Orientation"] integerValue];
         CFRelease(source);
         CFRelease(dictRef);
-        orientation = [[metadata valueForKey:@"Orientation"] integerValue];
         
         if (orientation==6) {
             // rotate CGImageRef data
@@ -62,7 +56,7 @@
             NSLog(@"Orientation not 0 or 6. Need to accommodate here");
         }
         
-        
+        [iv removeFromSuperview];
         iv = [[UIImageView alloc] initWithImage:testimage];
         w = (int)testimage.size.width;
         h = (int)testimage.size.height;
@@ -76,15 +70,26 @@
         return;
     }
     
-    
-    
-    
+    // OpenCV Processing Called Here
     ocv = [OpenCvClass new];
+    ocv.delegate = self;
     testimage = [ocv processUIImage:testimage];
+    //ocv = nil;
     
     iv.image = testimage;
     
     
+    // red shadow around face detection area
+    UIView *faceRectAreaView = [self.view viewWithTag:100];
+    if (!faceRectAreaView) {
+        faceRectAreaView = [UIView new];
+        faceRectAreaView.tag = 100;
+        faceRectAreaView.backgroundColor = [UIColor redColor];
+        faceRectAreaView.alpha = 0.2;
+        [self.view addSubview:faceRectAreaView];
+    }
+    faceRectAreaView.frame = faceRect;
+    [self.view bringSubviewToFront:faceRectAreaView];
     
     
     CGDataProviderRef myDataProvider = CGImageGetDataProvider(testimage.CGImage);
@@ -118,7 +123,6 @@
     
     CGImageRelease(newImageRef);
     CGContextRelease(newContextRef);
-    CGColorSpaceRelease(colorspaceRef);
 
     free(mutablebuffer);
     
@@ -127,6 +131,11 @@
 
 
 
+
+-(void)setFaceRect:(CGRect)facerectArea {
+    faceRect = CGRectMake(facerectArea.origin.x*scaleDownfactor, 100 + facerectArea.origin.y*scaleDownfactor, facerectArea.size.width*scaleDownfactor, facerectArea.size.height*scaleDownfactor);
+    
+}
 
 
 
@@ -181,8 +190,7 @@
 												   bitinfo);
 	CGContextSetAllowsAntialiasing(bmContext, YES);
 	CGContextSetInterpolationQuality(bmContext, kCGInterpolationHigh);
-	CGColorSpaceRelease(colorSpace);
-	CGContextTranslateCTM(bmContext,
+    CGContextTranslateCTM(bmContext,
 						  +(rotatedRect.size.width/2),
 						  +(rotatedRect.size.height/2));
 	CGContextRotateCTM(bmContext, angleInRadians);
