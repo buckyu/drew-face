@@ -22,6 +22,7 @@
 		1DC1EDC716C0E99F0076AF9D /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DC1EDC616C0E99F0076AF9D /* ImageIO.framework */; };
 		1DE6DDF116C41A8300BAA92A /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE6DDF016C41A8300BAA92A /* opencv2.framework */; };
 		1DE6DDF916C41D5F00BAA92A /* OpenCvClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1DE6DDF816C41D5F00BAA92A /* OpenCvClass.mm */; };
+		3A02316916C97F190092817E /* FaceDetect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A02316816C97F190092817E /* FaceDetect.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,8 @@
 		1DE6DDF016C41A8300BAA92A /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		1DE6DDF716C41D5F00BAA92A /* OpenCvClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCvClass.h; sourceTree = "<group>"; };
 		1DE6DDF816C41D5F00BAA92A /* OpenCvClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCvClass.mm; sourceTree = "<group>"; };
+		3A02316816C97F190092817E /* FaceDetect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FaceDetect.cpp; sourceTree = "<group>"; };
+		3A02316A16C97F220092817E /* FaceDetect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FaceDetect.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +99,7 @@
 		1D6992ED16C014C200547D63 /* DrewFace */ = {
 			isa = PBXGroup;
 			children = (
+				3A02316716C97EF50092817E /* C/C++ Only */,
 				1D6992F616C014C200547D63 /* DrewFaceAppDelegate.h */,
 				1D6992F716C014C200547D63 /* DrewFaceAppDelegate.m */,
 				1D6992FF16C014C200547D63 /* DrewFaceViewController.h */,
@@ -121,6 +125,15 @@
 				1D6992FD16C014C200547D63 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3A02316716C97EF50092817E /* C/C++ Only */ = {
+			isa = PBXGroup;
+			children = (
+				3A02316816C97F190092817E /* FaceDetect.cpp */,
+				3A02316A16C97F220092817E /* FaceDetect.h */,
+			);
+			name = "C/C++ Only";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,6 +208,7 @@
 				1D6992F816C014C200547D63 /* DrewFaceAppDelegate.m in Sources */,
 				1D69930116C014C200547D63 /* DrewFaceViewController.m in Sources */,
 				1DE6DDF916C41D5F00BAA92A /* OpenCvClass.mm in Sources */,
+				3A02316916C97F190092817E /* FaceDetect.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

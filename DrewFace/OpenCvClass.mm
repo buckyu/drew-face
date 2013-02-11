@@ -7,6 +7,7 @@
 //
 
 #import "OpenCvClass.h"
+#import "FaceDetect.h"
 
 @implementation OpenCvClass
 
@@ -39,34 +40,19 @@
 }
 
 
-
-- (void) opencvFaceDetect:(IplImage *)myImage  {
-    
-    int w = myImage->width;
-    int h = myImage->height;
-    
+-(CGRect) rectToCGRect:(rect) r {
+    return CGRectMake(r.x, r.y, r.width, r.height);
+}
+- (void) opencvFaceDetect:(IplImage *)myImage  {    
     // Load XML
     NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default" ofType:@"xml"];
-    CvHaarClassifierCascade *cascade = (CvHaarClassifierCascade *)cvLoad([path cStringUsingEncoding:NSASCIIStringEncoding], NULL, NULL, NULL);
-    CvMemStorage *storage = cvCreateMemStorage(0);
     
-    CvSeq *faces = cvHaarDetectObjects(myImage, cascade, storage, 1.1, 3, 0, cvSize(w/5,w/5), cvSize(w, h));
+    rect myRect;
     
-    NSLog(@"%d Faces Detected",faces->total);
+    faceDetect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect);
+
     
-    CGRect retval = CGRectMake(0, 0, 0, 0);
-    if (faces->total > 0) {
-        CvRect cvrect = *(CvRect*)cvGetSeqElem(faces, 0);
-        retval = CGRectMake(cvrect.x, cvrect.y, cvrect.width, cvrect.height);
-    } if (faces->total > 1) {
-        NSLog(@"Warning, multiple faces detected");
-    }
-    
-    // free objects
-    cvReleaseHaarClassifierCascade(&cascade);
-    cvReleaseMemStorage(&storage);
-    
-    [self.delegate setFaceRect:retval];
+    [self.delegate setFaceRect:[self rectToCGRect:myRect]];
     
     
 }
