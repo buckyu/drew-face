@@ -25,7 +25,7 @@
 -(IBAction)LoadTestImageJPEGButtonPressed {
     
     // test input image in Documents Directory of iPhone
-    NSString *testFileName = @"testimage.jpg";
+    NSString *testFileName = @"testimage3.jpg";
     UIImage *testimage;
     int w;
     int h;
@@ -62,7 +62,7 @@
         h = (int)testimage.size.height;
         // scale image for iPhone screen keeping aspect ratio
         scaleDownfactor = (w>h)? 320.0/w : 320.0/h;
-        iv.frame = CGRectMake(0, 100, w*scaleDownfactor, h*scaleDownfactor);
+        iv.frame = CGRectMake(0, 40, w*scaleDownfactor, h*scaleDownfactor);
         [self.view addSubview:iv];
     } else {
         // exit, file not found, can not continue
@@ -88,7 +88,7 @@
         faceRectAreaView.alpha = 0.2;
         [self.view addSubview:faceRectAreaView];
     }
-    faceRectAreaView.frame = faceRect;
+    faceRectAreaView.frame = faceRectInView;
     [self.view bringSubviewToFront:faceRectAreaView];
     
     
@@ -110,6 +110,8 @@
     
     
     
+    // show greyscale image on iPhone view
+    
     CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(testimage.CGImage);
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(testimage.CGImage);
     
@@ -121,10 +123,24 @@
     UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
     iv.image = modifiedImage;
     
+    // extract face from grey image
+    CGImageRef cutFaceRef = CGImageCreateWithImageInRect(newImageRef, faceRectInOrigImage);
+    
     CGImageRelease(newImageRef);
     CGContextRelease(newContextRef);
 
     free(mutablebuffer);
+    
+    
+    // show extracted face on iPhone screen
+    UIImage *faceImage = [UIImage imageWithCGImage:cutFaceRef];
+    [ivFaceOnly removeFromSuperview];
+    ivFaceOnly = [[UIImageView alloc] initWithImage:faceImage];
+    ivFaceOnly.frame = CGRectMake(0, 360, ivFaceOnly.frame.size.width*scaleDownfactor, ivFaceOnly.frame.size.height*scaleDownfactor);
+    [self.view addSubview:ivFaceOnly];
+    CGImageRelease(cutFaceRef);
+    
+    
     
 
 }
@@ -133,8 +149,8 @@
 
 
 -(void)setFaceRect:(CGRect)facerectArea {
-    faceRect = CGRectMake(facerectArea.origin.x*scaleDownfactor, 100 + facerectArea.origin.y*scaleDownfactor, facerectArea.size.width*scaleDownfactor, facerectArea.size.height*scaleDownfactor);
-    
+    faceRectInView = CGRectMake(facerectArea.origin.x*scaleDownfactor, 40 + facerectArea.origin.y*scaleDownfactor, facerectArea.size.width*scaleDownfactor, facerectArea.size.height*scaleDownfactor);
+    faceRectInOrigImage = facerectArea;
 }
 
 

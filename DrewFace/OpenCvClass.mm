@@ -30,8 +30,8 @@
     
     // face detection
     
-    //IplImage myImage = greyMat;
-    IplImage myImage = myCvMat;
+    IplImage myImage = greyMat;
+    //IplImage myImage = myCvMat;
     [self opencvFaceDetect:&myImage];
     
         
@@ -43,6 +43,8 @@
 -(CGRect) rectToCGRect:(rect) r {
     return CGRectMake(r.x, r.y, r.width, r.height);
 }
+
+
 - (void) opencvFaceDetect:(IplImage *)myImage  {    
     // Load XML
     NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default" ofType:@"xml"];

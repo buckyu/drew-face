@@ -130,8 +130,8 @@
 		3A02316716C97EF50092817E /* C/C++ Only */ = {
 			isa = PBXGroup;
 			children = (
-				3A02316816C97F190092817E /* FaceDetect.cpp */,
 				3A02316A16C97F220092817E /* FaceDetect.h */,
+				3A02316816C97F190092817E /* FaceDetect.cpp */,
 			);
 			name = "C/C++ Only";
 			sourceTree = "<group>";

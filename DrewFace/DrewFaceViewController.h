@@ -19,16 +19,18 @@
     
     // iOS UIImageView for debug and showing results on screen
     UIImageView *iv;
+    UIImageView *ivFaceOnly;
 
     // OpenCV processing class
     OpenCvClass *ocv;
     
-    CGRect faceRect;
+    CGRect faceRectInView;
+    CGRect faceRectInOrigImage;
 
 
 }
 
 -(IBAction)LoadTestImageJPEGButtonPressed;
--(void)setFaceRect:(CGRect)faceRect;
+-(void)setFaceRect:(CGRect)facerectArea;
 
 @end
