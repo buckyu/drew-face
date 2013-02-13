@@ -20,13 +20,13 @@
     // iOS UIImageView for debug and showing results on screen
     UIImageView *iv;
     UIImageView *ivFaceOnly;
+    UIImageView *ivBottomHalfFaceOnly;
 
     // OpenCV processing class
     OpenCvClass *ocv;
     
     CGRect faceRectInView;
     CGRect faceRectInOrigImage;
-
 
 }
 

@@ -7,37 +7,60 @@
 //
 
 #import "OpenCvClass.h"
-#import "FaceDetect.h"
+#import "Detect.h"
 
 @implementation OpenCvClass
 
 @synthesize delegate;
 
--(void)testCppFunc {
-    NSLog(@"hello");
-    #ifdef __cplusplus
-    NSLog(@"hi");
-    #endif
-}
 
 
-
--(UIImage *)processUIImage:(UIImage *)img {
+-(UIImage *)processUIImageForFace:(UIImage *)img {
     
     cv::Mat myCvMat = [self cvMatFromUIImage:img];
     cv::Mat greyMat;
     cv::cvtColor(myCvMat, greyMat, CV_BGR2GRAY);
     
     // face detection
-    
-    IplImage myImage = greyMat;
-    //IplImage myImage = myCvMat;
-    [self opencvFaceDetect:&myImage];
-    
+    IplImage myImage = myCvMat;
+    rect faceDetectedInRect = [self opencvFaceDetect:&myImage];
+    [self.delegate setFaceRect:[self rectToCGRect:faceDetectedInRect]];
         
     return [self UIImageFromCVMat:greyMat];
     
 }
+
+
+-(CGRect)processUIImageForMouth:(UIImage *)greyimg {
+    
+    cv::Mat mygreyCvMat = [self cvGreyMatFromUIImage:greyimg];
+    
+    // mouth detection
+    IplImage myImage = mygreyCvMat;
+    rect mouthDetectedInRect = [self opencvMouthDetect:&myImage];
+    
+    return [self rectToCGRect:mouthDetectedInRect];
+}
+
+
+
+- (rect) opencvFaceDetect:(IplImage *)myImage  {    
+    // Load XML
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default" ofType:@"xml"];
+    rect myRect;
+    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect);
+    return myRect;
+}
+
+
+- (rect) opencvMouthDetect:(IplImage *)myImage  {
+    // Load XML
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_mcs_mouth" ofType:@"xml"];
+    rect myRect;
+    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect);
+    return myRect;
+}
+
 
 
 -(CGRect) rectToCGRect:(rect) r {
@@ -45,43 +68,29 @@
 }
 
 
-- (void) opencvFaceDetect:(IplImage *)myImage  {    
-    // Load XML
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default" ofType:@"xml"];
-    
-    rect myRect;
-    
-    faceDetect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect);
 
+- (cv::Mat)cvGreyMatFromUIImage:(UIImage *)image
+{
+    CGColorSpaceRef colorSpace = CGImageGetColorSpace(image.CGImage);
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(image.CGImage);
+    CGFloat cols = image.size.width;
+    CGFloat rows = image.size.height;
     
-    [self.delegate setFaceRect:[self rectToCGRect:myRect]];
+    cv::Mat cvMat(rows, cols, CV_8UC1); // 8 bits per component, 1 channel
     
+    CGContextRef contextRef = CGBitmapContextCreate(cvMat.data,                 // Pointer to  data
+                                                    cols,                       // Width of bitmap
+                                                    rows,                       // Height of bitmap
+                                                    8,                          // Bits per component
+                                                    cvMat.step[0],              // Bytes per row
+                                                    colorSpace,                 // Colorspace
+                                                    bitmapInfo);                // Bitmap info flags
     
+    CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), image.CGImage);
+    CGContextRelease(contextRef);
+    
+    return cvMat;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 - (cv::Mat)cvMatFromUIImage:(UIImage *)image

@@ -23,9 +23,8 @@
 
 @property (weak) id <OpenCvClassDelegate> delegate;
 
+-(UIImage *)processUIImageForFace:(UIImage *)img;
+-(CGRect)processUIImageForMouth:(UIImage *)img;
 
--(void)testCppFunc;
-
--(UIImage *)processUIImage:(UIImage *)img;
 
 @end

@@ -25,7 +25,7 @@
 -(IBAction)LoadTestImageJPEGButtonPressed {
     
     // test input image in Documents Directory of iPhone
-    NSString *testFileName = @"testimage3.jpg";
+    NSString *testFileName = @"testimage1.jpg";
     UIImage *testimage;
     int w;
     int h;
@@ -62,7 +62,7 @@
         h = (int)testimage.size.height;
         // scale image for iPhone screen keeping aspect ratio
         scaleDownfactor = (w>h)? 320.0/w : 320.0/h;
-        iv.frame = CGRectMake(0, 40, w*scaleDownfactor, h*scaleDownfactor);
+        iv.frame = CGRectMake(0, 80, w*scaleDownfactor, h*scaleDownfactor);
         [self.view addSubview:iv];
     } else {
         // exit, file not found, can not continue
@@ -70,14 +70,14 @@
         return;
     }
     
-    // OpenCV Processing Called Here
+    // OpenCV Processing Called Here for Face Detect
     ocv = [OpenCvClass new];
     ocv.delegate = self;
-    testimage = [ocv processUIImage:testimage];
-    //ocv = nil;
+    testimage = [ocv processUIImageForFace:testimage];
     
+    // replace image in UIImageView with greyscale image from OpenCV
     iv.image = testimage;
-    
+  
     
     // red shadow around face detection area
     UIView *faceRectAreaView = [self.view viewWithTag:100];
@@ -103,7 +103,7 @@
         for (int j=0; j<w; j++) {
             
             // do something with pixels here
-            
+        
         }
     }
     CFRelease(pixelData);
@@ -119,12 +119,15 @@
     
     CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
     
-    // show grayscale image on iPhone screen
+    // show MODIFIED grayscale image on iPhone screen
     UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
     iv.image = modifiedImage;
     
     // extract face from grey image
     CGImageRef cutFaceRef = CGImageCreateWithImageInRect(newImageRef, faceRectInOrigImage);
+    
+    // extract bottom half of face from grey image
+    CGImageRef cutBottomHalfFaceRef = CGImageCreateWithImageInRect(newImageRef, CGRectMake(faceRectInOrigImage.origin.x, faceRectInOrigImage.origin.y+0.5*faceRectInOrigImage.size.height,faceRectInOrigImage.size.width,0.5*faceRectInOrigImage.size.height));
     
     CGImageRelease(newImageRef);
     CGContextRelease(newContextRef);
@@ -136,12 +139,30 @@
     UIImage *faceImage = [UIImage imageWithCGImage:cutFaceRef];
     [ivFaceOnly removeFromSuperview];
     ivFaceOnly = [[UIImageView alloc] initWithImage:faceImage];
-    ivFaceOnly.frame = CGRectMake(0, 360, ivFaceOnly.frame.size.width*scaleDownfactor, ivFaceOnly.frame.size.height*scaleDownfactor);
+    ivFaceOnly.frame = CGRectMake(0, 400, ivFaceOnly.frame.size.width*scaleDownfactor, ivFaceOnly.frame.size.height*scaleDownfactor);
     [self.view addSubview:ivFaceOnly];
     CGImageRelease(cutFaceRef);
     
     
+    // UIImage of bottom half of face
+    UIImage *bottomhalffaceImage = [UIImage imageWithCGImage:cutBottomHalfFaceRef];
+    CGImageRelease(cutBottomHalfFaceRef);
     
+    // show extracted bottom half face on iPhone screen
+    [ivBottomHalfFaceOnly removeFromSuperview];
+    ivBottomHalfFaceOnly = [[UIImageView alloc] initWithImage:bottomhalffaceImage];
+    ivBottomHalfFaceOnly.frame = CGRectMake(160, 400, bottomhalffaceImage.size.width*scaleDownfactor,bottomhalffaceImage.size.height*scaleDownfactor);
+    [self.view addSubview:ivBottomHalfFaceOnly];
+    
+
+    // OpenCV Processing Called Here - search for mouth in bottom half of face
+
+    CGRect mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage];
+    
+    UIView *blackOutMouthView = [UIView new];
+    blackOutMouthView.frame = CGRectMake(mouthRectInBottomHalfOfFace.origin.x*scaleDownfactor, mouthRectInBottomHalfOfFace.origin.y*scaleDownfactor, mouthRectInBottomHalfOfFace.size.width*scaleDownfactor, mouthRectInBottomHalfOfFace.size.height*scaleDownfactor);
+    blackOutMouthView.backgroundColor = [UIColor blackColor];
+    [ivBottomHalfFaceOnly addSubview:blackOutMouthView];
 
 }
 
@@ -149,9 +170,11 @@
 
 
 -(void)setFaceRect:(CGRect)facerectArea {
-    faceRectInView = CGRectMake(facerectArea.origin.x*scaleDownfactor, 40 + facerectArea.origin.y*scaleDownfactor, facerectArea.size.width*scaleDownfactor, facerectArea.size.height*scaleDownfactor);
+    faceRectInView = CGRectMake(facerectArea.origin.x*scaleDownfactor, 80 + facerectArea.origin.y*scaleDownfactor, facerectArea.size.width*scaleDownfactor, facerectArea.size.height*scaleDownfactor);
     faceRectInOrigImage = facerectArea;
 }
+
+
 
 
 
