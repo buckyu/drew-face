@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1D0E674716C9B94100537AEC /* haarcascade_mcs_mouth.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1D0E674616C9B94100537AEC /* haarcascade_mcs_mouth.xml */; };
 		1D19850D16C6E31600AF57CC /* haarcascade_frontalface_default.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1D19850C16C6E31600AF57CC /* haarcascade_frontalface_default.xml */; };
+		1D5C808C16CE872900234D0D /* FindMouthsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C808A16CE872900234D0D /* FindMouthsViewController.m */; };
+		1D5C808D16CE872900234D0D /* FindMouthsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D5C808B16CE872900234D0D /* FindMouthsViewController.xib */; };
 		1D6992E816C014C200547D63 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6992E716C014C200547D63 /* UIKit.framework */; };
 		1D6992EA16C014C200547D63 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6992E916C014C200547D63 /* Foundation.framework */; };
 		1D6992EC16C014C200547D63 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6992EB16C014C200547D63 /* CoreGraphics.framework */; };
@@ -29,6 +31,9 @@
 /* Begin PBXFileReference section */
 		1D0E674616C9B94100537AEC /* haarcascade_mcs_mouth.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_mcs_mouth.xml; sourceTree = "<group>"; };
 		1D19850C16C6E31600AF57CC /* haarcascade_frontalface_default.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_frontalface_default.xml; sourceTree = "<group>"; };
+		1D5C808916CE872800234D0D /* FindMouthsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindMouthsViewController.h; sourceTree = "<group>"; };
+		1D5C808A16CE872900234D0D /* FindMouthsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindMouthsViewController.m; sourceTree = "<group>"; };
+		1D5C808B16CE872900234D0D /* FindMouthsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FindMouthsViewController.xib; sourceTree = "<group>"; };
 		1D6992E416C014C200547D63 /* DrewFace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DrewFace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D6992E716C014C200547D63 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1D6992E916C014C200547D63 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -109,6 +114,9 @@
 				1D69930216C014C200547D63 /* DrewFaceViewController.xib */,
 				1DE6DDF716C41D5F00BAA92A /* OpenCvClass.h */,
 				1DE6DDF816C41D5F00BAA92A /* OpenCvClass.mm */,
+				1D5C808916CE872800234D0D /* FindMouthsViewController.h */,
+				1D5C808A16CE872900234D0D /* FindMouthsViewController.m */,
+				1D5C808B16CE872900234D0D /* FindMouthsViewController.xib */,
 				1D6992EE16C014C200547D63 /* Supporting Files */,
 			);
 			path = DrewFace;
@@ -198,6 +206,7 @@
 				1D69930416C014C200547D63 /* DrewFaceViewController.xib in Resources */,
 				1D19850D16C6E31600AF57CC /* haarcascade_frontalface_default.xml in Resources */,
 				1D0E674716C9B94100537AEC /* haarcascade_mcs_mouth.xml in Resources */,
+				1D5C808D16CE872900234D0D /* FindMouthsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +222,7 @@
 				1D69930116C014C200547D63 /* DrewFaceViewController.m in Sources */,
 				1DE6DDF916C41D5F00BAA92A /* OpenCvClass.mm in Sources */,
 				3A02316916C97F190092817E /* Detect.cpp in Sources */,
+				1D5C808C16CE872900234D0D /* FindMouthsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

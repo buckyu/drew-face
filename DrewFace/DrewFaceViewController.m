@@ -22,10 +22,29 @@
 }
 
 
+
+-(IBAction)FindMouthsInOriginalPressed {
+    
+    FindMouthsViewController *fmvc = [FindMouthsViewController new];
+    fmvc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:fmvc animated:YES completion:NULL];
+    
+}
+
+
+
+
+
+
+
+
+
+
+
 -(IBAction)LoadTestImageJPEGButtonPressed {
     
     // test input image in Documents Directory of iPhone
-    NSString *testFileName = @"testimage1.jpg";
+    NSString *testFileName = @"testimage.jpg";
     UIImage *testimage;
     int w;
     int h;

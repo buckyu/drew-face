@@ -8,9 +8,11 @@
 
 
 #import <UIKit/UIKit.h>
-#import <ImageIO/ImageIO.h>
 
+#import <ImageIO/ImageIO.h>
 #import "OpenCvClass.h"
+
+#import "FindMouthsViewController.h"
 
 
 @interface DrewFaceViewController : UIViewController <OpenCvClassDelegate> {
@@ -32,5 +34,7 @@
 
 -(IBAction)LoadTestImageJPEGButtonPressed;
 -(void)setFaceRect:(CGRect)facerectArea;
+
+-(IBAction)FindMouthsInOriginalPressed;
 
 @end
