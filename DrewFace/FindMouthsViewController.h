@@ -12,7 +12,7 @@
 #import "OpenCvClass.h"
 
 
-@interface FindMouthsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface FindMouthsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, OpenCvClassDelegate> {
     
     UIProgressView *progress;
     UIActivityIndicatorView *activity;
@@ -24,11 +24,13 @@
     NSString *extractedTeethDir;
 
     NSMutableArray *fileInfos;
+    CGRect faceRectInScaledOrigImage;
     
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 
+-(void)setFaceRect:(CGRect)facerectArea;
 
 
 @end

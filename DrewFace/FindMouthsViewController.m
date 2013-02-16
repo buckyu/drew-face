@@ -124,7 +124,11 @@
 
         
         // search for face in scaledImage
-        
+        // OpenCV Processing Called Here for Face Detect
+        OpenCvClass *ocv = [OpenCvClass new];
+        ocv.delegate = self;
+        // testimage converted to greyscale and facerectArea is set by delegate method call
+        testimage = [ocv processUIImageForFace:scaledImage];
         
         
         
@@ -157,6 +161,10 @@
 }
 
 
+
+-(void)setFaceRect:(CGRect)facerectArea {
+    faceRectInScaledOrigImage = facerectArea;
+}
 
 
 
