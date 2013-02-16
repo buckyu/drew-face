@@ -149,6 +149,8 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.adjustsFontSizeToFitWidth = YES;
+        cell.detailTextLabel.adjustsFontSizeToFitWidth  = YES;
     }
     
     if (fileInfos.count == 0) {
