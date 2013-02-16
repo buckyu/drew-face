@@ -75,10 +75,6 @@
     for (int i=0; i < fileList.count; i++) {
         
         NSString *fileName = [fileList objectAtIndex:i];
-        NSMutableDictionary *fileInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                         fileName,@"originalFileName",
-                                         nil];
-        [fileInfos addObject:fileInfo];
         
         // Process originals for mouths here
         NSString *fileNamePath = [originalDir stringByAppendingPathComponent:fileName];
@@ -92,6 +88,14 @@
         NSData *dataToWrite = UIImagePNGRepresentation(scaledImage);
         NSString *thumbPath = [originalThumbsDir stringByAppendingPathComponent:fileName];
         [dataToWrite writeToFile:thumbPath atomically:YES];
+        
+        
+        NSMutableDictionary *fileInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                         fileName,@"originalFileName",
+                                         [NSNumber numberWithFloat:ScaleFactor],@"scaleFactor",
+                                         nil];
+        [fileInfos addObject:fileInfo];
+        
         
         dispatch_async(dispatch_get_main_queue(), ^{
             progress.progress = (float)(i+1)/(float)fileList.count;
@@ -147,16 +151,16 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    NSDictionary *fileInfo = [fileInfos objectAtIndex:indexPath.row];
-    
     if (fileInfos.count == 0) {
         cell.imageView.image = nil;
         cell.textLabel.text = @"No Teeth Images To Display";
         cell.detailTextLabel.text = nil;
     } else {
+        NSDictionary *fileInfo = [fileInfos objectAtIndex:indexPath.row];
+
         cell.imageView.image = [UIImage imageWithContentsOfFile:[originalThumbsDir stringByAppendingPathComponent:[fileInfo objectForKey:@"originalFileName"]]];
         cell.textLabel.text = [fileInfo objectForKey:@"originalFileName"];
-        cell.detailTextLabel.text = nil;
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%f",[(NSNumber *)[fileInfo objectForKey:@"scaleFactor"] floatValue]];
     }
     
     return cell;
