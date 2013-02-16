@@ -141,6 +141,8 @@
 }
 
 
+#define BLACK_RECT_TAG 100
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -151,6 +153,11 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.adjustsFontSizeToFitWidth = YES;
         cell.detailTextLabel.adjustsFontSizeToFitWidth  = YES;
+        
+        UIView *blackRectangle = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 10)];
+        blackRectangle.tag = BLACK_RECT_TAG;
+        blackRectangle.backgroundColor = [UIColor blackColor];
+        [cell.imageView addSubview:blackRectangle];
     }
     
     if (fileInfos.count == 0) {
@@ -167,6 +174,30 @@
     
     return cell;
 }
+
+
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (fileInfos.count == 0) {
+        return;
+    }
+    
+    // Draw black rectangle around mouth area in thumb image
+    
+    UIView *blackRectangle = [cell.imageView viewWithTag:BLACK_RECT_TAG];
+    
+    NSDictionary *fileInfo = [fileInfos objectAtIndex:indexPath.row];
+    CGFloat ScaleFactor = [(NSNumber *)[fileInfo objectForKey:@"scaleFactor"] floatValue];
+    CGFloat MouthX = ScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthX"] floatValue];
+    CGFloat MouthY = ScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthY"] floatValue];
+    CGFloat MouthW = ScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthW"] floatValue];
+    CGFloat MouthH = ScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthH"] floatValue];
+    
+    blackRectangle.frame = CGRectMake(MouthX, MouthY, MouthW, MouthH);
+    
+}
+
 
 
 
