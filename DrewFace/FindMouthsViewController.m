@@ -139,6 +139,10 @@
                                          fileName,@"originalFileName",
                                          [NSNumber numberWithFloat:thumbScaleFactor],@"thumbScaleFactor",
                                          [NSNumber numberWithFloat:facedetectScaleFactor],@"facedetectScaleFactor",
+                                         [NSNumber numberWithFloat:faceRectInScaledOrigImage.origin.x],@"facedetectX",
+                                         [NSNumber numberWithFloat:faceRectInScaledOrigImage.origin.y],@"facedetectY",
+                                         [NSNumber numberWithFloat:faceRectInScaledOrigImage.size.width],@"facedetectH",
+                                         [NSNumber numberWithFloat:faceRectInScaledOrigImage.size.height],@"facedetectW",
                                          nil];
         [fileInfos addObject:fileInfo];
         
@@ -191,7 +195,8 @@
 }
 
 
-#define BLACK_RECT_TAG 100
+#define RED_RECT_TAG 100
+#define BLACK_RECT_TAG 101
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -208,6 +213,12 @@
         blackRectangle.tag = BLACK_RECT_TAG;
         blackRectangle.backgroundColor = [UIColor blackColor];
         [cell.imageView addSubview:blackRectangle];
+        
+        UIView *redRectangle = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        redRectangle.tag = RED_RECT_TAG;
+        redRectangle.backgroundColor = [UIColor redColor];
+        redRectangle.alpha = 0.2;
+        [cell.imageView addSubview:redRectangle];
     }
     
     if (fileInfos.count == 0) {
@@ -233,17 +244,28 @@
         return;
     }
     
-    // Draw black rectangle around mouth area in thumb image
-    
-    UIView *blackRectangle = [cell.imageView viewWithTag:BLACK_RECT_TAG];
     
     NSDictionary *fileInfo = [fileInfos objectAtIndex:indexPath.row];
     CGFloat thumbScaleFactor = [(NSNumber *)[fileInfo objectForKey:@"thumbScaleFactor"] floatValue];
+    CGFloat facedetectScaleFactor = [(NSNumber *)[fileInfo objectForKey:@"facedetectScaleFactor"] floatValue];
+    
+    // Draw red rectangle around face in thumb image
+    
+    UIView *redRectangle = [cell.imageView viewWithTag:RED_RECT_TAG];
+    CGFloat FaceX = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"facedetectX"] floatValue] / facedetectScaleFactor;
+    CGFloat FaceY = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"facedetectY"] floatValue] / facedetectScaleFactor;
+    CGFloat FaceW = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"facedetectW"] floatValue] / facedetectScaleFactor;
+    CGFloat FaceH = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"facedetectH"] floatValue] / facedetectScaleFactor;
+    redRectangle.frame = CGRectMake(FaceX, FaceY, FaceW,FaceH);
+    
+    
+    // Draw black rectangle around mouth area in thumb image
+    
+    UIView *blackRectangle = [cell.imageView viewWithTag:BLACK_RECT_TAG];
     CGFloat MouthX = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthX"] floatValue];
     CGFloat MouthY = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthY"] floatValue];
     CGFloat MouthW = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthW"] floatValue];
     CGFloat MouthH = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthH"] floatValue];
-    
     blackRectangle.frame = CGRectMake(MouthX, MouthY, MouthW, MouthH);
     
 }
