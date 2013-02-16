@@ -91,7 +91,6 @@
         
         
         // Find Mouths in original images here
-        // Scale down to 640 max dimension for speed optimization of face detect
         
         // Orient images for face detection (EXIF Orientation = 0)
         NSData *testimageNSData = [NSData dataWithContentsOfFile:fileNamePath];
@@ -101,7 +100,6 @@
         int orientation = [[metadata valueForKey:@"Orientation"] integerValue];
         CFRelease(source);
         CFRelease(dictRef);
-        
         UIImage *testimage = [UIImage imageWithContentsOfFile:fileNamePath];
         if (orientation==6) {
             // rotate CGImageRef data
@@ -113,6 +111,20 @@
         }
 
         
+        // Scale down to 640 max dimension for speed optimization of face detect
+        int w = (int)testimage.size.width;
+        int h = (int)testimage.size.height;
+        int maxDimension = w>h? w : h;
+        CGFloat facedetectScaleFactor = 1.0;
+        if (maxDimension > 640.0) {
+            facedetectScaleFactor = 640.0 / maxDimension;
+        }
+        scaledDownSize = CGSizeMake(facedetectScaleFactor*w, facedetectScaleFactor*h);
+        scaledImage = [self imageWithImage:testimage scaledToSize:scaledDownSize];
+
+        
+        // search for face in scaledImage
+        
         
         
         
@@ -122,6 +134,7 @@
         NSMutableDictionary *fileInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                          fileName,@"originalFileName",
                                          [NSNumber numberWithFloat:thumbScaleFactor],@"thumbScaleFactor",
+                                         [NSNumber numberWithFloat:facedetectScaleFactor],@"facedetectScaleFactor",
                                          nil];
         [fileInfos addObject:fileInfo];
         
@@ -198,7 +211,7 @@
 
         cell.imageView.image = [UIImage imageWithContentsOfFile:[originalThumbsDir stringByAppendingPathComponent:[fileInfo objectForKey:@"originalFileName"]]];
         cell.textLabel.text = [fileInfo objectForKey:@"originalFileName"];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%f",[(NSNumber *)[fileInfo objectForKey:@"scaleFactor"] floatValue]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%f",[(NSNumber *)[fileInfo objectForKey:@"thumbScaleFactor"] floatValue]];
     }
     
     return cell;
