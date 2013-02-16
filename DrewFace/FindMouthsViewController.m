@@ -76,23 +76,52 @@
         
         NSString *fileName = [fileList objectAtIndex:i];
         
-        // Process originals for mouths here
+        // Process originals for thumbs here
         NSString *fileNamePath = [originalDir stringByAppendingPathComponent:fileName];
         UIImage *origImage = [UIImage imageWithContentsOfFile:fileNamePath];
-        CGFloat ScaleFactor = 1.0;
+        CGFloat thumbScaleFactor = 1.0;
         if (origImage.size.height > 100.0) {
-            ScaleFactor = 100.0 / origImage.size.height;
+            thumbScaleFactor = 100.0 / origImage.size.height;
         }
-        CGSize scaledDownSize = CGSizeMake(ScaleFactor*origImage.size.width, ScaleFactor*origImage.size.height);
+        CGSize scaledDownSize = CGSizeMake(thumbScaleFactor*origImage.size.width, thumbScaleFactor*origImage.size.height);
         UIImage *scaledImage = [self imageWithImage:origImage scaledToSize:scaledDownSize];
         NSData *dataToWrite = UIImagePNGRepresentation(scaledImage);
         NSString *thumbPath = [originalThumbsDir stringByAppendingPathComponent:fileName];
         [dataToWrite writeToFile:thumbPath atomically:YES];
         
         
+        // Find Mouths in original images here
+        // Scale down to 640 max dimension for speed optimization of face detect
+        
+        // Orient images for face detection (EXIF Orientation = 0)
+        NSData *testimageNSData = [NSData dataWithContentsOfFile:fileNamePath];
+        CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)testimageNSData, NULL);
+        CFDictionaryRef dictRef = CGImageSourceCopyPropertiesAtIndex(source,0,NULL);
+        NSDictionary *metadata = (__bridge NSDictionary *) dictRef;
+        int orientation = [[metadata valueForKey:@"Orientation"] integerValue];
+        CFRelease(source);
+        CFRelease(dictRef);
+        
+        UIImage *testimage = [UIImage imageWithContentsOfFile:fileNamePath];
+        if (orientation==6) {
+            // rotate CGImageRef data
+            CGImageRef rotatedImageRef= [self CGImageRotatedByAngle:testimage.CGImage angle:-M_PI/2.0];
+            testimage = [UIImage imageWithCGImage:rotatedImageRef];
+            CGImageRelease(rotatedImageRef);
+        } else if (orientation>0) {
+            NSLog(@"Orientation not 0 or 6. Need to accommodate here");
+        }
+
+        
+        
+        
+        
+        
+        
+        
         NSMutableDictionary *fileInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                          fileName,@"originalFileName",
-                                         [NSNumber numberWithFloat:ScaleFactor],@"scaleFactor",
+                                         [NSNumber numberWithFloat:thumbScaleFactor],@"thumbScaleFactor",
                                          nil];
         [fileInfos addObject:fileInfo];
         
@@ -188,11 +217,11 @@
     UIView *blackRectangle = [cell.imageView viewWithTag:BLACK_RECT_TAG];
     
     NSDictionary *fileInfo = [fileInfos objectAtIndex:indexPath.row];
-    CGFloat ScaleFactor = [(NSNumber *)[fileInfo objectForKey:@"scaleFactor"] floatValue];
-    CGFloat MouthX = ScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthX"] floatValue];
-    CGFloat MouthY = ScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthY"] floatValue];
-    CGFloat MouthW = ScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthW"] floatValue];
-    CGFloat MouthH = ScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthH"] floatValue];
+    CGFloat thumbScaleFactor = [(NSNumber *)[fileInfo objectForKey:@"thumbScaleFactor"] floatValue];
+    CGFloat MouthX = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthX"] floatValue];
+    CGFloat MouthY = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthY"] floatValue];
+    CGFloat MouthW = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthW"] floatValue];
+    CGFloat MouthH = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthH"] floatValue];
     
     blackRectangle.frame = CGRectMake(MouthX, MouthY, MouthW, MouthH);
     
@@ -218,6 +247,41 @@
 	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	return newImage;
+}
+
+
+
+- (CGImageRef)CGImageRotatedByAngle:(CGImageRef)imgRef angle:(CGFloat)angleInRadians
+{
+	CGFloat width = CGImageGetWidth(imgRef);
+	CGFloat height = CGImageGetHeight(imgRef);
+	
+	CGRect imgRect = CGRectMake(0, 0, width, height);
+	CGAffineTransform transform = CGAffineTransformMakeRotation(angleInRadians);
+	CGRect rotatedRect = CGRectApplyAffineTransform(imgRect, transform);
+	
+	CGColorSpaceRef colorSpace = CGImageGetColorSpace(imgRef);
+    CGBitmapInfo bitinfo = CGImageGetBitmapInfo(imgRef);
+	CGContextRef bmContext = CGBitmapContextCreate(NULL,
+												   rotatedRect.size.width,
+												   rotatedRect.size.height,
+												   8,
+												   0,
+												   colorSpace,
+												   bitinfo);
+	CGContextSetAllowsAntialiasing(bmContext, YES);
+	CGContextSetInterpolationQuality(bmContext, kCGInterpolationHigh);
+    CGContextTranslateCTM(bmContext,
+						  +(rotatedRect.size.width/2),
+						  +(rotatedRect.size.height/2));
+	CGContextRotateCTM(bmContext, angleInRadians);
+	CGContextDrawImage(bmContext, CGRectMake(-width/2, -height/2, width, height),
+					   imgRef);
+	
+	CGImageRef rotatedImage = CGBitmapContextCreateImage(bmContext);
+	CFRelease(bmContext);
+    
+	return rotatedImage;
 }
 
 
