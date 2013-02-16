@@ -29,7 +29,13 @@
         manager = [NSFileManager defaultManager];
         docsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         originalDir = [docsDir stringByAppendingPathComponent:@"ORIGINAL"];
+        originalThumbsDir = [docsDir stringByAppendingPathComponent:@"ORIGINAL_THUMBS"];
+        [manager removeItemAtPath:originalThumbsDir error:NULL];
+        if (![manager fileExistsAtPath:originalThumbsDir]) {
+            [manager createDirectoryAtPath:originalThumbsDir withIntermediateDirectories:YES attributes:nil error:NULL];
+        }
         extractedTeethDir = [docsDir stringByAppendingPathComponent:@"EXTRACTED_TEETH"];
+        [manager removeItemAtPath:extractedTeethDir error:NULL];
         if (![manager fileExistsAtPath:extractedTeethDir]) {
             [manager createDirectoryAtPath:extractedTeethDir withIntermediateDirectories:YES attributes:nil error:NULL];
         }
@@ -75,7 +81,17 @@
         [fileInfos addObject:fileInfo];
         
         // Process originals for mouths here
-        usleep(100000);
+        NSString *fileNamePath = [originalDir stringByAppendingPathComponent:fileName];
+        UIImage *origImage = [UIImage imageWithContentsOfFile:fileNamePath];
+        CGFloat ScaleFactor = 1.0;
+        if (origImage.size.height > 100.0) {
+            ScaleFactor = 100.0 / origImage.size.height;
+        }
+        CGSize scaledDownSize = CGSizeMake(ScaleFactor*origImage.size.width, ScaleFactor*origImage.size.height);
+        UIImage *scaledImage = [self imageWithImage:origImage scaledToSize:scaledDownSize];
+        NSData *dataToWrite = UIImagePNGRepresentation(scaledImage);
+        NSString *thumbPath = [originalThumbsDir stringByAppendingPathComponent:fileName];
+        [dataToWrite writeToFile:thumbPath atomically:YES];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             progress.progress = (float)(i+1)/(float)fileList.count;
@@ -138,7 +154,7 @@
         cell.textLabel.text = @"No Teeth Images To Display";
         cell.detailTextLabel.text = nil;
     } else {
-        cell.imageView.image = [UIImage imageWithContentsOfFile:[originalDir stringByAppendingPathComponent:[fileInfo objectForKey:@"originalFileName"]]];
+        cell.imageView.image = [UIImage imageWithContentsOfFile:[originalThumbsDir stringByAppendingPathComponent:[fileInfo objectForKey:@"originalFileName"]]];
         cell.textLabel.text = [fileInfo objectForKey:@"originalFileName"];
         cell.detailTextLabel.text = nil;
     }
@@ -154,5 +170,18 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize
+{
+    UIGraphicsBeginImageContextWithOptions(newSize, YES, 1.0);
+	[image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	return newImage;
+}
+
+
 
 @end

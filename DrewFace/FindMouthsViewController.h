@@ -20,6 +20,7 @@
     NSFileManager *manager;
     NSString *docsDir;
     NSString *originalDir;
+    NSString *originalThumbsDir;
     NSString *extractedTeethDir;
 
     NSMutableArray *fileInfos;
