@@ -213,6 +213,7 @@
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize
 {
     UIGraphicsBeginImageContextWithOptions(newSize, YES, 1.0);
+    CGContextSetInterpolationQuality(UIGraphicsGetCurrentContext(), kCGInterpolationHigh);
 	[image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
 	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
