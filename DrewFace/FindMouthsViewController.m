@@ -34,10 +34,10 @@
         if (![manager fileExistsAtPath:originalThumbsDir]) {
             [manager createDirectoryAtPath:originalThumbsDir withIntermediateDirectories:YES attributes:nil error:NULL];
         }
-        extractedTeethDir = [docsDir stringByAppendingPathComponent:@"EXTRACTED_TEETH"];
-        [manager removeItemAtPath:extractedTeethDir error:NULL];
-        if (![manager fileExistsAtPath:extractedTeethDir]) {
-            [manager createDirectoryAtPath:extractedTeethDir withIntermediateDirectories:YES attributes:nil error:NULL];
+        extractedMouthsDir = [docsDir stringByAppendingPathComponent:@"EXTRACTED_MOUTHS"];
+        [manager removeItemAtPath:extractedMouthsDir error:NULL];
+        if (![manager fileExistsAtPath:extractedMouthsDir]) {
+            [manager createDirectoryAtPath:extractedMouthsDir withIntermediateDirectories:YES attributes:nil error:NULL];
         }
     
     }
@@ -127,11 +127,30 @@
         // OpenCV Processing Called Here for Face Detect
         OpenCvClass *ocv = [OpenCvClass new];
         ocv.delegate = self;
-        // testimage converted to greyscale and facerectArea is set by delegate method call
+        // testimage converted to greyscale and faceRectInScaledOrigImage is set by delegate method call
         testimage = [ocv processUIImageForFace:scaledImage];
         
         
+        // extract bottom half of face from grey image
+        CGImageRef cutBottomHalfFaceRef = CGImageCreateWithImageInRect(testimage.CGImage, CGRectMake(faceRectInScaledOrigImage.origin.x, faceRectInScaledOrigImage.origin.y+0.6*faceRectInScaledOrigImage.size.height, faceRectInScaledOrigImage.size.width, 0.4*faceRectInScaledOrigImage.size.height));
         
+        
+        // locate mouth in bottom half of greyscale face image
+        UIImage *bottomhalffaceImage = [UIImage imageWithCGImage:cutBottomHalfFaceRef];
+        CGImageRelease(cutBottomHalfFaceRef);
+        
+        // OpenCV Processing Called Here - search for mouth in bottom half of greyscale face
+        CGRect mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage];
+        
+        // extract mouth from greyscale face
+        CGImageRef cutMouthRef = CGImageCreateWithImageInRect(bottomhalffaceImage.CGImage, CGRectMake(mouthRectInBottomHalfOfFace.origin.x, mouthRectInBottomHalfOfFace.origin.y, mouthRectInBottomHalfOfFace.size.width, mouthRectInBottomHalfOfFace.size.height));
+        UIImage *mouthImage = [UIImage imageWithCGImage:cutMouthRef];
+        CGImageRelease(cutMouthRef);
+        
+        // write mouth images to EXTRACTED_TEETH directory
+        dataToWrite = UIImagePNGRepresentation(mouthImage);
+        thumbPath = [extractedMouthsDir stringByAppendingPathComponent:fileName];
+        [dataToWrite writeToFile:thumbPath atomically:YES];
         
         
         
@@ -141,8 +160,12 @@
                                          [NSNumber numberWithFloat:facedetectScaleFactor],@"facedetectScaleFactor",
                                          [NSNumber numberWithFloat:faceRectInScaledOrigImage.origin.x],@"facedetectX",
                                          [NSNumber numberWithFloat:faceRectInScaledOrigImage.origin.y],@"facedetectY",
-                                         [NSNumber numberWithFloat:faceRectInScaledOrigImage.size.width],@"facedetectH",
-                                         [NSNumber numberWithFloat:faceRectInScaledOrigImage.size.height],@"facedetectW",
+                                         [NSNumber numberWithFloat:faceRectInScaledOrigImage.size.width],@"facedetectW",
+                                         [NSNumber numberWithFloat:faceRectInScaledOrigImage.size.height],@"facedetectH",
+                                         [NSNumber numberWithFloat:mouthRectInBottomHalfOfFace.origin.x],@"mouthdetectX",
+                                         [NSNumber numberWithFloat:mouthRectInBottomHalfOfFace.origin.y],@"mouthdetectY",
+                                         [NSNumber numberWithFloat:mouthRectInBottomHalfOfFace.size.width],@"mouthdetectW",
+                                         [NSNumber numberWithFloat:mouthRectInBottomHalfOfFace.size.height],@"mouthdetectH",
                                          nil];
         [fileInfos addObject:fileInfo];
         
@@ -212,12 +235,13 @@
         UIView *blackRectangle = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 10)];
         blackRectangle.tag = BLACK_RECT_TAG;
         blackRectangle.backgroundColor = [UIColor blackColor];
+        blackRectangle.alpha = 0.5;
         [cell.imageView addSubview:blackRectangle];
         
         UIView *redRectangle = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
         redRectangle.tag = RED_RECT_TAG;
         redRectangle.backgroundColor = [UIColor redColor];
-        redRectangle.alpha = 0.2;
+        redRectangle.alpha = 0.25;
         [cell.imageView addSubview:redRectangle];
     }
     
@@ -230,7 +254,7 @@
 
         cell.imageView.image = [UIImage imageWithContentsOfFile:[originalThumbsDir stringByAppendingPathComponent:[fileInfo objectForKey:@"originalFileName"]]];
         cell.textLabel.text = [fileInfo objectForKey:@"originalFileName"];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%f",[(NSNumber *)[fileInfo objectForKey:@"thumbScaleFactor"] floatValue]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%f",[(NSNumber *)[fileInfo objectForKey:@"facedetectScaleFactor"] floatValue]];
     }
     
     return cell;
@@ -262,10 +286,10 @@
     // Draw black rectangle around mouth area in thumb image
     
     UIView *blackRectangle = [cell.imageView viewWithTag:BLACK_RECT_TAG];
-    CGFloat MouthX = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthX"] floatValue];
-    CGFloat MouthY = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthY"] floatValue];
-    CGFloat MouthW = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthW"] floatValue];
-    CGFloat MouthH = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"MouthH"] floatValue];
+    CGFloat MouthX = FaceX + (thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"mouthdetectX"] floatValue] / facedetectScaleFactor);
+    CGFloat MouthY = FaceY + (thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"mouthdetectY"] floatValue] / facedetectScaleFactor) + (thumbScaleFactor * 0.6 *[(NSNumber *)[fileInfo objectForKey:@"facedetectH"] floatValue] / facedetectScaleFactor);
+    CGFloat MouthW = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"mouthdetectW"] floatValue] / facedetectScaleFactor;
+    CGFloat MouthH = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"mouthdetectH"] floatValue] / facedetectScaleFactor;
     blackRectangle.frame = CGRectMake(MouthX, MouthY, MouthW, MouthH);
     
 }

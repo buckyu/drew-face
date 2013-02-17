@@ -21,7 +21,7 @@
     NSString *docsDir;
     NSString *originalDir;
     NSString *originalThumbsDir;
-    NSString *extractedTeethDir;
+    NSString *extractedMouthsDir;
 
     NSMutableArray *fileInfos;
     CGRect faceRectInScaledOrigImage;
