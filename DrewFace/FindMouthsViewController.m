@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 FCW Consulting LLC. All rights reserved.
 //
 
+#define TABLEVIEW_CELL_HEIGHT 150
+
 #import "FindMouthsViewController.h"
 
 @interface FindMouthsViewController ()
@@ -80,8 +82,8 @@
         NSString *fileNamePath = [originalDir stringByAppendingPathComponent:fileName];
         UIImage *origImage = [UIImage imageWithContentsOfFile:fileNamePath];
         CGFloat thumbScaleFactor = 1.0;
-        if (origImage.size.height > 100.0) {
-            thumbScaleFactor = 100.0 / origImage.size.height;
+        if (origImage.size.height > TABLEVIEW_CELL_HEIGHT) {
+            thumbScaleFactor = TABLEVIEW_CELL_HEIGHT / origImage.size.height;
         }
         CGSize scaledDownSize = CGSizeMake(thumbScaleFactor*origImage.size.width, thumbScaleFactor*origImage.size.height);
         UIImage *scaledImage = [self imageWithImage:origImage scaledToSize:scaledDownSize];
@@ -213,7 +215,7 @@
     if (fileInfos.count == 0) {
         return 568;
     } else {
-        return 100;
+        return TABLEVIEW_CELL_HEIGHT;
     }
 }
 
