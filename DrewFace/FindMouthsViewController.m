@@ -141,8 +141,11 @@
         UIImage *bottomhalffaceImage = [UIImage imageWithCGImage:cutBottomHalfFaceRef];
         CGImageRelease(cutBottomHalfFaceRef);
         
-        // OpenCV Processing Called Here - search for mouth in bottom half of greyscale face
-        CGRect mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage];
+        CGRect mouthRectInBottomHalfOfFace = CGRectMake(0,0,0,0);
+        if ((faceRectInScaledOrigImage.size.width > 0) && (faceRectInScaledOrigImage.size.height > 0)) {
+            // OpenCV Processing Called Here - search for mouth in bottom half of greyscale face
+            mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage];
+        }
         
         // extract mouth from greyscale face
         CGImageRef cutMouthRef = CGImageCreateWithImageInRect(bottomhalffaceImage.CGImage, CGRectMake(mouthRectInBottomHalfOfFace.origin.x, mouthRectInBottomHalfOfFace.origin.y, mouthRectInBottomHalfOfFace.size.width, mouthRectInBottomHalfOfFace.size.height));
@@ -256,7 +259,7 @@
 
         cell.imageView.image = [UIImage imageWithContentsOfFile:[originalThumbsDir stringByAppendingPathComponent:[fileInfo objectForKey:@"originalFileName"]]];
         cell.textLabel.text = [fileInfo objectForKey:@"originalFileName"];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%f",[(NSNumber *)[fileInfo objectForKey:@"facedetectScaleFactor"] floatValue]];
+        cell.detailTextLabel.text = nil;
     }
     
     return cell;
