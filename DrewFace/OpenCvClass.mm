@@ -69,6 +69,18 @@
 
 
 
+-(UIImage *)edgeDetect:(UIImage *)img {
+    cv::Mat myCvMat = [self cvGreyMatFromUIImage:img];
+    cv::Mat edges;
+    cv::Canny(myCvMat, edges, 50, 255);
+    myCvMat = myCvMat - edges;
+    
+    return [self UIImageFromCVMat:myCvMat];
+}
+
+
+
+
 - (cv::Mat)cvGreyMatFromUIImage:(UIImage *)image
 {
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(image.CGImage);

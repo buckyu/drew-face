@@ -63,8 +63,8 @@
         CFDictionaryRef dictRef = CGImageSourceCopyPropertiesAtIndex(source,0,NULL);
         NSDictionary *metadata = (__bridge NSDictionary *) dictRef;
         orientation = [[metadata valueForKey:@"Orientation"] integerValue];
-        CFRelease(source);
         CFRelease(dictRef);
+        CFRelease(source);
         
         if (orientation==6) {
             // rotate CGImageRef data

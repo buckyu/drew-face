@@ -11,6 +11,8 @@
 #import <ImageIO/ImageIO.h>
 #import "OpenCvClass.h"
 
+#import "ShowMouthsViewController.h"
+
 
 @interface FindMouthsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, OpenCvClassDelegate> {
     
@@ -29,8 +31,10 @@
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *launchMouthsButton;
 
 -(void)setFaceRect:(CGRect)facerectArea;
+-(IBAction)launchMouthsBottonPressed;
 
 
 @end

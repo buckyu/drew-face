@@ -17,6 +17,7 @@
 @implementation FindMouthsViewController
 
 @synthesize tableview;
+@synthesize launchMouthsButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -69,7 +70,7 @@
 }
 
 -(void)loadTableView {
-    
+@autoreleasepool {    
     NSArray *fileList;
     fileList = [manager contentsOfDirectoryAtPath:originalDir error:NULL];
     
@@ -100,8 +101,9 @@
         CFDictionaryRef dictRef = CGImageSourceCopyPropertiesAtIndex(source,0,NULL);
         NSDictionary *metadata = (__bridge NSDictionary *) dictRef;
         int orientation = [[metadata valueForKey:@"Orientation"] integerValue];
-        CFRelease(source);
         CFRelease(dictRef);
+        CFRelease(source);
+        
         UIImage *testimage = [UIImage imageWithContentsOfFile:fileNamePath];
         if (orientation==6) {
             // rotate CGImageRef data
@@ -174,13 +176,15 @@
                                          nil];
         [fileInfos addObject:fileInfo];
         
-        
+    
         dispatch_async(dispatch_get_main_queue(), ^{
             progress.progress = (float)(i+1)/(float)fileList.count;
         });
         
     }
-
+        
+}
+    
     // reload tableview with created data model
     usleep(100000);
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -188,6 +192,7 @@
         self.tableview.hidden = NO;
         [activity stopAnimating];
         progress.hidden = YES;
+        launchMouthsButton.enabled = YES;
     });
     
 }
@@ -252,7 +257,7 @@
     
     if (fileInfos.count == 0) {
         cell.imageView.image = nil;
-        cell.textLabel.text = @"No Teeth Images To Display";
+        cell.textLabel.text = @"No Face Images To Display";
         cell.detailTextLabel.text = nil;
     } else {
         NSDictionary *fileInfo = [fileInfos objectAtIndex:indexPath.row];
@@ -299,6 +304,15 @@
     
 }
 
+
+
+-(IBAction)launchMouthsBottonPressed {
+    
+    ShowMouthsViewController *smvc = [ShowMouthsViewController new];
+    smvc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:smvc animated:YES completion:NULL];
+    smvc = nil;
+}
 
 
 
