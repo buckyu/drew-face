@@ -74,7 +74,6 @@
     cv::Mat edges;
     cv::Canny(myCvMat, edges, 30, 255);
     myCvMat = myCvMat - edges;
-    //myCvMat = edges;
     
     return [self UIImageFromCVMat:myCvMat];
 }
@@ -83,10 +82,8 @@
     cv::Mat myCvMat = [self cvGreyMatFromUIImage:img];
     cv::Mat edges;
     cv::Canny(myCvMat, edges, 30, 255);
-    //myCvMat = myCvMat - edges;
-    myCvMat = edges;
     
-    return [self UIImageFromCVMat:myCvMat];
+    return [self UIImageFromCVMat:edges];
 }
 
 
