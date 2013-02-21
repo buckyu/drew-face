@@ -42,6 +42,11 @@
         if (![manager fileExistsAtPath:extractedMouthsDir]) {
             [manager createDirectoryAtPath:extractedMouthsDir withIntermediateDirectories:YES attributes:nil error:NULL];
         }
+        extractedMouthsEdgesDir = [docsDir stringByAppendingPathComponent:@"EXTRACTED_MOUTHS_EDGES"];
+        [manager removeItemAtPath:extractedMouthsEdgesDir error:NULL];
+        if (![manager fileExistsAtPath:extractedMouthsEdgesDir]) {
+            [manager createDirectoryAtPath:extractedMouthsEdgesDir withIntermediateDirectories:YES attributes:nil error:NULL];
+        }
     
     }
     return self;
@@ -152,11 +157,21 @@
         // extract mouth from greyscale face
         CGImageRef cutMouthRef = CGImageCreateWithImageInRect(bottomhalffaceImage.CGImage, CGRectMake(mouthRectInBottomHalfOfFace.origin.x, mouthRectInBottomHalfOfFace.origin.y, mouthRectInBottomHalfOfFace.size.width, mouthRectInBottomHalfOfFace.size.height));
         UIImage *mouthImage = [UIImage imageWithCGImage:cutMouthRef];
-        CGImageRelease(cutMouthRef);
+        CGImageRelease(cutMouthRef);        
         
-        // write mouth images to EXTRACTED_TEETH directory
+        mouthImage = [ocv edgeDetectReturnOverlay:mouthImage];
+        
+        // write mouth images to EXTRACTED_MOUTHS directory
         dataToWrite = UIImagePNGRepresentation(mouthImage);
         thumbPath = [extractedMouthsDir stringByAppendingPathComponent:fileName];
+        [dataToWrite writeToFile:thumbPath atomically:YES];
+        
+        
+        mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
+        
+        // write mouth images to EXTRACTED_MOUTHS_EDGES directory
+        dataToWrite = UIImagePNGRepresentation(mouthImage);
+        thumbPath = [extractedMouthsEdgesDir stringByAppendingPathComponent:fileName];
         [dataToWrite writeToFile:thumbPath atomically:YES];
         
         

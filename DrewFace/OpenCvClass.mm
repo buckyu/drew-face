@@ -69,11 +69,22 @@
 
 
 
--(UIImage *)edgeDetect:(UIImage *)img {
+-(UIImage *)edgeDetectReturnOverlay:(UIImage *)img {
     cv::Mat myCvMat = [self cvGreyMatFromUIImage:img];
     cv::Mat edges;
-    cv::Canny(myCvMat, edges, 50, 255);
+    cv::Canny(myCvMat, edges, 30, 255);
     myCvMat = myCvMat - edges;
+    //myCvMat = edges;
+    
+    return [self UIImageFromCVMat:myCvMat];
+}
+
+-(UIImage *)edgeDetectReturnEdges:(UIImage *)img {
+    cv::Mat myCvMat = [self cvGreyMatFromUIImage:img];
+    cv::Mat edges;
+    cv::Canny(myCvMat, edges, 30, 255);
+    //myCvMat = myCvMat - edges;
+    myCvMat = edges;
     
     return [self UIImageFromCVMat:myCvMat];
 }

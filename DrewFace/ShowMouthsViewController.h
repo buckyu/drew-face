@@ -15,14 +15,20 @@
     NSFileManager *manager;
     NSString *docsDir;
     NSString *extractedMouthsDir;
+    NSString *extractedMouthsEdgesDir;
+    
+    BOOL ShowMouthsBool;
+    BOOL ShowEdgesBool;
     
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activity;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *toggleListButton;
 
 -(IBAction)backButtonPressed;
+-(IBAction)toggleListButtonPressed;
 
 
 @end

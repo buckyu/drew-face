@@ -19,6 +19,7 @@
 @synthesize tableview;
 @synthesize backButton;
 @synthesize activity;
+@synthesize toggleListButton;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -28,7 +29,7 @@
         // Custom initialization
         
         // data source for tableview
-        fileInfos = [NSMutableArray new];
+        //fileInfos = [NSMutableArray new];
     }
     return self;
 }
@@ -39,11 +40,15 @@
     // Do any additional setup after loading the view from its nib.
     
     backButton.enabled = NO;
+    toggleListButton.enabled = NO;
+    ShowMouthsBool = YES;
+    ShowEdgesBool = NO;
     
     // directory and file IO stuff
     manager = [NSFileManager defaultManager];
     docsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     extractedMouthsDir = [docsDir stringByAppendingPathComponent:@"EXTRACTED_MOUTHS"];
+    extractedMouthsEdgesDir = [docsDir stringByAppendingPathComponent:@"EXTRACTED_MOUTHS_EDGES"];
     
     [activity startAnimating];
     self.tableview.hidden = YES;
@@ -55,21 +60,47 @@
 
 
 -(void)loadTableView {
+    
+    // data source for tableview
+    fileInfos = [NSMutableArray new];
+
     @autoreleasepool {
         
         NSArray *fileList;
-        fileList = [manager contentsOfDirectoryAtPath:extractedMouthsDir error:NULL];
+        
+        fileList = nil;
+        if (ShowMouthsBool) {
+            fileList = [manager contentsOfDirectoryAtPath:extractedMouthsDir error:NULL];
+        }
         
         for (int i=0; i < fileList.count; i++) {
             NSString *fileName = [fileList objectAtIndex:i];
             NSString *fileNamePath = [extractedMouthsDir stringByAppendingPathComponent:fileName];
             
             NSMutableDictionary *fileInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                             fileName,@"mouthFileName",
-                                             fileNamePath,@"mouthFilePathName",
+                                             fileName,@"fileName",
+                                             fileNamePath,@"filePathName",
                                              nil];
             [fileInfos addObject:fileInfo];
         }
+        
+        fileList = nil;
+        if (ShowEdgesBool) {
+            fileList = [manager contentsOfDirectoryAtPath:extractedMouthsEdgesDir error:NULL];
+        }
+        
+        for (int i=0; i < fileList.count; i++) {
+            NSString *fileName = [fileList objectAtIndex:i];
+            NSString *fileNamePath = [extractedMouthsEdgesDir stringByAppendingPathComponent:fileName];
+            
+            NSMutableDictionary *fileInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                             fileName,@"fileName",
+                                             fileNamePath,@"filePathName",
+                                             nil];
+            [fileInfos addObject:fileInfo];
+        }
+
+        
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -77,6 +108,7 @@
         self.tableview.hidden = NO;
         [activity stopAnimating];
         backButton.enabled = YES;
+        toggleListButton.enabled = YES;
     });
     
 }
@@ -85,6 +117,26 @@
 
 -(IBAction)backButtonPressed {
     [self.presentingViewController dismissModalViewControllerAnimated:YES];
+}
+
+
+-(IBAction)toggleListButtonPressed {
+    backButton.enabled = NO;
+    toggleListButton.enabled = NO;
+    self.tableview.hidden = YES;
+    [activity startAnimating];
+    
+    if ([toggleListButton.title isEqualToString:@"Mouths"]) {
+        toggleListButton.title = @"Teeth";
+        ShowMouthsBool = YES;
+        ShowEdgesBool = NO;
+    } else {
+        toggleListButton.title = @"Mouths";
+        ShowMouthsBool = NO;
+        ShowEdgesBool = YES;
+    }
+    
+    [self performSelectorInBackground:@selector(loadTableView) withObject:nil];
 }
 
 
@@ -128,10 +180,10 @@
     } else {
         NSDictionary *fileInfo = [fileInfos objectAtIndex:indexPath.row];
         
-        cell.imageView.image = [UIImage imageWithContentsOfFile:[fileInfo objectForKey:@"mouthFilePathName"]];
+        cell.imageView.image = [UIImage imageWithContentsOfFile:[fileInfo objectForKey:@"filePathName"]];
         int w = cell.imageView.image.size.width;
         int h = cell.imageView.image.size.height;
-        cell.textLabel.text = [fileInfo objectForKey:@"mouthFileName"];
+        cell.textLabel.text = [fileInfo objectForKey:@"fileName"];
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%d x %d",w,h];
     }
     

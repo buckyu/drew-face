@@ -26,6 +26,7 @@
 -(UIImage *)processUIImageForFace:(UIImage *)img;
 -(CGRect)processUIImageForMouth:(UIImage *)img;
 
--(UIImage *)edgeDetect:(UIImage *)img;
+-(UIImage *)edgeDetectReturnOverlay:(UIImage *)img;
+-(UIImage *)edgeDetectReturnEdges:(UIImage *)img;
 
 @end
