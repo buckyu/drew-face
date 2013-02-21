@@ -17,6 +17,7 @@
 @implementation ShowMouthsViewController
 
 @synthesize tableview;
+@synthesize navbar;
 @synthesize backButton;
 @synthesize activity;
 @synthesize toggleListButton;
@@ -127,11 +128,13 @@
     [activity startAnimating];
     
     if ([toggleListButton.title isEqualToString:@"Mouths"]) {
+        self.navbar.topItem.title = @"Mouths";
         toggleListButton.title = @"Teeth";
         ShowMouthsBool = YES;
         ShowEdgesBool = NO;
     } else {
         toggleListButton.title = @"Mouths";
+        self.navbar.topItem.title = @"Teeth";
         ShowMouthsBool = NO;
         ShowEdgesBool = YES;
     }
