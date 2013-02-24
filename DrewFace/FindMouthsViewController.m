@@ -95,6 +95,7 @@
         UIImage *scaledImage = [self imageWithImage:origImage scaledToSize:scaledDownSize];
         NSData *dataToWrite = UIImagePNGRepresentation(scaledImage);
         NSString *thumbPath = [originalThumbsDir stringByAppendingPathComponent:fileName];
+        thumbPath = [[thumbPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
         [dataToWrite writeToFile:thumbPath atomically:YES];
         
         
@@ -163,6 +164,7 @@
         // write mouth images to EXTRACTED_MOUTHS directory
         dataToWrite = UIImagePNGRepresentation(processedMouthImage);
         thumbPath = [extractedMouthsDir stringByAppendingPathComponent:fileName];
+        thumbPath = [[thumbPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
         [dataToWrite writeToFile:thumbPath atomically:YES];
         
         //processedMouthImage = [ocv edgeDetectReturnEdges:mouthImage];
@@ -236,6 +238,7 @@
         // write mouth images to EXTRACTED_MOUTHS_EDGES directory
         dataToWrite = UIImagePNGRepresentation(modifiedImage);
         thumbPath = [extractedMouthsEdgesDir stringByAppendingPathComponent:fileName];
+        thumbPath = [[thumbPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
         [dataToWrite writeToFile:thumbPath atomically:YES];
         
         
@@ -341,7 +344,7 @@
     } else {
         NSDictionary *fileInfo = [fileInfos objectAtIndex:indexPath.row];
 
-        cell.imageView.image = [UIImage imageWithContentsOfFile:[originalThumbsDir stringByAppendingPathComponent:[fileInfo objectForKey:@"originalFileName"]]];
+        cell.imageView.image = [UIImage imageWithContentsOfFile:[originalThumbsDir stringByAppendingPathComponent:[[[fileInfo objectForKey:@"originalFileName"] stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"]]];
         cell.textLabel.text = [fileInfo objectForKey:@"originalFileName"];
         cell.detailTextLabel.text = nil;
     }
