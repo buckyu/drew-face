@@ -118,15 +118,14 @@
         } else if (orientation>0) {
             NSLog(@"Orientation not 0 or 6. Need to accommodate here");
         }
-
         
-        // Scale down to 640 max dimension for speed optimization of face detect
+        // Scale down to 1024 max dimension for speed optimization of face detect
         int w = (int)testimage.size.width;
         int h = (int)testimage.size.height;
         int maxDimension = w>h? w : h;
         CGFloat facedetectScaleFactor = 1.0;
-        if (maxDimension > 640.0) {
-            facedetectScaleFactor = 640.0 / maxDimension;
+        if (maxDimension > 1024) {
+            facedetectScaleFactor = 1024.0 / (CGFloat)maxDimension;
         }
         scaledDownSize = CGSizeMake(facedetectScaleFactor*w, facedetectScaleFactor*h);
         scaledImage = [self imageWithImage:testimage scaledToSize:scaledDownSize];
@@ -159,18 +158,83 @@
         UIImage *mouthImage = [UIImage imageWithCGImage:cutMouthRef];
         CGImageRelease(cutMouthRef);        
         
-        mouthImage = [ocv edgeDetectReturnOverlay:mouthImage];
+        UIImage *processedMouthImage = [ocv edgeDetectReturnOverlay:mouthImage];
         
         // write mouth images to EXTRACTED_MOUTHS directory
-        dataToWrite = UIImagePNGRepresentation(mouthImage);
+        dataToWrite = UIImagePNGRepresentation(processedMouthImage);
         thumbPath = [extractedMouthsDir stringByAppendingPathComponent:fileName];
         [dataToWrite writeToFile:thumbPath atomically:YES];
         
+        //processedMouthImage = [ocv edgeDetectReturnEdges:mouthImage];
+        processedMouthImage = [ocv edgeMeanShiftDetectReturnEdges:mouthImage];
         
-        mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
+
+        
+        
+        
+        
+        // grey scale images here of mouth area
+        // look to see if teeth are brighter
+        CGDataProviderRef myDataProvider = CGImageGetDataProvider(processedMouthImage.CGImage);
+        CFDataRef pixelData = CGDataProviderCopyData(myDataProvider);
+        const uint8_t *testimagedata = CFDataGetBytePtr(pixelData);
+    
+        w = (int)processedMouthImage.size.width;
+        h = (int)processedMouthImage.size.height;
+        uint8_t *mutablebuffer = (uint8_t *)malloc(w*h*3);
+        uint8_t *mutablebuffer4 = (uint8_t *)malloc(w*h*4);
+        
+        memcpy(&mutablebuffer[0],testimagedata,w*h*3);
+        
+        for (int i=0; i<h; i++) {
+            for (int j=0; j<w; j++) {
+                
+                int sum = 0;
+                sum += *(mutablebuffer + i*w*3 + j*3 + 0);
+                sum += *(mutablebuffer + i*w*3 + j*3 + 1);
+                sum += *(mutablebuffer + i*w*3 + j*3 + 2);
+                
+                if (sum > (3*80)) {
+                    memcpy((mutablebuffer4 + i*w*4 + j*4), (mutablebuffer + i*w*3 + j*3), 3);
+                } else {
+                    bzero((mutablebuffer4 + i*w*4 + j*4), 3);
+                }
+                
+            }
+        }
+        CFRelease(pixelData);
+        
+        // show greyscale image on iPhone view
+        
+        CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(processedMouthImage.CGImage);
+        CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(processedMouthImage.CGImage);
+        
+        CGContextRef newContextRef = CGBitmapContextCreate(mutablebuffer4, w, h, 8, w*4,colorspaceRef, bitmapInfo);
+        
+        CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
+        
+        // show MODIFIED grayscale image on iPhone screen
+        UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
+
+        CGImageRelease(newImageRef);
+        CGContextRelease(newContextRef);
+        
+        free(mutablebuffer);
+        free(mutablebuffer4);
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         // write mouth images to EXTRACTED_MOUTHS_EDGES directory
-        dataToWrite = UIImagePNGRepresentation(mouthImage);
+        dataToWrite = UIImagePNGRepresentation(modifiedImage);
         thumbPath = [extractedMouthsEdgesDir stringByAppendingPathComponent:fileName];
         [dataToWrite writeToFile:thumbPath atomically:YES];
         

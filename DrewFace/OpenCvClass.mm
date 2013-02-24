@@ -86,6 +86,29 @@
     return [self UIImageFromCVMat:edges];
 }
 
+-(UIImage *)edgeMeanShiftDetectReturnEdges:(UIImage *)origimg {
+    cv::Mat myCvMat = [self cvGreyMatFromUIImage:origimg];
+    cv::Mat bgr;
+    cv::cvtColor(myCvMat, bgr, CV_GRAY2BGR);
+    
+    //cv::blur(bgr, bgr, cv::Size(2,2));
+    //return [self UIImageFromCVMat:bgr];
+    
+    
+    cv::pyrMeanShiftFiltering(bgr.clone(), bgr, 10, 10, 3);
+    //cv::cvtColor(bgr, bgr, CV_BGR2GRAY);
+    return [self UIImageFromCVMat:bgr];
+    
+    cv::cvtColor(bgr, bgr, CV_BGR2GRAY);
+    cv::Mat edges;
+    cv::Canny(bgr, edges, 30, 255);
+    
+    
+    
+    return [self UIImageFromCVMat:bgr-edges];
+
+}
+
 
 
 
@@ -120,7 +143,7 @@
     CGFloat rows = image.size.height;
     
     cv::Mat cvMat(rows, cols, CV_8UC4); // 8 bits per component, 4 channels
-    
+
     CGContextRef contextRef = CGBitmapContextCreate(cvMat.data,                 // Pointer to  data
                                                     cols,                       // Width of bitmap
                                                     rows,                       // Height of bitmap
@@ -141,11 +164,14 @@
 {
     NSData *data = [NSData dataWithBytes:cvMat.data length:cvMat.elemSize()*cvMat.total()];
     CGColorSpaceRef colorSpace;
+    CGBitmapInfo bitmapInfo;
     
     if (cvMat.elemSize() == 1) {
         colorSpace = CGColorSpaceCreateDeviceGray();
+        bitmapInfo = kCGImageAlphaNone | kCGBitmapByteOrderDefault;
     } else {
         colorSpace = CGColorSpaceCreateDeviceRGB();
+        bitmapInfo = kCGImageAlphaNoneSkipLast | kCGBitmapByteOrderDefault;
     }
     
     CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
@@ -155,9 +181,9 @@
                                         cvMat.rows,                                 //height
                                         8,                                          //bits per component
                                         8 * cvMat.elemSize(),                       //bits per pixel
-                                        cvMat.step[0],                            //bytesPerRow
+                                        cvMat.step[0],                              //bytesPerRow
                                         colorSpace,                                 //colorspace
-                                        kCGImageAlphaNone|kCGBitmapByteOrderDefault,// bitmap info
+                                        bitmapInfo,                                 // bitmap info
                                         provider,                                   //CGDataProviderRef
                                         NULL,                                       //decode
                                         false,                                      //should interpolate

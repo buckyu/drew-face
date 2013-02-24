@@ -13,6 +13,7 @@
 
 #import <Foundation/Foundation.h>
 #import <opencv2/highgui/highgui_c.h>
+#import <opencv2/imgproc/imgproc_c.h>
 
 
 @interface OpenCvClass : NSObject {
@@ -28,5 +29,6 @@
 
 -(UIImage *)edgeDetectReturnOverlay:(UIImage *)img;
 -(UIImage *)edgeDetectReturnEdges:(UIImage *)img;
+-(UIImage *)edgeMeanShiftDetectReturnEdges:(UIImage *)origimg;
 
 @end
