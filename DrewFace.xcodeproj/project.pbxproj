@@ -28,6 +28,9 @@
 		1DC6943816DAC87700ED63E6 /* drewteethtransparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC6943516DAC87700ED63E6 /* drewteethtransparent.png */; };
 		1DC6943916DAC87700ED63E6 /* drewteeth.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC6943616DAC87700ED63E6 /* drewteeth.png */; };
 		1DC6943A16DAC87700ED63E6 /* drewmouth.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC6943716DAC87700ED63E6 /* drewmouth.png */; };
+		1DC6944116DB199300ED63E6 /* drewcolor.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1DC6943F16DB199300ED63E6 /* drewcolor.jpg */; };
+		1DC6944216DB199300ED63E6 /* drewmouthcolor.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC6944016DB199300ED63E6 /* drewmouthcolor.png */; };
+		1DC6944616DB1AA900ED63E6 /* drewfacecolor.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC6944516DB1AA900ED63E6 /* drewfacecolor.png */; };
 		1DE6DDF116C41A8300BAA92A /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE6DDF016C41A8300BAA92A /* opencv2.framework */; };
 		1DE6DDF916C41D5F00BAA92A /* OpenCvClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1DE6DDF816C41D5F00BAA92A /* OpenCvClass.mm */; };
 		3A02316916C97F190092817E /* Detect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A02316816C97F190092817E /* Detect.cpp */; };
@@ -62,6 +65,9 @@
 		1DC6943516DAC87700ED63E6 /* drewteethtransparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drewteethtransparent.png; sourceTree = "<group>"; };
 		1DC6943616DAC87700ED63E6 /* drewteeth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drewteeth.png; sourceTree = "<group>"; };
 		1DC6943716DAC87700ED63E6 /* drewmouth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drewmouth.png; sourceTree = "<group>"; };
+		1DC6943F16DB199300ED63E6 /* drewcolor.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = drewcolor.jpg; sourceTree = "<group>"; };
+		1DC6944016DB199300ED63E6 /* drewmouthcolor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drewmouthcolor.png; sourceTree = "<group>"; };
+		1DC6944516DB1AA900ED63E6 /* drewfacecolor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drewfacecolor.png; sourceTree = "<group>"; };
 		1DE6DDF016C41A8300BAA92A /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		1DE6DDF716C41D5F00BAA92A /* OpenCvClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCvClass.h; sourceTree = "<group>"; };
 		1DE6DDF816C41D5F00BAA92A /* OpenCvClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCvClass.mm; sourceTree = "<group>"; };
@@ -139,6 +145,9 @@
 		1D6992EE16C014C200547D63 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1DC6943F16DB199300ED63E6 /* drewcolor.jpg */,
+				1DC6944516DB1AA900ED63E6 /* drewfacecolor.png */,
+				1DC6944016DB199300ED63E6 /* drewmouthcolor.png */,
 				1DC6943516DAC87700ED63E6 /* drewteethtransparent.png */,
 				1DC6943616DAC87700ED63E6 /* drewteeth.png */,
 				1DC6943716DAC87700ED63E6 /* drewmouth.png */,
@@ -228,6 +237,9 @@
 				1DC6943816DAC87700ED63E6 /* drewteethtransparent.png in Resources */,
 				1DC6943916DAC87700ED63E6 /* drewteeth.png in Resources */,
 				1DC6943A16DAC87700ED63E6 /* drewmouth.png in Resources */,
+				1DC6944116DB199300ED63E6 /* drewcolor.jpg in Resources */,
+				1DC6944216DB199300ED63E6 /* drewmouthcolor.png in Resources */,
+				1DC6944616DB1AA900ED63E6 /* drewfacecolor.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

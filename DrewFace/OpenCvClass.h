@@ -34,6 +34,6 @@
 -(UIImage *)edgeDetectReturnEdges:(UIImage *)img;
 -(UIImage *)edgeMeanShiftDetectReturnEdges:(UIImage *)origimg;
 
--(BOOL)Search2DImage:(UIImage *)objectImage inside:(UIImage *)screneImage;
+-(BOOL)Search2DImage:(UIImage *)objectImage inside:(UIImage *)sceneImage;
 
 @end

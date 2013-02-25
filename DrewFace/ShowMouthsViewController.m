@@ -86,9 +86,10 @@
             
             
             OpenCvClass *ocv = [OpenCvClass new];
-            UIImage *objectImage = [UIImage imageNamed:@"drewteeth.png"];
+            UIImage *objectImage = [UIImage imageNamed:@"drewmouthcolor.png"];
             UIImage *sceneImage = [UIImage imageWithContentsOfFile:fileNamePath];
-            NSLog(@"%d",[ocv Search2DImage:objectImage inside:sceneImage]);
+            NSLog(@"%@",fileName);
+            [ocv Search2DImage:objectImage inside:sceneImage];
             
         }
         

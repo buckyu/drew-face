@@ -205,88 +205,57 @@
 
 
 -(BOOL)Search2DImage:(UIImage *)objectImage inside:(UIImage *)sceneImage {
-    cv::Mat sceneMat = [self cvGreyMatFromUIImage:sceneImage];
-    cv::Mat objectMat = [self cvGreyMatFromUIImage:objectImage];
-    //cv::cvtColor(sceneMat, sceneMat, CV_GRAY2BGR);
-    //cv::cvtColor(objectMat, objectMat, CV_GRAY2BGR);
     
-    BOOL objectDetected = NO;
+    cv::Mat img_object = [self cvMatFromUIImage:objectImage];
+    cv::Mat img_scene = [self cvGreyMatFromUIImage:sceneImage];
     
-    cv::vector <cv::KeyPoint> keypointsO; //keypoints for object
-    cv::vector <cv::KeyPoint> keypointsS; //keypoints for scene
+    cv::cvtColor(img_object, img_object, CV_BGR2GRAY);
+    //cv::cvtColor(img_scene, img_scene, CV_BGR2GRAY);
     
-    cv::Mat descriptors_object;
-    cv::Mat descriptors_scene;
-    cv::SurfFeatureDetector surf(1500);
-    surf.detect(sceneMat,keypointsS);
-    if(keypointsS.size() < 2) {
-        NSLog(@"Object Found");
-        return NO;
-    }
-    surf.detect(objectMat,keypointsO);
-    if(keypointsO.size() < 2) {
-        NSLog(@"Object Found");
-        return NO;
-    }
+    int minHessian = 100;
+    cv::SurfFeatureDetector detector( minHessian );
+    
+    std::vector<cv::KeyPoint> keypoints_object, keypoints_scene;
+    
+    detector.detect( img_object, keypoints_object );
+    detector.detect( img_scene, keypoints_scene );
     
     cv::SurfDescriptorExtractor extractor;
-    extractor.compute( sceneMat, keypointsS, descriptors_scene );
-    extractor.compute( objectMat, keypointsO, descriptors_object );
+    cv::Mat descriptors_object, descriptors_scene;
     
-    // brute force search
-    cv::BFMatcher matcher(cv::NORM_L1);
+    extractor.compute( img_object, keypoints_object, descriptors_object );
+    extractor.compute( img_scene, keypoints_scene, descriptors_scene );
     
-    std::vector <cv::vector <cv::DMatch>> matches;
-    matcher.knnMatch( descriptors_object, descriptors_scene, matches, 2 );
     
-    cv::vector <cv::DMatch> good_matches;
-    good_matches.reserve(matches.size());
+    cv::FlannBasedMatcher matcher;
+    std::vector< cv::DMatch > matches;
+    matcher.match( descriptors_object, descriptors_scene, matches );
     
-    for (size_t i = 0; i < matches.size(); ++i)
-    {
-        if (matches[i].size() < 2)
-            continue;
-        
-        const cv::DMatch &m1 = matches[i][0];
-        const cv::DMatch &m2 = matches[i][1];
-        
-        float nndrRatio = 0.70f;
-        if(m1.distance <= nndrRatio * m2.distance)
-            good_matches.push_back(m1);
+    double max_dist = 0; double min_dist = 100;
+    
+    for( int i = 0; i < descriptors_object.rows; i++ )
+    { double dist = matches[i].distance;
+        if( dist < min_dist ) min_dist = dist;
+        if( dist > max_dist ) max_dist = dist;
     }
     
-    if( (good_matches.size() >=7)) {
-        NSLog(@"Object Found");
+    printf("-- Max dist : %f \n", max_dist );
+    printf("-- Min dist : %f \n", min_dist );
+    printf("-- objects  : %d \n\n",descriptors_object.rows);
+    
+    std::vector< cv::DMatch > good_matches;
+    
+    for( int i = 0; i < descriptors_object.rows; i++ ) {
+        if( matches[i].distance < 2.0*min_dist ) {
+            good_matches.push_back( matches[i]);
             
-        std::vector< cv::Point2f > obj;
-        std::vector< cv::Point2f > scene;
-            
-        for( unsigned int i = 0; i < good_matches.size(); i++ ) {
-            obj.push_back( keypointsO[ good_matches[i].queryIdx ].pt );
-            scene.push_back( keypointsS[ good_matches[i].trainIdx ].pt );
+        } else {
+           
         }
-            
-        cv::Mat H = findHomography( obj, scene, CV_RANSAC );
-            
-
-        std::vector < cv::Point2f > obj_corners(4);
-        obj_corners[0] = cvPoint(0,0);
-        obj_corners[1] = cvPoint( objectMat.cols, 0 );
-        obj_corners[2] = cvPoint( objectMat.cols, objectMat.rows );
-        obj_corners[3] = cvPoint( 0, objectMat.rows );
-        
-        std::vector < cv::Point2f > scene_corners(4);
-        
-        cv::perspectiveTransform( obj_corners, scene_corners, H);
-        
-        
-        objectDetected = YES;
-
-    } else {
-        NSLog(@"OBJECT NOT FOUND!");
     }
-
-    return objectDetected;
+    
+        
+    return YES;
     
 }
 
