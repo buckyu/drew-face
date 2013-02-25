@@ -15,6 +15,9 @@
 #import <opencv2/highgui/highgui_c.h>
 #import <opencv2/imgproc/imgproc_c.h>
 
+#import <opencv2/features2d/features2d.hpp>
+#import <opencv2/nonfree/features2d.hpp>
+
 
 @interface OpenCvClass : NSObject {
     
@@ -30,5 +33,7 @@
 -(UIImage *)edgeDetectReturnOverlay:(UIImage *)img;
 -(UIImage *)edgeDetectReturnEdges:(UIImage *)img;
 -(UIImage *)edgeMeanShiftDetectReturnEdges:(UIImage *)origimg;
+
+-(BOOL)Search2DImage:(UIImage *)objectImage inside:(UIImage *)screneImage;
 
 @end

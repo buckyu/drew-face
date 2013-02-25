@@ -162,7 +162,7 @@
         UIImage *processedMouthImage = [ocv edgeDetectReturnOverlay:mouthImage];
         
         // write mouth images to EXTRACTED_MOUTHS directory
-        dataToWrite = UIImagePNGRepresentation(processedMouthImage);
+        dataToWrite = UIImagePNGRepresentation(mouthImage);
         thumbPath = [extractedMouthsDir stringByAppendingPathComponent:fileName];
         thumbPath = [[thumbPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
         [dataToWrite writeToFile:thumbPath atomically:YES];
