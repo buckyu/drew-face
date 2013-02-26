@@ -31,6 +31,7 @@
         
         // data source for tableview
         //fileInfos = [NSMutableArray new];
+        
     }
     return self;
 }
@@ -88,8 +89,8 @@
             OpenCvClass *ocv = [OpenCvClass new];
             UIImage *objectImage = [UIImage imageNamed:@"drewmouthcolor.png"];
             UIImage *sceneImage = [UIImage imageWithContentsOfFile:fileNamePath];
-            NSLog(@"%@",fileName);
-            [ocv Search2DImage:objectImage inside:sceneImage];
+            //NSLog(@"%@",fileName);
+            //[ocv Search2DImage:objectImage inside:sceneImage];
             
         }
         
