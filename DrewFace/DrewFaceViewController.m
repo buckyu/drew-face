@@ -71,9 +71,14 @@
             CGImageRef rotatedImageRef= [self CGImageRotatedByAngle:testimage.CGImage angle:-M_PI/2.0];
             testimage = [UIImage imageWithCGImage:rotatedImageRef];
             CGImageRelease(rotatedImageRef);
+        } else if (orientation == 3) {
+            CGImageRef rotatedImageRef= [self CGImageRotatedByAngle:testimage.CGImage angle:M_PI];
+            testimage = [UIImage imageWithCGImage:rotatedImageRef];
+            CGImageRelease(rotatedImageRef);
         } else if (orientation>0) {
-            NSLog(@"Orientation not 0 or 6. Need to accommodate here");
+            NSLog(@"Orientation %d not 0 or 6. Need to accommodate here",orientation);
         }
+
         
         [iv removeFromSuperview];
         iv = [[UIImageView alloc] initWithImage:testimage];

@@ -116,8 +116,12 @@
             CGImageRef rotatedImageRef= [self CGImageRotatedByAngle:testimage.CGImage angle:-M_PI/2.0];
             testimage = [UIImage imageWithCGImage:rotatedImageRef];
             CGImageRelease(rotatedImageRef);
+        } else if (orientation == 3) {
+            CGImageRef rotatedImageRef= [self CGImageRotatedByAngle:testimage.CGImage angle:M_PI];
+            testimage = [UIImage imageWithCGImage:rotatedImageRef];
+            CGImageRelease(rotatedImageRef);
         } else if (orientation>0) {
-            NSLog(@"Orientation not 0 or 6. Need to accommodate here");
+           NSLog(@"%@ Orientation %d not 0 or 6. Need to accommodate here",fileNamePath,orientation);
         }
         
         // Scale down to 1024 max dimension for speed optimization of face detect
@@ -152,6 +156,9 @@
         if ((faceRectInScaledOrigImage.size.width > 0) && (faceRectInScaledOrigImage.size.height > 0)) {
             // OpenCV Processing Called Here - search for mouth in bottom half of greyscale face
             mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage];
+        } else {
+            NSLog(@"NO FACE in %@",fileName);
+            continue;
         }
         
         // extract mouth from greyscale face
@@ -159,7 +166,10 @@
         UIImage *mouthImage = [UIImage imageWithCGImage:cutMouthRef];
         CGImageRelease(cutMouthRef);        
         
-        UIImage *processedMouthImage = [ocv edgeDetectReturnOverlay:mouthImage];
+        UIImage *processedMouthImage = nil;
+        if ((faceRectInScaledOrigImage.size.width > 0) && (faceRectInScaledOrigImage.size.height > 0)) {
+            processedMouthImage = [ocv edgeDetectReturnOverlay:mouthImage];
+        }
         
         // write mouth images to EXTRACTED_MOUTHS directory
         dataToWrite = UIImagePNGRepresentation(mouthImage);
@@ -168,7 +178,13 @@
         [dataToWrite writeToFile:thumbPath atomically:YES];
         
         //processedMouthImage = [ocv edgeDetectReturnEdges:mouthImage];
-        processedMouthImage = [ocv edgeMeanShiftDetectReturnEdges:mouthImage];
+        if ((faceRectInScaledOrigImage.size.width > 0) && (faceRectInScaledOrigImage.size.height > 0)) {
+            processedMouthImage = [ocv edgeMeanShiftDetectReturnEdges:mouthImage];
+            if (!((processedMouthImage.size.width>0) && (processedMouthImage.size.height>0))) {
+                NSLog(@"NO MOUTH in %@",fileName);
+                continue;
+            }
+        }
         
 
         
