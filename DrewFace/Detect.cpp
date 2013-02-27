@@ -19,7 +19,7 @@ void Detect(IplImage *myImage, const char *xml_filename_utf8, rect *result) {
     
     CvSeq *detections = cvHaarDetectObjects(myImage, cascade, storage, 1.1, 5, 0, cvSize(w/4,h/4), cvSize(w, h));
     
-    printf("%d Objects Detected\n",detections->total);
+    //printf("%d Objects Detected\n",detections->total);
     
     result->x = 0;
     result->y = 0;
@@ -36,7 +36,7 @@ void Detect(IplImage *myImage, const char *xml_filename_utf8, rect *result) {
     }
     
     if (detections->total > 1) {
-        printf("Warning, multiple objects detected\n");
+        printf("Warning, multiple objects detected - %d\n",detections->total);
     }
     
     cvReleaseHaarClassifierCascade(&cascade);

@@ -75,8 +75,8 @@
             CGImageRef rotatedImageRef= [self CGImageRotatedByAngle:testimage.CGImage angle:M_PI];
             testimage = [UIImage imageWithCGImage:rotatedImageRef];
             CGImageRelease(rotatedImageRef);
-        } else if (orientation>0) {
-            NSLog(@"Orientation %d not 0 or 6. Need to accommodate here",orientation);
+        } else if (orientation>1) {
+            NSLog(@"Orientation %d not 0, 1 or 6. Need to accommodate here",orientation);
         }
 
         

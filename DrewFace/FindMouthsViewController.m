@@ -90,6 +90,8 @@
         if (!origImage) {
             NSLog(@"NOT A VALID IMAGE: %@",fileName);
             continue;
+        } else {
+            NSLog(@"%@ - Processing...",fileName);
         }
         CGFloat thumbScaleFactor = 1.0;
         if (origImage.size.height > TABLEVIEW_CELL_HEIGHT) {
@@ -124,8 +126,8 @@
             CGImageRef rotatedImageRef= [self CGImageRotatedByAngle:testimage.CGImage angle:M_PI];
             testimage = [UIImage imageWithCGImage:rotatedImageRef];
             CGImageRelease(rotatedImageRef);
-        } else if (orientation>0) {
-           NSLog(@"%@ Orientation %d not 0 or 6. Need to accommodate here",fileNamePath,orientation);
+        } else if (orientation>1) {
+           NSLog(@"%@ Orientation %d not 0, 1 or 6. Need to accommodate here",fileNamePath,orientation);
         }
         
         // Scale down to 1024 max dimension for speed optimization of face detect
