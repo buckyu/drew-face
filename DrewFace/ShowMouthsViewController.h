@@ -6,10 +6,18 @@
 //  Copyright (c) 2013 FCW Consulting LLC. All rights reserved.
 //
 
+
+@protocol ShowMouthsViewControllerClassDelegate
+-(void)setHighlightedCellRow:(int)n;
+@end
+
+
 #import <UIKit/UIKit.h>
 #import "OpenCvClass.h"
 
 @interface ShowMouthsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+    
+    __weak id <ShowMouthsViewControllerClassDelegate> delegate;
     
     NSMutableArray *fileInfos;
     
@@ -22,6 +30,9 @@
     BOOL ShowEdgesBool;
     
 }
+
+@property (weak) id <ShowMouthsViewControllerClassDelegate> delegate;
+@property int selectedCellRow;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property (weak, nonatomic) IBOutlet UINavigationBar *navbar;

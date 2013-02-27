@@ -75,7 +75,10 @@
 }
 
 -(void)loadTableView {
-@autoreleasepool {    
+@autoreleasepool {
+    
+    selectedCellRow = -1;
+    
     NSArray *fileList;
     fileList = [manager contentsOfDirectoryAtPath:originalDir error:NULL];
     
@@ -380,6 +383,20 @@
 }
 
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (fileInfos.count==0) {
+        return;
+    }
+    
+    selectedCellRow = indexPath.row;
+    [tableView reloadRowsAtIndexPaths:[tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
+    [self launchMouthsButtonPressed];
+    
+}
+
+
+
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -411,13 +428,22 @@
     CGFloat MouthH = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"mouthdetectH"] floatValue] / facedetectScaleFactor;
     blackRectangle.frame = CGRectMake(MouthX, MouthY, MouthW, MouthH);
     
+    // show highlight for selected cell
+    if (indexPath.row == selectedCellRow) {
+        cell.backgroundColor = [UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:0.2];
+    } else {
+        cell.backgroundColor = [UIColor clearColor];
+    }
+    
 }
 
 
 
--(IBAction)launchMouthsBottonPressed {
+-(IBAction)launchMouthsButtonPressed {
     
     ShowMouthsViewController *smvc = [ShowMouthsViewController new];
+    smvc.delegate = self;
+    smvc.selectedCellRow = selectedCellRow;
     smvc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentViewController:smvc animated:YES completion:NULL];
     smvc = nil;
@@ -477,6 +503,14 @@
 	CFRelease(bmContext);
     
 	return rotatedImage;
+}
+
+
+// delegate method
+-(void)setHighlightedCellRow:(int)n {
+    selectedCellRow = n;
+    [self.tableview selectRowAtIndexPath:[NSIndexPath indexPathForRow:selectedCellRow inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+    [self.tableview reloadRowsAtIndexPaths:[self.tableview indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 

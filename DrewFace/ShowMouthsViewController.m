@@ -16,6 +16,8 @@
 
 @implementation ShowMouthsViewController
 
+@synthesize delegate;
+
 @synthesize tableview;
 @synthesize navbar;
 @synthesize backButton;
@@ -119,6 +121,9 @@
         [activity stopAnimating];
         backButton.enabled = YES;
         toggleListButton.enabled = YES;
+        if (self.selectedCellRow>=0) {
+            [self.tableview selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedCellRow inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+        }
     });
     
 }
@@ -187,7 +192,7 @@
     
     if (fileInfos.count == 0) {
         cell.imageView.image = nil;
-        cell.textLabel.text = @"No Teeth Images To Display";
+        cell.textLabel.text = @"No Images To Display";
         cell.detailTextLabel.text = nil;
     } else {
         NSDictionary *fileInfo = [fileInfos objectAtIndex:indexPath.row];
@@ -202,6 +207,34 @@
     return cell;
 }
 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (fileInfos.count==0) {
+        return;
+    }
+    
+    self.selectedCellRow = indexPath.row;
+    [tableView reloadRowsAtIndexPaths:[tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
+    [self.delegate setHighlightedCellRow:self.selectedCellRow];
+    
+}
+
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (fileInfos.count == 0) {
+        return;
+    }
+    
+    // show highlight for selected cell
+    if (indexPath.row == self.selectedCellRow) {
+        cell.backgroundColor = [UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:0.2];
+    } else {
+        cell.backgroundColor = [UIColor clearColor];
+    }
+    
+}
 
 
 

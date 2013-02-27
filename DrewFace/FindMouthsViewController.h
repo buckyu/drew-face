@@ -14,7 +14,7 @@
 #import "ShowMouthsViewController.h"
 
 
-@interface FindMouthsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, OpenCvClassDelegate> {
+@interface FindMouthsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, OpenCvClassDelegate, ShowMouthsViewControllerClassDelegate> {
     
     UIProgressView *progress;
     UIActivityIndicatorView *activity;
@@ -29,13 +29,18 @@
     NSMutableArray *fileInfos;
     CGRect faceRectInScaledOrigImage;
     
+    int selectedCellRow;
+    
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *launchMouthsButton;
 
 -(void)setFaceRect:(CGRect)facerectArea;
--(IBAction)launchMouthsBottonPressed;
+-(IBAction)launchMouthsButtonPressed;
+
+// delegate method
+-(void)setHighlightedCellRow:(int)n;
 
 
 @end
