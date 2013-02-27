@@ -48,7 +48,7 @@
     // Load XML
     NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default" ofType:@"xml"];
     rect myRect;
-    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect);
+    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect, "Face");
     return myRect;
 }
 
@@ -57,7 +57,7 @@
     // Load XML
     NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_mcs_mouth" ofType:@"xml"];
     rect myRect;
-    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect);
+    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect, "Mouth");
     return myRect;
 }
 

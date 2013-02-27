@@ -167,6 +167,11 @@
             continue;
         }
         
+        if ((mouthRectInBottomHalfOfFace.size.width == 0) || (mouthRectInBottomHalfOfFace.size.height == 0)) {
+            NSLog(@"NO MOUTH in %@",fileName);
+            continue;
+        }
+        
         // extract mouth from greyscale face
         CGImageRef cutMouthRef = CGImageCreateWithImageInRect(bottomhalffaceImage.CGImage, CGRectMake(mouthRectInBottomHalfOfFace.origin.x, mouthRectInBottomHalfOfFace.origin.y, mouthRectInBottomHalfOfFace.size.width, mouthRectInBottomHalfOfFace.size.height));
         UIImage *mouthImage = [UIImage imageWithCGImage:cutMouthRef];
@@ -187,7 +192,7 @@
         if ((faceRectInScaledOrigImage.size.width > 0) && (faceRectInScaledOrigImage.size.height > 0)) {
             processedMouthImage = [ocv edgeMeanShiftDetectReturnEdges:mouthImage];
             if (!((processedMouthImage.size.width>0) && (processedMouthImage.size.height>0))) {
-                NSLog(@"NO MOUTH in %@",fileName);
+                NSLog(@"NO TEETH in %@",fileName);
                 continue;
             }
         }
