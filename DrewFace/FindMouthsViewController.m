@@ -47,6 +47,18 @@
         if (![manager fileExistsAtPath:extractedMouthsEdgesDir]) {
             [manager createDirectoryAtPath:extractedMouthsEdgesDir withIntermediateDirectories:YES attributes:nil error:NULL];
         }
+        
+        NoFaceDir = [docsDir stringByAppendingPathComponent:@"NO_FACE_FOUND"];
+        [manager removeItemAtPath:NoFaceDir error:NULL];
+        if (![manager fileExistsAtPath:NoFaceDir]) {
+            [manager createDirectoryAtPath:NoFaceDir withIntermediateDirectories:YES attributes:nil error:NULL];
+        }
+        
+        NoMouthDir = [docsDir stringByAppendingPathComponent:@"NO_MOUTH_FOUND"];
+        [manager removeItemAtPath:NoMouthDir error:NULL];
+        if (![manager fileExistsAtPath:NoMouthDir]) {
+            [manager createDirectoryAtPath:NoMouthDir withIntermediateDirectories:YES attributes:nil error:NULL];
+        }
     
     }
     return self;
@@ -167,11 +179,13 @@
             mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage fromFile:fileName];
         } else {
             NSLog(@"NO FACE in %@",fileName);
+            [manager copyItemAtPath:fileNamePath toPath:[NoFaceDir stringByAppendingPathComponent:fileName] error:nil];
             continue;
         }
         
         if ((mouthRectInBottomHalfOfFace.size.width == 0) || (mouthRectInBottomHalfOfFace.size.height == 0)) {
             NSLog(@"NO MOUTH in %@",fileName);
+            [manager copyItemAtPath:fileNamePath toPath:[NoMouthDir stringByAppendingPathComponent:fileName] error:nil];
             continue;
         }
         
