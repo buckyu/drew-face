@@ -87,6 +87,10 @@
         // Process originals for thumbs here
         NSString *fileNamePath = [originalDir stringByAppendingPathComponent:fileName];
         UIImage *origImage = [UIImage imageWithContentsOfFile:fileNamePath];
+        if (!origImage) {
+            NSLog(@"NOT A VALID IMAGE: %@",fileName);
+            continue;
+        }
         CGFloat thumbScaleFactor = 1.0;
         if (origImage.size.height > TABLEVIEW_CELL_HEIGHT) {
             thumbScaleFactor = TABLEVIEW_CELL_HEIGHT / origImage.size.height;
