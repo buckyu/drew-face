@@ -41,6 +41,7 @@
 
 // delegate method
 -(void)setHighlightedCellRow:(int)n;
+-(void)centerOnSelectedCell;
 
 
 @end

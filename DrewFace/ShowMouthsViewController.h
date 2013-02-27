@@ -9,6 +9,7 @@
 
 @protocol ShowMouthsViewControllerClassDelegate
 -(void)setHighlightedCellRow:(int)n;
+-(void)centerOnSelectedCell;
 @end
 
 

@@ -131,6 +131,7 @@
 
 
 -(IBAction)backButtonPressed {
+    [self.delegate centerOnSelectedCell];
     [self.presentingViewController dismissModalViewControllerAnimated:YES];
 }
 
