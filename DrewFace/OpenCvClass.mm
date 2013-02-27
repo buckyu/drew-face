@@ -15,7 +15,7 @@
 
 
 
--(UIImage *)processUIImageForFace:(UIImage *)img {
+-(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(NSString *)fn {
     
     cv::Mat myCvMat = [self cvMatFromUIImage:img];
     cv::Mat greyMat;
@@ -23,7 +23,7 @@
     
     // face detection
     IplImage myImage = myCvMat;
-    rect faceDetectedInRect = [self opencvFaceDetect:&myImage];
+    rect faceDetectedInRect = [self opencvFaceDetect:&myImage fromFile:fn];
     [self.delegate setFaceRect:[self rectToCGRect:faceDetectedInRect]];
         
     return [self UIImageFromCVMat:greyMat];
@@ -31,33 +31,33 @@
 }
 
 
--(CGRect)processUIImageForMouth:(UIImage *)greyimg {
+-(CGRect)processUIImageForMouth:(UIImage *)greyimg fromFile:(NSString *)fn {
     
     cv::Mat mygreyCvMat = [self cvGreyMatFromUIImage:greyimg];
     
     // mouth detection
     IplImage myImage = mygreyCvMat;
-    rect mouthDetectedInRect = [self opencvMouthDetect:&myImage];
+    rect mouthDetectedInRect = [self opencvMouthDetect:&myImage fromFile:fn];
     
     return [self rectToCGRect:mouthDetectedInRect];
 }
 
 
 
-- (rect) opencvFaceDetect:(IplImage *)myImage  {    
+- (rect) opencvFaceDetect:(IplImage *)myImage fromFile:(NSString *)fn  {
     // Load XML
     NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default" ofType:@"xml"];
     rect myRect;
-    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect, "Face");
+    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect, "Face", [fn UTF8String]);
     return myRect;
 }
 
 
-- (rect) opencvMouthDetect:(IplImage *)myImage  {
+- (rect) opencvMouthDetect:(IplImage *)myImage fromFile:(NSString *)fn  {
     // Load XML
     NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_mcs_mouth" ofType:@"xml"];
     rect myRect;
-    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect, "Mouth");
+    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect, "Mouth", [fn UTF8String]);
     return myRect;
 }
 

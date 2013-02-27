@@ -91,7 +91,7 @@
             NSLog(@"NOT A VALID IMAGE: %@",fileName);
             continue;
         } else {
-            NSLog(@"%@ - Processing...",fileName);
+            //NSLog(@"%@ - Processing...",fileName);
         }
         CGFloat thumbScaleFactor = 1.0;
         if (origImage.size.height > TABLEVIEW_CELL_HEIGHT) {
@@ -147,7 +147,7 @@
         OpenCvClass *ocv = [OpenCvClass new];
         ocv.delegate = self;
         // testimage converted to greyscale and faceRectInScaledOrigImage is set by delegate method call
-        testimage = [ocv processUIImageForFace:scaledImage];
+        testimage = [ocv processUIImageForFace:scaledImage fromFile:fileName];
         
         
         // extract bottom half of face from grey image
@@ -161,7 +161,7 @@
         CGRect mouthRectInBottomHalfOfFace = CGRectMake(0,0,0,0);
         if ((faceRectInScaledOrigImage.size.width > 0) && (faceRectInScaledOrigImage.size.height > 0)) {
             // OpenCV Processing Called Here - search for mouth in bottom half of greyscale face
-            mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage];
+            mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage fromFile:fileName];
         } else {
             NSLog(@"NO FACE in %@",fileName);
             continue;

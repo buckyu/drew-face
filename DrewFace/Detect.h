@@ -22,5 +22,5 @@ typedef struct {
  @param xml_filename_utf8 The absolute path to haarcascade_*.xml encoded into UTF8.
  @param result a pointer to a rect (an out parameter).
  */
-void Detect(IplImage *myImage, const char *xml_filename_utf8, rect *result, const char *targetType);
+void Detect(IplImage *myImage, const char *xml_filename_utf8, rect *result, const char *targetType, const char *fn);
 #endif

@@ -11,7 +11,7 @@
 
 
 
-void Detect(IplImage *myImage, const char *xml_filename_utf8, rect *result, const char *targetType) {
+void Detect(IplImage *myImage, const char *xml_filename_utf8, rect *result, const char *targetType, const char *fn) {
     int w = myImage->width;
     int h = myImage->height;
     CvHaarClassifierCascade *cascade = (CvHaarClassifierCascade *)cvLoad(xml_filename_utf8, NULL, NULL, NULL);
@@ -36,7 +36,7 @@ void Detect(IplImage *myImage, const char *xml_filename_utf8, rect *result, cons
     }
     
     if (detections->total > 1) {
-        printf("Warning, multiple %ss detected - %d\n",targetType,detections->total);
+        printf("Warning, multiple %ss detected - %d - %s\n",targetType,detections->total,fn);
     }
     
     cvReleaseHaarClassifierCascade(&cascade);

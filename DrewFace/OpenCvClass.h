@@ -27,8 +27,8 @@
 
 @property (weak) id <OpenCvClassDelegate> delegate;
 
--(UIImage *)processUIImageForFace:(UIImage *)img;
--(CGRect)processUIImageForMouth:(UIImage *)img;
+-(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(NSString *)fn;
+-(CGRect)processUIImageForMouth:(UIImage *)img fromFile:(NSString *)fn;
 
 -(UIImage *)edgeDetectReturnOverlay:(UIImage *)img;
 -(UIImage *)edgeDetectReturnEdges:(UIImage *)img;

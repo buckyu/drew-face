@@ -97,7 +97,7 @@
     // OpenCV Processing Called Here for Face Detect
     ocv = [OpenCvClass new];
     ocv.delegate = self;
-    testimage = [ocv processUIImageForFace:testimage];
+    testimage = [ocv processUIImageForFace:testimage fromFile:testFileName];
     
     // replace image in UIImageView with greyscale image from OpenCV
     iv.image = testimage;
@@ -181,7 +181,7 @@
 
     // OpenCV Processing Called Here - search for mouth in bottom half of face
 
-    CGRect mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage];
+    CGRect mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage fromFile:testFileName];
     
     UIView *blackOutMouthView = [UIView new];
     blackOutMouthView.frame = CGRectMake(mouthRectInBottomHalfOfFace.origin.x*scaleDownfactor, mouthRectInBottomHalfOfFace.origin.y*scaleDownfactor, mouthRectInBottomHalfOfFace.size.width*scaleDownfactor, mouthRectInBottomHalfOfFace.size.height*scaleDownfactor);
