@@ -151,7 +151,7 @@
         
         
         // extract bottom half of face from grey image
-        CGImageRef cutBottomHalfFaceRef = CGImageCreateWithImageInRect(testimage.CGImage, CGRectMake(faceRectInScaledOrigImage.origin.x, faceRectInScaledOrigImage.origin.y+0.6*faceRectInScaledOrigImage.size.height, faceRectInScaledOrigImage.size.width, 0.4*faceRectInScaledOrigImage.size.height));
+        CGImageRef cutBottomHalfFaceRef = CGImageCreateWithImageInRect(testimage.CGImage, CGRectMake(faceRectInScaledOrigImage.origin.x, faceRectInScaledOrigImage.origin.y+0.66*faceRectInScaledOrigImage.size.height, faceRectInScaledOrigImage.size.width, 0.34*faceRectInScaledOrigImage.size.height));
         
         
         // locate mouth in bottom half of greyscale face image
@@ -401,7 +401,7 @@
     
     UIView *blackRectangle = [cell.imageView viewWithTag:BLACK_RECT_TAG];
     CGFloat MouthX = FaceX + (thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"mouthdetectX"] floatValue] / facedetectScaleFactor);
-    CGFloat MouthY = FaceY + (thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"mouthdetectY"] floatValue] / facedetectScaleFactor) + (thumbScaleFactor * 0.6 *[(NSNumber *)[fileInfo objectForKey:@"facedetectH"] floatValue] / facedetectScaleFactor);
+    CGFloat MouthY = FaceY + (thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"mouthdetectY"] floatValue] / facedetectScaleFactor) + (thumbScaleFactor * 0.66 *[(NSNumber *)[fileInfo objectForKey:@"facedetectH"] floatValue] / facedetectScaleFactor);
     CGFloat MouthW = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"mouthdetectW"] floatValue] / facedetectScaleFactor;
     CGFloat MouthH = thumbScaleFactor * [(NSNumber *)[fileInfo objectForKey:@"mouthdetectH"] floatValue] / facedetectScaleFactor;
     blackRectangle.frame = CGRectMake(MouthX, MouthY, MouthW, MouthH);
