@@ -555,7 +555,7 @@
 
 
 #define MODELMOUTH_START_INDEX 001
-#define MODELMOUTH_END_INDEX 006
+#define MODELMOUTH_END_INDEX 007
 
 -(void)processUIImageForMouth:(UIImage *)bottomhalffaceImage returnRect:(CGRect *)mouthRectInBottomHalfOfFace closestMouthMatch:(int *)idx fileName:(NSString *)fn {
     
@@ -613,11 +613,11 @@
         colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
         bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
 
-    
         
         
         for (int x=0; x<(bottomhalffaceImagew-teethw); x++) {
             for (int y=0; y<(bottomhalffaceImageh-teethh); y++) {
+                
                 int pixelCount = 0;
                 int sumOfSAD = 0;
 
@@ -626,7 +626,7 @@
                     for (int yy=0; yy<teethh; yy++) {
                         if (*(teethImageBuffer+yy*teethw+xx)>0) {
                             pixelCount++;
-                            sumOfSAD += abs(*(teethImageBuffer+yy*teethw+xx)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew + x + yy*teethw + xx));
+                            sumOfSAD += abs(*(teethImageBuffer+yy*teethw+xx)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew + x + yy*bottomhalffaceImagew + xx));
                         }
                     }
                 }
@@ -636,10 +636,10 @@
                 if (avgSAD < minAvgSAD) {
                     minAvgSAD = avgSAD;
                     minAvgSADn = N;
-                    minAvgSADx = x;
-                    minAvgSADy = y;
-                    minAvgSADw = teethw;
-                    minAvgSADh = teethh;
+                    minAvgSADx = (float)x;
+                    minAvgSADy = (float)y;
+                    minAvgSADw = (float)teethw;
+                    minAvgSADh = (float)teethh;
                 }
 
                 
