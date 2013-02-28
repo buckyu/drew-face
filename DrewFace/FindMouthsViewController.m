@@ -583,9 +583,11 @@
     
     
     float minAvgSAD = 256.0;
-    
-    int pixelCount = 0;
-    int sumOfSAD = 0;
+    int minAvgSADn = -1;
+    CGFloat minAvgSADx = 0.0;
+    CGFloat minAvgSADy = 0.0;
+    CGFloat minAvgSADw = 0.0;
+    CGFloat minAvgSADh = 0.0;
     
     
     
@@ -611,35 +613,53 @@
         colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
         bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
 
+    
+        
+        
+        for (int x=0; x<(bottomhalffaceImagew-teethw); x++) {
+            for (int y=0; y<(bottomhalffaceImageh-teethh); y++) {
+                int pixelCount = 0;
+                int sumOfSAD = 0;
+
                 
-       
-    
+                for (int xx=0; xx<teethw; xx++) {
+                    for (int yy=0; yy<teethh; yy++) {
+                        if (*(teethImageBuffer+yy*teethw+xx)>0) {
+                            pixelCount++;
+                            sumOfSAD += abs(*(teethImageBuffer+yy*teethw+xx)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew + x + yy*teethw + xx));
+                        }
+                    }
+                }
+                
+                
+                float avgSAD = (float)sumOfSAD / (float)pixelCount;
+                if (avgSAD < minAvgSAD) {
+                    minAvgSAD = avgSAD;
+                    minAvgSADn = N;
+                    minAvgSADx = x;
+                    minAvgSADy = y;
+                    minAvgSADw = teethw;
+                    minAvgSADh = teethh;
+                }
+
+                
+            }
+        }
         
         
         
         
         
-        
-    
         free(teethImageBuffer);
     }
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    // return values:
+    *idx = minAvgSADn;
+    *mouthRectInBottomHalfOfFace = CGRectMake(minAvgSADx, minAvgSADy, minAvgSADw, minAvgSADh);
+    NSLog(@"%@ %d %f",fn,minAvgSADn,minAvgSAD);
     free(bottomhalffaceImageBuffer);
-
-    
-    
-    
     
 }
 
