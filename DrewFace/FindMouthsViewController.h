@@ -28,6 +28,9 @@
     
     NSString *NoFaceDir;
     NSString *NoMouthDir;
+    
+    NSString *testDir;
+    NSString *modelMouthDir;
 
     NSMutableArray *fileInfos;
     CGRect faceRectInScaledOrigImage;
@@ -45,6 +48,8 @@
 // delegate method
 -(void)setHighlightedCellRow:(int)n;
 -(void)centerOnSelectedCell;
+
+-(void)processUIImageForMouth:(UIImage *)bottomhalffaceImage returnRect:(CGRect *)mouthRectInBottomHalfOfFace closestMouthMatch:(int *)idx fileName:(NSString *)fn;
 
 
 @end

@@ -36,4 +36,7 @@
 
 -(BOOL)Search2DImage:(UIImage *)objectImage inside:(UIImage *)sceneImage;
 
+// do not know why but CGImageCreateWithImageInRect() can not be pixel mapped??
+-(UIImage *)greyTheImage:(UIImage *)origimg;
+
 @end

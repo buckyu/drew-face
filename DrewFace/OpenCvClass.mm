@@ -14,6 +14,13 @@
 @synthesize delegate;
 
 
+// do not know why but CGImageCreateWithImageInRect() can not be pixel mapped?? 
+-(UIImage *)greyTheImage:(UIImage *)origimg {
+    cv::Mat greyMat = [self cvGreyMatFromUIImage:origimg];
+   return [self UIImageFromCVMat:greyMat];
+}
+
+
 
 -(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(NSString *)fn {
     

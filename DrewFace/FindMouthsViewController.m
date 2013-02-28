@@ -59,6 +59,14 @@
         if (![manager fileExistsAtPath:NoMouthDir]) {
             [manager createDirectoryAtPath:NoMouthDir withIntermediateDirectories:YES attributes:nil error:NULL];
         }
+        
+        testDir = [docsDir stringByAppendingPathComponent:@"TEST_DIR"];
+        [manager removeItemAtPath:testDir error:NULL];
+        if (![manager fileExistsAtPath:testDir]) {
+            [manager createDirectoryAtPath:testDir withIntermediateDirectories:YES attributes:nil error:NULL];
+        }
+        
+        modelMouthDir = [docsDir stringByAppendingPathComponent:@"MODEL_MOUTHS"];
     
     }
     return self;
@@ -96,6 +104,10 @@
     
     
     for (int i=0; i < fileList.count; i++) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            progress.progress = (float)(i+1)/(float)fileList.count;
+        });
         
         NSString *fileName = [fileList objectAtIndex:i];
         
@@ -161,27 +173,37 @@
         // OpenCV Processing Called Here for Face Detect
         OpenCvClass *ocv = [OpenCvClass new];
         ocv.delegate = self;
+        
+        
         // testimage converted to greyscale and faceRectInScaledOrigImage is set by delegate method call
         testimage = [ocv processUIImageForFace:scaledImage fromFile:fileName];
-        
-        
-        // extract bottom half of face from grey image
-        CGImageRef cutBottomHalfFaceRef = CGImageCreateWithImageInRect(testimage.CGImage, CGRectMake(faceRectInScaledOrigImage.origin.x, faceRectInScaledOrigImage.origin.y+0.66*faceRectInScaledOrigImage.size.height, faceRectInScaledOrigImage.size.width, 0.34*faceRectInScaledOrigImage.size.height));
-        
-        
-        // locate mouth in bottom half of greyscale face image
-        UIImage *bottomhalffaceImage = [UIImage imageWithCGImage:cutBottomHalfFaceRef];
-        CGImageRelease(cutBottomHalfFaceRef);
-        
-        CGRect mouthRectInBottomHalfOfFace = CGRectMake(0,0,0,0);
-        if ((faceRectInScaledOrigImage.size.width > 0) && (faceRectInScaledOrigImage.size.height > 0)) {
-            // OpenCV Processing Called Here - search for mouth in bottom half of greyscale face
-            mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage fromFile:fileName];
-        } else {
+        if ((faceRectInScaledOrigImage.size.width == 0) || (faceRectInScaledOrigImage.size.height == 0)) {
             NSLog(@"NO FACE in %@",fileName);
             [manager copyItemAtPath:fileNamePath toPath:[NoFaceDir stringByAppendingPathComponent:fileName] error:nil];
             continue;
         }
+        
+        
+        // extract bottom half of face from grey image
+        CGImageRef cutBottomHalfFaceRef = CGImageCreateWithImageInRect(testimage.CGImage, CGRectMake((int)(faceRectInScaledOrigImage.origin.x), (int)(faceRectInScaledOrigImage.origin.y+0.66*faceRectInScaledOrigImage.size.height), (int)(faceRectInScaledOrigImage.size.width), (int)(0.34*faceRectInScaledOrigImage.size.height)));
+        
+        
+        // locate mouth in bottom half of greyscale face image
+        UIImage *bottomhalffaceImage = [UIImage imageWithCGImage:cutBottomHalfFaceRef];
+        // do not know why but CGImageCreateWithImageInRect() can not be pixel mapped??
+        bottomhalffaceImage = [ocv greyTheImage:bottomhalffaceImage];
+
+        
+        int mouthIdx = -1;
+        CGRect mouthRectInBottomHalfOfFace = CGRectMake(0,0,0,0);
+        
+        
+        // OpenCV Processing Called Here - search for mouth in bottom half of greyscale face
+        //mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage fromFile:fileName];
+        // BruteForce Processing Called Here - search for mouth in bottom half of greyscale face
+        // using MODELMOUTHxxx.png files in /MODEL_MOUTHS/
+        [self processUIImageForMouth:bottomhalffaceImage returnRect:&mouthRectInBottomHalfOfFace closestMouthMatch:&mouthIdx fileName:fileName];
+            
         
         if ((mouthRectInBottomHalfOfFace.size.width == 0) || (mouthRectInBottomHalfOfFace.size.height == 0)) {
             NSLog(@"NO MOUTH in %@",fileName);
@@ -302,10 +324,6 @@
                                          nil];
         [fileInfos addObject:fileInfo];
         
-    
-        dispatch_async(dispatch_get_main_queue(), ^{
-            progress.progress = (float)(i+1)/(float)fileList.count;
-        });
         
     }
         
@@ -533,6 +551,98 @@
         [self.tableview reloadRowsAtIndexPaths:[self.tableview indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
+
+
+
+#define MODELMOUTH_START_INDEX 001
+#define MODELMOUTH_END_INDEX 006
+
+-(void)processUIImageForMouth:(UIImage *)bottomhalffaceImage returnRect:(CGRect *)mouthRectInBottomHalfOfFace closestMouthMatch:(int *)idx fileName:(NSString *)fn {
+    
+    // bottomhalffaceImageBuffer is a bottomhalffaceImageBufferw by bottomhalffaceImageBufferh 2D GreyScale Buffer to search
+    CGDataProviderRef myDataProvider = CGImageGetDataProvider(bottomhalffaceImage.CGImage);
+    CFDataRef pixelData = CGDataProviderCopyData(myDataProvider);
+    const uint8_t *testimagedata = CFDataGetBytePtr(pixelData);
+    int bottomhalffaceImagew = (int)bottomhalffaceImage.size.width;
+    int bottomhalffaceImageh = (int)bottomhalffaceImage.size.height;
+    uint8_t *bottomhalffaceImageBuffer = (uint8_t *)malloc(bottomhalffaceImagew*bottomhalffaceImageh*1);
+    memcpy(bottomhalffaceImageBuffer,testimagedata,bottomhalffaceImagew*bottomhalffaceImageh*1);
+    CFRelease(pixelData);
+    CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(bottomhalffaceImage.CGImage);
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(bottomhalffaceImage.CGImage);
+    CGContextRef newContextRef = CGBitmapContextCreate(bottomhalffaceImageBuffer, bottomhalffaceImagew, bottomhalffaceImageh, 8, bottomhalffaceImagew*1,colorspaceRef, bitmapInfo);
+    CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
+    UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
+    NSData *dataToWrite = UIImagePNGRepresentation(modifiedImage);
+    NSString *thumbPath = [testDir stringByAppendingPathComponent:fn];
+    thumbPath = [[thumbPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
+    [dataToWrite writeToFile:thumbPath atomically:YES];
+    CGImageRelease(newImageRef);
+    CGContextRelease(newContextRef);
+    
+    
+    
+    float minAvgSAD = 256.0;
+    
+    int pixelCount = 0;
+    int sumOfSAD = 0;
+    
+    
+    
+    for (int N = MODELMOUTH_START_INDEX; N <= MODELMOUTH_END_INDEX; N++) {
+        
+        
+        NSString *mouthFileName = [NSString stringWithFormat:@"modelmouth%03d.png",N];
+        NSString *mouthFileNamePath = [modelMouthDir stringByAppendingPathComponent:mouthFileName];
+        UIImage *mouthImage = [UIImage imageWithContentsOfFile:mouthFileNamePath];
+        if (!mouthImage) {
+            NSLog(@"File %@ does not exist",mouthFileName);
+            continue;
+        }
+    
+        myDataProvider = CGImageGetDataProvider(mouthImage.CGImage);
+        pixelData = CGDataProviderCopyData(myDataProvider);
+        testimagedata = CFDataGetBytePtr(pixelData);
+        int teethw = (int)mouthImage.size.width;
+        int teethh = (int)mouthImage.size.height;
+        uint8_t *teethImageBuffer = (uint8_t *)malloc(teethw*teethh*1);
+        memcpy(teethImageBuffer,testimagedata,teethw*teethh*1);
+        CFRelease(pixelData);
+        colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
+        bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
+
+                
+       
+    
+        
+        
+        
+        
+        
+        
+    
+        free(teethImageBuffer);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    free(bottomhalffaceImageBuffer);
+
+    
+    
+    
+    
+}
+
 
 
 
