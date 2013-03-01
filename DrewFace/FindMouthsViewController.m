@@ -555,12 +555,19 @@
 
 
 #define MODELMOUTH_START_INDEX 1
-#define MODELMOUTH_END_INDEX 5
+#define MODELMOUTH_END_INDEX 10
 
 -(void)processUIImageForMouth:(UIImage *)bottomhalffaceImage returnRect:(CGRect *)mouthRectInBottomHalfOfFace closestMouthMatch:(int *)idx fileName:(NSString *)fn {
     
-    OpenCvClass *ocv = [OpenCvClass new];
-    bottomhalffaceImage = [ocv colorTheImage:bottomhalffaceImage];
+//    OpenCvClass *ocv = [OpenCvClass new];
+//    bottomhalffaceImage = [ocv colorTheImage:bottomhalffaceImage];
+    NSData *dataToWrite1 = UIImagePNGRepresentation(bottomhalffaceImage);
+    NSString *thumbPath2 = [testDir stringByAppendingPathComponent:@"temp"];
+    thumbPath2 = [[thumbPath2 stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
+    [dataToWrite1 writeToFile:thumbPath2 atomically:YES];
+    bottomhalffaceImage = [UIImage imageWithContentsOfFile:thumbPath2];
+
+    
     
     // bottomhalffaceImageBuffer is a bottomhalffaceImageBufferw by bottomhalffaceImageBufferh 2D GreyScale Buffer to search
     CGDataProviderRef myDataProvider = CGImageGetDataProvider(bottomhalffaceImage.CGImage);
