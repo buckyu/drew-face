@@ -20,6 +20,17 @@
    return [self UIImageFromCVMat:greyMat];
 }
 
+-(UIImage *)BGR2BGRATheImage:(UIImage *)origimg {
+    cv::Mat myMat = [self cvMatFromUIImage:origimg];
+    cv::cvtColor(myMat, myMat, CV_BGR2BGRA);
+    return [self UIImageFromCVMat:myMat];
+}
+
+-(UIImage *)colorTheImage:(UIImage *)origimg {
+    cv::Mat myMat = [self cvMatFromUIImage:origimg];
+    return [self UIImageFromCVMat:myMat];
+}
+
 
 
 -(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(NSString *)fn {

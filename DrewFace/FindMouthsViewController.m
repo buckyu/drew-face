@@ -191,18 +191,18 @@
         // locate mouth in bottom half of greyscale face image
         UIImage *bottomhalffaceImage = [UIImage imageWithCGImage:cutBottomHalfFaceRef];
         // do not know why but CGImageCreateWithImageInRect() can not be pixel mapped??
-        //bottomhalffaceImage = [ocv greyTheImage:bottomhalffaceImage];
+        // bottomhalffaceImage = [ocv greyTheImage:bottomhalffaceImage];
 
         
-        //int mouthIdx = -1;
+        int mouthIdx = -1;
         CGRect mouthRectInBottomHalfOfFace = CGRectMake(0,0,0,0);
         
         
         // OpenCV Processing Called Here - search for mouth in bottom half of greyscale face
-        mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage fromFile:fileName];
+        //mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage fromFile:fileName];
         // BruteForce Processing Called Here - search for mouth in bottom half of greyscale face
         // using MODELMOUTHxxx.png files in /MODEL_MOUTHS/
-        //[self processUIImageForMouth:bottomhalffaceImage returnRect:&mouthRectInBottomHalfOfFace closestMouthMatch:&mouthIdx fileName:fileName];
+        [self processUIImageForMouth:bottomhalffaceImage returnRect:&mouthRectInBottomHalfOfFace closestMouthMatch:&mouthIdx fileName:fileName];
             
         
         if ((mouthRectInBottomHalfOfFace.size.width == 0) || (mouthRectInBottomHalfOfFace.size.height == 0)) {
@@ -554,10 +554,13 @@
 
 
 
-#define MODELMOUTH_START_INDEX 6
-#define MODELMOUTH_END_INDEX 8
+#define MODELMOUTH_START_INDEX 1
+#define MODELMOUTH_END_INDEX 5
 
 -(void)processUIImageForMouth:(UIImage *)bottomhalffaceImage returnRect:(CGRect *)mouthRectInBottomHalfOfFace closestMouthMatch:(int *)idx fileName:(NSString *)fn {
+    
+    OpenCvClass *ocv = [OpenCvClass new];
+    bottomhalffaceImage = [ocv colorTheImage:bottomhalffaceImage];
     
     // bottomhalffaceImageBuffer is a bottomhalffaceImageBufferw by bottomhalffaceImageBufferh 2D GreyScale Buffer to search
     CGDataProviderRef myDataProvider = CGImageGetDataProvider(bottomhalffaceImage.CGImage);
@@ -565,24 +568,54 @@
     const uint8_t *testimagedata = CFDataGetBytePtr(pixelData);
     int bottomhalffaceImagew = (int)bottomhalffaceImage.size.width;
     int bottomhalffaceImageh = (int)bottomhalffaceImage.size.height;
-    uint8_t *bottomhalffaceImageBuffer = (uint8_t *)malloc(bottomhalffaceImagew*bottomhalffaceImageh*1);
-    memcpy(bottomhalffaceImageBuffer,testimagedata,bottomhalffaceImagew*bottomhalffaceImageh*1);
-    CFRelease(pixelData);
+    uint8_t *bottomhalffaceImageBuffer = (uint8_t *)malloc(bottomhalffaceImagew*bottomhalffaceImageh*4);
+    memcpy(bottomhalffaceImageBuffer,testimagedata,bottomhalffaceImagew*bottomhalffaceImageh*4);
+    
+    
+    // show image on iPhone view
+    
     CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(bottomhalffaceImage.CGImage);
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(bottomhalffaceImage.CGImage);
-    CGContextRef newContextRef = CGBitmapContextCreate(bottomhalffaceImageBuffer, bottomhalffaceImagew, bottomhalffaceImageh, 8, bottomhalffaceImagew*1,colorspaceRef, bitmapInfo);
+    
+    CGContextRef newContextRef = CGBitmapContextCreate(bottomhalffaceImageBuffer, bottomhalffaceImagew, bottomhalffaceImageh, 8, bottomhalffaceImagew*4,colorspaceRef, bitmapInfo);
+    
     CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
+    
+    // show MODIFIED  image on iPhone screen
     UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
+    
+    CGImageRelease(newImageRef);
+    CGContextRelease(newContextRef);
+
+    
+    
+    
+    
+    CFRelease(pixelData);
+    
+    
+    
     NSData *dataToWrite = UIImagePNGRepresentation(modifiedImage);
     NSString *thumbPath = [testDir stringByAppendingPathComponent:fn];
     thumbPath = [[thumbPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
     [dataToWrite writeToFile:thumbPath atomically:YES];
-    CGImageRelease(newImageRef);
-    CGContextRelease(newContextRef);
+    
+    
+//    CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(bottomhalffaceImage.CGImage);
+//    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(bottomhalffaceImage.CGImage);
+//    CGContextRef newContextRef = CGBitmapContextCreate(bottomhalffaceImageBuffer, bottomhalffaceImagew, bottomhalffaceImageh, 8, bottomhalffaceImagew*1,colorspaceRef, bitmapInfo);
+//    CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
+//    UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
+//    NSData *dataToWrite = UIImagePNGRepresentation(modifiedImage);
+//    NSString *thumbPath = [testDir stringByAppendingPathComponent:fn];
+//    thumbPath = [[thumbPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
+//    [dataToWrite writeToFile:thumbPath atomically:YES];
+//    CGImageRelease(newImageRef);
+//    CGContextRelease(newContextRef);
     
     
     
-    float minAvgSAD = 256.0;
+    float minAvgSAD = 3*256.0;
     int minAvgSADn = -1;
     CGFloat minAvgSADx = 0.0;
     CGFloat minAvgSADy = 0.0;
@@ -607,11 +640,12 @@
         testimagedata = CFDataGetBytePtr(pixelData);
         int teethw = (int)mouthImage.size.width;
         int teethh = (int)mouthImage.size.height;
-        uint8_t *teethImageBuffer = (uint8_t *)malloc(teethw*teethh*1);
-        memcpy(teethImageBuffer,testimagedata,teethw*teethh*1);
+        uint8_t *teethImageBuffer = (uint8_t *)malloc(teethw*teethh*4);
+        memcpy(teethImageBuffer,testimagedata,teethw*teethh*4);
         CFRelease(pixelData);
-        colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
-        bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
+//        
+//        CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
+//        CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
 
         
         
@@ -620,25 +654,50 @@
                 
                 int pixelCount = 0;
                 int sumOfSAD = 0;
+                
+                int zeroPixelCount = 0;
 
                 
-                for (int xx=0; xx<teethw; xx++) {
-                    for (int yy=0; yy<teethh; yy++) {
-                        if (*(teethImageBuffer+yy*teethw+xx)>0) {
+                for (int yy=0; yy<teethh; yy++) {
+                    for (int xx=0; xx<teethw; xx++) {
+                        
+                        
+                        if ((*(teethImageBuffer+yy*teethw*4+xx*4+0) + *(teethImageBuffer+yy*teethw*4+xx*4+1) + *(teethImageBuffer+yy*teethw*4+xx*4+2) ) > 0 ) {
+                            
                             pixelCount++;
                             
                             // abs() Does not make a different, but added to be extra safe
-                            if (*(teethImageBuffer+yy*teethw+xx)  >=  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew + x + yy*bottomhalffaceImagew + xx)) {
-                            sumOfSAD += abs(*(teethImageBuffer+yy*teethw+xx)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew + x + yy*bottomhalffaceImagew + xx));
+                            
+                            if (*(teethImageBuffer+yy*teethw*4+xx*4+0)  >=  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 0)) {
+                            sumOfSAD += abs(*(teethImageBuffer+yy*teethw*4+xx*4+0)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 0));
                             } else {
-                                sumOfSAD += abs(*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew + x + yy*bottomhalffaceImagew + xx) - *(teethImageBuffer+yy*teethw+xx));
+                                sumOfSAD += abs(*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 0) - *(teethImageBuffer+yy*teethw*4+xx*4+0));
                             }
+                            
+                            if (*(teethImageBuffer+yy*teethw*4+xx*4+1)  >=  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 1)) {
+                                sumOfSAD += abs(*(teethImageBuffer+yy*teethw*4+xx*4+1)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 1));
+                            } else {
+                                sumOfSAD += abs(*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 1) - *(teethImageBuffer+yy*teethw*4+xx*4+1));
+                            }
+                            
+                            if (*(teethImageBuffer+yy*teethw*4+xx*4+2)  >=  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 2)) {
+                                sumOfSAD += abs(*(teethImageBuffer+yy*teethw*4+xx*4+2)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 2));
+                            } else {
+                                sumOfSAD += abs(*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 2) - *(teethImageBuffer+yy*teethw*4+xx*4+2));
+                            }
+                            
+                        
+                        
+                        } else {
+                            zeroPixelCount++;
                         }
                     }
                 }
-                
-                
-                float avgSAD = (float)sumOfSAD / (float)pixelCount;
+            
+            
+            
+            float avgSAD = (float)sumOfSAD / (float)pixelCount;
+            
                 if (avgSAD < minAvgSAD) {
                     minAvgSAD = avgSAD;
                     minAvgSADn = N;
@@ -646,7 +705,6 @@
                     minAvgSADy = (float)y;
                     minAvgSADw = (float)teethw;
                     minAvgSADh = (float)teethh;
-                    NSLog(@"%@ %f",fn,minAvgSAD);
                 }
 
                 
