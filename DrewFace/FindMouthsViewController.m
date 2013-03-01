@@ -626,7 +626,13 @@
                     for (int yy=0; yy<teethh; yy++) {
                         if (*(teethImageBuffer+yy*teethw+xx)>0) {
                             pixelCount++;
+                            
+                            // abs() Does not make a different, but added to be extra safe
+                            if (*(teethImageBuffer+yy*teethw+xx)  >=  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew + x + yy*bottomhalffaceImagew + xx)) {
                             sumOfSAD += abs(*(teethImageBuffer+yy*teethw+xx)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew + x + yy*bottomhalffaceImagew + xx));
+                            } else {
+                                sumOfSAD += abs(*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew + x + yy*bottomhalffaceImagew + xx) - *(teethImageBuffer+yy*teethw+xx));
+                            }
                         }
                     }
                 }
