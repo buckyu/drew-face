@@ -175,7 +175,7 @@
         ocv.delegate = self;
         
         
-        // testimage converted to greyscale and faceRectInScaledOrigImage is set by delegate method call
+        // testimage - faceRectInScaledOrigImage is set by delegate method call
         testimage = [ocv processUIImageForFace:scaledImage fromFile:fileName];
         if ((faceRectInScaledOrigImage.size.width == 0) || (faceRectInScaledOrigImage.size.height == 0)) {
             NSLog(@"NO FACE in %@",fileName);
@@ -184,25 +184,25 @@
         }
         
         
-        // extract bottom half of face from grey image
+        // extract bottom half of face from COLOR image
         CGImageRef cutBottomHalfFaceRef = CGImageCreateWithImageInRect(testimage.CGImage, CGRectMake((int)(faceRectInScaledOrigImage.origin.x), (int)(faceRectInScaledOrigImage.origin.y+0.66*faceRectInScaledOrigImage.size.height), (int)(faceRectInScaledOrigImage.size.width), (int)(0.34*faceRectInScaledOrigImage.size.height)));
         
         
         // locate mouth in bottom half of greyscale face image
         UIImage *bottomhalffaceImage = [UIImage imageWithCGImage:cutBottomHalfFaceRef];
         // do not know why but CGImageCreateWithImageInRect() can not be pixel mapped??
-        bottomhalffaceImage = [ocv greyTheImage:bottomhalffaceImage];
+        //bottomhalffaceImage = [ocv greyTheImage:bottomhalffaceImage];
 
         
-        int mouthIdx = -1;
+        //int mouthIdx = -1;
         CGRect mouthRectInBottomHalfOfFace = CGRectMake(0,0,0,0);
         
         
         // OpenCV Processing Called Here - search for mouth in bottom half of greyscale face
-        //mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage fromFile:fileName];
+        mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage fromFile:fileName];
         // BruteForce Processing Called Here - search for mouth in bottom half of greyscale face
         // using MODELMOUTHxxx.png files in /MODEL_MOUTHS/
-        [self processUIImageForMouth:bottomhalffaceImage returnRect:&mouthRectInBottomHalfOfFace closestMouthMatch:&mouthIdx fileName:fileName];
+        //[self processUIImageForMouth:bottomhalffaceImage returnRect:&mouthRectInBottomHalfOfFace closestMouthMatch:&mouthIdx fileName:fileName];
             
         
         if ((mouthRectInBottomHalfOfFace.size.width == 0) || (mouthRectInBottomHalfOfFace.size.height == 0)) {
@@ -241,8 +241,8 @@
         
         
         
-        // grey scale images here of mouth area
-        // look to see if teeth are brighter
+        // color images here of mouth area
+        
         CGDataProviderRef myDataProvider = CGImageGetDataProvider(processedMouthImage.CGImage);
         CFDataRef pixelData = CGDataProviderCopyData(myDataProvider);
         const uint8_t *testimagedata = CFDataGetBytePtr(pixelData);
@@ -256,13 +256,13 @@
         
         for (int i=0; i<h; i++) {
             for (int j=0; j<w; j++) {
-                
+        
                 int sum = 0;
                 sum += *(mutablebuffer + i*w*3 + j*3 + 0);
                 sum += *(mutablebuffer + i*w*3 + j*3 + 1);
                 sum += *(mutablebuffer + i*w*3 + j*3 + 2);
                 
-                if (sum > (3*80)) {
+                if (sum > (3*128)) {
                     memcpy((mutablebuffer4 + i*w*4 + j*4), (mutablebuffer + i*w*3 + j*3), 3);
                 } else {
                     bzero((mutablebuffer4 + i*w*4 + j*4), 3);
@@ -272,7 +272,7 @@
         }
         CFRelease(pixelData);
         
-        // show greyscale image on iPhone view
+        // show image on iPhone view
         
         CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(processedMouthImage.CGImage);
         CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(processedMouthImage.CGImage);
@@ -281,7 +281,7 @@
         
         CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
         
-        // show MODIFIED grayscale image on iPhone screen
+        // show MODIFIED  image on iPhone screen
         UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
 
         CGImageRelease(newImageRef);
@@ -554,8 +554,8 @@
 
 
 
-#define MODELMOUTH_START_INDEX 001
-#define MODELMOUTH_END_INDEX 007
+#define MODELMOUTH_START_INDEX 6
+#define MODELMOUTH_END_INDEX 8
 
 -(void)processUIImageForMouth:(UIImage *)bottomhalffaceImage returnRect:(CGRect *)mouthRectInBottomHalfOfFace closestMouthMatch:(int *)idx fileName:(NSString *)fn {
     
@@ -646,6 +646,7 @@
                     minAvgSADy = (float)y;
                     minAvgSADw = (float)teethw;
                     minAvgSADh = (float)teethh;
+                    NSLog(@"%@ %f",fn,minAvgSAD);
                 }
 
                 
