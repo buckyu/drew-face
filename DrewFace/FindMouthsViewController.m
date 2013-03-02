@@ -559,6 +559,8 @@
 
 -(void)processUIImageForMouth:(UIImage *)bottomhalffaceImage returnRect:(CGRect *)mouthRectInBottomHalfOfFace closestMouthMatch:(int *)idx fileName:(NSString *)fn {
     
+    NSLog(@"Processing: %@",fn);
+    
 //    OpenCvClass *ocv = [OpenCvClass new];
 //    bottomhalffaceImage = [ocv colorTheImage:bottomhalffaceImage];
     NSData *dataToWrite1 = UIImagePNGRepresentation(bottomhalffaceImage);
