@@ -580,13 +580,9 @@
     CGDataProviderRef myDataProvider = CGImageGetDataProvider(bottomhalffaceImage.CGImage);
     CFDataRef pixelData = CGDataProviderCopyData(myDataProvider);
     const uint8_t *testimagedata = CFDataGetBytePtr(pixelData);
-    unsigned int bottomhalffaceImagew = (int)bottomhalffaceImage.size.width;
-    unsigned int bottomhalffaceImageh = (int)bottomhalffaceImage.size.height;
-    assert(CFDataGetLength(pixelData) == bottomhalffaceImagew*bottomhalffaceImageh*4);
+    int bottomhalffaceImagew = (int)bottomhalffaceImage.size.width;
+    int bottomhalffaceImageh = (int)bottomhalffaceImage.size.height;
     uint8_t *bottomhalffaceImageBuffer = (uint8_t *)malloc(bottomhalffaceImagew*bottomhalffaceImageh*4);
-    NSLog(@"bottomhalffaceImageBuffer goes from %p to %p",bottomhalffaceImageBuffer,bottomhalffaceImageBuffer+bottomhalffaceImagew*bottomhalffaceImageh*4);
-    unsigned int bottomhalffaceImageBufferMax = bottomhalffaceImagew*bottomhalffaceImageh*4;
-    sleep(1);
     memcpy(bottomhalffaceImageBuffer,testimagedata,bottomhalffaceImagew*bottomhalffaceImageh*4);
     
     
@@ -656,12 +652,9 @@
         myDataProvider = CGImageGetDataProvider(mouthImage.CGImage);
         pixelData = CGDataProviderCopyData(myDataProvider);
         testimagedata = CFDataGetBytePtr(pixelData);
-        unsigned int teethw = (int)mouthImage.size.width;
-        unsigned int teethh = (int)mouthImage.size.height;
+        int teethw = (int)mouthImage.size.width;
+        int teethh = (int)mouthImage.size.height;
         uint8_t *teethImageBuffer = (uint8_t *)malloc(teethw*teethh*4);
-        NSLog(@"teethImageBuffer goes from %p to %p",teethImageBuffer,teethImageBuffer+teethw*teethh*4);
-        uint teethImageBufferMax = teethw*teethh*4;
-        assert(CFDataGetLength(pixelData)==teethImageBufferMax);
         memcpy(teethImageBuffer,testimagedata,teethw*teethh*4);
         CFRelease(pixelData);
 //        
@@ -670,89 +663,41 @@
 
         
         
-        for (unsigned int x=0; x<(bottomhalffaceImagew-teethw); x++) {
-            for (unsigned int y=0; y<(bottomhalffaceImageh-teethh); y++) {
+        for (int x=0; x<(bottomhalffaceImagew-teethw); x++) {
+            for (int y=0; y<(bottomhalffaceImageh-teethh); y++) {
                 
                 int pixelCount = 0;
                 int sumOfSAD = 0;
                 
                 int zeroPixelCount = 0;
 
-#define SAFE_ARRAY(ARR,coord,MAX,lvalue) assert(coord < MAX);\
-                                         lvalue = ARR[coord]
-                for (unsigned int yy=0; yy<teethh; yy++) {
-                    for (unsigned int xx=0; xx<teethw; xx++) {
+                
+                for (int yy=0; yy<teethh; yy++) {
+                    for (int xx=0; xx<teethw; xx++) {
                         
-                        int intermediate_computation;
-                        intermediate_computation = yy*teethw*4+xx*4+0;
-                        intermediate_computation += teethImageBuffer;
-                        int pointer_value = *(int*)intermediate_computation;
                         
-                        int p1;
-                        SAFE_ARRAY(teethImageBuffer, yy*teethw*4+xx*4+0, teethImageBufferMax, p1);
-                        int p2;
-                        SAFE_ARRAY(teethImageBuffer, yy*teethw*4+xx*4+2, teethImageBufferMax, p2);
-                        
-                        if (p1 + p2 > 0 ) {
+                        if ((*(teethImageBuffer+yy*teethw*4+xx*4+0) + *(teethImageBuffer+yy*teethw*4+xx*4+1) + *(teethImageBuffer+yy*teethw*4+xx*4+2) ) > 0 ) {
                             
                             pixelCount++;
                             
                             // abs() Does not make a different, but added to be extra safe
-                            int a1;
-                            int a2;
-                            SAFE_ARRAY(teethImageBuffer, yy*teethw*4+xx*4+0, teethImageBufferMax, a1);
-                            SAFE_ARRAY(bottomhalffaceImageBuffer, bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 0, bottomhalffaceImageBufferMax, a2);
-                            if (a1  >=  a2) {
-                                int b1;
-                                int b2;
-                                SAFE_ARRAY(teethImageBuffer, yy*teethw*4+xx*4+0, teethImageBufferMax, b1);
-                                SAFE_ARRAY(bottomhalffaceImageBuffer, y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 0, bottomhalffaceImageBufferMax, b2);
-                                
-                            sumOfSAD += abs(b1  -  b2);
+                            
+                            if (*(teethImageBuffer+yy*teethw*4+xx*4+0)  >=  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 0)) {
+                            sumOfSAD += abs(*(teethImageBuffer+yy*teethw*4+xx*4+0)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 0));
                             } else {
-                                int b1;
-                                int b2;
-                                SAFE_ARRAY(bottomhalffaceImageBuffer, y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 0, bottomhalffaceImageBufferMax, b1);
-                                
                                 sumOfSAD += abs(*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 0) - *(teethImageBuffer+yy*teethw*4+xx*4+0));
                             }
-                            int c1;
-                            int c2;
-                            SAFE_ARRAY(teethImageBuffer, yy*teethw*4+xx*4+1, teethImageBufferMax, c1);
-                            SAFE_ARRAY(bottomhalffaceImageBuffer, y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 1, bottomhalffaceImageBufferMax, c2);
                             
-                            if (c1  >=  c2) {
-                                int b1;
-                                int b2;
-                                SAFE_ARRAY(teethImageBuffer, yy*teethw*4+xx*4+1, teethImageBufferMax, b1);
-                                SAFE_ARRAY(bottomhalffaceImageBuffer, y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 1, bottomhalffaceImageBufferMax, b2);
-                                sumOfSAD += abs(b1  -  b2);
+                            if (*(teethImageBuffer+yy*teethw*4+xx*4+1)  >=  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 1)) {
+                                sumOfSAD += abs(*(teethImageBuffer+yy*teethw*4+xx*4+1)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 1));
                             } else {
-                                int b1;
-                                int b2;
-                                SAFE_ARRAY(bottomhalffaceImageBuffer, y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 1, bottomhalffaceImageBufferMax, b1);
-                                SAFE_ARRAY(teethImageBuffer, yy*teethw*4+xx*4+1, teethImageBufferMax, b2);
-                                
-                                sumOfSAD += abs(b1 - b2);
+                                sumOfSAD += abs(*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 1) - *(teethImageBuffer+yy*teethw*4+xx*4+1));
                             }
                             
-                            int d1;
-                            int d2;
-                            SAFE_ARRAY(teethImageBuffer, yy*teethw*4+xx*4+2, teethImageBufferMax, d1);
-                            SAFE_ARRAY(bottomhalffaceImageBuffer, y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 2, bottomhalffaceImageBufferMax, d2);
-                            
-                            if (d1  >=  d2) {
-                                int b1;
-                                int b2;
-                                SAFE_ARRAY(teethImageBuffer, yy*teethw*4+xx*4+2, teethImageBufferMax, b1);
-                                SAFE_ARRAY(bottomhalffaceImageBuffer, y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 2, bottomhalffaceImageBufferMax, b2);
-                                sumOfSAD += abs(b1  -  b2);
+                            if (*(teethImageBuffer+yy*teethw*4+xx*4+2)  >=  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 2)) {
+                                sumOfSAD += abs(*(teethImageBuffer+yy*teethw*4+xx*4+2)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 2));
                             } else {
-                                int b1;
-                                int b2;
-                                SAFE_ARRAY(bottomhalffaceImageBuffer, y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 2, bottomhalffaceImageBufferMax, b1);
-                                SAFE_ARRAY(teethImageBuffer, yy*teethw*4+xx*4+2, teethImageBufferMax, b2);
-                                sumOfSAD += abs(b1 - b2);
+                                sumOfSAD += abs(*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 2) - *(teethImageBuffer+yy*teethw*4+xx*4+2));
                             }
                             
                         
