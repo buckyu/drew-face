@@ -499,6 +499,11 @@
 	[image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
 	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
+    
+    // OCV exposure compensator
+    OpenCvClass *ocv = [OpenCvClass new];
+    newImage = [ocv exposureCompensate:newImage];
+    
 	return newImage;
 }
 

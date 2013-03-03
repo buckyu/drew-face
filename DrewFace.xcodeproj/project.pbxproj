@@ -24,6 +24,7 @@
 		1D69930416C014C200547D63 /* DrewFaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D69930216C014C200547D63 /* DrewFaceViewController.xib */; };
 		1D8594A716D42F990088B5B4 /* ShowMouthsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D8594A516D42F990088B5B4 /* ShowMouthsViewController.m */; };
 		1D8594A816D42F990088B5B4 /* ShowMouthsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D8594A616D42F990088B5B4 /* ShowMouthsViewController.xib */; };
+		1D9B181416E32BCA003AB39F /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D9B181316E32BCA003AB39F /* CoreImage.framework */; };
 		1DC1EDC716C0E99F0076AF9D /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DC1EDC616C0E99F0076AF9D /* ImageIO.framework */; };
 		1DC6943816DAC87700ED63E6 /* drewteethtransparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC6943516DAC87700ED63E6 /* drewteethtransparent.png */; };
 		1DC6943916DAC87700ED63E6 /* drewteeth.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC6943616DAC87700ED63E6 /* drewteeth.png */; };
@@ -61,6 +62,7 @@
 		1D8594A416D42F990088B5B4 /* ShowMouthsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowMouthsViewController.h; sourceTree = "<group>"; };
 		1D8594A516D42F990088B5B4 /* ShowMouthsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowMouthsViewController.m; sourceTree = "<group>"; };
 		1D8594A616D42F990088B5B4 /* ShowMouthsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowMouthsViewController.xib; sourceTree = "<group>"; };
+		1D9B181316E32BCA003AB39F /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		1DC1EDC616C0E99F0076AF9D /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		1DC6943516DAC87700ED63E6 /* drewteethtransparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drewteethtransparent.png; sourceTree = "<group>"; };
 		1DC6943616DAC87700ED63E6 /* drewteeth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drewteeth.png; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D9B181416E32BCA003AB39F /* CoreImage.framework in Frameworks */,
 				1DE6DDF116C41A8300BAA92A /* opencv2.framework in Frameworks */,
 				1DC1EDC716C0E99F0076AF9D /* ImageIO.framework in Frameworks */,
 				1D6992EC16C014C200547D63 /* CoreGraphics.framework in Frameworks */,
@@ -111,6 +114,7 @@
 		1D6992E616C014C200547D63 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1D9B181316E32BCA003AB39F /* CoreImage.framework */,
 				1DE6DDF016C41A8300BAA92A /* opencv2.framework */,
 				1DC1EDC616C0E99F0076AF9D /* ImageIO.framework */,
 				1D6992E716C014C200547D63 /* UIKit.framework */,

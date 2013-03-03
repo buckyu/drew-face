@@ -12,6 +12,7 @@
 
 
 #import <Foundation/Foundation.h>
+
 #import <opencv2/highgui/highgui_c.h>
 #import <opencv2/imgproc/imgproc_c.h>
 
@@ -35,6 +36,9 @@
 -(UIImage *)edgeMeanShiftDetectReturnEdges:(UIImage *)origimg;
 
 -(BOOL)Search2DImage:(UIImage *)objectImage inside:(UIImage *)sceneImage;
+
+-(UIImage *)exposureCompensate:(UIImage *)origimg;
+
 
 // do not know why but CGImageCreateWithImageInRect() can not be pixel mapped??
 -(UIImage *)greyTheImage:(UIImage *)origimg;

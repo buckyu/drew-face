@@ -130,6 +130,23 @@
 }
 
 
+-(UIImage *)exposureCompensate:(UIImage *)origimg {
+    CIContext *context = [CIContext contextWithOptions:nil]; 
+    CIImage *cii = [CIImage imageWithCGImage:origimg.CGImage];
+    
+    CIFilter *exposureAdjustmentFilter = [CIFilter filterWithName:@"CIExposureAdjust"];
+    [exposureAdjustmentFilter setDefaults];
+    [exposureAdjustmentFilter setValue:cii forKey:@"inputImage"];
+    [exposureAdjustmentFilter setValue:[NSNumber numberWithFloat:0.0f] forKey:@"inputEV"];
+    CIImage *outputImage = [exposureAdjustmentFilter valueForKey:@"outputImage"];
+    
+    
+    CGImageRef cgImageRef = [context createCGImage:outputImage fromRect:CGRectMake(0, 0, origimg.size.width, origimg.size.height)];
+    UIImage *ri = [UIImage imageWithCGImage:cgImageRef];
+    return ri;
+}
+
+
 
 
 - (cv::Mat)cvGreyMatFromUIImage:(UIImage *)image
