@@ -785,8 +785,8 @@
     memset(zeroArray, 0, mouthImage.size.height * mouthImage.size.width * dimensions);
     
     
-#define GET_PIXEL(X,Y,Z) testimagedata[Y * (int)mouthImage.size.height + X * dimensions + Z]
-#define PIXEL_INDEX(X,Y) (int)mouthImage.size.height*Y + X
+#define GET_PIXEL(X,Y,Z) testimagedata[Y * (int)mouthImage.size.width * dimensions + X * dimensions + Z]
+#define PIXEL_INDEX(X,Y) (int)mouthImage.size.width*Y*dimensions + X*dimensions
 
     for(int x = 0; x < mouthImage.size.width; x++) {
         for(int y = 0; y < mouthImage.size.height; y++) {
