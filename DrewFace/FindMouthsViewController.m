@@ -781,8 +781,8 @@
     
     //is it spaced ARGB here?
     const int dimensions = 4;
-    uint8_t *zeroArray = malloc(mouthImage.size.height * mouthImage.size.width);
-    memset(zeroArray, 0, mouthImage.size.height * mouthImage.size.width);
+    uint8_t *zeroArray = malloc(mouthImage.size.height * mouthImage.size.width*dimensions);
+    memset(zeroArray, 0, mouthImage.size.height * mouthImage.size.width * dimensions);
     
     
 #define GET_PIXEL(X,Y,Z) testimagedata[Y * (int)mouthImage.size.height + X * dimensions + Z]
