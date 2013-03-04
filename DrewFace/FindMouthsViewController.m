@@ -264,7 +264,8 @@
                 sum += *(mutablebuffer + i*w*3 + j*3 + 1);
                 sum += *(mutablebuffer + i*w*3 + j*3 + 2);
                 
-                if (sum > (3*128)) {
+                //if (sum > (3*128)) {
+                if (1) {
                     memcpy((mutablebuffer4 + i*w*4 + j*4), (mutablebuffer + i*w*3 + j*3), 3);
                 } else {
                     bzero((mutablebuffer4 + i*w*4 + j*4), 3);
