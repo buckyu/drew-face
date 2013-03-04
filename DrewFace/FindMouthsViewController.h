@@ -37,6 +37,8 @@
     
     int selectedCellRow;
     
+    OpenCvClass *ocv;
+    
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableview;

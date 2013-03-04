@@ -89,6 +89,8 @@
     
     self.tableview.hidden = YES;
     
+    ocv = [OpenCvClass new];
+    ocv.delegate = self;
     
     [self performSelectorInBackground:@selector(loadTableView) withObject:nil];
     
@@ -172,8 +174,6 @@
         
         // search for face in scaledImage
         // OpenCV Processing Called Here for Face Detect
-        OpenCvClass *ocv = [OpenCvClass new];
-        ocv.delegate = self;
         
         
         // testimage - faceRectInScaledOrigImage is set by delegate method call
@@ -230,7 +230,10 @@
         
         //processedMouthImage = [ocv edgeDetectReturnEdges:mouthImage];
         if ((faceRectInScaledOrigImage.size.width > 0) && (faceRectInScaledOrigImage.size.height > 0)) {
-            processedMouthImage = [ocv edgeMeanShiftDetectReturnEdges:mouthImage];
+            
+            //processedMouthImage = [ocv edgeMeanShiftDetectReturnEdges:mouthImage];
+            processedMouthImage = [self lookForTeethInMouthImage:mouthImage];
+            
             if (!((processedMouthImage.size.width>0) && (processedMouthImage.size.height>0))) {
                 NSLog(@"NO TEETH in %@",fileName);
                 continue;
@@ -502,8 +505,6 @@
 	UIGraphicsEndImageContext();
     
     // OCV exposure compensator
-    OpenCvClass *ocv = [OpenCvClass new];
-    newImage = [ocv exposureCompensate:newImage];
     
 	return newImage;
 }
@@ -567,8 +568,6 @@
     
     NSLog(@"Processing: %@",fn);
     
-//    OpenCvClass *ocv = [OpenCvClass new];
-//    bottomhalffaceImage = [ocv colorTheImage:bottomhalffaceImage];
     NSData *dataToWrite1 = UIImagePNGRepresentation(bottomhalffaceImage);
     NSString *thumbPath2 = [testDir stringByAppendingPathComponent:@"temp"];
     thumbPath2 = [[thumbPath2 stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
@@ -768,6 +767,15 @@
     *mouthRectInBottomHalfOfFace = CGRectMake(minAvgSADx, minAvgSADy, minAvgSADw, minAvgSADh);
     NSLog(@"%@ %d %f",fn,minAvgSADn,minAvgSAD);
     free(bottomhalffaceImageBuffer);
+    
+}
+
+
+
+// Drew's Algorithm to go here:
+-(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
+    
+    return [ocv edgeMeanShiftDetectReturnEdges:mouthImage];
     
 }
 
