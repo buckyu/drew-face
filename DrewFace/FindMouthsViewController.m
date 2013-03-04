@@ -772,11 +772,21 @@
 
 // Drew's Algorithm to go here:
 -(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
+    UIGraphicsBeginImageContext(mouthImage.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGRect rect1 = CGRectMake(0, 0, mouthImage.size.width, mouthImage.size.height);
+    CGContextDrawImage(context, rect1, mouthImage.CGImage);
+    CGFloat fillColor[] = {0.9,0,0,0.8};
+    CGContextSetFillColor(context, fillColor);
+    CGContextFillRect(context, rect1);
+    UIImage *outImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return outImage;
     
-    return mouthImage;
+    /*
 
     //stage 1: get an initial approximation of teeth pixels
-    /*CGDataProviderRef myDataProvider = CGImageGetDataProvider(mouthImage.CGImage);
+    CGDataProviderRef myDataProvider = CGImageGetDataProvider(mouthImage.CGImage);
     CFDataRef pixelData = CGDataProviderCopyData(myDataProvider);
     const uint8_t *testimagedata = CFDataGetBytePtr(pixelData);
     
@@ -813,25 +823,29 @@
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGRect rect1 = CGRectMake(0, 0, mouthImage.size.width, mouthImage.size.height);
         CGContextDrawImage(context, rect1, mouthImage.CGImage);
+        CGFloat fillColor[] = {0.5,0.5,0.5,0.5};
+        CGContextSetFillColor(context, fillColor);
+        CGContextFillRect(context, rect1);
         for(int x = 0; x < mouthImage.size.width; x++) {
+
             for(int y = 0; y < mouthImage.size.height; y++) {
                 if (zeroArray[PIXEL_INDEX(x,y)]) {
-                    //CGContextFillRect(context, CGRectMake(x, y, 1, 1));
+                    CGContextFillRect(context, CGRectMake(x, y, 10, 10));
                 }
             }
         }
         outImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-    });*/
+    });
 
-    //return outImage;
     
     
     
     
     
-    //free(zeroArray);
-    //return [ocv edgeMeanShiftDetectReturnEdges:mouthImage];
+    free(zeroArray);
+    return outImage;
+    //return [ocv edgeMeanShiftDetectReturnEdges:mouthImage];*/
     
 }
 
