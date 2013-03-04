@@ -780,8 +780,11 @@
     CGContextScaleCTM(context, 1.0, -1.0);
     CGRect rect1 = CGRectMake(0, 0, CGImageGetWidth(mouthImage.CGImage),CGImageGetHeight(mouthImage.CGImage));
     CGContextDrawImage(context, rect1, mouthImage.CGImage);
-    CGFloat fillColor[] = {1.0,0,0,1.0};
-    CGContextSetFillColor(context, fillColor);
+    //CGFloat fillColor[] = {1.0,0,0,1.0};
+    UIColor *color = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0];
+    CGColorRef fillColor = [color CGColor];
+    //CGContextSetFillColor(context, fillColor);
+    CGContextSetFillColorWithColor(context, fillColor);
     CGContextFillRect(context, rect1);
     UIImage *outImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
