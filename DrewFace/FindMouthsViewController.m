@@ -90,8 +90,13 @@
     self.tableview.hidden = YES;
     
     
-    [self performSelectorInBackground:@selector(loadTableView) withObject:nil];
+    //[self performSelectorInBackground:@selector(loadTableView) withObject:nil];
     
+}
+
+-(void)viewDidAppear:(BOOL)animated  {
+    [super viewDidAppear:animated];
+    [self performSelectorInBackground:@selector(loadTableView) withObject:nil];
 }
 
 -(void)loadTableView {
@@ -667,7 +672,7 @@
             for (int y=0; y<(bottomhalffaceImageh-teethh); y++) {
                 
                 int pixelCount = 0;
-                int sumOfSAD = 0;
+                float sumOfSAD = 0;
                 
                 int zeroPixelCount = 0;
 
@@ -680,25 +685,53 @@
                             
                             pixelCount++;
                             
-                            // abs() Does not make a difference, but added to be extra safe
                             
-                            if (*(teethImageBuffer+yy*teethw*4+xx*4+0)  >=  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 0)) {
-                            sumOfSAD += abs(*(teethImageBuffer+yy*teethw*4+xx*4+0)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 0));
+                            float Rmouth = (float)*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 0);
+                            float Gmouth = (float)*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 1);
+                            float Bmouth = (float)*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 2);
+                            float Rteeth = (float)*(teethImageBuffer+yy*teethw*4+xx*4+0);
+                            float Gteeth = (float)*(teethImageBuffer+yy*teethw*4+xx*4+1);
+                            float Bteeth = (float)*(teethImageBuffer+yy*teethw*4+xx*4+2);
+                            
+                            float Ymouth = 0.299*Rmouth + 0.587*Gmouth + 0.114*Bmouth;
+                            float CRmouth = 0.713*(Rmouth - Ymouth);
+                            float CBmouth = 0.564*(Bmouth - Ymouth);
+                            float Yteeth = 0.299*Rteeth + 0.587*Gteeth + 0.114*Bteeth;
+                            float CRteeth = 0.713*(Rteeth - Yteeth);
+                            float CBteeth = 0.564*(Bteeth - Yteeth);
+                            
+
+                            if (CRmouth>CRteeth) {
+                                sumOfSAD += (CRmouth - CRteeth);
                             } else {
-                                sumOfSAD += abs(*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 0) - *(teethImageBuffer+yy*teethw*4+xx*4+0));
+                                sumOfSAD += (CRteeth - CRmouth);
+                            }
+                            if (CBmouth>CBteeth) {
+                                sumOfSAD += (CBmouth - CBteeth);
+                            } else {
+                                sumOfSAD += (CBteeth - CBmouth);
                             }
                             
-                            if (*(teethImageBuffer+yy*teethw*4+xx*4+1)  >=  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 1)) {
-                                sumOfSAD += abs(*(teethImageBuffer+yy*teethw*4+xx*4+1)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 1));
-                            } else {
-                                sumOfSAD += abs(*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 1) - *(teethImageBuffer+yy*teethw*4+xx*4+1));
-                            }
                             
-                            if (*(teethImageBuffer+yy*teethw*4+xx*4+2)  >=  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 2)) {
-                                sumOfSAD += abs(*(teethImageBuffer+yy*teethw*4+xx*4+2)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 2));
-                            } else {
-                                sumOfSAD += abs(*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 2) - *(teethImageBuffer+yy*teethw*4+xx*4+2));
-                            }
+//                            // abs() Does not make a difference, but added to be extra safe
+//                            
+//                            if (*(teethImageBuffer+yy*teethw*4+xx*4+0)  >=  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 0)) {
+//                            sumOfSAD += abs(*(teethImageBuffer+yy*teethw*4+xx*4+0)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 0));
+//                            } else {
+//                                sumOfSAD += abs(*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 0) - *(teethImageBuffer+yy*teethw*4+xx*4+0));
+//                            }
+//                            
+//                            if (*(teethImageBuffer+yy*teethw*4+xx*4+1)  >=  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 1)) {
+//                                sumOfSAD += abs(*(teethImageBuffer+yy*teethw*4+xx*4+1)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 1));
+//                            } else {
+//                                sumOfSAD += abs(*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 1) - *(teethImageBuffer+yy*teethw*4+xx*4+1));
+//                            }
+//                            
+//                            if (*(teethImageBuffer+yy*teethw*4+xx*4+2)  >=  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 2)) {
+//                                sumOfSAD += abs(*(teethImageBuffer+yy*teethw*4+xx*4+2)  -  *(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 2));
+//                            } else {
+//                                sumOfSAD += abs(*(bottomhalffaceImageBuffer + y*bottomhalffaceImagew*4 + x*4 + yy*bottomhalffaceImagew*4 + xx*4 + 2) - *(teethImageBuffer+yy*teethw*4+xx*4+2));
+//                            }
                             
                         
                         
