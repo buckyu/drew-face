@@ -357,7 +357,6 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"A %d",fileInfos.count);
     if (fileInfos.count > 0) {
         return fileInfos.count;
     } else {
