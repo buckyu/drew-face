@@ -774,8 +774,65 @@
 
 // Drew's Algorithm to go here:
 -(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
+    return mouthImage;
+
+    //stage 1: get an initial approximation of teeth pixels
+    /*CGDataProviderRef myDataProvider = CGImageGetDataProvider(mouthImage.CGImage);
+    CFDataRef pixelData = CGDataProviderCopyData(myDataProvider);
+    const uint8_t *testimagedata = CFDataGetBytePtr(pixelData);
     
-    return [ocv edgeMeanShiftDetectReturnEdges:mouthImage];
+    //is it spaced ARGB here?
+    const int dimensions = 4;
+    uint8_t *zeroArray = malloc(mouthImage.size.height * mouthImage.size.width);
+    memset(zeroArray, 0, mouthImage.size.height * mouthImage.size.width);
+    
+    
+#define GET_PIXEL(X,Y,Z) testimagedata[Y * (int)mouthImage.size.height + X * dimensions + Z]
+#define PIXEL_INDEX(X,Y) (int)mouthImage.size.height*Y + X
+
+    
+    //zero approximation - find all the pixels that look white
+    const int zero_threshold = 20;
+    for(int x = 0; x < mouthImage.size.width; x++) {
+        for(int y = 0; y < mouthImage.size.height; y++) {
+            float euclid = 0;
+            for(int z = 0; z < dimensions; z++) {
+                int ideal = UINT_MAX; //convert to 16-bit signed                
+                uint8_t known = GET_PIXEL(x, y, z);
+                 euclid += sqrt(pow((ideal - known),2));
+            }
+            if (euclid < zero_threshold) {
+                zeroArray[PIXEL_INDEX(x,y)] = 1;
+            }
+        }
+    }
+    
+    //draw on top of the image, this is purely for debugging
+    __block UIImage *outImage;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        UIGraphicsBeginImageContext(mouthImage.size);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGRect rect1 = CGRectMake(0, 0, mouthImage.size.width, mouthImage.size.height);
+        CGContextDrawImage(context, rect1, mouthImage.CGImage);
+        for(int x = 0; x < mouthImage.size.width; x++) {
+            for(int y = 0; y < mouthImage.size.height; y++) {
+                if (zeroArray[PIXEL_INDEX(x,y)]) {
+                    //CGContextFillRect(context, CGRectMake(x, y, 1, 1));
+                }
+            }
+        }
+        outImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    });*/
+
+    //return outImage;
+    
+    
+    
+    
+    
+    //free(zeroArray);
+    //return [ocv edgeMeanShiftDetectReturnEdges:mouthImage];
     
 }
 
