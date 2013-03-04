@@ -774,6 +774,7 @@
 -(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
     UIGraphicsBeginImageContext(mouthImage.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
+    //UIKit and Quartz coordinate systems are upside down relative to each other
     CGContextTranslateCTM(context, 0.0, CGImageGetHeight(mouthImage.CGImage));
     CGContextScaleCTM(context, 1.0, -1.0);
     CGRect rect1 = CGRectMake(0, 0, CGImageGetWidth(mouthImage.CGImage),CGImageGetHeight(mouthImage.CGImage));
