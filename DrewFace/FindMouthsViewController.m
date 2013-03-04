@@ -90,14 +90,10 @@
     self.tableview.hidden = YES;
     
     
-    //[self performSelectorInBackground:@selector(loadTableView) withObject:nil];
+    [self performSelectorInBackground:@selector(loadTableView) withObject:nil];
     
 }
 
--(void)viewDidAppear:(BOOL)animated  {
-    [super viewDidAppear:animated];
-    [self performSelectorInBackground:@selector(loadTableView) withObject:nil];
-}
 
 -(void)loadTableView {
 @autoreleasepool {
@@ -199,15 +195,15 @@
         // bottomhalffaceImage = [ocv greyTheImage:bottomhalffaceImage];
 
         
-        int mouthIdx = -1;
+        //int mouthIdx = -1;
         CGRect mouthRectInBottomHalfOfFace = CGRectMake(0,0,0,0);
         
         
         // OpenCV Processing Called Here - search for mouth in bottom half of greyscale face
-        //mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage fromFile:fileName];
+        mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage fromFile:fileName];
         // BruteForce Processing Called Here - search for mouth in bottom half of greyscale face
         // using MODELMOUTHxxx.png files in /MODEL_MOUTHS/
-        [self processUIImageForMouth:bottomhalffaceImage returnRect:&mouthRectInBottomHalfOfFace closestMouthMatch:&mouthIdx fileName:fileName];
+        //[self processUIImageForMouth:bottomhalffaceImage returnRect:&mouthRectInBottomHalfOfFace closestMouthMatch:&mouthIdx fileName:fileName];
             
         
         if ((mouthRectInBottomHalfOfFace.size.width == 0) || (mouthRectInBottomHalfOfFace.size.height == 0)) {
@@ -216,7 +212,7 @@
             continue;
         }
         
-        // extract mouth from greyscale face
+        // extract mouth from face
         CGImageRef cutMouthRef = CGImageCreateWithImageInRect(bottomhalffaceImage.CGImage, CGRectMake(mouthRectInBottomHalfOfFace.origin.x, mouthRectInBottomHalfOfFace.origin.y, mouthRectInBottomHalfOfFace.size.width, mouthRectInBottomHalfOfFace.size.height));
         UIImage *mouthImage = [UIImage imageWithCGImage:cutMouthRef];
         CGImageRelease(cutMouthRef);        
@@ -361,6 +357,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSLog(@"A %d",fileInfos.count);
     if (fileInfos.count > 0) {
         return fileInfos.count;
     } else {
