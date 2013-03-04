@@ -773,26 +773,6 @@
 
 // Drew's Algorithm to go here:
 -(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
-    UIGraphicsBeginImageContext(mouthImage.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    //UIKit and Quartz coordinate systems are upside down relative to each other
-    CGContextTranslateCTM(context, 0.0, CGImageGetHeight(mouthImage.CGImage));
-    CGContextScaleCTM(context, 1.0, -1.0);
-    CGRect rect1 = CGRectMake(0, 0, CGImageGetWidth(mouthImage.CGImage),CGImageGetHeight(mouthImage.CGImage));
-    CGContextDrawImage(context, rect1, mouthImage.CGImage);
-    //CGFloat fillColor[] = {1.0,0,0,1.0};
-    UIColor *color = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0];
-    CGColorRef fillColor = [color CGColor];
-    //CGContextSetFillColor(context, fillColor);
-    CGContextSetFillColorWithColor(context, fillColor);
-    CGContextFillRect(context, rect1);
-    UIImage *outImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return outImage;
-    
-    
-    
-    /*
 
     //stage 1: get an initial approximation of teeth pixels
     CGDataProviderRef myDataProvider = CGImageGetDataProvider(mouthImage.CGImage);
@@ -808,33 +788,42 @@
 #define GET_PIXEL(X,Y,Z) testimagedata[Y * (int)mouthImage.size.height + X * dimensions + Z]
 #define PIXEL_INDEX(X,Y) (int)mouthImage.size.height*Y + X
 
+    for(int x = 0; x < mouthImage.size.width; x++) {
+        for(int y = 0; y < mouthImage.size.height; y++) {
+            //in theory this should be the "R" component
+            uint8_t px = GET_PIXEL(x, y, 0); //if we are in RGBA colorspace
+            if (px > 250) zeroArray[PIXEL_INDEX(x, y)] = 1; //this will cause the pixel to be drawn as red on the output
+        }
+    }
     
     //zero approximation - find all the pixels that look white
-    const int zero_threshold = 20;
+    /*const int zero_threshold = 50;
     for(int x = 0; x < mouthImage.size.width; x++) {
         for(int y = 0; y < mouthImage.size.height; y++) {
             float euclid = 0;
-            for(int z = 0; z < dimensions; z++) {
-                int ideal = UINT_MAX; //convert to 16-bit signed                
-                uint8_t known = GET_PIXEL(x, y, z);
+            for(int z = 0; z < 3; z++) {
+                int ideal = UINT8_MAX; //convert to 16-bit signed
+                int known = (int) GET_PIXEL(x, y, z);
                  euclid += sqrt(pow((ideal - known),2));
             }
             if (euclid < zero_threshold) {
                 zeroArray[PIXEL_INDEX(x,y)] = 1;
             }
         }
-    }
+    }*/
     
     //draw on top of the image, this is purely for debugging
     __block UIImage *outImage;
     dispatch_sync(dispatch_get_main_queue(), ^{
         UIGraphicsBeginImageContext(mouthImage.size);
         CGContextRef context = UIGraphicsGetCurrentContext();
+        CGContextTranslateCTM(context, 0.0, CGImageGetHeight(mouthImage.CGImage));
+        CGContextScaleCTM(context, 1.0, -1.0);
+
         CGRect rect1 = CGRectMake(0, 0, mouthImage.size.width, mouthImage.size.height);
         CGContextDrawImage(context, rect1, mouthImage.CGImage);
-        CGFloat fillColor[] = {0.5,0.5,0.5,0.5};
-        CGContextSetFillColor(context, fillColor);
-        CGContextFillRect(context, rect1);
+        UIColor *color = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0];
+        CGContextSetFillColorWithColor(context, color.CGColor);
         for(int x = 0; x < mouthImage.size.width; x++) {
 
             for(int y = 0; y < mouthImage.size.height; y++) {
@@ -848,10 +837,7 @@
     });
 
     
-    
-    
-    
-    
+
     free(zeroArray);
     return outImage;
     //return [ocv edgeMeanShiftDetectReturnEdges:mouthImage];*/
