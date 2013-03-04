@@ -43,7 +43,7 @@
 // do not know why but CGImageCreateWithImageInRect() can not be pixel mapped??
 -(UIImage *)greyTheImage:(UIImage *)origimg;
 -(UIImage *)BGR2BGRATheImage:(UIImage *)origimg;
--(UIImage *)colorTheImage:(UIImage *)origimg;
+-(UIImage *)BGRA2BGRTheImage:(UIImage *)origimg;
 
 
 @end

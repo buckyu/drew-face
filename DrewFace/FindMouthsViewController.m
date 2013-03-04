@@ -240,10 +240,8 @@
             }
         }
         
-
-        
-        
-        
+        // convert to RGB since following code is RGB based
+        processedMouthImage = [ocv BGRA2BGRTheImage:processedMouthImage];
         
         // color images here of mouth area
         
@@ -774,6 +772,7 @@
 
 // Drew's Algorithm to go here:
 -(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
+    
     return mouthImage;
 
     //stage 1: get an initial approximation of teeth pixels

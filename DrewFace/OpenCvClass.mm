@@ -26,8 +26,9 @@
     return [self UIImageFromCVMat:myMat];
 }
 
--(UIImage *)colorTheImage:(UIImage *)origimg {
+-(UIImage *)BGRA2BGRTheImage:(UIImage *)origimg {
     cv::Mat myMat = [self cvMatFromUIImage:origimg];
+    cv::cvtColor(myMat, myMat, CV_BGRA2BGR);
     return [self UIImageFromCVMat:myMat];
 }
 
