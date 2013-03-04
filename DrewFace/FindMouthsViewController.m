@@ -774,14 +774,18 @@
 -(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
     UIGraphicsBeginImageContext(mouthImage.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGRect rect1 = CGRectMake(0, 0, mouthImage.size.width, mouthImage.size.height);
+    CGContextTranslateCTM(context, 0.0, CGImageGetHeight(mouthImage.CGImage));
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGRect rect1 = CGRectMake(0, 0, CGImageGetWidth(mouthImage.CGImage),CGImageGetHeight(mouthImage.CGImage));
     CGContextDrawImage(context, rect1, mouthImage.CGImage);
-    CGFloat fillColor[] = {0.9,0,0,0.8};
+    CGFloat fillColor[] = {1.0,0,0,1.0};
     CGContextSetFillColor(context, fillColor);
     CGContextFillRect(context, rect1);
     UIImage *outImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return outImage;
+    
+    
     
     /*
 
