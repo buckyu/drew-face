@@ -783,168 +783,168 @@ NSUInteger sizeFunction(const void *item) {
 -(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
     @autoreleasepool {
         
-    mouthImage = [ocv colorTheImage:mouthImage];
-
-    //stage 1: get an initial approximation of teeth pixels
-    CGDataProviderRef myDataProvider = CGImageGetDataProvider(mouthImage.CGImage);
-    CFDataRef pixelData = CGDataProviderCopyData(myDataProvider);
-    assert (CFDataGetLength(pixelData)==mouthImage.size.width * mouthImage.size.height * 4);
-    const uint8_t *testimagedata2 = CFDataGetBytePtr(pixelData);
-    
-    uint8_t *testimagedata = malloc(mouthImage.size.height * mouthImage.size.width *4);
-    memcpy(testimagedata, testimagedata2, mouthImage.size.height * mouthImage.size.width *4);
-    
-    float *zeroArray = malloc(mouthImage.size.height * mouthImage.size.width * sizeof(float));
-    bzero(zeroArray, mouthImage.size.height * mouthImage.size.width * sizeof(float));
-    
-    
-    
+        mouthImage = [ocv colorTheImage:mouthImage];
+        
+        //stage 1: get an initial approximation of teeth pixels
+        CGDataProviderRef myDataProvider = CGImageGetDataProvider(mouthImage.CGImage);
+        CFDataRef pixelData = CGDataProviderCopyData(myDataProvider);
+        assert (CFDataGetLength(pixelData)==mouthImage.size.width * mouthImage.size.height * 4);
+        const uint8_t *testimagedata2 = CFDataGetBytePtr(pixelData);
+        
+        uint8_t *testimagedata = malloc(mouthImage.size.height * mouthImage.size.width *4);
+        memcpy(testimagedata, testimagedata2, mouthImage.size.height * mouthImage.size.width *4);
+        
+        float *zeroArray = malloc(mouthImage.size.height * mouthImage.size.width * sizeof(float));
+        bzero(zeroArray, mouthImage.size.height * mouthImage.size.width * sizeof(float));
+        
+        
+        
 #define GET_PIXEL(X,Y,Z) testimagedata[Y * (int)mouthImage.size.width * 4 + X * 4 + Z]
 #define PIXEL_INDEX(X,Y) Y *(int)mouthImage.size.width + X
-    
-
-    //bzero(zeroArray, mouthImage.size.height * mouthImage.size.width);
-    
-    //zero approximation - find all the pixels that look white
-    const int ideal1[] = {192,192,182,
-                            252,247,235}; //the color of your typical tooth
-
-    
-    const int ideals = 2;
-    int ideal[3] = {0,0,0};
-    int err[3] = {0,0,0};
-    
-    for(int i = 0; i < 3; i++) {
-        int component_min = INT_MAX;
-        int component_max = INT_MIN;
-        for(int a = 0; a < ideals; a++) {
-            int component = ideal1[a * 3 + i];
-            ideal[i] += component;
-            if (component > component_max) component_max = component;
-            if (component < component_min) component_min = component;
-        }
-        ideal[i] = ideal[i] / ideals;
-        err[i] = MAX(abs(ideal[i] - component_max), abs(ideal[i] - component_min));
         
-    }
-
-
-    const int target_coverage = 0.10 * mouthImage.size.width * mouthImage.size.height;
-
-    
-    pointMap worstPoint;
-    worstPoint.x = -1;
-    worstPoint.y = -1;
-    worstPoint.value = -1;
+        
+        //bzero(zeroArray, mouthImage.size.height * mouthImage.size.width);
+        
+        //zero approximation - find all the pixels that look white
+        const int ideal1[] = {192,192,182,
+            252,247,235}; //the color of your typical tooth
+        
+        
+        const int ideals = 2;
+        int ideal[3] = {0,0,0};
+        int err[3] = {0,0,0};
+        
+        for(int i = 0; i < 3; i++) {
+            int component_min = INT_MAX;
+            int component_max = INT_MIN;
+            for(int a = 0; a < ideals; a++) {
+                int component = ideal1[a * 3 + i];
+                ideal[i] += component;
+                if (component > component_max) component_max = component;
+                if (component < component_min) component_min = component;
+            }
+            ideal[i] = ideal[i] / ideals;
+            err[i] = MAX(abs(ideal[i] - component_max), abs(ideal[i] - component_min));
+            
+        }
+        
+        
+        const int target_coverage = 0.10 * mouthImage.size.width * mouthImage.size.height;
+        
+        
+        pointMap worstPoint;
+        worstPoint.x = -1;
+        worstPoint.y = -1;
+        worstPoint.value = -1;
         NSPointerFunctions *functions = [[NSPointerFunctions alloc] initWithOptions:NSPointerFunctionsMallocMemory | NSPointerFunctionsCopyIn | NSPointerFunctionsStructPersonality];
         functions.sizeFunction = sizeFunction;
         
         NSHashTable *hashTable = [[NSHashTable alloc] initWithPointerFunctions:functions capacity:target_coverage];
-    
-    
-    
-    for(int x = 0; x < mouthImage.size.width; x++) {
-        for(int y = 0; y < mouthImage.size.height; y++) {
-            //you want to use 1-dimensional euclid here... otherwise a component that loses in one component can make it up in another...
-            float euclid = 0.0;
-            BOOL pixel_is_bad = NO;
-            for(int z = 0; z < 3; z++) {
-                int known = (int) GET_PIXEL(x, y, z);
-                if (known > ideal[z] + err[z] || known < ideal[z] - err[z]) {
-                    pixel_is_bad = YES;
+        
+        
+        
+        for(int x = 0; x < mouthImage.size.width; x++) {
+            for(int y = 0; y < mouthImage.size.height; y++) {
+                //you want to use 1-dimensional euclid here... otherwise a component that loses in one component can make it up in another...
+                float euclid = 0.0;
+                BOOL pixel_is_bad = NO;
+                for(int z = 0; z < 3; z++) {
+                    int known = (int) GET_PIXEL(x, y, z);
+                    if (known > ideal[z] + err[z] || known < ideal[z] - err[z]) {
+                        pixel_is_bad = YES;
+                    }
+                    euclid += pow(known - ideal[z], 2);
                 }
-                euclid += pow(known - ideal[z], 2);
-            }
-
-            euclid = sqrtf(euclid);
-            pointMap ptMap;
-            ptMap.x = x;
-            ptMap.y = y;
-            ptMap.value = euclid;
-            if (hashTable.count < target_coverage) {
-                [hashTable addObject:(__bridge id) &ptMap];
-                if (ptMap.value > worstPoint.value) {
-                    worstPoint = ptMap;
-                }
-            }
-            else if (worstPoint.value > ptMap.value) {
-                [hashTable removeObject:(__bridge id)&worstPoint];
-                [hashTable addObject:(__bridge id) &ptMap];
                 
-                //find the new worst point
-                worstPoint = ptMap;
-                for (id ptMapPtr in hashTable) {
-                    pointMap *pt = (__bridge void*) ptMapPtr;
-                    if (pt->value > worstPoint.value) {
-                        worstPoint = *pt;
+                euclid = sqrtf(euclid);
+                pointMap ptMap;
+                ptMap.x = x;
+                ptMap.y = y;
+                ptMap.value = euclid;
+                if (hashTable.count < target_coverage) {
+                    [hashTable addObject:(__bridge id) &ptMap];
+                    if (ptMap.value > worstPoint.value) {
+                        worstPoint = ptMap;
                     }
                 }
-            }
-            if (pixel_is_bad) continue;
-            if (euclid) {
-                zeroArray[PIXEL_INDEX(x, y)] = 1.0 / (euclid / 5.0);
+                else if (worstPoint.value > ptMap.value) {
+                    [hashTable removeObject:(__bridge id)&worstPoint];
+                    [hashTable addObject:(__bridge id) &ptMap];
+                    
+                    //find the new worst point
+                    worstPoint = ptMap;
+                    for (id ptMapPtr in hashTable) {
+                        pointMap *pt = (__bridge void*) ptMapPtr;
+                        if (pt->value > worstPoint.value) {
+                            worstPoint = *pt;
+                        }
+                    }
+                }
+                if (pixel_is_bad) continue;
+                if (euclid) {
+                    zeroArray[PIXEL_INDEX(x, y)] = 1.0 / (euclid / 5.0);
+                }
             }
         }
-    }
-    
+        
         float *purpleArray = calloc(mouthImage.size.width * mouthImage.size.height, sizeof(float));
         for (id ptMapBridge in hashTable) {
             pointMap *pointMap = (__bridge void*) ptMapBridge;
             purpleArray[PIXEL_INDEX(pointMap->x, pointMap->y)] = 1.0;
         }
-    
-
-
-
-    // show image on iPhone view
-    
-    CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
-    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
-    
-    CGContextRef newContextRef = CGBitmapContextCreate(testimagedata, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
-    CGContextTranslateCTM(newContextRef, 0, mouthImage.size.height);
-    CGContextScaleCTM(newContextRef, 1, -1);
-    
-
-    for(int x = 0; x < mouthImage.size.width; x++) {
-        for(int y = 0; y < mouthImage.size.height; y++) {
-            UIColor *yellowColor = [[UIColor alloc] initWithRed:1.0 green:1.0 blue:0.0 alpha:zeroArray[PIXEL_INDEX(x, y)]];
-            CGContextSetFillColorWithColor(newContextRef, yellowColor.CGColor);
-            CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
-            
-            UIColor *purpleColor = [[UIColor alloc] initWithRed:1.0 green:0.0 blue:1.0 alpha:purpleArray[PIXEL_INDEX(x, y)]];
-            CGContextSetFillColorWithColor(newContextRef, purpleColor.CGColor);
-            CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
+        
+        
+        
+        
+        // show image on iPhone view
+        
+        CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
+        CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
+        
+        CGContextRef newContextRef = CGBitmapContextCreate(testimagedata, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
+        CGContextTranslateCTM(newContextRef, 0, mouthImage.size.height);
+        CGContextScaleCTM(newContextRef, 1, -1);
+        
+        
+        for(int x = 0; x < mouthImage.size.width; x++) {
+            for(int y = 0; y < mouthImage.size.height; y++) {
+                UIColor *yellowColor = [[UIColor alloc] initWithRed:1.0 green:1.0 blue:0.0 alpha:zeroArray[PIXEL_INDEX(x, y)]];
+                CGContextSetFillColorWithColor(newContextRef, yellowColor.CGColor);
+                CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
+                
+                UIColor *purpleColor = [[UIColor alloc] initWithRed:1.0 green:0.0 blue:1.0 alpha:purpleArray[PIXEL_INDEX(x, y)]];
+                CGContextSetFillColorWithColor(newContextRef, purpleColor.CGColor);
+                CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
+            }
         }
-    }
-    
-    
-    CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
-
-    
-    
-    // show MODIFIED  image on iPhone screen
-    UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
-    
-
-    CGImageRelease(newImageRef);
-    CGContextRelease(newContextRef);
-    
-    
-    
-    
-    
-    CFRelease(pixelData);
-    
-    
-
-    
-    
-    
-    free(testimagedata);
-    free(zeroArray);
-    return modifiedImage;
-    //return [ocv edgeMeanShiftDetectReturnEdges:mouthImage];*/
+        
+        
+        CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
+        
+        
+        
+        // show MODIFIED  image on iPhone screen
+        UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
+        
+        
+        CGImageRelease(newImageRef);
+        CGContextRelease(newContextRef);
+        
+        
+        
+        
+        
+        CFRelease(pixelData);
+        
+        
+        
+        
+        
+        
+        free(testimagedata);
+        free(zeroArray);
+        return modifiedImage;
+        //return [ocv edgeMeanShiftDetectReturnEdges:mouthImage];*/
     }
     
 }
