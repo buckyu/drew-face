@@ -842,15 +842,20 @@ NSUInteger sizeFunction(const void *item) {
         
         NSHashTable *hashTable = [[NSHashTable alloc] initWithPointerFunctions:functions capacity:target_coverage];
         
-        
-        
+        uint8_t min[] = {UINT8_MAX,UINT8_MAX,UINT8_MAX};
+        uint8_t max[] = {0,0,0};
+        printf("yellow/purple pass\n");
         for(int x = 0; x < mouthImage.size.width; x++) {
             for(int y = 0; y < mouthImage.size.height; y++) {
                 //you want to use 1-dimensional euclid here... otherwise a component that loses in one component can make it up in another...
                 float euclid = 0.0;
                 BOOL pixel_is_bad = NO;
                 for(int z = 0; z < 3; z++) {
+                    
                     int known = (int) GET_PIXEL(x, y, z);
+                    if (known < min[z]) min[z] = known;
+                    if (known > max[z]) max[z] = known;
+
                     if (known > ideal[z] + err[z] || known < ideal[z] - err[z]) {
                         pixel_is_bad = YES;
                     }
@@ -887,6 +892,7 @@ NSUInteger sizeFunction(const void *item) {
                 }
             }
         }
+        uint8_t range[] = {abs((int)min[0]-(int)max[0]),abs((int)min[1]-(int)max[1]),abs((int)min[2]-(int)max[2])};
         
         uint8_t *purpleArray = calloc(mouthImage.size.width * mouthImage.size.height, sizeof(uint8_t));
         for (id ptMapBridge in hashTable) {
@@ -894,39 +900,65 @@ NSUInteger sizeFunction(const void *item) {
             purpleArray[PIXEL_INDEX(pointMap->x, pointMap->y)] = 1;
         }
         
-        uint8_t *cellArray = calloc(mouthImage.size.width * mouthImage.size.height, sizeof(uint8_t));
-        memcpy(cellArray,purpleArray,mouthImage.size.width * mouthImage.size.height * sizeof(uint8_t));
+        printf("Automata pass\n");
+
+
+
+        float *cellArray = calloc(mouthImage.size.width * mouthImage.size.height, sizeof(float));
+        for(int x = 0; x < mouthImage.size.width; x++) {
+            for(int y = 0; y < mouthImage.size.height; y++) {
+                
+                cellArray[PIXEL_INDEX(x, y)] = purpleArray[PIXEL_INDEX(x, y)];
+            }
+        }
+#define SUBTRACT_OR_ZERO(LEXP,REXP) LEXP -= REXP;\
+                                    if (LEXP < 0) LEXP = 0
+#define ADD_OR_ONE(LEXP,REXP) LEXP += REXP;\
+                                if (LEXP > 1) LEXP = 1
         const int simulations = 10;
         for (int s = 0; s < simulations; s++) {
-            printf("Automata pass %d of %d\n",s,simulations);
             for(int x = 0; x < mouthImage.size.width; x++) {
                 for(int y = 0; y < mouthImage.size.height; y++) {
-                    int neighbor_count = 0;
-                    uint8_t currentCellAlive = cellArray[PIXEL_INDEX(x, y)];
+                    float neighbor_count = 0;
+                    uint8_t currentCellAlive = cellArray[PIXEL_INDEX(x, y)] > 0.5;
                     float euclid_sum = 0;
                     //we're going to loop through our neighbors
                     int neighbors = 0;
-                    for(int nx = x-1; nx < x+1; nx++) {
+                    for(int nx = x-1; nx <= x+1; nx++) {
                         if (nx < 0 || nx >= mouthImage.size.width) continue;
-                        for(int ny = y-1; ny < y+1; ny++) {
+                        for(int ny = y-1; ny <= y+1; ny++) {
                             if (ny < 0 || ny >= mouthImage.size.height) continue;
                             neighbors++;
-                            if (cellArray[PIXEL_INDEX(nx, ny)]) {
-                                neighbor_count += 1;
-                            }
+                            int old_nc = neighbor_count;
+                            neighbor_count += cellArray[PIXEL_INDEX(nx, ny)];
+                            assert(neighbor_count <= 9);
                             float euclid = 0.0;
-                            euclid += pow((int)GET_PIXEL(x, y, 0) - (int)GET_PIXEL(nx, ny, 0),2);
-                            euclid += pow((int)GET_PIXEL(x, y, 1) - (int)GET_PIXEL(nx, ny, 1),2);
-                            euclid += pow((int)GET_PIXEL(x, y, 2) - (int)GET_PIXEL(nx, ny, 2),2);
+                            euclid += pow(((int)GET_PIXEL(x, y, 0) - (int)GET_PIXEL(nx, ny, 0)) / ((float) range[0]),2);
+                            euclid += pow(((int)GET_PIXEL(x, y, 1) - (int)GET_PIXEL(nx, ny, 1))/((float) range[1]),2);
+                            euclid += pow(((int)GET_PIXEL(x, y, 2) - (int)GET_PIXEL(nx, ny, 2))/((float) range[2]),2);
                             euclid = sqrtf(euclid);
                             euclid_sum += euclid;
                         }
                     }
+                    
+                    int centerx = mouthImage.size.width / 2;
+                    int centery = mouthImage.size.height / 2;
+                    
+                    float dist = sqrtf(powf(centerx-x, 2) + powf(centery - y, 2));
+                    dist /= mouthImage.size.width;
+                    
+                    SUBTRACT_OR_ZERO(cellArray[PIXEL_INDEX(x, y)],dist / 5.0);
+                    assert(cellArray[PIXEL_INDEX(x, y)] <= 1);
+                    
                     euclid_sum /= neighbors;
-                    if (neighbor_count < 2) {
-                        cellArray[PIXEL_INDEX(x, y)] = 0;
-                    }
-                    else if (neighbor_count && euclid_sum < 3) {
+                    //if (neighbor_count > 0) printf("nc %d\n",neighbor_count);
+                    float lookup_subtract[] = {1.0,1.0,1.0,
+                                       1.0,0.0,0.0,
+                                        0.0,0.0,0.0,0.0};
+                    SUBTRACT_OR_ZERO(cellArray[PIXEL_INDEX(x, y)],lookup_subtract[(int) neighbor_count]);
+                    assert(cellArray[PIXEL_INDEX(x, y)] <= 1);
+
+                    if (neighbor_count && euclid_sum < .045) {
                         cellArray[PIXEL_INDEX(x, y)] = 1;
                     }
                 }
@@ -947,9 +979,8 @@ NSUInteger sizeFunction(const void *item) {
         CGContextScaleCTM(newContextRef, 1, -1);
         
         UIColor *purpleColor = [[UIColor alloc] initWithRed:1.0 green:0.0 blue:1.0 alpha:1];
-        UIColor *blueColor = [[UIColor alloc] initWithRed:0.0 green:0.0 blue:1.0 alpha:1.0];
 
-        
+        printf("drawing pass\n");
         for(int x = 0; x < mouthImage.size.width; x++) {
             for(int y = 0; y < mouthImage.size.height; y++) {
                 UIColor *yellowColor = [[UIColor alloc] initWithRed:1.0 green:1.0 blue:0.0 alpha:zeroArray[PIXEL_INDEX(x, y)]];
@@ -962,7 +993,8 @@ NSUInteger sizeFunction(const void *item) {
                 }
                 
                 if (cellArray[PIXEL_INDEX(x, y)]) {
-                    CGContextSetFillColorWithColor(newContextRef, blueColor.CGColor);
+                    UIColor *greenColor = [[UIColor alloc] initWithRed:0.0 green:1.0 blue:0.0 alpha:cellArray[PIXEL_INDEX(x, y)]];
+                    CGContextSetFillColorWithColor(newContextRef, greenColor.CGColor);
                     CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
                 }
                
