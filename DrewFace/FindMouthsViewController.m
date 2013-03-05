@@ -794,13 +794,86 @@ NSUInteger sizeFunction(const void *item) {
         
         uint8_t *testimagedata = malloc(mouthImage.size.height * mouthImage.size.width *4);
         memcpy(testimagedata, testimagedata2, mouthImage.size.height * mouthImage.size.width *4);
+#define GET_PIXEL(X,Y,Z) testimagedata[Y * (int)mouthImage.size.width * 4 + X * 4 + Z]
+
         
         float *zeroArray = malloc(mouthImage.size.height * mouthImage.size.width * sizeof(float));
         bzero(zeroArray, mouthImage.size.height * mouthImage.size.width * sizeof(float));
         
+        int rDistributions[255] = {0};
+        int gDistributions[255] = {0};
+        int bDistributions[255] = {0};
+        
+        printf("statistics\n");
+        int total = 0;
+        for(int x = 0; x < mouthImage.size.width; x++) {
+            for(int y = 0; y < mouthImage.size.height; y++) {
+                rDistributions[GET_PIXEL(x, y, 0)]++;
+                gDistributions[GET_PIXEL(x, y, 1)]++;
+                bDistributions[GET_PIXEL(x, y, 2)]++;
+                total++;
+            }
+        }
+        
+        int bottomQR = 0;
+        int topQR = 0;
+        int bottomQG = 0;
+        int topQG = 0;
+        int bottomQB = 0;
+        int topQB = 0;
+        int search = 0;
+        const float minQ = .20;
+        const float maxQ = .80;
+        int i = 0;
+        for(i = 0; i < 255; i++) {
+            search += rDistributions[i];
+            if (search * 1.0 / total > minQ) break;
+        }
+        bottomQR = i;
+        
+        search = 0;
+        for(i = 0; i < 255; i++) {
+            search += rDistributions[i];
+            if (search * 1.0 / total > maxQ) break;
+        }
+        topQR = i;
+        
+        search = 0;
+        for(i = 0; i < 255; i++) {
+            search += gDistributions[i];
+            if (search * 1.0 / total > minQ) break;
+        }
+        bottomQG = i;
+        
+        search = 0;
+        for(i = 0; i < 255; i++) {
+            search += gDistributions[i];
+            if (search * 1.0 / total > maxQ) break;
+        }
+        topQG = i;
+        
+        search = 0;
+        for(i = 0; i < 255; i++) {
+            search += bDistributions[i];
+            if (search * 1.0 / total > minQ) break;
+        }
+        bottomQB = i;
+        
+        search = 0;
+        for(i = 0; i < 255; i++) {
+            search += bDistributions[i];
+            if (search * 1.0 / total > maxQ) break;
+        }
+        topQB = i;
+
+        int rangeQR = abs(topQR - bottomQR);
+        int rangeQB = abs(topQB - bottomQB);
+        int rangeQG = abs(topQG - bottomQG);
+        
+        printf("correct %d %d %d\n",rangeQR,rangeQB,rangeQG);
         
         
-#define GET_PIXEL(X,Y,Z) testimagedata[Y * (int)mouthImage.size.width * 4 + X * 4 + Z]
+        
 #define PIXEL_INDEX(X,Y) Y *(int)mouthImage.size.width + X
         
         
@@ -814,7 +887,6 @@ NSUInteger sizeFunction(const void *item) {
         const int ideals = 2;
         int ideal[3] = {0,0,0};
         int err[3] = {0,0,0};
-        
         for(int i = 0; i < 3; i++) {
             int component_min = INT_MAX;
             int component_max = INT_MIN;
@@ -894,6 +966,7 @@ NSUInteger sizeFunction(const void *item) {
         }
         uint8_t range[] = {abs((int)min[0]-(int)max[0]),abs((int)min[1]-(int)max[1]),abs((int)min[2]-(int)max[2])};
         
+        
         uint8_t *purpleArray = calloc(mouthImage.size.width * mouthImage.size.height, sizeof(uint8_t));
         for (id ptMapBridge in hashTable) {
             pointMap *pointMap = (__bridge void*) ptMapBridge;
@@ -915,7 +988,7 @@ NSUInteger sizeFunction(const void *item) {
                                     if (LEXP < 0) LEXP = 0
 #define ADD_OR_ONE(LEXP,REXP) LEXP += REXP;\
                                 if (LEXP > 1) LEXP = 1
-        const int simulations = 10;
+        const int simulations = 200;
         for (int s = 0; s < simulations; s++) {
             for(int x = 0; x < mouthImage.size.width; x++) {
                 for(int y = 0; y < mouthImage.size.height; y++) {
@@ -929,38 +1002,41 @@ NSUInteger sizeFunction(const void *item) {
                         for(int ny = y-1; ny <= y+1; ny++) {
                             if (ny < 0 || ny >= mouthImage.size.height) continue;
                             neighbors++;
-                            int old_nc = neighbor_count;
                             neighbor_count += cellArray[PIXEL_INDEX(nx, ny)];
                             assert(neighbor_count <= 9);
                             float euclid = 0.0;
-                            euclid += pow(((int)GET_PIXEL(x, y, 0) - (int)GET_PIXEL(nx, ny, 0)) / ((float) range[0]),2);
-                            euclid += pow(((int)GET_PIXEL(x, y, 1) - (int)GET_PIXEL(nx, ny, 1))/((float) range[1]),2);
-                            euclid += pow(((int)GET_PIXEL(x, y, 2) - (int)GET_PIXEL(nx, ny, 2))/((float) range[2]),2);
+                            euclid += pow(((int)GET_PIXEL(x, y, 0) - (int)GET_PIXEL(nx, ny, 0)),2) / (pow(rangeQR, 2));
+                            euclid += pow(((int)GET_PIXEL(x, y, 1) - (int)GET_PIXEL(nx, ny, 1)),2) / (pow(rangeQG, 2));
+                            euclid += pow(((int)GET_PIXEL(x, y, 2) - (int)GET_PIXEL(nx, ny, 2)),2) / (pow(rangeQB, 2));
                             euclid = sqrtf(euclid);
                             euclid_sum += euclid;
                         }
                     }
                     
-                    int centerx = mouthImage.size.width / 2;
-                    int centery = mouthImage.size.height / 2;
-                    
-                    float dist = sqrtf(powf(centerx-x, 2) + powf(centery - y, 2));
-                    dist /= mouthImage.size.width;
-                    
-                    SUBTRACT_OR_ZERO(cellArray[PIXEL_INDEX(x, y)],dist / 5.0);
-                    assert(cellArray[PIXEL_INDEX(x, y)] <= 1);
-                    
+
                     euclid_sum /= neighbors;
                     //if (neighbor_count > 0) printf("nc %d\n",neighbor_count);
                     float lookup_subtract[] = {1.0,1.0,1.0,
-                                       1.0,0.0,0.0,
+                                       1.0,1.0,0.0,
                                         0.0,0.0,0.0,0.0};
                     SUBTRACT_OR_ZERO(cellArray[PIXEL_INDEX(x, y)],lookup_subtract[(int) neighbor_count]);
                     assert(cellArray[PIXEL_INDEX(x, y)] <= 1);
 
-                    if (neighbor_count && euclid_sum < .045) {
+                    if (neighbor_count > 3 && euclid_sum < .8) {
                         cellArray[PIXEL_INDEX(x, y)] = 1;
                     }
+                    
+                    int b1 = 0.33 * mouthImage.size.height;
+                    int b2 = 0.66 * mouthImage.size.height;
+                    if (y < b1) {
+                        SUBTRACT_OR_ZERO(cellArray[PIXEL_INDEX(x, y)], (b1 - y) * 2.0 / b1);
+                    }
+                    else if (y > b2) {
+                        SUBTRACT_OR_ZERO(cellArray[PIXEL_INDEX(x, y)], (y - b2) * 2.0 / b1);
+                    }
+                    
+                    //printf("%f\n",cellArray[PIXEL_INDEX(x, y)]);
+                    assert(cellArray[PIXEL_INDEX(x, y)] <= 1);
                 }
             }
         }
