@@ -773,26 +773,33 @@
 
 // Drew's Algorithm to go here:
 -(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
+    
+    mouthImage = [ocv colorTheImage:mouthImage];
 
     //stage 1: get an initial approximation of teeth pixels
     CGDataProviderRef myDataProvider = CGImageGetDataProvider(mouthImage.CGImage);
     CFDataRef pixelData = CGDataProviderCopyData(myDataProvider);
-    const uint8_t *testimagedata = CFDataGetBytePtr(pixelData);
+    const uint8_t *testimagedata2 = CFDataGetBytePtr(pixelData);
+    
+    uint8_t *testimagedata = malloc(mouthImage.size.height * mouthImage.size.width *4);
+    memccpy(testimagedata, testimagedata2, 1, mouthImage.size.height * mouthImage.size.width *4);
     
     //is it spaced ARGB here?
-    const int dimensions = 4;
-    uint8_t *zeroArray = malloc(mouthImage.size.height * mouthImage.size.width*dimensions);
-    memset(zeroArray, 0, mouthImage.size.height * mouthImage.size.width * dimensions);
+    //const int dimensions = 4;
+    
+    uint8_t *zeroArray = malloc(mouthImage.size.height * mouthImage.size.width);
+    //memset(zeroArray, 0, mouthImage.size.height * mouthImage.size.width);
+    bzero(zeroArray, mouthImage.size.height * mouthImage.size.width);
     
     
-#define GET_PIXEL(X,Y,Z) testimagedata[Y * (int)mouthImage.size.width * dimensions + X * dimensions + Z]
-#define PIXEL_INDEX(X,Y) (int)mouthImage.size.width*Y*dimensions + X*dimensions
+#define GET_PIXEL(X,Y,Z) testimagedata[Y * (int)mouthImage.size.width * 4 + X * 4 + Z]
+#define PIXEL_INDEX(X,Y) Y *(int)mouthImage.size.width + X
 
     for(int x = 0; x < mouthImage.size.width; x++) {
         for(int y = 0; y < mouthImage.size.height; y++) {
-            //in theory this should be the "R" component
-            uint8_t px = GET_PIXEL(x, y, 0); //if we are in RGBA colorspace
-            if (px > 250) zeroArray[PIXEL_INDEX(x, y)] = 1; //this will cause the pixel to be drawn as red on the output
+            
+            uint8_t px = GET_PIXEL(x, y, 0);
+            if (px > 128) zeroArray[PIXEL_INDEX(x, y)] = 1; //this will cause the pixel to be drawn as YELLOW on the output
         }
     }
     
@@ -817,18 +824,20 @@
     dispatch_sync(dispatch_get_main_queue(), ^{
         UIGraphicsBeginImageContext(mouthImage.size);
         CGContextRef context = UIGraphicsGetCurrentContext();
+        
         CGContextTranslateCTM(context, 0.0, CGImageGetHeight(mouthImage.CGImage));
         CGContextScaleCTM(context, 1.0, -1.0);
 
         CGRect rect1 = CGRectMake(0, 0, mouthImage.size.width, mouthImage.size.height);
         CGContextDrawImage(context, rect1, mouthImage.CGImage);
-        UIColor *color = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0];
+        
+        UIColor *color = [UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0];
         CGContextSetFillColorWithColor(context, color.CGColor);
-        for(int x = 0; x < mouthImage.size.width; x++) {
+        for(int x = 1; x < mouthImage.size.width-1; x++) {
 
-            for(int y = 0; y < mouthImage.size.height; y++) {
+            for(int y = 1; y < mouthImage.size.height-1; y++) {
                 if (zeroArray[PIXEL_INDEX(x,y)]) {
-                    CGContextFillRect(context, CGRectMake(x, y, 10, 10));
+                    CGContextFillRect(context, CGRectMake(x-1, mouthImage.size.height-(y-1), -2, -2));
                 }
             }
         }
@@ -837,7 +846,7 @@
     });
 
     
-
+    free(testimagedata);
     free(zeroArray);
     return outImage;
     //return [ocv edgeMeanShiftDetectReturnEdges:mouthImage];*/
