@@ -887,7 +887,11 @@ NSUInteger sizeFunction(const void *item) {
         }
     }
     
-    
+        float *purpleArray = calloc(mouthImage.size.width * mouthImage.size.height, sizeof(float));
+        for (id ptMapBridge in hashTable) {
+            pointMap *pointMap = (__bridge void*) ptMapBridge;
+            purpleArray[PIXEL_INDEX(pointMap->x, pointMap->y)] = 1.0;
+        }
     
 
 
@@ -907,16 +911,13 @@ NSUInteger sizeFunction(const void *item) {
             UIColor *yellowColor = [[UIColor alloc] initWithRed:1.0 green:1.0 blue:0.0 alpha:zeroArray[PIXEL_INDEX(x, y)]];
             CGContextSetFillColorWithColor(newContextRef, yellowColor.CGColor);
             CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
+            
+            UIColor *purpleColor = [[UIColor alloc] initWithRed:1.0 green:0.0 blue:1.0 alpha:purpleArray[PIXEL_INDEX(x, y)]];
+            CGContextSetFillColorWithColor(newContextRef, purpleColor.CGColor);
+            CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
         }
     }
-    for (id ptMapBridge in hashTable) {
-        pointMap *pointMap = (__bridge void*) ptMapBridge;
-        UIColor *purpleColor = [[UIColor alloc] initWithRed:1.0 green:0.0 blue:1.0 alpha:pointMap->value];
-        CGContextSetFillColorWithColor(newContextRef, purpleColor.CGColor);
-        CGContextFillRect(newContextRef, CGRectMake(pointMap->x, pointMap->y, 1, 1));
-
-        
-    }
+    
     
     CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
 
