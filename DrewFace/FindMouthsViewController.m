@@ -887,10 +887,29 @@ NSUInteger sizeFunction(const void *item) {
             }
         }
         
-        float *purpleArray = calloc(mouthImage.size.width * mouthImage.size.height, sizeof(float));
+        uint8_t *purpleArray = calloc(mouthImage.size.width * mouthImage.size.height, sizeof(uint8_t));
         for (id ptMapBridge in hashTable) {
             pointMap *pointMap = (__bridge void*) ptMapBridge;
-            purpleArray[PIXEL_INDEX(pointMap->x, pointMap->y)] = 1.0;
+            purpleArray[PIXEL_INDEX(pointMap->x, pointMap->y)] = 1;
+        }
+        
+        uint8_t *cellArray = calloc(mouthImage.size.width * mouthImage.size.height, sizeof(uint8_t));
+        memcpy(cellArray,purpleArray,mouthImage.size.width * mouthImage.size.height * sizeof(uint8_t));
+        
+        for(int x = 0; x < mouthImage.size.width; x++) {
+            for(int y = 0; y < mouthImage.size.height; y++) {
+                int neighbor_count = 0;
+                //we're going to loop through our neighbors
+                for(int nx = x-1; nx < x+1; nx++) {
+                    if (nx < 0 || nx >= mouthImage.size.width) continue;
+                    for(int ny = y-1; ny < y+1; ny++) {
+                        if (ny < 0 || ny >= mouthImage.size.height) continue;
+                        neighbor_count += cellArray[PIXEL_INDEX(nx, ny)];
+                    }
+                }
+                //if we have less than 3 neighbors, kill
+                if (neighbor_count < 1) cellArray[PIXEL_INDEX(x, y)] = 0;
+            }
         }
         
         
@@ -905,6 +924,9 @@ NSUInteger sizeFunction(const void *item) {
         CGContextTranslateCTM(newContextRef, 0, mouthImage.size.height);
         CGContextScaleCTM(newContextRef, 1, -1);
         
+        UIColor *purpleColor = [[UIColor alloc] initWithRed:1.0 green:0.0 blue:1.0 alpha:1];
+        UIColor *blueColor = [[UIColor alloc] initWithRed:0.0 green:0.0 blue:1.0 alpha:1.0];
+
         
         for(int x = 0; x < mouthImage.size.width; x++) {
             for(int y = 0; y < mouthImage.size.height; y++) {
@@ -912,9 +934,17 @@ NSUInteger sizeFunction(const void *item) {
                 CGContextSetFillColorWithColor(newContextRef, yellowColor.CGColor);
                 CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
                 
-                UIColor *purpleColor = [[UIColor alloc] initWithRed:1.0 green:0.0 blue:1.0 alpha:purpleArray[PIXEL_INDEX(x, y)]];
-                CGContextSetFillColorWithColor(newContextRef, purpleColor.CGColor);
-                CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
+                if (purpleArray[PIXEL_INDEX(x, y)]) {
+                    CGContextSetFillColorWithColor(newContextRef, purpleColor.CGColor);
+                    CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
+                }
+               
+                if (cellArray[PIXEL_INDEX(x, y)]) {
+                    CGContextSetFillColorWithColor(newContextRef, blueColor.CGColor);
+                    CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
+                }
+                
+                
             }
         }
         
@@ -943,6 +973,8 @@ NSUInteger sizeFunction(const void *item) {
         
         free(testimagedata);
         free(zeroArray);
+        free(purpleArray);
+        free(cellArray);
         return modifiedImage;
         //return [ocv edgeMeanShiftDetectReturnEdges:mouthImage];*/
     }
