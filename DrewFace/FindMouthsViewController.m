@@ -782,24 +782,27 @@
     const uint8_t *testimagedata2 = CFDataGetBytePtr(pixelData);
     
     uint8_t *testimagedata = malloc(mouthImage.size.height * mouthImage.size.width *4);
-    memccpy(testimagedata, testimagedata2, 1, mouthImage.size.height * mouthImage.size.width *4);
-    
-    //is it spaced ARGB here?
-    //const int dimensions = 4;
+    memcpy(testimagedata, testimagedata2, mouthImage.size.height * mouthImage.size.width *4);
     
     uint8_t *zeroArray = malloc(mouthImage.size.height * mouthImage.size.width);
-    //memset(zeroArray, 0, mouthImage.size.height * mouthImage.size.width);
     bzero(zeroArray, mouthImage.size.height * mouthImage.size.width);
     
     
 #define GET_PIXEL(X,Y,Z) testimagedata[Y * (int)mouthImage.size.width * 4 + X * 4 + Z]
 #define PIXEL_INDEX(X,Y) Y *(int)mouthImage.size.width + X
+    
 
     for(int x = 0; x < mouthImage.size.width; x++) {
         for(int y = 0; y < mouthImage.size.height; y++) {
             
             uint8_t px = GET_PIXEL(x, y, 0);
-            if (px > 128) zeroArray[PIXEL_INDEX(x, y)] = 1; //this will cause the pixel to be drawn as YELLOW on the output
+            if (px > 240) {
+                //zeroArray[PIXEL_INDEX(x, y)] = 1; //this will cause the pixel to be drawn as YELLOW on the output
+                GET_PIXEL(x,y,0) = 0xff;
+                GET_PIXEL(x,y,1) = 0xff;
+                GET_PIXEL(x,y,2) = 0x00;
+            }
+            
         }
     }
     
@@ -819,13 +822,14 @@
         }
     }*/
     
+    /*
     //draw on top of the image, this is purely for debugging
     __block UIImage *outImage;
     dispatch_sync(dispatch_get_main_queue(), ^{
         UIGraphicsBeginImageContext(mouthImage.size);
         CGContextRef context = UIGraphicsGetCurrentContext();
         
-        CGContextTranslateCTM(context, 0.0, CGImageGetHeight(mouthImage.CGImage));
+        CGContextTranslateCTM(context, 0.0, mouthImage.size.height);
         CGContextScaleCTM(context, 1.0, -1.0);
 
         CGRect rect1 = CGRectMake(0, 0, mouthImage.size.width, mouthImage.size.height);
@@ -838,17 +842,45 @@
             for(int y = 1; y < mouthImage.size.height-1; y++) {
                 if (zeroArray[PIXEL_INDEX(x,y)]) {
                     CGContextFillRect(context, CGRectMake(x-1, mouthImage.size.height-(y-1), -2, -2));
+            
                 }
             }
         }
         outImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
     });
+     */
 
+    // show image on iPhone view
+    
+    CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
+    
+    CGContextRef newContextRef = CGBitmapContextCreate(testimagedata, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
+    
+    CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
+    
+    // show MODIFIED  image on iPhone screen
+    UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
+    
+
+    CGImageRelease(newImageRef);
+    CGContextRelease(newContextRef);
+    
+    
+    
+    
+    
+    CFRelease(pixelData);
+    
+    
+
+    
+    
     
     free(testimagedata);
     free(zeroArray);
-    return outImage;
+    return modifiedImage;
     //return [ocv edgeMeanShiftDetectReturnEdges:mouthImage];*/
     
 }
