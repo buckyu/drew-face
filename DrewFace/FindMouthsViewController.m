@@ -779,6 +779,7 @@ NSUInteger sizeFunction(const void *item) {
     return sizeof(pointMap);
 }
 
+
 // Drew's Algorithm to go here:
 -(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
     @autoreleasepool {
@@ -895,22 +896,43 @@ NSUInteger sizeFunction(const void *item) {
         
         uint8_t *cellArray = calloc(mouthImage.size.width * mouthImage.size.height, sizeof(uint8_t));
         memcpy(cellArray,purpleArray,mouthImage.size.width * mouthImage.size.height * sizeof(uint8_t));
-        
-        for(int x = 0; x < mouthImage.size.width; x++) {
-            for(int y = 0; y < mouthImage.size.height; y++) {
-                int neighbor_count = 0;
-                //we're going to loop through our neighbors
-                for(int nx = x-1; nx < x+1; nx++) {
-                    if (nx < 0 || nx >= mouthImage.size.width) continue;
-                    for(int ny = y-1; ny < y+1; ny++) {
-                        if (ny < 0 || ny >= mouthImage.size.height) continue;
-                        neighbor_count += cellArray[PIXEL_INDEX(nx, ny)];
+        const int simulations = 10;
+        for (int s = 0; s < simulations; s++) {
+            printf("Automata pass %d of %d\n",s,simulations);
+            for(int x = 0; x < mouthImage.size.width; x++) {
+                for(int y = 0; y < mouthImage.size.height; y++) {
+                    int neighbor_count = 0;
+                    uint8_t currentCellAlive = cellArray[PIXEL_INDEX(x, y)];
+                    float euclid_sum = 0;
+                    //we're going to loop through our neighbors
+                    int neighbors = 0;
+                    for(int nx = x-1; nx < x+1; nx++) {
+                        if (nx < 0 || nx >= mouthImage.size.width) continue;
+                        for(int ny = y-1; ny < y+1; ny++) {
+                            if (ny < 0 || ny >= mouthImage.size.height) continue;
+                            neighbors++;
+                            if (cellArray[PIXEL_INDEX(nx, ny)]) {
+                                neighbor_count += 1;
+                            }
+                            float euclid = 0.0;
+                            euclid += pow((int)GET_PIXEL(x, y, 0) - (int)GET_PIXEL(nx, ny, 0),2);
+                            euclid += pow((int)GET_PIXEL(x, y, 1) - (int)GET_PIXEL(nx, ny, 1),2);
+                            euclid += pow((int)GET_PIXEL(x, y, 2) - (int)GET_PIXEL(nx, ny, 2),2);
+                            euclid = sqrtf(euclid);
+                            euclid_sum += euclid;
+                        }
+                    }
+                    euclid_sum /= neighbors;
+                    if (neighbor_count < 2) {
+                        cellArray[PIXEL_INDEX(x, y)] = 0;
+                    }
+                    else if (neighbor_count && euclid_sum < 3) {
+                        cellArray[PIXEL_INDEX(x, y)] = 1;
                     }
                 }
-                //if we have less than 3 neighbors, kill
-                if (neighbor_count < 1) cellArray[PIXEL_INDEX(x, y)] = 0;
             }
         }
+        
         
         
         
@@ -933,16 +955,18 @@ NSUInteger sizeFunction(const void *item) {
                 UIColor *yellowColor = [[UIColor alloc] initWithRed:1.0 green:1.0 blue:0.0 alpha:zeroArray[PIXEL_INDEX(x, y)]];
                 CGContextSetFillColorWithColor(newContextRef, yellowColor.CGColor);
                 CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
-                
+               
                 if (purpleArray[PIXEL_INDEX(x, y)]) {
                     CGContextSetFillColorWithColor(newContextRef, purpleColor.CGColor);
                     CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
                 }
-               
+                
                 if (cellArray[PIXEL_INDEX(x, y)]) {
                     CGContextSetFillColorWithColor(newContextRef, blueColor.CGColor);
                     CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
                 }
+               
+
                 
                 
             }
