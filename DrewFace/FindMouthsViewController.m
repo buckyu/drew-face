@@ -967,11 +967,103 @@ NSUInteger sizeFunction(const void *item) {
         uint8_t range[] = {abs((int)min[0]-(int)max[0]),abs((int)min[1]-(int)max[1]),abs((int)min[2]-(int)max[2])};
         
         
+        
+        /*§L44*/
+        printf("patterngrep\n");
+        float *patternArray = calloc(mouthImage.size.width * mouthImage.size.height, sizeof(float));
+        
+        const int px_w = 5;
+        const int px_h = 10;
+        const uint8_t pattern[px_h][px_w] = {{0,0,0,0,0},
+                                            {0,0,0,0,0},
+                                            {0,0,0,0,0},
+                                            {0,0,0,0,0},
+                                            {0,0,0,0,0},
+                                            {1,1,1,1,1},
+                                            {1,1,1,1,1},
+                                            {1,1,1,1,1},
+                                            {1,1,1,1,1},
+                                            {1,1,1,1,1}};
+        
+        //float avgs[2] = {0};
+        
+        for(int x = 0; x < mouthImage.size.width; x++) {
+            for(int y = 0; y < mouthImage.size.height; y++) {
+                if (y==5) {
+                    int i = 0;
+                }
+                int counts[2] = {0};
+                float avg[2][3] = {0};
+                float dist[2] = {0};
+
+                
+                int centerPxR = GET_PIXEL(x, y, 0);
+                int centerPxG = GET_PIXEL(x, y, 1);
+                int centerPxB = GET_PIXEL(x, y, 2);
+                for(int py = 0; py < px_h; py++) {
+                    int py_y = y + py - px_h/2;
+                    if (py_y < 0 || py_y >= mouthImage.size.height) continue;
+                    for(int px = 0; px < px_w; px++) {
+                        uint8_t patternTile = pattern[py][px];
+                        int px_x = x + px - px_w/2;
+                        if (px_x < 0 || px_x >= mouthImage.size.width) continue;
+                        counts[patternTile]++;
+                        int patternPxR = GET_PIXEL(px_x, py_y, 0);
+                        int patternPxG = GET_PIXEL(px_x, py_y, 1);
+                        int patternPxB = GET_PIXEL(px_x, py_y, 2);
+                        avg[patternTile][0] += patternPxR;
+                        avg[patternTile][1] += patternPxG;
+                        avg[patternTile][2] += patternPxB;
+                        assert(avg[patternTile][0]/counts[patternTile] <= 255);
+                        assert(avg[patternTile][1]/counts[patternTile] <= 255);
+                        assert(avg[patternTile][2]/counts[patternTile] <= 255);
+
+                        dist[patternTile] += powf(abs(centerPxR - patternPxR), 2);
+                        dist[patternTile] += powf(abs(centerPxG - patternPxG), 2);
+                        dist[patternTile] += powf(abs(centerPxB - patternPxB), 2);
+                        
+                        if (sqrt(dist[patternTile]) > 200 && y == 5) {
+                            int i = 0;
+                        }
+                    }
+                }
+
+                dist[0] = sqrtf(dist[0]);
+                dist[1] = sqrtf(dist[1]);
+                if (counts[0] + counts[1] != px_w * px_h) continue;
+                avg[0][0] /= counts[0];
+                avg[0][1] /= counts[0];
+                avg[0][2] /= counts[0];
+                avg[1][0] /= counts[1];
+                avg[1][1] /= counts[1];
+                avg[1][2] /= counts[1];
+                
+                float populationDifference = 0;
+                populationDifference += powf(avg[0][0]-avg[1][0],2);
+                populationDifference += powf(avg[0][1]-avg[1][1],2);
+                populationDifference += powf(avg[0][2]-avg[1][2],2);
+                
+                populationDifference = sqrtf(populationDifference);
+                
+                //i have no idea what kind of scale anything would be.
+                if (dist[0] < 700 && dist[1] < 700 && populationDifference > 50) {
+                    patternArray[PIXEL_INDEX(x, y)] = 1.0;
+                    //printf("%d,%d, %f-%f-%f\n",x,y,dist[0],dist[1],populationDifference);
+
+                }
+                
+                
+            }
+        }
+        
+        
         uint8_t *purpleArray = calloc(mouthImage.size.width * mouthImage.size.height, sizeof(uint8_t));
         for (id ptMapBridge in hashTable) {
             pointMap *pointMap = (__bridge void*) ptMapBridge;
             purpleArray[PIXEL_INDEX(pointMap->x, pointMap->y)] = 1;
         }
+
+        
         
         printf("Automata pass\n");
 
@@ -988,7 +1080,7 @@ NSUInteger sizeFunction(const void *item) {
                                     if (LEXP < 0) LEXP = 0
 #define ADD_OR_ONE(LEXP,REXP) LEXP += REXP;\
                                 if (LEXP > 1) LEXP = 1
-        const int simulations = 200;
+        const int simulations = 0;
         for (int s = 0; s < simulations; s++) {
             for(int x = 0; x < mouthImage.size.width; x++) {
                 for(int y = 0; y < mouthImage.size.height; y++) {
@@ -1068,10 +1160,16 @@ NSUInteger sizeFunction(const void *item) {
                     CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
                 }
                 
+                if (patternArray[PIXEL_INDEX(x, y)]) {
+                    UIColor *redColor = [[UIColor alloc] initWithRed:1.0 green:0.0 blue:0.0 alpha:patternArray[PIXEL_INDEX(x, y)]];
+                    CGContextSetFillColorWithColor(newContextRef, redColor.CGColor);
+                    CGContextFillEllipseInRect(newContextRef, CGRectMake(x,y, 1, 1));
+                }
+                
                 if (cellArray[PIXEL_INDEX(x, y)]) {
                     UIColor *greenColor = [[UIColor alloc] initWithRed:0.0 green:1.0 blue:0.0 alpha:cellArray[PIXEL_INDEX(x, y)]];
                     CGContextSetFillColorWithColor(newContextRef, greenColor.CGColor);
-                    CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
+                    //CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
                 }
                
 
@@ -1106,6 +1204,7 @@ NSUInteger sizeFunction(const void *item) {
         free(testimagedata);
         free(zeroArray);
         free(purpleArray);
+        free(patternArray);
         free(cellArray);
         return modifiedImage;
         //return [ocv edgeMeanShiftDetectReturnEdges:mouthImage];*/
