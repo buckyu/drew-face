@@ -779,6 +779,7 @@
     //stage 1: get an initial approximation of teeth pixels
     CGDataProviderRef myDataProvider = CGImageGetDataProvider(mouthImage.CGImage);
     CFDataRef pixelData = CGDataProviderCopyData(myDataProvider);
+    assert (CFDataGetLength(pixelData)==mouthImage.size.width * mouthImage.size.height * 4);
     const uint8_t *testimagedata2 = CFDataGetBytePtr(pixelData);
     
     uint8_t *testimagedata = malloc(mouthImage.size.height * mouthImage.size.width *4);
@@ -792,64 +793,36 @@
 #define PIXEL_INDEX(X,Y) Y *(int)mouthImage.size.width + X
     
 
-    for(int x = 0; x < mouthImage.size.width; x++) {
-        for(int y = 0; y < mouthImage.size.height; y++) {
-            
-            uint8_t px = GET_PIXEL(x, y, 0);
-            if (px > 240) {
-                //zeroArray[PIXEL_INDEX(x, y)] = 1; //this will cause the pixel to be drawn as YELLOW on the output
-                GET_PIXEL(x,y,0) = 0xff;
-                GET_PIXEL(x,y,1) = 0xff;
-                GET_PIXEL(x,y,2) = 0x00;
-            }
-            
-        }
-    }
+    //bzero(zeroArray, mouthImage.size.height * mouthImage.size.width);
     
     //zero approximation - find all the pixels that look white
-    /*const int zero_threshold = 50;
+    const int zero_threshold = 1000;
+    const int ideal1[] = {192,192,182,
+                            252,247,235}; //the color of your typical tooth
+
+    
+    
     for(int x = 0; x < mouthImage.size.width; x++) {
         for(int y = 0; y < mouthImage.size.height; y++) {
-            float euclid = 0;
+            BOOL pixel_looks_good = YES;
             for(int z = 0; z < 3; z++) {
-                int ideal = UINT8_MAX; //convert to 16-bit signed
                 int known = (int) GET_PIXEL(x, y, z);
-                 euclid += sqrt(pow((ideal - known),2));
-            }
-            if (euclid < zero_threshold) {
-                zeroArray[PIXEL_INDEX(x,y)] = 1;
-            }
-        }
-    }*/
-    
-    /*
-    //draw on top of the image, this is purely for debugging
-    __block UIImage *outImage;
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        UIGraphicsBeginImageContext(mouthImage.size);
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        
-        CGContextTranslateCTM(context, 0.0, mouthImage.size.height);
-        CGContextScaleCTM(context, 1.0, -1.0);
-
-        CGRect rect1 = CGRectMake(0, 0, mouthImage.size.width, mouthImage.size.height);
-        CGContextDrawImage(context, rect1, mouthImage.CGImage);
-        
-        UIColor *color = [UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0];
-        CGContextSetFillColorWithColor(context, color.CGColor);
-        for(int x = 1; x < mouthImage.size.width-1; x++) {
-
-            for(int y = 1; y < mouthImage.size.height-1; y++) {
-                if (zeroArray[PIXEL_INDEX(x,y)]) {
-                    CGContextFillRect(context, CGRectMake(x-1, mouthImage.size.height-(y-1), -2, -2));
-            
+                int b1 = ideal1[z];
+                int b2 = ideal1[z +3];
+                int lbound = b1 < b2 ? b1 : b2;
+                int rbound = b1 > b2 ? b1 : b2;
+                if (!(lbound < known && rbound > known)) {
+                    pixel_looks_good = NO;
+                    break;
                 }
             }
+            if (pixel_looks_good) {
+                zeroArray[PIXEL_INDEX(x, y)] = 1.0;
+            }
         }
-        outImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-    });
-     */
+    }
+
+
 
     // show image on iPhone view
     
@@ -857,8 +830,21 @@
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
     
     CGContextRef newContextRef = CGBitmapContextCreate(testimagedata, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
+    CGContextTranslateCTM(newContextRef, 0, mouthImage.size.height);
+    CGContextScaleCTM(newContextRef, 1, -1);
+    
+
+    for(int x = 0; x < mouthImage.size.width; x++) {
+        for(int y = 0; y < mouthImage.size.height; y++) {
+            UIColor *yellowColor = [[UIColor alloc] initWithRed:1.0 green:1.0 blue:0.0 alpha:zeroArray[PIXEL_INDEX(x, y)]];
+            CGContextSetFillColorWithColor(newContextRef, yellowColor.CGColor);
+            CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
+        }
+    }
     
     CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
+
+    
     
     // show MODIFIED  image on iPhone screen
     UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
