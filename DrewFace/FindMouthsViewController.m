@@ -782,27 +782,40 @@
     const uint8_t *testimagedata2 = CFDataGetBytePtr(pixelData);
     
     uint8_t *testimagedata = malloc(mouthImage.size.height * mouthImage.size.width *4);
-    uint8_t *testimagedataMod = malloc(mouthImage.size.height * mouthImage.size.width *4);
+    uint8_t *testimagedataMod1 = malloc(mouthImage.size.height * mouthImage.size.width *4);
+    uint8_t *testimagedataMod2 = malloc(mouthImage.size.height * mouthImage.size.width *4);
     memcpy(testimagedata, testimagedata2, mouthImage.size.height * mouthImage.size.width *4);
-    bzero(testimagedataMod, mouthImage.size.height * mouthImage.size.width *4);
+    bzero(testimagedataMod1, mouthImage.size.height * mouthImage.size.width *4);
+    bzero(testimagedataMod2, mouthImage.size.height * mouthImage.size.width *4);
     
     uint8_t *zeroArray = malloc(mouthImage.size.height * mouthImage.size.width);
     bzero(zeroArray, mouthImage.size.height * mouthImage.size.width);
     
     
 #define GET_PIXEL(X,Y,Z) testimagedata[((int)mouthImage.size.width * 4 * Y) + (4 * X) + Z]
-#define GET_PIXELMOD(X,Y,Z) testimagedataMod[((int)mouthImage.size.width * 4 * Y) + (4 * X) + Z]
+#define GET_PIXELMOD1(X,Y,Z) testimagedataMod1[((int)mouthImage.size.width * 4 * Y) + (4 * X) + Z]
+#define GET_PIXELMOD2(X,Y,Z) testimagedataMod2[((int)mouthImage.size.width * 4 * Y) + (4 * X) + Z]
 #define PIXEL_INDEX(X,Y) Y *(int)mouthImage.size.width + X
     
 
-    for(int x = 2; x < mouthImage.size.width-2; x++) {
-        for(int y = 2; y < mouthImage.size.height-2; y++) {
+    for(int x = 3; x < mouthImage.size.width-3; x++) {
+        for(int y = 3; y < mouthImage.size.height-3; y++) {
             
-            uint8_t pxR = GET_PIXEL((x-1), (y-2), 0);
-            uint8_t pxG = GET_PIXEL((x-1), (y-2), 1);
-            uint8_t pxB = GET_PIXEL((x-1), (y-2), 2);
+            uint8_t pxR = GET_PIXEL((x-1), (y-3), 0);
+            uint8_t pxG = GET_PIXEL((x-1), (y-3), 1);
+            uint8_t pxB = GET_PIXEL((x-1), (y-3), 2);
+            float L0 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
+            
+            pxR = GET_PIXEL((x+1), (y-3), 0);
+            pxG = GET_PIXEL((x+1), (y-3), 1);
+            pxB = GET_PIXEL((x+1), (y-3), 2);
+            float R0 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
+            
+            pxR = GET_PIXEL((x-1), (y-2), 0);
+            pxG = GET_PIXEL((x-1), (y-2), 1);
+            pxB = GET_PIXEL((x-1), (y-2), 2);
             float L1 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
-            
+
             pxR = GET_PIXEL((x+1), (y-2), 0);
             pxG = GET_PIXEL((x+1), (y-2), 1);
             pxB = GET_PIXEL((x+1), (y-2), 2);
@@ -847,41 +860,104 @@
             pxG = GET_PIXEL((x+1), (y+2), 1);
             pxB = GET_PIXEL((x+1), (y+2), 2);
             float R5 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
+            
+            pxR = GET_PIXEL((x-1), (y+3), 0);
+            pxG = GET_PIXEL((x-1), (y+3), 1);
+            pxB = GET_PIXEL((x-1), (y+3), 2);
+            float L6 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
+            
+            pxR = GET_PIXEL((x+1), (y+3), 0);
+            pxG = GET_PIXEL((x+1), (y+3), 1);
+            pxB = GET_PIXEL((x+1), (y+3), 2);
+            float R6 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
 
             
             
+            
+            
+            // YUV filtering here for bright white first as interrupt
+            pxR = GET_PIXEL(x, y, 0);
+            pxG = GET_PIXEL(x, y, 1);
+            pxB = GET_PIXEL(x, y, 2);
+            float Y = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
+            float CR = 0.713*((float)pxR - Y);
+            float CB = 0.564*((float)pxB - Y);
             //int mH = (int)mouthImage.size.height;
             //int mW = (int)mouthImage.size.width;
+            if ((CR<20.0) && (CB<20.0) && (Y>50)) {
+                GET_PIXELMOD1(x,y,0) = 0xff;
+                GET_PIXELMOD1(x,y,1) = 0x00;
+                GET_PIXELMOD1(x,y,2) = 0xff;
+            }
             
-#define THRESH 15.0
             
-            if ((fabs(L1-R1)>THRESH) && (fabs(L2-R2)>THRESH) && (fabs(L3-R3)>THRESH) && (fabs(L3-R3)>THRESH) && (fabs(L4-R4)>THRESH) && (fabs(L5-R5)>THRESH)) {
             
-                GET_PIXELMOD(x,(y-2),0) = 0xff;
-                GET_PIXELMOD(x,(y-2),1) = 0xff;
-                GET_PIXELMOD(x,(y-2),2) = 0x00;
+            
+            
+            
+#define THRESH 10.0
+            
+            if ((fabs(L0-R0)>THRESH) && (fabs(L1-R1)>THRESH) && (fabs(L2-R2)>THRESH) && (fabs(L3-R3)>THRESH) && (fabs(L3-R3)>THRESH) && (fabs(L4-R4)>THRESH) && (fabs(L5-R5)>THRESH) && (fabs(L6-R6)>THRESH)) {
+            
+                GET_PIXELMOD2(x,(y-3),0) = 0xff;
+                GET_PIXELMOD2(x,(y-3),1) = 0xff;
+                GET_PIXELMOD2(x,(y-3),2) = 0x00;
+
+                GET_PIXELMOD2(x,(y-2),0) = 0xff;
+                GET_PIXELMOD2(x,(y-2),1) = 0xff;
+                GET_PIXELMOD2(x,(y-2),2) = 0x00;
                 
-                GET_PIXELMOD(x,(y-1),0) = 0xff;
-                GET_PIXELMOD(x,(y-1),1) = 0xff;
-                GET_PIXELMOD(x,(y-1),2) = 0x00;
+                GET_PIXELMOD2(x,(y-1),0) = 0xff;
+                GET_PIXELMOD2(x,(y-1),1) = 0xff;
+                GET_PIXELMOD2(x,(y-1),2) = 0x00;
                 
-                GET_PIXELMOD(x,(y+0),0) = 0xff;
-                GET_PIXELMOD(x,(y+0),1) = 0xff;
-                GET_PIXELMOD(x,(y+0),2) = 0x00;
+                GET_PIXELMOD2(x,(y+0),0) = 0xff;
+                GET_PIXELMOD2(x,(y+0),1) = 0xff;
+                GET_PIXELMOD2(x,(y+0),2) = 0x00;
                 
-                GET_PIXELMOD(x,(y+1),0) = 0xff;
-                GET_PIXELMOD(x,(y+1),1) = 0xff;
-                GET_PIXELMOD(x,(y+1),2) = 0x00;
+                GET_PIXELMOD2(x,(y+1),0) = 0xff;
+                GET_PIXELMOD2(x,(y+1),1) = 0xff;
+                GET_PIXELMOD2(x,(y+1),2) = 0x00;
                 
-                GET_PIXELMOD(x,(y+2),0) = 0xff;
-                GET_PIXELMOD(x,(y+2),1) = 0xff;
-                GET_PIXELMOD(x,(y+2),2) = 0x00;
+                GET_PIXELMOD2(x,(y+2),0) = 0xff;
+                GET_PIXELMOD2(x,(y+2),1) = 0xff;
+                GET_PIXELMOD2(x,(y+2),2) = 0x00;
                 
+                GET_PIXELMOD2(x,(y-3),0) = 0xff;
+                GET_PIXELMOD2(x,(y-3),1) = 0xff;
+                GET_PIXELMOD2(x,(y-3),2) = 0x00;
+
                
             }
             
         }
     }
+    
+    
+    // Merge mod1 and mod2 arrays
+    for(int x = 3; x < mouthImage.size.width-3; x++) {
+        for(int y = 3; y < mouthImage.size.height-3; y++) {
+            
+            uint8_t blue0 = GET_PIXELMOD1((x-2),y,2);
+            uint8_t blue1 = GET_PIXELMOD1((x-1),y,2);
+            uint8_t blue2 = GET_PIXELMOD1((x-0),y,2);
+            uint8_t blue3 = GET_PIXELMOD1((x+1),y,2);
+            uint8_t blue4 = GET_PIXELMOD1((x+2),y,2);
+            
+            if (blue0 | blue1 | blue2 | blue3 |blue4) {
+                
+                
+            } else {
+                
+                GET_PIXELMOD2(x,(y+0),0) = 0x00;
+                GET_PIXELMOD2(x,(y+0),1) = 0x00;
+                GET_PIXELMOD2(x,(y+0),2) = 0x00;
+            }
+            
+        }
+    }
+    
+    
     
     //zero approximation - find all the pixels that look white
     /*const int zero_threshold = 50;
@@ -933,7 +1009,7 @@
     CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
     
-    CGContextRef newContextRef = CGBitmapContextCreate(testimagedataMod, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
+    CGContextRef newContextRef = CGBitmapContextCreate(testimagedataMod2, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
     
     CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
     
@@ -956,7 +1032,8 @@
     
     
     free(testimagedata);
-    free(testimagedataMod);
+    free(testimagedataMod1);
+    free(testimagedataMod2);
     free(zeroArray);
     return modifiedImage;
     //return [ocv edgeMeanShiftDetectReturnEdges:mouthImage];*/
