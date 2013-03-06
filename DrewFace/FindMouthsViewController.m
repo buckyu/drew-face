@@ -897,11 +897,13 @@
             
 #define THRESH 10.0
             
-            if ((fabs(L0-R0)>THRESH) && (fabs(L1-R1)>THRESH) && (fabs(L2-R2)>THRESH) && (fabs(L3-R3)>THRESH) && (fabs(L3-R3)>THRESH) && (fabs(L4-R4)>THRESH) && (fabs(L5-R5)>THRESH) && (fabs(L6-R6)>THRESH)) {
+            if ((1) && (fabs(L1-R1)>THRESH) && (fabs(L2-R2)>THRESH) && (fabs(L3-R3)>THRESH) && (fabs(L3-R3)>THRESH) && (fabs(L4-R4)>THRESH) && (fabs(L5-R5)>THRESH) && (1)) {
             
+                /*
                 GET_PIXELMOD2(x,(y-3),0) = 0xff;
                 GET_PIXELMOD2(x,(y-3),1) = 0xff;
                 GET_PIXELMOD2(x,(y-3),2) = 0x00;
+                */
 
                 GET_PIXELMOD2(x,(y-2),0) = 0xff;
                 GET_PIXELMOD2(x,(y-2),1) = 0xff;
@@ -923,9 +925,11 @@
                 GET_PIXELMOD2(x,(y+2),1) = 0xff;
                 GET_PIXELMOD2(x,(y+2),2) = 0x00;
                 
+                /*
                 GET_PIXELMOD2(x,(y-3),0) = 0xff;
                 GET_PIXELMOD2(x,(y-3),1) = 0xff;
                 GET_PIXELMOD2(x,(y-3),2) = 0x00;
+                */ 
 
                
             }
@@ -953,6 +957,31 @@
                 GET_PIXELMOD2(x,(y+0),1) = 0x00;
                 GET_PIXELMOD2(x,(y+0),2) = 0x00;
             }
+            
+
+        }
+    }
+    
+    
+    memcpy(testimagedataMod1, testimagedataMod2, mouthImage.size.width*mouthImage.size.height*4);
+    
+    // only allow thick yellow lines here
+    
+    for(int x = 3; x < mouthImage.size.width-3; x++) {
+        for(int y = 3; y < mouthImage.size.height-3; y++) {
+            uint8_t yellow0 = GET_PIXELMOD1((x-1),y,1);
+            uint8_t yellow1 = GET_PIXELMOD1((x+1),y,1);
+            
+            if (yellow0 && yellow1) {
+                
+                
+            } else {
+                
+                GET_PIXELMOD2(x,(y+0),0) = 0x00;
+                GET_PIXELMOD2(x,(y+0),1) = 0x00;
+                GET_PIXELMOD2(x,(y+0),2) = 0x00;
+            }
+
             
         }
     }
