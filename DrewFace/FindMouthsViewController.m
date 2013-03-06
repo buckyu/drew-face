@@ -958,6 +958,83 @@
     }
     
     
+    //gitftwrap
+    //todo: convert this to more C
+    
+    //there seems to be some noise at the very top and very bottom.  I'm going to zero out the rows on the edges.
+    for(int x = 0; x < mouthImage.size.width; x++) {
+        GET_PIXELMOD2(x, 0, 0) = 0x00;
+        GET_PIXELMOD2(x, 1, 0) = 0x00;
+        GET_PIXELMOD2(x, 2, 0) = 0x00;
+        GET_PIXELMOD2(x, 3, 0) = 0x00;
+        GET_PIXELMOD2(x, 4, 0) = 0x00;
+        GET_PIXELMOD2(x, 5, 0) = 0x00;
+        GET_PIXELMOD2(x, ((int)mouthImage.size.height - 1), 0) = 0x00;
+        GET_PIXELMOD2(x, ((int)mouthImage.size.height - 2), 0) = 0x00;
+        GET_PIXELMOD2(x, ((int)mouthImage.size.height - 3), 0) = 0x00;
+        GET_PIXELMOD2(x, ((int)mouthImage.size.height - 4), 0) = 0x00;
+        GET_PIXELMOD2(x, ((int)mouthImage.size.height - 5), 0) = 0x00;
+
+
+    }
+    
+    
+    NSMutableArray *solutionArray = [[NSMutableArray alloc] init];
+    int leftmostX = -1;
+    int leftmostY = -1;
+    for(int x = 0; x < mouthImage.size.width; x++) {
+        for(int y = 0; y < mouthImage.size.height; y++) {
+            if (GET_PIXELMOD2(x, y, 0)==0xff) {
+                leftmostX = x;
+                leftmostY = y;
+                break;
+            }
+        }
+        if (leftmostX != -1) break;
+    }
+    int pX = leftmostX;
+    int pY = leftmostY;
+    while(true) {
+        int qX = -1;
+        int qY = -1;
+        //p --> q --> r
+
+        qX = leftmostX;
+        qY = leftmostY;
+        for(int rX = 0; rX < mouthImage.size.width; rX++) {
+            for(int rY = 0; rY < mouthImage.size.height; rY++) {
+                
+                if (GET_PIXELMOD2(rX, rY, 0)!=0xff) continue;
+#define TURN_LEFT 1
+#define TURN_RIGHT -1
+#define TURN_NONE 0
+                
+                float dist_p_r = pow(pX - rX,2) + pow(pY - rY,2);
+                float dist_p_q = pow(pX - qX,2) + pow(pY - qY,2);
+                //compute the turn
+                int t = -999;
+                int lside = (qX - pX) * (rY - pY) - (rX - pX) * (qY - pY);
+                if (lside < 0) t = -1;
+                if (lside > 0) t = 1;
+                if (lside==0) t = 0;
+                if (t==TURN_RIGHT || (t==TURN_NONE && dist_p_r > dist_p_q)) {
+                    qX = rX;
+                    qY = rY;
+                }
+            }
+        }
+        //we consider qX to be in our solution
+        [solutionArray addObject:@[@(qX),@(qY)]];
+        if (qX == leftmostX && qY == leftmostY) {
+            break;
+        }
+        pX = qX;
+        pY = qY;
+    }
+
+    
+    
+    
     
     //zero approximation - find all the pixels that look white
     /*const int zero_threshold = 50;
@@ -1009,7 +1086,32 @@
     CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
     
-    CGContextRef newContextRef = CGBitmapContextCreate(testimagedataMod2, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
+    CGContextRef newContextRef = CGBitmapContextCreate(testimagedata, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
+    UIColor *greenColor = [UIColor greenColor];
+    CGContextSetStrokeColorWithColor(newContextRef, greenColor.CGColor);
+     CGContextScaleCTM(newContextRef, 1.0, -1.0);
+    CGContextTranslateCTM(newContextRef, 0.0, -mouthImage.size.height);
+    CGMutablePathRef myRef = CGPathCreateMutable();
+    CGPathMoveToPoint(myRef, NULL, leftmostX, leftmostY);
+    for (NSArray *pt in solutionArray) {
+        CGPathAddLineToPoint(myRef, NULL, [pt[0] intValue], [pt[1] intValue]);
+
+    }
+    CGPathAddLineToPoint(myRef, NULL, leftmostX, leftmostY);
+    CGContextAddPath(newContextRef, myRef);
+    CGContextStrokePath(newContextRef);
+    CGPathRelease(myRef);
+    
+    for(int x = 0; x < mouthImage.size.width; x++) {
+        for(int y = 0; y < mouthImage.size.height; y++) {
+            if (GET_PIXELMOD2(x, y, 0) || GET_PIXELMOD2(x,y, 1) || GET_PIXELMOD2(x, y, 2)) {
+                UIColor *color = [[UIColor alloc] initWithRed:GET_PIXELMOD2(x, y, 0) green:GET_PIXELMOD2(x, y, 1) blue:GET_PIXELMOD2(x, y, 2) alpha:1.0];
+                CGContextSetFillColorWithColor(newContextRef, color.CGColor);
+                CGContextFillRect(newContextRef, CGRectMake(x, y, 1, 1));
+            }
+            
+        }
+    }
     
     CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
     
