@@ -802,7 +802,10 @@
             float CR = 0.713*((float)pxR - Y);
             float CB = 0.564*((float)pxB - Y);
             
-            if ((fabs(CR)<25.0) && (fabs(CB)<25.0) && (Y>128)) {
+            int mH = (int)mouthImage.size.height;
+            //int mW = (int)mouthImage.size.width;
+            
+            if ((CR<20.0) && (CB<8.0) && (Y>80) && (abs(y-(mH/2)) < (mH/4)) && (YES)) {
                 //zeroArray[PIXEL_INDEX(x, y)] = 1; //this will cause the pixel to be drawn as YELLOW on the output
                 GET_PIXEL(x,y,0) = 0xff;
                 GET_PIXEL(x,y,1) = 0xff;
