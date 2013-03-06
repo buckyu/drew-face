@@ -1067,6 +1067,46 @@ NSUInteger sizeFunction(const void *item) {
                 
             }
         }
+        //postprocess pattern array
+        //via simple vertical search state machine
+        for(int x = 0; x < mouthImage.size.width; x++) {
+            int longStretchBegin = 0;
+            int longStretchEnd = 0;
+            int currentStretchBegin = 0;
+            int longScore = 5;
+#define BEGIN_STATE 0
+#define SEARCHING_STATE 1
+#define WORRIED_STATE 2
+            int state = 0;
+            for (int y = 0; y < mouthImage.size.height; y++) {
+                if (patternArray[PIXEL_INDEX(x, y)] >= 1.0) {
+                    if (WORRIED_STATE) {
+                        state = BEGIN_STATE;
+                        //score the previous search
+                        int length = y - currentStretchBegin;
+                        int centerSearch = length / 2 + y;
+                        int centerImage = mouthImage.size.height / 2;
+                        float dist = sqrt(powf(centerImage - centerSearch, 2));
+                        float score = length * 12 / dist;
+                        if (score > longScore) {
+                            longStretchBegin = currentStretchBegin;
+                            longStretchEnd = y;
+                        }
+                    }
+                    else if (SEARCHING_STATE) state = WORRIED_STATE;
+                }
+                else {
+                    if (state==BEGIN_STATE) {
+                        state = SEARCHING_STATE;
+                        currentStretchBegin = y;
+                    }
+                }
+            }
+            for(int y = 0; y < mouthImage.size.height; y++) {
+                if (y >= longStretchBegin && y <= longStretchEnd) patternArray[PIXEL_INDEX(x, y)] = 1;
+                else patternArray[PIXEL_INDEX(x, y)] = 0;
+            }
+        }
         
         for(int py = 0; py < px_h; py++) {
             free(pattern[py]);
@@ -1097,7 +1137,7 @@ NSUInteger sizeFunction(const void *item) {
                                     if (LEXP < 0) LEXP = 0
 #define ADD_OR_ONE(LEXP,REXP) LEXP += REXP;\
                                 if (LEXP > 1) LEXP = 1
-        const int simulations = 15;
+        const int simulations = 0;
         for (int s = 0; s < simulations; s++) {
             int added = 0;
             int removed = 0;
@@ -1122,16 +1162,25 @@ NSUInteger sizeFunction(const void *item) {
                             euclid_sum += euclid;
                         }
                     }
+                    float square_neighbor_count = 0;
+
+                    for(int nx = x-1; nx <= x + 1; nx++) {
+                        if (nx < 0 || nx >= mouthImage.size.width) continue;
+                        for(int ny = y-1; ny <= y+1; ny++) {
+                            if (ny < 0 || ny >= mouthImage.size.height) continue;
+                            square_neighbor_count += cellArray[PIXEL_INDEX(nx, ny)];
+                        }
+                    }
                     
 
                     euclid_sum /= neighbors;
                     //if (neighbor_count > 0) printf("nc %d\n",neighbor_count);
-                    if (neighbor_count >= 8 && !currentCellAlive) {
+                    if (neighbor_count >= 5 && !currentCellAlive) {
                         cellArray[PIXEL_INDEX(x, y)] = 1;
                         added++;
                     }
                     
-                    if (neighbor_count < 8 && currentCellAlive) {
+                    if (square_neighbor_count < 6 && currentCellAlive) {
                         cellArray[PIXEL_INDEX(x, y)] = 0;
                         removed++;
                     }
@@ -1160,11 +1209,11 @@ NSUInteger sizeFunction(const void *item) {
                     }
                     int avg_patterngrep = abs((patterngreps_above + patterngreps_below)) / 2;
                     
-                    if (avg_patterngrep > 2 && patterngreps_above && patterngreps_below && !patternArray[PIXEL_INDEX(x, y)]) {
-                        ADD_OR_ONE(cellArray[PIXEL_INDEX(x, y)], 0.5);
+                    if (avg_patterngrep > 1 && patterngreps_above && patterngreps_below && !patternArray[PIXEL_INDEX(x, y)]) {
+                        ADD_OR_ONE(cellArray[PIXEL_INDEX(x, y)], 0.2);
                     }
                     else {
-                        SUBTRACT_OR_ZERO(cellArray[PIXEL_INDEX(x, y)], 0.2);
+                        SUBTRACT_OR_ZERO(cellArray[PIXEL_INDEX(x, y)], 1);
                     }
                     if (patternArray[PIXEL_INDEX(x, y)]) {
                         cellArray[PIXEL_INDEX(x, y)] = 0;
