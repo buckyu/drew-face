@@ -801,14 +801,14 @@
     for(int x = 3; x < mouthImage.size.width-3; x++) {
         for(int y = 3; y < mouthImage.size.height-3; y++) {
             
-            uint8_t pxR = GET_PIXEL((x-4), (y-0), 0);
-            uint8_t pxG = GET_PIXEL((x-4), (y-0), 1);
-            uint8_t pxB = GET_PIXEL((x-4), (y-0), 2);
+            uint8_t pxR = GET_PIXEL((x-6), (y-0), 0);
+            uint8_t pxG = GET_PIXEL((x-6), (y-0), 1);
+            uint8_t pxB = GET_PIXEL((x-6), (y-0), 2);
             float L0 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             
-            pxR = GET_PIXEL((x+4), (y-0), 0);
-            pxG = GET_PIXEL((x+4), (y-0), 1);
-            pxB = GET_PIXEL((x+4), (y-0), 2);
+            pxR = GET_PIXEL((x+6), (y-0), 0);
+            pxG = GET_PIXEL((x+6), (y-0), 1);
+            pxB = GET_PIXEL((x+6), (y-0), 2);
             float R0 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
              
             pxR = GET_PIXEL((x-0), (y-0), 0);
@@ -817,14 +817,14 @@
             float C0 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
 
             
-            pxR = GET_PIXEL((x-4), (y-1), 0);
-            pxG = GET_PIXEL((x-4), (y-1), 1);
-            pxB = GET_PIXEL((x-4), (y-1), 2);
+            pxR = GET_PIXEL((x-6), (y-1), 0);
+            pxG = GET_PIXEL((x-6), (y-1), 1);
+            pxB = GET_PIXEL((x-6), (y-1), 2);
             float L1 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             
-            pxR = GET_PIXEL((x+4), (y-1), 0);
-            pxG = GET_PIXEL((x+4), (y-1), 1);
-            pxB = GET_PIXEL((x+4), (y-1), 2);
+            pxR = GET_PIXEL((x+6), (y-1), 0);
+            pxG = GET_PIXEL((x+6), (y-1), 1);
+            pxB = GET_PIXEL((x+6), (y-1), 2);
             float R1 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             
             pxR = GET_PIXEL((x+0), (y-1), 0);
@@ -833,14 +833,14 @@
             float C1 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             
             
-            pxR = GET_PIXEL((x-4), (y+1), 0);
-            pxG = GET_PIXEL((x-4), (y+1), 1);
-            pxB = GET_PIXEL((x-4), (y+1), 2);
+            pxR = GET_PIXEL((x-6), (y+1), 0);
+            pxG = GET_PIXEL((x-6), (y+1), 1);
+            pxB = GET_PIXEL((x-6), (y+1), 2);
             float L2 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             
-            pxR = GET_PIXEL((x+4), (y+1), 0);
-            pxG = GET_PIXEL((x+4), (y+1), 1);
-            pxB = GET_PIXEL((x+4), (y+1), 2);
+            pxR = GET_PIXEL((x+6), (y+1), 0);
+            pxG = GET_PIXEL((x+6), (y+1), 1);
+            pxB = GET_PIXEL((x+6), (y+1), 2);
             float R2 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             
             pxR = GET_PIXEL((x-0), (y+1), 0);
@@ -899,7 +899,7 @@
             
             
             
-#define THRESH 13.0
+#define THRESH 17.0
             
             if ((C0<L0) && (C0<R0) && (fabs(L0-C0)>THRESH) && (fabs(R0-C0)>THRESH)) {
                 if ((C1<L1) && (C1<R1) && (fabs(L1-C1)>THRESH) && (fabs(R1-C1)>THRESH)) {
