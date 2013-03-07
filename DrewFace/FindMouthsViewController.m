@@ -775,6 +775,8 @@
 -(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
     
     mouthImage = [ocv colorTheImage:mouthImage];
+    //mouthImage = [ocv edgeMeanShiftDetectReturnEdges:mouthImage];
+    
 
     //stage 1: get an initial approximation of teeth pixels
     CGDataProviderRef myDataProvider = CGImageGetDataProvider(mouthImage.CGImage);
@@ -797,18 +799,35 @@
 #define GET_PIXELMOD2(X,Y,Z) testimagedataMod2[((int)mouthImage.size.width * 4 * Y) + (4 * X) + Z]
 #define PIXEL_INDEX(X,Y) Y *(int)mouthImage.size.width + X
     
+    
+    
+    
+    // strong color filter
+    for(int x = 0; x < mouthImage.size.width; x++) {
+        for(int y = 0; y < mouthImage.size.height; y++) {
+            //GET_PIXEL(x,y,0) = GET_PIXEL(x,y,0)>>1;
+            //GET_PIXEL(x,y,1) = GET_PIXEL(x,y,1)>>1;
+            
+        }
+    }
+    
+    
+    
+    
 
     for(int x = 3; x < mouthImage.size.width-3; x++) {
         for(int y = 3; y < mouthImage.size.height-3; y++) {
             
-            uint8_t pxR = GET_PIXEL((x-6), (y-0), 0);
-            uint8_t pxG = GET_PIXEL((x-6), (y-0), 1);
-            uint8_t pxB = GET_PIXEL((x-6), (y-0), 2);
+            int delta = 2;
+            
+            uint8_t pxR = GET_PIXEL((x-delta), (y-0), 0);
+            uint8_t pxG = GET_PIXEL((x-delta), (y-0), 1);
+            uint8_t pxB = GET_PIXEL((x-delta), (y-0), 2);
             float L0 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             
-            pxR = GET_PIXEL((x+6), (y-0), 0);
-            pxG = GET_PIXEL((x+6), (y-0), 1);
-            pxB = GET_PIXEL((x+6), (y-0), 2);
+            pxR = GET_PIXEL((x+delta), (y-0), 0);
+            pxG = GET_PIXEL((x+delta), (y-0), 1);
+            pxB = GET_PIXEL((x+delta), (y-0), 2);
             float R0 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
              
             pxR = GET_PIXEL((x-0), (y-0), 0);
@@ -817,14 +836,14 @@
             float C0 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
 
             
-            pxR = GET_PIXEL((x-6), (y-1), 0);
-            pxG = GET_PIXEL((x-6), (y-1), 1);
-            pxB = GET_PIXEL((x-6), (y-1), 2);
+            pxR = GET_PIXEL((x-delta), (y-1), 0);
+            pxG = GET_PIXEL((x-delta), (y-1), 1);
+            pxB = GET_PIXEL((x-delta), (y-1), 2);
             float L1 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             
-            pxR = GET_PIXEL((x+6), (y-1), 0);
-            pxG = GET_PIXEL((x+6), (y-1), 1);
-            pxB = GET_PIXEL((x+6), (y-1), 2);
+            pxR = GET_PIXEL((x+delta), (y-1), 0);
+            pxG = GET_PIXEL((x+delta), (y-1), 1);
+            pxB = GET_PIXEL((x+delta), (y-1), 2);
             float R1 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             
             pxR = GET_PIXEL((x+0), (y-1), 0);
@@ -833,14 +852,14 @@
             float C1 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             
             
-            pxR = GET_PIXEL((x-6), (y+1), 0);
-            pxG = GET_PIXEL((x-6), (y+1), 1);
-            pxB = GET_PIXEL((x-6), (y+1), 2);
+            pxR = GET_PIXEL((x-delta), (y+1), 0);
+            pxG = GET_PIXEL((x-delta), (y+1), 1);
+            pxB = GET_PIXEL((x-delta), (y+1), 2);
             float L2 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             
-            pxR = GET_PIXEL((x+6), (y+1), 0);
-            pxG = GET_PIXEL((x+6), (y+1), 1);
-            pxB = GET_PIXEL((x+6), (y+1), 2);
+            pxR = GET_PIXEL((x+delta), (y+1), 0);
+            pxG = GET_PIXEL((x+delta), (y+1), 1);
+            pxB = GET_PIXEL((x+delta), (y+1), 2);
             float R2 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             
             pxR = GET_PIXEL((x-0), (y+1), 0);
@@ -850,30 +869,38 @@
             
             
             
-            pxR = GET_PIXEL((x+1), (y+1), 0);
-            pxG = GET_PIXEL((x+1), (y+1), 1);
-            pxB = GET_PIXEL((x+1), (y+1), 2);
+            pxR = GET_PIXEL((x-delta), (y-2), 0);
+            pxG = GET_PIXEL((x-delta), (y-2), 1);
+            pxB = GET_PIXEL((x-delta), (y-2), 2);
+            float L3 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
+            
+            pxR = GET_PIXEL((x+delta), (y-2), 0);
+            pxG = GET_PIXEL((x+delta), (y-2), 1);
+            pxB = GET_PIXEL((x+delta), (y-2), 2);
+            float R3 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
+            
+            pxR = GET_PIXEL((x-0), (y-2), 0);
+            pxG = GET_PIXEL((x-0), (y-2), 1);
+            pxB = GET_PIXEL((x-0), (y-2), 2);
+            float C3 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
+            
+            
+            pxR = GET_PIXEL((x-delta), (y+2), 0);
+            pxG = GET_PIXEL((x-delta), (y+2), 1);
+            pxB = GET_PIXEL((x-delta), (y+2), 2);
+            float L4 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
+            
+            pxR = GET_PIXEL((x+delta), (y+2), 0);
+            pxG = GET_PIXEL((x+delta), (y+2), 1);
+            pxB = GET_PIXEL((x+delta), (y+2), 2);
             float R4 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             
-            pxR = GET_PIXEL((x-1), (y+2), 0);
-            pxG = GET_PIXEL((x-1), (y+2), 1);
-            pxB = GET_PIXEL((x-1), (y+2), 2);
-            float L5 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
+            pxR = GET_PIXEL((x-0), (y+2), 0);
+            pxG = GET_PIXEL((x-0), (y+2), 1);
+            pxB = GET_PIXEL((x-0), (y+2), 2);
+            float C4 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             
-            pxR = GET_PIXEL((x+1), (y+2), 0);
-            pxG = GET_PIXEL((x+1), (y+2), 1);
-            pxB = GET_PIXEL((x+1), (y+2), 2);
-            float R5 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             
-            pxR = GET_PIXEL((x-1), (y+3), 0);
-            pxG = GET_PIXEL((x-1), (y+3), 1);
-            pxB = GET_PIXEL((x-1), (y+3), 2);
-            float L6 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
-            
-            pxR = GET_PIXEL((x+1), (y+3), 0);
-            pxG = GET_PIXEL((x+1), (y+3), 1);
-            pxB = GET_PIXEL((x+1), (y+3), 2);
-            float R6 = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
 
             
             
@@ -899,11 +926,19 @@
             
             
             
-#define THRESH 17.0
+#define THRESH 20.0
             
-            if ((C0<L0) && (C0<R0) && (fabs(L0-C0)>THRESH) && (fabs(R0-C0)>THRESH)) {
-                if ((C1<L1) && (C1<R1) && (fabs(L1-C1)>THRESH) && (fabs(R1-C1)>THRESH)) {
-                    if ((C2<L2) && (C2<R2) && (fabs(L2-C2)>THRESH) && (fabs(R2-C2)>THRESH)) {
+//            if ((C0<L0) && (C0<R0) && (fabs(L0-C0)>THRESH) && (fabs(R0-C0)>THRESH)) {
+//                if ((C1<L1) && (C1<R1) && (fabs(L1-C1)>THRESH) && (fabs(R1-C1)>THRESH)) {
+//                    if ((C2<L2) && (C2<R2) && (fabs(L2-C2)>THRESH) && (fabs(R2-C2)>THRESH)) {
+//                        if ((C3<L3) && (C3<R3) && (fabs(L3-C3)>THRESH) && (fabs(R3-C3)>THRESH)) {
+//                            if ((C4<L4) && (C4<R4) && (fabs(L4-C4)>THRESH) && (fabs(R4-C4)>THRESH)) {
+            
+            if ((fabs(R0-C0)>THRESH)) {
+                //if ((fabs(R1-C1)>THRESH)) {
+                    //if ((fabs(R2-C2)>THRESH)) {
+                        //if ( (fabs(R3-C3)>THRESH)) {
+                            //if ( (fabs(R4-C4)>THRESH)) {
             
                 /*
                 GET_PIXELMOD2(x,(y-3),0) = 0xff;
@@ -914,23 +949,23 @@
                 GET_PIXELMOD2(x,(y-2),0) = 0xff;
                 GET_PIXELMOD2(x,(y-2),1) = 0xff;
                 GET_PIXELMOD2(x,(y-2),2) = 0x00;
-                 */
+                 
                 
                 GET_PIXELMOD2(x,(y-1),0) = 0xff;
                 GET_PIXELMOD2(x,(y-1),1) = 0xff;
                 GET_PIXELMOD2(x,(y-1),2) = 0x00;
-                
+                */
                 
                 GET_PIXELMOD2(x,(y+0),0) = 0xff;
                 GET_PIXELMOD2(x,(y+0),1) = 0xff;
                 GET_PIXELMOD2(x,(y+0),2) = 0x00;
                 
-                
+                /*
                 GET_PIXELMOD2(x,(y+1),0) = 0xff;
                 GET_PIXELMOD2(x,(y+1),1) = 0xff;
                 GET_PIXELMOD2(x,(y+1),2) = 0x00;
                 
-                /*
+                
                 GET_PIXELMOD2(x,(y+2),0) = 0xff;
                 GET_PIXELMOD2(x,(y+2),1) = 0xff;
                 GET_PIXELMOD2(x,(y+2),2) = 0x00;
@@ -941,17 +976,17 @@
                 GET_PIXELMOD2(x,(y-3),2) = 0x00;
                 */
                         
-                        
-                        
-                    }
-                }
+                            //}
+                        //}
+                    //}
+                //}
                
             }
             
         }
     }
     
-    /*
+    
     // Merge mod1 and mod2 arrays
     for(int x = 3; x < mouthImage.size.width-3; x++) {
         for(int y = 3; y < mouthImage.size.height-3; y++) {
@@ -960,15 +995,25 @@
             uint8_t blue1 = GET_PIXELMOD1((x-0),(y-1),2);
             uint8_t blue2 = GET_PIXELMOD1((x+1),(y-1),2);
             uint8_t blue3 = GET_PIXELMOD1((x-1),(y+0),2);
-            uint8_t blue4 = GET_PIXELMOD1((x+1),(y+0),2);
-            uint8_t blue5 = GET_PIXELMOD1((x-1),(y+1),2);
-            uint8_t blue6 = GET_PIXELMOD1((x-0),(y+1),2);
-            uint8_t blue7 = GET_PIXELMOD1((x+1),(y+1),2);
-            uint8_t blue8 = GET_PIXELMOD1((x-2),(y+0),2);
-            uint8_t blue9 = GET_PIXELMOD1((x+2),(y+0),2);
+            uint8_t blue4 = GET_PIXELMOD1((x+0),(y+0),2);
+            uint8_t blue5 = GET_PIXELMOD1((x+1),(y+0),2);
+            uint8_t blue6 = GET_PIXELMOD1((x-1),(y+1),2);
+            uint8_t blue7 = GET_PIXELMOD1((x+0),(y+1),2);
+            uint8_t blue8 = GET_PIXELMOD1((x+1),(y+1),2);
+            
+            if (blue0) blue0 = 1;
+            if (blue1) blue1 = 1;
+            if (blue2) blue2 = 1;
+            if (blue3) blue3 = 1;
+            if (blue4) blue4 = 1;
+            if (blue5) blue5 = 1;
+            if (blue6) blue6 = 1;
+            if (blue7) blue7 = 1;
+            if (blue8) blue8 = 1;
+            
         
             
-            if (blue1|blue2|blue3|blue4|blue5|blue6|blue7|blue8|blue9) {
+            if ((blue0+blue1+blue2+blue3+blue4+blue5+blue6+blue7+blue8) >= 3) {
                 
                 
             } else {
@@ -981,13 +1026,13 @@
 
         }
     }
-     */
+     
     
     
     
     
     // only allow multi-point clusters
-    
+    /*
     memcpy(testimagedataMod1, testimagedataMod2, mouthImage.size.width*mouthImage.size.height*4);
     
     for(int x = 3; x < mouthImage.size.width-3; x++) {
@@ -1013,7 +1058,7 @@
             if (yellow7) yellow7=1;
             if (yellow8) yellow8=1;
             
-            if ((yellow1+yellow2) >= 2) {
+            if ((yellow1+yellow2) >= 1) {
                 
                 
             } else {
@@ -1025,7 +1070,7 @@
 
         }
     }
-    
+    */
      
      
     

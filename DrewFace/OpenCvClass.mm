@@ -117,12 +117,12 @@
     //cv::Mat bgr;
     //cv::cvtColor(myCvMat, bgr, CV_GRAY2BGR);
     
-    //cv::blur(bgr, bgr, cv::Size(2,2));
-    //return [self UIImageFromCVMat:bgr];
+    //cv::blur(myCvMat, myCvMat, cv::Size(4,4));
+    //return [self UIImageFromCVMat:myCvMat];
     
     cv::cvtColor(myCvMat, myCvMat, CV_BGRA2BGR);
-    cv::pyrMeanShiftFiltering(myCvMat.clone(), myCvMat, 10, 10, 3);
-    //cv::cvtColor(myCvMat, myCvMat, CV_BGR2GRAY);
+    cv::pyrMeanShiftFiltering(myCvMat.clone(), myCvMat, 10, 10, 4);
+    cv::cvtColor(myCvMat, myCvMat, CV_BGR2BGRA);
     return [self UIImageFromCVMat:myCvMat];
     
 //    cv::cvtColor(bgr, bgr, CV_BGR2GRAY);
