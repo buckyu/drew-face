@@ -774,8 +774,9 @@
 // Drew's Algorithm to go here:
 -(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
     
-    mouthImage = [ocv colorTheImage:mouthImage];
+    //mouthImage = [ocv colorTheImage:mouthImage];
     //mouthImage = [ocv edgeMeanShiftDetectReturnEdges:mouthImage];
+    mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
     
 
     //stage 1: get an initial approximation of teeth pixels
@@ -800,7 +801,7 @@
 #define PIXEL_INDEX(X,Y) Y *(int)mouthImage.size.width + X
     
     
-    
+    /*
     
     // strong color filter
     for(int x = 0; x < mouthImage.size.width; x++) {
@@ -811,9 +812,11 @@
         }
     }
     
+    */
     
     
     
+    /*
 
     for(int x = 3; x < mouthImage.size.width-3; x++) {
         for(int y = 3; y < mouthImage.size.height-3; y++) {
@@ -922,7 +925,7 @@
             }
             
             
-            
+            */
             
             
             
@@ -934,7 +937,7 @@
 //                        if ((C3<L3) && (C3<R3) && (fabs(L3-C3)>THRESH) && (fabs(R3-C3)>THRESH)) {
 //                            if ((C4<L4) && (C4<R4) && (fabs(L4-C4)>THRESH) && (fabs(R4-C4)>THRESH)) {
             
-            if ((fabs(R0-C0)>THRESH)) {
+            //if ((fabs(R0-C0)>THRESH)) {
                 //if ((fabs(R1-C1)>THRESH)) {
                     //if ((fabs(R2-C2)>THRESH)) {
                         //if ( (fabs(R3-C3)>THRESH)) {
@@ -955,11 +958,11 @@
                 GET_PIXELMOD2(x,(y-1),1) = 0xff;
                 GET_PIXELMOD2(x,(y-1),2) = 0x00;
                 */
-                
+                /*
                 GET_PIXELMOD2(x,(y+0),0) = 0xff;
                 GET_PIXELMOD2(x,(y+0),1) = 0xff;
                 GET_PIXELMOD2(x,(y+0),2) = 0x00;
-                
+                */
                 /*
                 GET_PIXELMOD2(x,(y+1),0) = 0xff;
                 GET_PIXELMOD2(x,(y+1),1) = 0xff;
@@ -981,11 +984,13 @@
                     //}
                 //}
                
-            }
+            //}
             
-        }
-    }
+        //}
+    //}
     
+    
+    /*
     
     // Merge mod1 and mod2 arrays
     for(int x = 3; x < mouthImage.size.width-3; x++) {
@@ -1027,7 +1032,7 @@
         }
     }
      
-    
+    */
     
     
     
@@ -1075,11 +1080,11 @@
      
     
     
-    /*
+    
     
     CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
-    CGContextRef newContextRef = CGBitmapContextCreate(testimagedataMod2, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
+    CGContextRef newContextRef = CGBitmapContextCreate(testimagedata, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
     CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
     
     UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
@@ -1094,7 +1099,7 @@
     free(zeroArray);
     return modifiedImage;
     
-*/
+
     
     
     
@@ -1223,10 +1228,10 @@
 
     // show image on iPhone view
     
-    CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
-    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
+    //CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
+    //CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
     
-    CGContextRef newContextRef = CGBitmapContextCreate(testimagedata, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
+    //CGContextRef newContextRef = CGBitmapContextCreate(testimagedata, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
     UIColor *greenColor = [UIColor greenColor];
     CGContextSetStrokeColorWithColor(newContextRef, greenColor.CGColor);
      CGContextScaleCTM(newContextRef, 1.0, -1.0);
@@ -1253,10 +1258,10 @@
         }
     }
     
-    CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
+    //CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
     
     // show MODIFIED  image on iPhone screen
-    UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
+    //UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
     
 
     CGImageRelease(newImageRef);
