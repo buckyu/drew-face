@@ -829,8 +829,10 @@
             
             uint8_t pxB1 = GET_PIXELMOD1(x,(y-1),2);
             uint8_t pxB2 = GET_PIXELMOD1(x,(y+0),2);
+            uint8_t pxB3 = GET_PIXELMOD1(x,(y+1),2);
+    
             
-            if ((pxB1>0) && (pxB2>0)) {
+            if ((pxB1>0) && (pxB2>0) && (pxB3>0)) {
                 
                 GET_PIXELMOD2(x,(y-1),0) = 0xff;
                 GET_PIXELMOD2(x,(y-1),1) = 0xff;
@@ -840,8 +842,12 @@
                 GET_PIXELMOD2(x,(y+0),1) = 0xff;
                 GET_PIXELMOD2(x,(y+0),2) = 0x00;
                 
-
+                GET_PIXELMOD2(x,(y+1),0) = 0xff;
+                GET_PIXELMOD2(x,(y+1),1) = 0xff;
+                GET_PIXELMOD2(x,(y+1),2) = 0x00;
                 
+    
+                                
             }
             
         }
@@ -863,7 +869,7 @@
             float CR = 0.713*((float)pxR - Y);
             float CB = 0.564*((float)pxB - Y);
             
-            if ((CR<15.0) && (CB<10.0) && (Y>50)) {
+            if ((CR<12.0) && (CB<5.0) && (Y>50)) {
                 GET_PIXELMOD1(x,y,0) = 0xff;
                 GET_PIXELMOD1(x,y,1) = 0x00;
                 GET_PIXELMOD1(x,y,2) = 0xff;
