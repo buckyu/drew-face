@@ -784,8 +784,8 @@
 // Drew's Algorithm to go here:
 -(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
     
-    //mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
-    mouthImage = [ocv colorTheImage:mouthImage];
+    mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
+    //mouthImage = [ocv colorTheImage:mouthImage];
     
     
     CGDataProviderRef myDataProvider = CGImageGetDataProvider(mouthImage.CGImage);
@@ -810,18 +810,22 @@
             uint8_t pxG = GET_PIXEL((x), (y), 1);
             uint8_t pxB = GET_PIXEL((x), (y), 2);
             float Y = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
+            float CR = 0.713*((float)pxR - Y);
+            float CB = 0.564*((float)pxB - Y);
             
             GET_PIXELMOD1(x,y,0) = Y;
-            GET_PIXELMOD1(x,y,1) = Y;
-            GET_PIXELMOD1(x,y,2) = Y;
+            GET_PIXELMOD1(x,y,1) = CR;
+            GET_PIXELMOD1(x,y,2) = CB;
             
         }
     }
     
 
-#define NUMBER_OF_LINES 500000
-#define DELTA_ALLOWED_FOR_WHITE 15
-#define THRESHOLD_WHITE_BLACK 30
+#define NUMBER_OF_LINES 200000
+#define DELTA_ALLOWED_FOR_WHITE 10
+#define THRESHOLD_WHITE_BLACK 15
+#define MIN_Y_BRIGHTNESS_THRESHOLD 100
+#define MAX_CR_THRESHOLD_WHITETEETH 20
 
 
     int MouthWidth = mouthImage.size.width;
@@ -869,6 +873,10 @@
         int Y4 = GET_PIXELMOD1(x4,y4,0);
         //int YB = GET_PIXELMOD1(xb,yb,0);
         
+        int CR0 = GET_PIXELMOD1(x0,y0,1);
+        int CR2 = GET_PIXELMOD1(x2,y2,1);
+        int CR4 = GET_PIXELMOD1(x4,y4,1);
+        
         
         BOOL isThreeTeethAndTwoLines = YES;
         
@@ -890,7 +898,12 @@
         }
         */
         
-        if (Y2<100) {
+        if (Y2<MIN_Y_BRIGHTNESS_THRESHOLD) {
+            isThreeTeethAndTwoLines = NO;
+        }
+        
+        
+        if ((CR0>MAX_CR_THRESHOLD_WHITETEETH) || (CR2>MAX_CR_THRESHOLD_WHITETEETH) || (CR4>MAX_CR_THRESHOLD_WHITETEETH)) {
             isThreeTeethAndTwoLines = NO;
         }
         

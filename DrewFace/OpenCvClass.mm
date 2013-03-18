@@ -108,14 +108,14 @@
     cv::Mat myCvMat = [self cvMatFromUIImage:img];
     
     cv::Mat edges;
-    cv::blur(myCvMat, edges, cv::Size(4,4));
-    cv::cvtColor(edges, edges, CV_BGRA2BGR);
-    cv::pyrMeanShiftFiltering(edges.clone(), edges, 10, 10, 4);
-    cv::cvtColor(edges, edges, CV_BGR2BGRA);
+    //cv::blur(myCvMat, edges, cv::Size(4,4));
+    cv::cvtColor(myCvMat, myCvMat, CV_BGRA2BGR);
+    cv::pyrMeanShiftFiltering(myCvMat.clone(), myCvMat, 10, 10, 4);
+    cv::cvtColor(myCvMat, myCvMat, CV_BGR2BGRA);
     
-    cv::Canny(edges, edges, 40, 120, 3, true);
-    cv::cvtColor(edges, edges, CV_GRAY2BGRA);
-    return [self UIImageFromCVMat:(edges)];
+    //cv::Canny(edges, edges, 40, 120, 3, true);
+    //cv::cvtColor(edges, edges, CV_BGR2BGRA);
+    return [self UIImageFromCVMat:myCvMat];
 }
 
 -(UIImage *)edgeMeanShiftDetectReturnEdges:(UIImage *)origimg {
