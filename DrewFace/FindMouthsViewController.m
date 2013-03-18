@@ -811,7 +811,11 @@
             uint8_t pxB = GET_PIXEL((x), (y), 2);
             float Y = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             float CR = 0.713*((float)pxR - Y);
+            if (CR<0) CR = 0;
+            if (CR>255) CR = 255;
             float CB = 0.564*((float)pxB - Y);
+            if (CB<0) CB= 0;
+            if (CB>255) CB = 255;
             
             GET_PIXELMOD1(x,y,0) = Y;
             GET_PIXELMOD1(x,y,1) = CR;
@@ -826,6 +830,7 @@
 #define THRESHOLD_WHITE_BLACK 15
 #define MIN_Y_BRIGHTNESS_THRESHOLD 100
 #define MAX_CR_THRESHOLD_WHITETEETH 20
+#define MAX_CB_THRESHOLD_WHITETEETH 10
 
 
     int MouthWidth = mouthImage.size.width;
@@ -877,8 +882,22 @@
         int CR2 = GET_PIXELMOD1(x2,y2,1);
         int CR4 = GET_PIXELMOD1(x4,y4,1);
         
+        int CB0 = GET_PIXELMOD1(x0,y0,2);
+        int CB2 = GET_PIXELMOD1(x2,y2,2);
+        int CB4 = GET_PIXELMOD1(x4,y4,2);
+
+        
         
         BOOL isThreeTeethAndTwoLines = YES;
+        
+        /*
+         if (abs(Y2-YA) > THRESHOLD_WHITE_BLACK) {
+         isThreeTeethAndTwoLines = NO;
+         } else if (abs(Y2-YB) > THRESHOLD_WHITE_BLACK) {
+         isThreeTeethAndTwoLines = NO;
+         }
+         */
+
         
         if (abs(Y2-Y0) > DELTA_ALLOWED_FOR_WHITE) {
             isThreeTeethAndTwoLines = NO;
@@ -890,20 +909,14 @@
             isThreeTeethAndTwoLines = NO;
         }
         
-        /*
-        if (abs(Y2-YA) > THRESHOLD_WHITE_BLACK) {
-            isThreeTeethAndTwoLines = NO;
-        } else if (abs(Y2-YB) > THRESHOLD_WHITE_BLACK) {
-            isThreeTeethAndTwoLines = NO;
-        }
-        */
-        
         if (Y2<MIN_Y_BRIGHTNESS_THRESHOLD) {
             isThreeTeethAndTwoLines = NO;
         }
         
-        
         if ((CR0>MAX_CR_THRESHOLD_WHITETEETH) || (CR2>MAX_CR_THRESHOLD_WHITETEETH) || (CR4>MAX_CR_THRESHOLD_WHITETEETH)) {
+            isThreeTeethAndTwoLines = NO;
+        }
+        if ((CB0>MAX_CB_THRESHOLD_WHITETEETH) || (CB2>MAX_CB_THRESHOLD_WHITETEETH) || (CB4>MAX_CB_THRESHOLD_WHITETEETH)) {
             isThreeTeethAndTwoLines = NO;
         }
         
