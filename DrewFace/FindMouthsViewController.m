@@ -784,7 +784,8 @@
 // Drew's Algorithm to go here:
 -(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
     
-    mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
+    //mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
+    mouthImage = [ocv colorTheImage:mouthImage];
     
     
     CGDataProviderRef myDataProvider = CGImageGetDataProvider(mouthImage.CGImage);
@@ -800,9 +801,7 @@
     
     uint8_t *zeroArray = malloc(mouthImage.size.height * mouthImage.size.width);
     bzero(zeroArray, mouthImage.size.height * mouthImage.size.width);
-    
 
-    
 
     for(int x = 0; x < mouthImage.size.width; x++) {
         for(int y = 0; y < mouthImage.size.height; y++) {
@@ -812,18 +811,145 @@
             uint8_t pxB = GET_PIXEL((x), (y), 2);
             float Y = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             
+            GET_PIXELMOD1(x,y,0) = Y;
+            GET_PIXELMOD1(x,y,1) = Y;
+            GET_PIXELMOD1(x,y,2) = Y;
             
-            if (Y>0) {
-                GET_PIXELMOD1(x,y,0) = 0xff;
-                GET_PIXELMOD1(x,y,1) = 0x00;
-                GET_PIXELMOD1(x,y,2) = 0xff;
-            }
         }
     }
     
 
+#define NUMBER_OF_LINES 500000
+#define DELTA_ALLOWED_FOR_WHITE 15
+#define THRESHOLD_WHITE_BLACK 30
+
+
+    int MouthWidth = mouthImage.size.width;
+    int MouthHeight = mouthImage.size.height;
+    BOOL isValidLine;
+    int x0,y0,x1,y1,x2,y2,x3,y3,x4,y4;
+    int xa,ya,xb,yb;
+    
+    int tmpW,tmpH;
+    
+    for (int line=0; line<NUMBER_OF_LINES; line++) {
+        
+        isValidLine = NO;
+        while (!isValidLine) {
+            x2 = MouthWidth/8 + 3*(arc4random()%(MouthWidth/4));
+            y2 = MouthHeight/8 + 3*(arc4random()%(MouthHeight/4));
+            tmpW = MouthWidth/8 + (arc4random()%(MouthWidth/4));
+            tmpH = (arc4random()%(MouthHeight/8)) - MouthHeight/16;
+            xa = x2 - tmpW;
+            ya = y2 - tmpH;
+            xb = x2 + tmpW;
+            yb = y2 + tmpH;
+            
+            if ((xa<0) || (ya<0) || (ya>=MouthHeight) || (xb>=MouthWidth) || (yb<0) || (yb>=MouthHeight)) {
+                isValidLine = NO;
+            } else {
+                isValidLine = YES;
+            }
+            
+        }
+        x0 = xa + tmpW/3;
+        y0 = ya + tmpH/3;
+        x1 = x2 - tmpW/3;
+        y1 = y2 - tmpH/3;
+        x3 = x2 + tmpW/3;
+        y3 = y2 + tmpH/3;
+        x4 = xb - tmpW/3;
+        y4 = yb - tmpH/3;
+        
+        //int YA = GET_PIXELMOD1(xa,ya,0);
+        int Y0 = GET_PIXELMOD1(x0,y0,0);
+        int Y1 = GET_PIXELMOD1(x1,y1,0);
+        int Y2 = GET_PIXELMOD1(x2,y2,0);
+        int Y3 = GET_PIXELMOD1(x3,y3,0);
+        int Y4 = GET_PIXELMOD1(x4,y4,0);
+        //int YB = GET_PIXELMOD1(xb,yb,0);
+        
+        
+        BOOL isThreeTeethAndTwoLines = YES;
+        
+        if (abs(Y2-Y0) > DELTA_ALLOWED_FOR_WHITE) {
+            isThreeTeethAndTwoLines = NO;
+        } else if (abs(Y2-Y4) > DELTA_ALLOWED_FOR_WHITE) {
+            isThreeTeethAndTwoLines = NO;
+        } else if (abs(Y2-Y1) < THRESHOLD_WHITE_BLACK) {
+            isThreeTeethAndTwoLines = NO;
+        } else if (abs(Y2-Y3) < THRESHOLD_WHITE_BLACK) {
+            isThreeTeethAndTwoLines = NO;
+        }
+        
+        /*
+        if (abs(Y2-YA) > THRESHOLD_WHITE_BLACK) {
+            isThreeTeethAndTwoLines = NO;
+        } else if (abs(Y2-YB) > THRESHOLD_WHITE_BLACK) {
+            isThreeTeethAndTwoLines = NO;
+        }
+        */
+        
+        if (Y2<100) {
+            isThreeTeethAndTwoLines = NO;
+        }
+        
+        
+        
+        // draw yellow if we are on three teeth separated by two dark lines
+        if (isThreeTeethAndTwoLines) {
+        
+            GET_PIXELMOD2(xa,ya,0) = 0xff;
+            GET_PIXELMOD2(xa,ya,1) = 0xff;
+            GET_PIXELMOD2(xa,ya,2) = 0x00;
+            GET_PIXELMOD2(x0,y0,0) = 0xff;
+            GET_PIXELMOD2(x0,y0,1) = 0xff;
+            GET_PIXELMOD2(x0,y0,2) = 0x00;
+            GET_PIXELMOD2(x1,y1,0) = 0xff;
+            GET_PIXELMOD2(x1,y1,1) = 0xff;
+            GET_PIXELMOD2(x1,y1,2) = 0x00;
+            GET_PIXELMOD2(x2,y2,0) = 0xff;
+            GET_PIXELMOD2(x2,y2,1) = 0xff;
+            GET_PIXELMOD2(x2,y2,2) = 0x00;
+            GET_PIXELMOD2(x3,y3,0) = 0xff;
+            GET_PIXELMOD2(x3,y3,1) = 0xff;
+            GET_PIXELMOD2(x3,y3,2) = 0x00;
+            GET_PIXELMOD2(xb,yb,0) = 0xff;
+            GET_PIXELMOD2(xb,yb,1) = 0xff;
+            GET_PIXELMOD2(xb,yb,2) = 0x00;
+
+        }
+        
+        
+            
+        }
+        
+        
+        
+    
+        
+        
+        
+        
     
     
+    
+
+    
+    
+    
+    // white dark white dark white
+    // 0.25 to 0.50 width
+    // X from 0 to 0.5 width
+    // Y from 0 to mouthImage.size.height
+    
+    
+    
+    
+    
+    
+
+    /*
     for(int x = 3; x < mouthImage.size.width-3; x++) {
         for(int y = 3; y < mouthImage.size.height-3; y++) {
             
@@ -852,11 +978,12 @@
             
         }
     }
+    */
     
     
+    //bzero(testimagedataMod1, mouthImage.size.width*mouthImage.size.height*4);
     
-    bzero(testimagedataMod1, mouthImage.size.width*mouthImage.size.height*4);
-    
+    /*
     for(int x = 3; x < mouthImage.size.width-3; x++) {
         for(int y = 3; y < mouthImage.size.height-3; y++) {
 
@@ -878,9 +1005,10 @@
         }
     }
 
+     */
     
     
-    
+    /*
     
     // Merge mod1 and mod2 arrays
     for(int x = 3; x < mouthImage.size.width-3; x++) {
@@ -921,9 +1049,9 @@
 
         }
     }
+    */
     
     
-    /*
     CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
     CGContextRef newContextRef = CGBitmapContextCreate(testimagedataMod2, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
@@ -940,7 +1068,7 @@
     free(testimagedataMod2);
     free(zeroArray);
     return modifiedImage;
-    */
+    
 
     
     
@@ -1070,10 +1198,10 @@
 
     // show image on iPhone view
     
-    CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
-    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
+    //CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
+    //CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
     
-    CGContextRef newContextRef = CGBitmapContextCreate(testimagedata, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
+    //CGContextRef newContextRef = CGBitmapContextCreate(testimagedata, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
     UIColor *greenColor = [UIColor greenColor];
     CGContextSetStrokeColorWithColor(newContextRef, greenColor.CGColor);
     CGContextSetLineWidth(newContextRef, 3.0);
@@ -1101,10 +1229,10 @@
         }
     }
     
-    CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
+    //CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
     
     // show MODIFIED  image on iPhone screen
-    UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
+    //UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
     
 
     CGImageRelease(newImageRef);
