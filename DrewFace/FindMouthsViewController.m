@@ -1077,7 +1077,7 @@
     }
     */
     
-    
+    /*
     CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
     CGContextRef newContextRef = CGBitmapContextCreate(testimagedataMod2, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
@@ -1093,7 +1093,7 @@
     free(testimagedataMod1);
     free(testimagedataMod2);
     free(zeroArray);
-    return modifiedImage;
+    return modifiedImage; */
     
 
     
@@ -1102,22 +1102,6 @@
     //gitftwrap
     //todo: convert this to more C
     
-    //there seems to be some noise at the very top and very bottom.  I'm going to zero out the rows on the edges.
-    for(int x = 0; x < mouthImage.size.width; x++) {
-        GET_PIXELMOD2(x, 0, 0) = 0x00;
-        GET_PIXELMOD2(x, 1, 0) = 0x00;
-        GET_PIXELMOD2(x, 2, 0) = 0x00;
-        GET_PIXELMOD2(x, 3, 0) = 0x00;
-        GET_PIXELMOD2(x, 4, 0) = 0x00;
-        GET_PIXELMOD2(x, 5, 0) = 0x00;
-        GET_PIXELMOD2(x, ((int)mouthImage.size.height - 1), 0) = 0x00;
-        GET_PIXELMOD2(x, ((int)mouthImage.size.height - 2), 0) = 0x00;
-        GET_PIXELMOD2(x, ((int)mouthImage.size.height - 3), 0) = 0x00;
-        GET_PIXELMOD2(x, ((int)mouthImage.size.height - 4), 0) = 0x00;
-        GET_PIXELMOD2(x, ((int)mouthImage.size.height - 5), 0) = 0x00;
-
-
-    }
     
     
     NSMutableArray *solutionArray = [[NSMutableArray alloc] init];
@@ -1224,10 +1208,10 @@
 
     // show image on iPhone view
     
-    //CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
-    //CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
+    CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
     
-    //CGContextRef newContextRef = CGBitmapContextCreate(testimagedata, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
+    CGContextRef newContextRef = CGBitmapContextCreate(testimagedata, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
     UIColor *greenColor = [UIColor greenColor];
     CGContextSetStrokeColorWithColor(newContextRef, greenColor.CGColor);
     CGContextSetLineWidth(newContextRef, 3.0);
@@ -1255,10 +1239,10 @@
         }
     }
     
-    //CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
+    CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
     
     // show MODIFIED  image on iPhone screen
-    //UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
+    UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
     
 
     CGImageRelease(newImageRef);
