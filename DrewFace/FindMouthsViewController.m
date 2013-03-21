@@ -827,7 +827,7 @@
 
 #define NUMBER_OF_LINES 200000
 #define DELTA_ALLOWED_FOR_WHITE 10
-#define THRESHOLD_WHITE_BLACK 15
+#define THRESHOLD_WHITE_BLACK 40
 #define MIN_Y_BRIGHTNESS_THRESHOLD 100
 #define MAX_CR_THRESHOLD_WHITETEETH 20
 #define MAX_CB_THRESHOLD_WHITETEETH 10
@@ -869,6 +869,7 @@
         y3 = y2 + tmpH/3;
         x4 = xb - tmpW/3;
         y4 = yb - tmpH/3;
+        printf("line of length %d\n",x4-x0);
         
         //int YA = GET_PIXELMOD1(xa,ya,0);
         int Y0 = GET_PIXELMOD1(x0,y0,0);
@@ -918,6 +919,11 @@
         }
         if ((CB0>MAX_CB_THRESHOLD_WHITETEETH) || (CB2>MAX_CB_THRESHOLD_WHITETEETH) || (CB4>MAX_CB_THRESHOLD_WHITETEETH)) {
             isThreeTeethAndTwoLines = NO;
+        }
+        
+        //let's check the actual pixel colors
+        if (GET_PIXEL(x1,y1,0)==GET_PIXEL(x2, y2, 0) && GET_PIXEL(x1,y1,1)==GET_PIXEL(x2, y2, 1) && GET_PIXEL(x1,y1,2)==GET_PIXEL(x2, y2, 2)) {
+            assert(!isThreeTeethAndTwoLines);
         }
         
         
