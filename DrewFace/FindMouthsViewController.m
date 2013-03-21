@@ -801,8 +801,8 @@
     
     uint8_t *zeroArray = malloc(mouthImage.size.height * mouthImage.size.width);
     bzero(zeroArray, mouthImage.size.height * mouthImage.size.width);
-
-
+    
+    
     for(int x = 0; x < mouthImage.size.width; x++) {
         for(int y = 0; y < mouthImage.size.height; y++) {
             
@@ -824,149 +824,212 @@
         }
     }
     
-
-#define NUMBER_OF_LINES 200000
-#define DELTA_ALLOWED_FOR_WHITE 10
-#define THRESHOLD_WHITE_BLACK 40
-#define MIN_Y_BRIGHTNESS_THRESHOLD 100
+    
+#define DELTA_ALLOWED_FOR_WHITE 20
+#define THRESHOLD_WHITE_BLACK 20
+#define MIN_Y_BRIGHTNESS_THRESHOLD 150
 #define MAX_CR_THRESHOLD_WHITETEETH 20
 #define MAX_CB_THRESHOLD_WHITETEETH 10
-
-
+#define EXPECT_TEETH 3
+#define NUMBER_OF_LINES 10000
+#define MIN_TOOTH_SIZE 40 
+#define MAX_TOOTH_SIZE 50
+#define MIN_DARK_SIZE 1
+#define MAX_DARK_SIZE 2 
+    
+    
     int MouthWidth = mouthImage.size.width;
     int MouthHeight = mouthImage.size.height;
-    BOOL isValidLine;
-    int x0,y0,x1,y1,x2,y2,x3,y3,x4,y4;
-    int xa,ya,xb,yb;
+    int cX = MouthWidth / 2;
     
-    int tmpW,tmpH;
     
-    for (int line=0; line<NUMBER_OF_LINES; line++) {
-        
-        isValidLine = NO;
-        while (!isValidLine) {
-            x2 = MouthWidth/8 + 3*(arc4random()%(MouthWidth/4));
-            y2 = MouthHeight/8 + 3*(arc4random()%(MouthHeight/4));
-            tmpW = MouthWidth/8 + (arc4random()%(MouthWidth/4));
-            tmpH = (arc4random()%(MouthHeight/8)) - MouthHeight/16;
-            xa = x2 - tmpW;
-            ya = y2 - tmpH;
-            xb = x2 + tmpW;
-            yb = y2 + tmpH;
-            
-            if ((xa<0) || (ya<0) || (ya>=MouthHeight) || (xb>=MouthWidth) || (yb<0) || (yb>=MouthHeight)) {
-                isValidLine = NO;
-            } else {
-                isValidLine = YES;
+    for(int cY = 0; cY < MouthHeight; cY += 5) {
+        for(int toothSize = MIN_TOOTH_SIZE; toothSize <= MAX_TOOTH_SIZE; toothSize++) {
+            for(int darkSize = MIN_DARK_SIZE; darkSize <= MAX_DARK_SIZE; darkSize++) {
+                @autoreleasepool {
+
+                for(int toothShufflePx = 0; toothShufflePx < 50; toothShufflePx++) {
+                    
+                    //rotate
+                    for(float theta = -M_PI_4; theta <= M_PI_4; theta+= 0.1) {
+                        BOOL found_teeth = YES;
+                        NSMutableArray *line = [[NSMutableArray alloc] init];
+                        int prevToothY = -1;
+                        for(int toothCount = 0; toothCount < EXPECT_TEETH; toothCount++) {
+                            int tooth_notRotated_X = toothCount * (toothSize + darkSize);
+                            int tooth_notRotated_Y = 0;
+                            int toothCenterX = tooth_notRotated_X + toothShufflePx; //this operates in a [tooth] - [tooth] coordinate system
+                            int toothCenterY = tooth_notRotated_Y;
+                            int tooth_rotatedX = toothCenterX*cos(theta) - toothCenterY*sin(theta);
+                            int tooth_rotatedY = toothCenterX * sin(theta) + toothCenterY * cos(theta) + cY; //which we rotate along some angle, §L95
+                            if (tooth_rotatedX >= mouthImage.size.width || tooth_rotatedX < 0) {
+                                found_teeth = NO;
+                                break;
+                            }
+                            if (tooth_rotatedY >= mouthImage.size.height || tooth_rotatedY < 0) {
+                                found_teeth = NO;
+                                break;
+                            }
+                            
+                            int toothY = GET_PIXELMOD1(tooth_rotatedX, tooth_rotatedY, 0);
+                            if (toothY < MIN_Y_BRIGHTNESS_THRESHOLD) {
+                                found_teeth = NO;
+                                break;
+                            }
+                            //we compute the coord of the dark patch
+                            int dark_notRotated_X = tooth_notRotated_X + toothSize / 2;
+                            int dark_notRotated_Y = tooth_notRotated_Y;
+                            dark_notRotated_X += darkSize / 2;
+                            int dark_rotatedX = dark_notRotated_X * cos(theta) - dark_notRotated_Y * sin(theta);
+                            int dark_rotatedY = dark_notRotated_X * sin(theta) + dark_notRotated_Y * cos(theta) + cY;
+                            if (dark_rotatedX >= mouthImage.size.width || dark_rotatedX < 0) {
+                                found_teeth = NO;
+                                break;
+                            }
+                            if (dark_rotatedY >= mouthImage.size.height || dark_rotatedY < 0) {
+                                found_teeth = NO;
+                                break;
+                            }
+                            int darkY = GET_PIXELMOD1(dark_rotatedX, dark_rotatedY, 0);
+                            
+                            if (abs(toothY - darkY) < THRESHOLD_WHITE_BLACK) {
+                                found_teeth = NO;
+                                break;
+                            }
+                            if (prevToothY != -1 && abs(prevToothY - toothY) > DELTA_ALLOWED_FOR_WHITE) {
+                                found_teeth = NO;
+                                break;
+                            }
+                            if (toothY < MIN_Y_BRIGHTNESS_THRESHOLD) {
+                             found_teeth = NO;
+                             break;
+                             }
+                            int toothCR = GET_PIXELMOD1(tooth_rotatedX, tooth_rotatedY, 1);
+                            if (toothCR > MAX_CR_THRESHOLD_WHITETEETH) {
+                                found_teeth = NO;
+                                break;
+                            }
+                            int toothCB = GET_PIXELMOD1(tooth_rotatedX, tooth_rotatedY, 2);
+                            if (toothCB > MAX_CB_THRESHOLD_WHITETEETH) {
+                                found_teeth = NO;
+                                break;
+                            }
+                            
+                            
+                            
+                            NSArray *coord = [[NSArray alloc] initWithObjects:@(tooth_rotatedX),@(tooth_rotatedY),@(0), nil];
+                            NSArray *darkCoord = [[NSArray alloc] initWithObjects:@(dark_rotatedX),@(dark_rotatedY),@(2), nil];
+                            
+                            [line addObject:coord];
+                            [line addObject:darkCoord];
+                            prevToothY = toothY;
+                        }
+                        if (found_teeth) {
+                            //NSLog(@"found teeth at %@",line);
+                            for(NSArray *coord in line) {
+                                GET_PIXELMOD2([coord[0] intValue], [coord[1] intValue], [coord[2] intValue]) = 0xff;
+                            }
+                        }
+                        
+                    }
+                    
+                }
+                }
             }
-            
         }
-        x0 = xa + tmpW/3;
-        y0 = ya + tmpH/3;
-        x1 = x2 - tmpW/3;
-        y1 = y2 - tmpH/3;
-        x3 = x2 + tmpW/3;
-        y3 = y2 + tmpH/3;
-        x4 = xb - tmpW/3;
-        y4 = yb - tmpH/3;
-        printf("line of length %d\n",x4-x0);
-        
-        //int YA = GET_PIXELMOD1(xa,ya,0);
-        int Y0 = GET_PIXELMOD1(x0,y0,0);
-        int Y1 = GET_PIXELMOD1(x1,y1,0);
-        int Y2 = GET_PIXELMOD1(x2,y2,0);
-        int Y3 = GET_PIXELMOD1(x3,y3,0);
-        int Y4 = GET_PIXELMOD1(x4,y4,0);
-        //int YB = GET_PIXELMOD1(xb,yb,0);
-        
-        int CR0 = GET_PIXELMOD1(x0,y0,1);
-        int CR2 = GET_PIXELMOD1(x2,y2,1);
-        int CR4 = GET_PIXELMOD1(x4,y4,1);
-        
-        int CB0 = GET_PIXELMOD1(x0,y0,2);
-        int CB2 = GET_PIXELMOD1(x2,y2,2);
-        int CB4 = GET_PIXELMOD1(x4,y4,2);
-
-        
-        
-        BOOL isThreeTeethAndTwoLines = YES;
-        
-        /*
-         if (abs(Y2-YA) > THRESHOLD_WHITE_BLACK) {
-         isThreeTeethAndTwoLines = NO;
-         } else if (abs(Y2-YB) > THRESHOLD_WHITE_BLACK) {
-         isThreeTeethAndTwoLines = NO;
-         }
-         */
-
-        
-        if (abs(Y2-Y0) > DELTA_ALLOWED_FOR_WHITE) {
-            isThreeTeethAndTwoLines = NO;
-        } else if (abs(Y2-Y4) > DELTA_ALLOWED_FOR_WHITE) {
-            isThreeTeethAndTwoLines = NO;
-        } else if (abs(Y2-Y1) < THRESHOLD_WHITE_BLACK) {
-            isThreeTeethAndTwoLines = NO;
-        } else if (abs(Y2-Y3) < THRESHOLD_WHITE_BLACK) {
-            isThreeTeethAndTwoLines = NO;
-        }
-        
-        if (Y2<MIN_Y_BRIGHTNESS_THRESHOLD) {
-            isThreeTeethAndTwoLines = NO;
-        }
-        
-        if ((CR0>MAX_CR_THRESHOLD_WHITETEETH) || (CR2>MAX_CR_THRESHOLD_WHITETEETH) || (CR4>MAX_CR_THRESHOLD_WHITETEETH)) {
-            isThreeTeethAndTwoLines = NO;
-        }
-        if ((CB0>MAX_CB_THRESHOLD_WHITETEETH) || (CB2>MAX_CB_THRESHOLD_WHITETEETH) || (CB4>MAX_CB_THRESHOLD_WHITETEETH)) {
-            isThreeTeethAndTwoLines = NO;
-        }
-        
-        //let's check the actual pixel colors
-        if (GET_PIXEL(x1,y1,0)==GET_PIXEL(x2, y2, 0) && GET_PIXEL(x1,y1,1)==GET_PIXEL(x2, y2, 1) && GET_PIXEL(x1,y1,2)==GET_PIXEL(x2, y2, 2)) {
-            assert(!isThreeTeethAndTwoLines);
-        }
-        
-        
-        
-        // draw yellow if we are on three teeth separated by two dark lines
-        if (isThreeTeethAndTwoLines) {
-        
-            GET_PIXELMOD2(xa,ya,0) = 0xff;
-            GET_PIXELMOD2(xa,ya,1) = 0xff;
-            GET_PIXELMOD2(xa,ya,2) = 0x00;
-            GET_PIXELMOD2(x0,y0,0) = 0xff;
-            GET_PIXELMOD2(x0,y0,1) = 0xff;
-            GET_PIXELMOD2(x0,y0,2) = 0x00;
-            GET_PIXELMOD2(x1,y1,0) = 0xff;
-            GET_PIXELMOD2(x1,y1,1) = 0xff;
-            GET_PIXELMOD2(x1,y1,2) = 0x00;
-            GET_PIXELMOD2(x2,y2,0) = 0xff;
-            GET_PIXELMOD2(x2,y2,1) = 0xff;
-            GET_PIXELMOD2(x2,y2,2) = 0x00;
-            GET_PIXELMOD2(x3,y3,0) = 0xff;
-            GET_PIXELMOD2(x3,y3,1) = 0xff;
-            GET_PIXELMOD2(x3,y3,2) = 0x00;
-            GET_PIXELMOD2(xb,yb,0) = 0xff;
-            GET_PIXELMOD2(xb,yb,1) = 0xff;
-            GET_PIXELMOD2(xb,yb,2) = 0x00;
-
-        }
-        
-        
-            
-        }
-        
-        
-        
+    }
     
-        
-        
-        
-        
+    
+    /*
+     //int YA = GET_PIXELMOD1(xa,ya,0);
+     int Y0 = GET_PIXELMOD1(x0,y0,0);
+     int Y1 = GET_PIXELMOD1(x1,y1,0);
+     int Y2 = GET_PIXELMOD1(x2,y2,0);
+     int Y3 = GET_PIXELMOD1(x3,y3,0);
+     int Y4 = GET_PIXELMOD1(x4,y4,0);
+     //int YB = GET_PIXELMOD1(xb,yb,0);
+     
+     int CR0 = GET_PIXELMOD1(x0,y0,1);
+     int CR2 = GET_PIXELMOD1(x2,y2,1);
+     int CR4 = GET_PIXELMOD1(x4,y4,1);
+     
+     int CB0 = GET_PIXELMOD1(x0,y0,2);
+     int CB2 = GET_PIXELMOD1(x2,y2,2);
+     int CB4 = GET_PIXELMOD1(x4,y4,2);
+     
+     
+     
+     BOOL isThreeTeethAndTwoLines = YES;
+     
+     
+     
+     if (abs(Y2-Y0) > DELTA_ALLOWED_FOR_WHITE) {
+     isThreeTeethAndTwoLines = NO;
+     } else if (abs(Y2-Y4) > DELTA_ALLOWED_FOR_WHITE) {
+     isThreeTeethAndTwoLines = NO;
+     } else if (abs(Y2-Y1) < THRESHOLD_WHITE_BLACK) {
+     isThreeTeethAndTwoLines = NO;
+     } else if (abs(Y2-Y3) < THRESHOLD_WHITE_BLACK) {
+     isThreeTeethAndTwoLines = NO;
+     }
+     
+     if (Y2<MIN_Y_BRIGHTNESS_THRESHOLD) {
+     isThreeTeethAndTwoLines = NO;
+     }
+     
+     if ((CR0>MAX_CR_THRESHOLD_WHITETEETH) || (CR2>MAX_CR_THRESHOLD_WHITETEETH) || (CR4>MAX_CR_THRESHOLD_WHITETEETH)) {
+     isThreeTeethAndTwoLines = NO;
+     }
+     if ((CB0>MAX_CB_THRESHOLD_WHITETEETH) || (CB2>MAX_CB_THRESHOLD_WHITETEETH) || (CB4>MAX_CB_THRESHOLD_WHITETEETH)) {
+     isThreeTeethAndTwoLines = NO;
+     }
+     
+     //let's check the actual pixel colors
+     if (GET_PIXEL(x1,y1,0)==GET_PIXEL(x2, y2, 0) && GET_PIXEL(x1,y1,1)==GET_PIXEL(x2, y2, 1) && GET_PIXEL(x1,y1,2)==GET_PIXEL(x2, y2, 2)) {
+     assert(!isThreeTeethAndTwoLines);
+     }
+     
+     
+     
+     // draw yellow if we are on three teeth separated by two dark lines
+     if (isThreeTeethAndTwoLines) {
+     
+     GET_PIXELMOD2(xa,ya,0) = 0xff;
+     GET_PIXELMOD2(xa,ya,1) = 0xff;
+     GET_PIXELMOD2(xa,ya,2) = 0x00;
+     GET_PIXELMOD2(x0,y0,0) = 0xff;
+     GET_PIXELMOD2(x0,y0,1) = 0xff;
+     GET_PIXELMOD2(x0,y0,2) = 0x00;
+     GET_PIXELMOD2(x1,y1,0) = 0xff;
+     GET_PIXELMOD2(x1,y1,1) = 0xff;
+     GET_PIXELMOD2(x1,y1,2) = 0x00;
+     GET_PIXELMOD2(x2,y2,0) = 0xff;
+     GET_PIXELMOD2(x2,y2,1) = 0xff;
+     GET_PIXELMOD2(x2,y2,2) = 0x00;
+     GET_PIXELMOD2(x3,y3,0) = 0xff;
+     GET_PIXELMOD2(x3,y3,1) = 0xff;
+     GET_PIXELMOD2(x3,y3,2) = 0x00;
+     GET_PIXELMOD2(xb,yb,0) = 0xff;
+     GET_PIXELMOD2(xb,yb,1) = 0xff;
+     GET_PIXELMOD2(xb,yb,2) = 0x00;
+     
+     }
+     
+     
+     
+     }*/
     
     
     
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -980,128 +1043,128 @@
     
     
     
-
+    
     /*
-    for(int x = 3; x < mouthImage.size.width-3; x++) {
-        for(int y = 3; y < mouthImage.size.height-3; y++) {
-            
-            uint8_t pxB1 = GET_PIXELMOD1(x,(y-1),2);
-            uint8_t pxB2 = GET_PIXELMOD1(x,(y+0),2);
-            uint8_t pxB3 = GET_PIXELMOD1(x,(y+1),2);
-    
-            
-            if ((pxB1>0) && (pxB2>0) && (pxB3>0)) {
-                
-                GET_PIXELMOD2(x,(y-1),0) = 0xff;
-                GET_PIXELMOD2(x,(y-1),1) = 0xff;
-                GET_PIXELMOD2(x,(y-1),2) = 0x00;
-                
-                GET_PIXELMOD2(x,(y+0),0) = 0xff;
-                GET_PIXELMOD2(x,(y+0),1) = 0xff;
-                GET_PIXELMOD2(x,(y+0),2) = 0x00;
-                
-                GET_PIXELMOD2(x,(y+1),0) = 0xff;
-                GET_PIXELMOD2(x,(y+1),1) = 0xff;
-                GET_PIXELMOD2(x,(y+1),2) = 0x00;
-                
-    
-                                
-            }
-            
-        }
-    }
-    */
+     for(int x = 3; x < mouthImage.size.width-3; x++) {
+     for(int y = 3; y < mouthImage.size.height-3; y++) {
+     
+     uint8_t pxB1 = GET_PIXELMOD1(x,(y-1),2);
+     uint8_t pxB2 = GET_PIXELMOD1(x,(y+0),2);
+     uint8_t pxB3 = GET_PIXELMOD1(x,(y+1),2);
+     
+     
+     if ((pxB1>0) && (pxB2>0) && (pxB3>0)) {
+     
+     GET_PIXELMOD2(x,(y-1),0) = 0xff;
+     GET_PIXELMOD2(x,(y-1),1) = 0xff;
+     GET_PIXELMOD2(x,(y-1),2) = 0x00;
+     
+     GET_PIXELMOD2(x,(y+0),0) = 0xff;
+     GET_PIXELMOD2(x,(y+0),1) = 0xff;
+     GET_PIXELMOD2(x,(y+0),2) = 0x00;
+     
+     GET_PIXELMOD2(x,(y+1),0) = 0xff;
+     GET_PIXELMOD2(x,(y+1),1) = 0xff;
+     GET_PIXELMOD2(x,(y+1),2) = 0x00;
+     
+     
+     
+     }
+     
+     }
+     }
+     */
     
     
     //bzero(testimagedataMod1, mouthImage.size.width*mouthImage.size.height*4);
     
     /*
-    for(int x = 3; x < mouthImage.size.width-3; x++) {
-        for(int y = 3; y < mouthImage.size.height-3; y++) {
-
-    
-            // YUV filtering here for bright white first as interrupt
-            uint8_t pxR = GET_PIXELORIG(x, y, 0);
-            uint8_t pxG = GET_PIXELORIG(x, y, 1);
-            uint8_t pxB = GET_PIXELORIG(x, y, 2);
-            float Y = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
-            float CR = 0.713*((float)pxR - Y);
-            float CB = 0.564*((float)pxB - Y);
-            
-            if ((CR<12.0) && (CB<5.0) && (Y>50)) {
-                GET_PIXELMOD1(x,y,0) = 0xff;
-                GET_PIXELMOD1(x,y,1) = 0x00;
-                GET_PIXELMOD1(x,y,2) = 0xff;
-            }
-            
-        }
-    }
-
+     for(int x = 3; x < mouthImage.size.width-3; x++) {
+     for(int y = 3; y < mouthImage.size.height-3; y++) {
+     
+     
+     // YUV filtering here for bright white first as interrupt
+     uint8_t pxR = GET_PIXELORIG(x, y, 0);
+     uint8_t pxG = GET_PIXELORIG(x, y, 1);
+     uint8_t pxB = GET_PIXELORIG(x, y, 2);
+     float Y = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
+     float CR = 0.713*((float)pxR - Y);
+     float CB = 0.564*((float)pxB - Y);
+     
+     if ((CR<12.0) && (CB<5.0) && (Y>50)) {
+     GET_PIXELMOD1(x,y,0) = 0xff;
+     GET_PIXELMOD1(x,y,1) = 0x00;
+     GET_PIXELMOD1(x,y,2) = 0xff;
+     }
+     
+     }
+     }
+     
      */
     
     
     /*
-    
-    // Merge mod1 and mod2 arrays
-    for(int x = 3; x < mouthImage.size.width-3; x++) {
-        for(int y = 3; y < mouthImage.size.height-3; y++) {
-            
-            uint8_t blue0 = GET_PIXELMOD1((x-1),(y-1),2);
-            uint8_t blue1 = GET_PIXELMOD1((x-0),(y-1),2);
-            uint8_t blue2 = GET_PIXELMOD1((x+1),(y-1),2);
-            uint8_t blue3 = GET_PIXELMOD1((x-1),(y+0),2);
-            uint8_t blue4 = GET_PIXELMOD1((x+0),(y+0),2);
-            uint8_t blue5 = GET_PIXELMOD1((x+1),(y+0),2);
-            uint8_t blue6 = GET_PIXELMOD1((x-1),(y+1),2);
-            uint8_t blue7 = GET_PIXELMOD1((x+0),(y+1),2);
-            uint8_t blue8 = GET_PIXELMOD1((x+1),(y+1),2);
-            
-            if (blue0) blue0 = 1;
-            if (blue1) blue1 = 1;
-            if (blue2) blue2 = 1;
-            if (blue3) blue3 = 1;
-            if (blue4) blue4 = 1;
-            if (blue5) blue5 = 1;
-            if (blue6) blue6 = 1;
-            if (blue7) blue7 = 1;
-            if (blue8) blue8 = 1;
-            
-        
-            
-            if ((blue0+blue1+blue2+blue3+blue4+blue5+blue6+blue7+blue8) >= 4) {
-                
-                
-            } else {
-                
-                GET_PIXELMOD2(x,(y+0),0) = 0x00;
-                GET_PIXELMOD2(x,(y+0),1) = 0x00;
-                GET_PIXELMOD2(x,(y+0),2) = 0x00;
-            }
-            
-
-        }
-    }
-    */
+     
+     // Merge mod1 and mod2 arrays
+     for(int x = 3; x < mouthImage.size.width-3; x++) {
+     for(int y = 3; y < mouthImage.size.height-3; y++) {
+     
+     uint8_t blue0 = GET_PIXELMOD1((x-1),(y-1),2);
+     uint8_t blue1 = GET_PIXELMOD1((x-0),(y-1),2);
+     uint8_t blue2 = GET_PIXELMOD1((x+1),(y-1),2);
+     uint8_t blue3 = GET_PIXELMOD1((x-1),(y+0),2);
+     uint8_t blue4 = GET_PIXELMOD1((x+0),(y+0),2);
+     uint8_t blue5 = GET_PIXELMOD1((x+1),(y+0),2);
+     uint8_t blue6 = GET_PIXELMOD1((x-1),(y+1),2);
+     uint8_t blue7 = GET_PIXELMOD1((x+0),(y+1),2);
+     uint8_t blue8 = GET_PIXELMOD1((x+1),(y+1),2);
+     
+     if (blue0) blue0 = 1;
+     if (blue1) blue1 = 1;
+     if (blue2) blue2 = 1;
+     if (blue3) blue3 = 1;
+     if (blue4) blue4 = 1;
+     if (blue5) blue5 = 1;
+     if (blue6) blue6 = 1;
+     if (blue7) blue7 = 1;
+     if (blue8) blue8 = 1;
+     
+     
+     
+     if ((blue0+blue1+blue2+blue3+blue4+blue5+blue6+blue7+blue8) >= 4) {
+     
+     
+     } else {
+     
+     GET_PIXELMOD2(x,(y+0),0) = 0x00;
+     GET_PIXELMOD2(x,(y+0),1) = 0x00;
+     GET_PIXELMOD2(x,(y+0),2) = 0x00;
+     }
+     
+     
+     }
+     }
+     */
     
     /*
-    CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
-    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
-    CGContextRef newContextRef = CGBitmapContextCreate(testimagedataMod2, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
-    CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
+     CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
+     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(mouthImage.CGImage);
+     CGContextRef newContextRef = CGBitmapContextCreate(testimagedataMod2, mouthImage.size.width, mouthImage.size.height, 8, mouthImage.size.width*4,colorspaceRef, bitmapInfo);
+     CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
+     
+     UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
+     CGImageRelease(newImageRef);
+     CGContextRelease(newContextRef);
+     
+     CFRelease(pixelData);
+     
+     free(testimagedata);
+     free(testimagedataMod1);
+     free(testimagedataMod2);
+     free(zeroArray);
+     return modifiedImage; */
     
-    UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
-    CGImageRelease(newImageRef);
-    CGContextRelease(newContextRef);
-
-    CFRelease(pixelData);
     
-    free(testimagedata);
-    free(testimagedataMod1);
-    free(testimagedataMod2);
-    free(zeroArray);
-    return modifiedImage; */
-    
-
     
     
     
@@ -1129,7 +1192,7 @@
         int qX = -1;
         int qY = -1;
         //p --> q --> r
-
+        
         qX = leftmostX;
         qY = leftmostY;
         for(int rX = 0; rX < mouthImage.size.width; rX++) {
@@ -1162,26 +1225,26 @@
         pX = qX;
         pY = qY;
     }
-
+    
     
     
     
     
     //zero approximation - find all the pixels that look white
     /*const int zero_threshold = 50;
-    for(int x = 0; x < mouthImage.size.width; x++) {
-        for(int y = 0; y < mouthImage.size.height; y++) {
-            float euclid = 0;
-            for(int z = 0; z < 3; z++) {
-                int ideal = UINT8_MAX; //convert to 16-bit signed
-                int known = (int) GET_PIXEL(x, y, z);
-                 euclid += sqrt(pow((ideal - known),2));
-            }
-            if (euclid < zero_threshold) {
-                zeroArray[PIXEL_INDEX(x,y)] = 1;
-            }
-        }
-    }*/
+     for(int x = 0; x < mouthImage.size.width; x++) {
+     for(int y = 0; y < mouthImage.size.height; y++) {
+     float euclid = 0;
+     for(int z = 0; z < 3; z++) {
+     int ideal = UINT8_MAX; //convert to 16-bit signed
+     int known = (int) GET_PIXEL(x, y, z);
+     euclid += sqrt(pow((ideal - known),2));
+     }
+     if (euclid < zero_threshold) {
+     zeroArray[PIXEL_INDEX(x,y)] = 1;
+     }
+     }
+     }*/
     
     
     //draw on top of the image, this is purely for debugging
@@ -1192,18 +1255,18 @@
         
         CGContextTranslateCTM(context, 0.0, mouthImage.size.height);
         CGContextScaleCTM(context, 1.0, -1.0);
-
+        
         CGRect rect1 = CGRectMake(0, 0, mouthImage.size.width, mouthImage.size.height);
         CGContextDrawImage(context, rect1, mouthImage.CGImage);
         
         UIColor *color = [UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0];
         CGContextSetFillColorWithColor(context, color.CGColor);
         for(int x = 1; x < mouthImage.size.width-1; x++) {
-
+            
             for(int y = 1; y < mouthImage.size.height-1; y++) {
                 if (zeroArray[PIXEL_INDEX(x,y)]) {
                     CGContextFillRect(context, CGRectMake(x-1, mouthImage.size.height-(y-1), -2, -2));
-            
+                    
                 }
             }
         }
@@ -1211,7 +1274,7 @@
         UIGraphicsEndImageContext();
     });
     
-
+    
     // show image on iPhone view
     
     CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(mouthImage.CGImage);
@@ -1221,13 +1284,13 @@
     UIColor *greenColor = [UIColor greenColor];
     CGContextSetStrokeColorWithColor(newContextRef, greenColor.CGColor);
     CGContextSetLineWidth(newContextRef, 3.0);
-     CGContextScaleCTM(newContextRef, 1.0, -1.0);
+    CGContextScaleCTM(newContextRef, 1.0, -1.0);
     CGContextTranslateCTM(newContextRef, 0.0, -mouthImage.size.height);
     CGMutablePathRef myRef = CGPathCreateMutable();
     CGPathMoveToPoint(myRef, NULL, leftmostX, leftmostY);
     for (NSArray *pt in solutionArray) {
         CGPathAddLineToPoint(myRef, NULL, [pt[0] intValue], [pt[1] intValue]);
-
+        
     }
     CGPathAddLineToPoint(myRef, NULL, leftmostX, leftmostY);
     CGContextAddPath(newContextRef, myRef);
@@ -1250,10 +1313,10 @@
     // show MODIFIED  image on iPhone screen
     UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
     
-
+    
     CGImageRelease(newImageRef);
     CGContextRelease(newContextRef);
-   
+    
     
     CFRelease(pixelData);
     

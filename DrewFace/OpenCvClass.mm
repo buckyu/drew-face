@@ -110,7 +110,7 @@
     cv::Mat edges;
     //cv::blur(myCvMat, edges, cv::Size(4,4));
     cv::cvtColor(myCvMat, myCvMat, CV_BGRA2BGR);
-    cv::pyrMeanShiftFiltering(myCvMat.clone(), myCvMat, 30, 30, 4);
+    cv::pyrMeanShiftFiltering(myCvMat.clone(), myCvMat, 10, 10, 4);
     cv::cvtColor(myCvMat, myCvMat, CV_BGR2BGRA);
     
     //cv::Canny(edges, edges, 40, 120, 3, true);
