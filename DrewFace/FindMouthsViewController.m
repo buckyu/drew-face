@@ -781,6 +781,36 @@
 #define GET_PIXELMOD2(X,Y,Z) testimagedataMod2[((int)mouthImage.size.width * 4 * Y) + (4 * X) + Z]
 #define PIXEL_INDEX(X,Y) Y *(int)mouthImage.size.width + X
 
+#define DELTA_ALLOWED_FOR_WHITE 100
+#define THRESHOLD_WHITE_BLACK 10
+#define MIN_Y_BRIGHTNESS_THRESHOLD 150
+#define MAX_Y_FOR_DARK_THRESHOLD 250
+#define MAX_CR_THRESHOLD_WHITETEETH 20
+#define MAX_CB_THRESHOLD_WHITETEETH 10
+#define EXPECT_TEETH 5
+#define NUMBER_OF_LINES 10000
+#define MIN_TOOTH_SIZE 20
+#define MAX_TOOTH_SIZE 50
+#define MIN_DARK_SIZE 1
+#define MAX_DARK_SIZE 4
+
+BOOL looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToothY) {
+    if (toothY < MIN_Y_BRIGHTNESS_THRESHOLD) {
+        return NO;
+    }
+    
+    if (prevToothY != -1 && abs(prevToothY - toothY) > DELTA_ALLOWED_FOR_WHITE) {
+        return NO;
+    }
+    if (toothCr > MAX_CR_THRESHOLD_WHITETEETH) {
+        return NO;
+    }
+    if (toothCb > MAX_CB_THRESHOLD_WHITETEETH) {
+        return NO;
+    }
+    return YES;
+}
+
 // Drew's Algorithm to go here:
 -(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
     
@@ -825,17 +855,9 @@
     }
     
     
-#define DELTA_ALLOWED_FOR_WHITE 20
-#define THRESHOLD_WHITE_BLACK 20
-#define MIN_Y_BRIGHTNESS_THRESHOLD 150
-#define MAX_CR_THRESHOLD_WHITETEETH 20
-#define MAX_CB_THRESHOLD_WHITETEETH 10
-#define EXPECT_TEETH 3
-#define NUMBER_OF_LINES 10000
-#define MIN_TOOTH_SIZE 40 
-#define MAX_TOOTH_SIZE 50
-#define MIN_DARK_SIZE 1
-#define MAX_DARK_SIZE 2 
+    
+    
+    
     
     
     int MouthWidth = mouthImage.size.width;
@@ -843,99 +865,102 @@
     int cX = MouthWidth / 2;
     
     
-    for(int cY = 0; cY < MouthHeight; cY += 5) {
-        for(int toothSize = MIN_TOOTH_SIZE; toothSize <= MAX_TOOTH_SIZE; toothSize++) {
-            for(int darkSize = MIN_DARK_SIZE; darkSize <= MAX_DARK_SIZE; darkSize++) {
+    for(int cY = 0; cY < MouthHeight * .5; cY += 5) {
+        for(float theta = -M_PI_4 / 2; theta <= M_PI_4 / 2; theta+= 0.1) {
+            for(int searchBeginPx = 0; searchBeginPx < 100; searchBeginPx++) {
                 @autoreleasepool {
-
-                for(int toothShufflePx = 0; toothShufflePx < 50; toothShufflePx++) {
-                    
-                    //rotate
-                    for(float theta = -M_PI_4; theta <= M_PI_4; theta+= 0.1) {
-                        BOOL found_teeth = YES;
-                        NSMutableArray *line = [[NSMutableArray alloc] init];
-                        int prevToothY = -1;
-                        for(int toothCount = 0; toothCount < EXPECT_TEETH; toothCount++) {
-                            int tooth_notRotated_X = toothCount * (toothSize + darkSize);
-                            int tooth_notRotated_Y = 0;
-                            int toothCenterX = tooth_notRotated_X + toothShufflePx; //this operates in a [tooth] - [tooth] coordinate system
-                            int toothCenterY = tooth_notRotated_Y;
-                            int tooth_rotatedX = toothCenterX*cos(theta) - toothCenterY*sin(theta);
-                            int tooth_rotatedY = toothCenterX * sin(theta) + toothCenterY * cos(theta) + cY; //which we rotate along some angle, §L95
-                            if (tooth_rotatedX >= mouthImage.size.width || tooth_rotatedX < 0) {
-                                found_teeth = NO;
-                                break;
-                            }
-                            if (tooth_rotatedY >= mouthImage.size.height || tooth_rotatedY < 0) {
-                                found_teeth = NO;
-                                break;
-                            }
-                            
-                            int toothY = GET_PIXELMOD1(tooth_rotatedX, tooth_rotatedY, 0);
-                            if (toothY < MIN_Y_BRIGHTNESS_THRESHOLD) {
-                                found_teeth = NO;
-                                break;
-                            }
-                            //we compute the coord of the dark patch
-                            int dark_notRotated_X = tooth_notRotated_X + toothSize / 2;
-                            int dark_notRotated_Y = tooth_notRotated_Y;
-                            dark_notRotated_X += darkSize / 2;
-                            int dark_rotatedX = dark_notRotated_X * cos(theta) - dark_notRotated_Y * sin(theta);
-                            int dark_rotatedY = dark_notRotated_X * sin(theta) + dark_notRotated_Y * cos(theta) + cY;
-                            if (dark_rotatedX >= mouthImage.size.width || dark_rotatedX < 0) {
-                                found_teeth = NO;
-                                break;
-                            }
-                            if (dark_rotatedY >= mouthImage.size.height || dark_rotatedY < 0) {
-                                found_teeth = NO;
-                                break;
-                            }
-                            int darkY = GET_PIXELMOD1(dark_rotatedX, dark_rotatedY, 0);
-                            
-                            if (abs(toothY - darkY) < THRESHOLD_WHITE_BLACK) {
-                                found_teeth = NO;
-                                break;
-                            }
-                            if (prevToothY != -1 && abs(prevToothY - toothY) > DELTA_ALLOWED_FOR_WHITE) {
-                                found_teeth = NO;
-                                break;
-                            }
-                            if (toothY < MIN_Y_BRIGHTNESS_THRESHOLD) {
-                             found_teeth = NO;
-                             break;
-                             }
-                            int toothCR = GET_PIXELMOD1(tooth_rotatedX, tooth_rotatedY, 1);
-                            if (toothCR > MAX_CR_THRESHOLD_WHITETEETH) {
-                                found_teeth = NO;
-                                break;
-                            }
-                            int toothCB = GET_PIXELMOD1(tooth_rotatedX, tooth_rotatedY, 2);
-                            if (toothCB > MAX_CB_THRESHOLD_WHITETEETH) {
-                                found_teeth = NO;
-                                break;
-                            }
-                            
-                            
-                            
-                            NSArray *coord = [[NSArray alloc] initWithObjects:@(tooth_rotatedX),@(tooth_rotatedY),@(0), nil];
-                            NSArray *darkCoord = [[NSArray alloc] initWithObjects:@(dark_rotatedX),@(dark_rotatedY),@(2), nil];
-                            
-                            [line addObject:coord];
-                            [line addObject:darkCoord];
-                            prevToothY = toothY;
+                    int prevToothY = -1;
+                    NSMutableArray *line = [[NSMutableArray alloc] init];
+                    int prevToothCenter = searchBeginPx;
+                    int toothCenter = prevToothCenter + (MIN_TOOTH_SIZE);
+                searchTooth:
+                    for(; toothCenter <= prevToothCenter + MAX_TOOTH_SIZE; toothCenter++) {
+                        int tooth_notRotated_Y = 0;
+                        int toothCenterX = toothCenter;
+                        int toothCenterY = tooth_notRotated_Y;
+                        int tooth_rotatedX = toothCenterX*cos(theta) - toothCenterY*sin(theta);
+                        int tooth_rotatedY = toothCenterX * sin(theta) + toothCenterY * cos(theta) + cY; //which we rotate along some angle, §L95
+                        if (tooth_rotatedX >= mouthImage.size.width || tooth_rotatedX < 0) {
+                            continue;
                         }
-                        if (found_teeth) {
-                            //NSLog(@"found teeth at %@",line);
-                            for(NSArray *coord in line) {
-                                GET_PIXELMOD2([coord[0] intValue], [coord[1] intValue], [coord[2] intValue]) = 0xff;
-                            }
+                        if (tooth_rotatedY >= mouthImage.size.height || tooth_rotatedY < 0) {
+                            continue;
                         }
                         
+                        int toothY = GET_PIXELMOD1(tooth_rotatedX, tooth_rotatedY, 0);
+                        int toothCR = GET_PIXELMOD1(tooth_rotatedX, tooth_rotatedY, 1);
+                        int toothCB = GET_PIXELMOD1(tooth_rotatedX, tooth_rotatedY, 2);
+                        
+                        if (!looksWhite(toothY, toothCR, toothCB, prevToothY)) continue;
+                        //now let's look for a suitable dark patch
+                        BOOL found_dark = NO;
+                        int dark_rotatedX_sln = -99;
+                        int dark_rotatedY_sln = -99;
+                        for(int darkCenter = toothCenter + MIN_TOOTH_SIZE / 2; darkCenter <= toothCenter + MAX_TOOTH_SIZE / 2; darkCenter++) {
+                            int dark_notRotated_Y = tooth_notRotated_Y;
+                            int dark_rotatedX = darkCenter * cos(theta) - dark_notRotated_Y * sin(theta);
+                            int dark_rotatedY = darkCenter * sin(theta) + dark_notRotated_Y * cos(theta) + cY;
+                            if (dark_rotatedX >= mouthImage.size.width || dark_rotatedX < 0) {
+                                continue;
+                            }
+                            if (dark_rotatedY >= mouthImage.size.height || dark_rotatedY < 0) {
+                                continue;
+                            }
+                            int darkY = GET_PIXELMOD1(dark_rotatedX, dark_rotatedY, 0);
+                            if (abs(toothY - darkY) < THRESHOLD_WHITE_BLACK) {
+                                continue;
+                            }
+                            if (darkY > MAX_Y_FOR_DARK_THRESHOLD) {
+                                continue;
+                            }
+                            //check that we've gone back to white after MAX_DARK_SIZE
+                            int darkEnd = darkCenter + MAX_DARK_SIZE;
+                            int dark_rotatedEndX = darkEnd * cos(theta) - dark_notRotated_Y * sin(theta);
+                            int dark_rotatedEndY = darkEnd * sin(theta) + dark_notRotated_Y * cos(theta) + cY;
+                            if (dark_rotatedEndY < 0 || dark_rotatedEndY >= MouthHeight) continue;
+                            if (dark_rotatedEndX < 0 || dark_rotatedEndX >= MouthWidth) continue;
+                            int darkEndY = GET_PIXELMOD1(dark_rotatedEndX, dark_rotatedEndY, 0);
+                            int darkEndCr = GET_PIXELMOD1(dark_rotatedEndX, dark_rotatedEndY, 1);
+                            int darkEndCb = GET_PIXELMOD1(dark_rotatedEndX, dark_rotatedEndY, 2);
+                            if (!looksWhite(darkEndY, darkEndCr, darkEndCb, prevToothY)) {
+                                continue;
+                            }
+                            
+                            found_dark = YES;
+                            dark_rotatedX_sln = dark_rotatedX;
+                            dark_rotatedY_sln = dark_rotatedY;
+                            
+                        }
+                        if (!found_dark) {
+                            continue;
+                        }
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        NSArray *coord = [[NSArray alloc] initWithObjects:@(tooth_rotatedX),@(tooth_rotatedY),@(0), nil];
+                        NSArray *darkCoord = [[NSArray alloc] initWithObjects:@(dark_rotatedX_sln),@(dark_rotatedY_sln),@(2), nil];
+                        [line addObject:coord];
+                        [line addObject:darkCoord];
+                        prevToothY = toothY;
+                        prevToothCenter = toothCenter;
+                        toothCenter = prevToothCenter + MIN_TOOTH_SIZE;
+                    }
+                    
+                    if (line.count >= EXPECT_TEETH) {
+                        //NSLog(@"found teeth at %@",line);
+                        for(NSArray *coord in line) {
+                            GET_PIXELMOD2([coord[0] intValue], [coord[1] intValue], [coord[2] intValue]) = 0xff;
+                        }
                     }
                     
                 }
-                }
             }
+            
         }
     }
     
