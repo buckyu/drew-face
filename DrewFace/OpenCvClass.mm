@@ -39,7 +39,7 @@
 
 
 
--(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(NSString *)fn {
+-(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(NSString *)fn outRect:(rect*) outRect {
     
     cv::Mat myCvMat = [self cvMatFromUIImage:img];
     cv::Mat greyMat;
@@ -48,7 +48,7 @@
     // face detection
     IplImage myImage = myCvMat;
     rect faceDetectedInRect = [self opencvFaceDetect:&myImage fromFile:fn];
-    [self.delegate setFaceRect:[self rectToCGRect:faceDetectedInRect]];
+    *outRect = faceDetectedInRect;
         
     //return [self UIImageFromCVMat:greyMat];
     return img;

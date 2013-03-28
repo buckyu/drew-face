@@ -18,6 +18,7 @@
 
 #import <opencv2/features2d/features2d.hpp>
 #import <opencv2/nonfree/features2d.hpp>
+#import "Detect.h"
 
 
 @interface OpenCvClass : NSObject {
@@ -28,7 +29,7 @@
 
 @property (weak) id <OpenCvClassDelegate> delegate;
 
--(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(NSString *)fn;
+-(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(NSString *)fn outRect:(rect*) outRect;
 -(CGRect)processUIImageForMouth:(UIImage *)img fromFile:(NSString *)fn;
 
 -(UIImage *)edgeDetectReturnOverlay:(UIImage *)img;

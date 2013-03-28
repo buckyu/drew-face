@@ -19,18 +19,7 @@
     UIProgressView *progress;
     UIActivityIndicatorView *activity;
 
-    NSFileManager *manager;
-    NSString *docsDir;
-    NSString *originalDir;
-    NSString *originalThumbsDir;
-    NSString *extractedMouthsDir;
-    NSString *extractedMouthsEdgesDir;
-    
-    NSString *NoFaceDir;
-    NSString *NoMouthDir;
-    
-    NSString *testDir;
-    NSString *modelMouthDir;
+
 
     NSMutableArray *fileInfos;
     CGRect faceRectInScaledOrigImage;
@@ -53,5 +42,6 @@
 
 -(void)processUIImageForMouth:(UIImage *)bottomhalffaceImage returnRect:(CGRect *)mouthRectInBottomHalfOfFace closestMouthMatch:(int *)idx fileName:(NSString *)fn;
 
+-(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage;
 
 @end
