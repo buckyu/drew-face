@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad
 {
-    [DrewFaceDetect setupStructures];
+    setupStructures();
 
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
@@ -102,7 +102,7 @@
     ocv = [OpenCvClass new];
     ocv.delegate = self;
     rect faceRect;
-    testimage = [ocv processUIImageForFace:testimage fromFile:testFileName outRect:&faceRect];
+    testimage = [ocv processUIImageForFace:testimage fromFile:[testFileName cStringUsingEncoding:NSMacOSRomanStringEncoding] outRect:&faceRect];
     
     // replace image in UIImageView with greyscale image from OpenCV
     iv.image = testimage;
@@ -186,7 +186,7 @@
 
     // OpenCV Processing Called Here - search for mouth in bottom half of face
 
-    CGRect mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage fromFile:testFileName];
+    CGRect mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:bottomhalffaceImage fromFile:[testFileName cStringUsingEncoding:NSMacOSRomanStringEncoding]];
     
     UIView *blackOutMouthView = [UIView new];
     blackOutMouthView.frame = CGRectMake(mouthRectInBottomHalfOfFace.origin.x*scaleDownfactor, mouthRectInBottomHalfOfFace.origin.y*scaleDownfactor, mouthRectInBottomHalfOfFace.size.width*scaleDownfactor, mouthRectInBottomHalfOfFace.size.height*scaleDownfactor);

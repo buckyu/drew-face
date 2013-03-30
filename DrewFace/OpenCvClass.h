@@ -29,8 +29,8 @@
 
 @property (weak) id <OpenCvClassDelegate> delegate;
 
--(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(NSString *)fn outRect:(rect*) outRect;
--(CGRect)processUIImageForMouth:(UIImage *)img fromFile:(NSString *)fn;
+-(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(const char*)fn outRect:(rect*) outRect;
+-(CGRect)processUIImageForMouth:(UIImage *)img fromFile:(const char*)fn;
 
 -(UIImage *)edgeDetectReturnOverlay:(UIImage *)img;
 -(UIImage *)edgeDetectReturnEdges:(UIImage *)img;
@@ -43,9 +43,5 @@
 
 // do not know why but CGImageCreateWithImageInRect() can not be pixel mapped??
 -(UIImage *)greyTheImage:(UIImage *)origimg;
--(UIImage *)colorTheImage:(UIImage *)origimg;
--(UIImage *)BGR2BGRATheImage:(UIImage *)origimg;
--(UIImage *)BGRA2BGRTheImage:(UIImage *)origimg;
-
 
 @end

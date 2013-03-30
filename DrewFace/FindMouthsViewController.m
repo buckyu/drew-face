@@ -96,7 +96,7 @@
         NSString *thumbPath = [originalThumbsDir stringByAppendingPathComponent:fileName];
         thumbPath = [[thumbPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
         [dataToWrite writeToFile:thumbPath atomically:YES];
-        fileInfo = [DrewFaceDetect extractGeometry:fileNamePath];
+        fileInfo = objcDictOfStruct(extractGeometry([fileNamePath cStringUsingEncoding:NSMacOSRomanStringEncoding]));
         if (!fileInfo) continue;
         fileInfo = [fileInfo mutableCopy];
         fileInfo[@"thumbScaleFactor"] = @(thumbScaleFactor);
@@ -548,8 +548,6 @@ BOOL looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToo
 -(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
     ocv = [OpenCvClass new];
     mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
-    //mouthImage = [ocv colorTheImage:mouthImage];
-    
     
     CGDataProviderRef myDataProvider = CGImageGetDataProvider(mouthImage.CGImage);
     CFDataRef pixelData = CGDataProviderCopyData(myDataProvider);

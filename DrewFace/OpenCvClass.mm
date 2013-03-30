@@ -20,26 +20,7 @@
     return [self UIImageFromCVMat:greyMat];
 }
 
--(UIImage *)colorTheImage:(UIImage *)origimg {
-    cv::Mat myMat = [self cvMatFromUIImage:origimg];
-    return [self UIImageFromCVMat:myMat];
-}
-
--(UIImage *)BGR2BGRATheImage:(UIImage *)origimg {
-    cv::Mat myMat = [self cvMatFromUIImage:origimg];
-    cv::cvtColor(myMat, myMat, CV_BGR2BGRA);
-    return [self UIImageFromCVMat:myMat];
-}
-
--(UIImage *)BGRA2BGRTheImage:(UIImage *)origimg {
-    cv::Mat myMat = [self cvMatFromUIImage:origimg];
-    cv::cvtColor(myMat, myMat, CV_BGRA2BGR);
-    return [self UIImageFromCVMat:myMat];
-}
-
-
-
--(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(NSString *)fn outRect:(rect*) outRect {
+-(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(const char*)fn outRect:(rect*) outRect {
     
     cv::Mat myCvMat = [self cvMatFromUIImage:img];
     cv::Mat greyMat;
@@ -55,7 +36,7 @@
 }
 
 
--(CGRect)processUIImageForMouth:(UIImage *)colorimg fromFile:(NSString *)fn {
+-(CGRect)processUIImageForMouth:(UIImage *)colorimg fromFile:(const char*)fn {
     
     cv::Mat myCvMat = [self cvMatFromUIImage:colorimg];
     
@@ -68,20 +49,20 @@
 
 
 
-- (rect) opencvFaceDetect:(IplImage *)myImage fromFile:(NSString *)fn  {
+- (rect) opencvFaceDetect:(IplImage *)myImage fromFile:(const char*)fn  {
     // Load XML
     NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default" ofType:@"xml"];
     rect myRect;
-    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect, "Face", [fn UTF8String]);
+    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect, "Face", fn);
     return myRect;
 }
 
 
-- (rect) opencvMouthDetect:(IplImage *)myImage fromFile:(NSString *)fn  {
+- (rect) opencvMouthDetect:(IplImage *)myImage fromFile:(const char*)fn  {
     // Load XML
     NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_mcs_mouth" ofType:@"xml"];
     rect myRect;
-    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect, "Mouth", [fn UTF8String]);
+    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect, "Mouth", fn);
     return myRect;
 }
 

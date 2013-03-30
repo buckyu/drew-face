@@ -1,0 +1,15 @@
+exif-utils.lo exif-utils.o: exif-utils.c ../config.h \
+  ../libexif/exif-utils.h ../libexif/exif-byte-order.h \
+  ../libexif/exif-format.h ../libexif/_stdint.h /usr/include/stdint.h
+
+../config.h:
+
+../libexif/exif-utils.h:
+
+../libexif/exif-byte-order.h:
+
+../libexif/exif-format.h:
+
+../libexif/_stdint.h:
+
+/usr/include/stdint.h:

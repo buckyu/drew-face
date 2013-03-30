@@ -35,7 +35,9 @@
 		1DE6DDF116C41A8300BAA92A /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE6DDF016C41A8300BAA92A /* opencv2.framework */; };
 		1DE6DDF916C41D5F00BAA92A /* OpenCvClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1DE6DDF816C41D5F00BAA92A /* OpenCvClass.mm */; };
 		3A02316916C97F190092817E /* Detect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A02316816C97F190092817E /* Detect.cpp */; };
-		3A75C88817046889002A1A72 /* DrewFaceDetect.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A75C88717046889002A1A72 /* DrewFaceDetect.m */; };
+		3A75C88817046889002A1A72 /* DrewFaceDetect.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A75C88717046889002A1A72 /* DrewFaceDetect.mm */; };
+		BE67C1351704FC4700EBB4DF /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE67C1341704FC4700EBB4DF /* libjpeg.a */; };
+		BEB6084317064A4F001A63D7 /* libexif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BEB6084217064A4F001A63D7 /* libexif.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,7 +79,29 @@
 		3A02316816C97F190092817E /* Detect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Detect.cpp; sourceTree = "<group>"; };
 		3A02316A16C97F220092817E /* Detect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Detect.h; sourceTree = "<group>"; };
 		3A75C88617046889002A1A72 /* DrewFaceDetect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrewFaceDetect.h; sourceTree = "<group>"; };
-		3A75C88717046889002A1A72 /* DrewFaceDetect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrewFaceDetect.m; sourceTree = "<group>"; };
+		3A75C88717046889002A1A72 /* DrewFaceDetect.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DrewFaceDetect.mm; sourceTree = "<group>"; };
+		BE67C1341704FC4700EBB4DF /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjpeg.a; sourceTree = "<group>"; };
+		BE67C1361704FCA400EBB4DF /* jpeglib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jpeglib.h; sourceTree = "<group>"; };
+		BE67C1371704FCB800EBB4DF /* jconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jconfig.h; sourceTree = "<group>"; };
+		BE67C1381704FCC800EBB4DF /* jmorecfg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jmorecfg.h; sourceTree = "<group>"; };
+		BEB6084117062DDA001A63D7 /* jerror.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jerror.h; sourceTree = "<group>"; };
+		BEB6084217064A4F001A63D7 /* libexif.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexif.a; path = "libexif-0.6.21/libexif/.libs/libexif.a"; sourceTree = "<group>"; };
+		BEB6084417064C19001A63D7 /* exif-loader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-loader.h"; sourceTree = "<group>"; };
+		BEB6084517064C28001A63D7 /* exif-content.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-content.h"; sourceTree = "<group>"; };
+		BEB6084617064C28001A63D7 /* exif-data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-data.h"; sourceTree = "<group>"; };
+		BEB6084917064C81001A63D7 /* exif-byte-order.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-byte-order.h"; sourceTree = "<group>"; };
+		BEB6084A17064C81001A63D7 /* exif-data-type.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-data-type.h"; sourceTree = "<group>"; };
+		BEB6084B17064C81001A63D7 /* exif-entry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-entry.h"; sourceTree = "<group>"; };
+		BEB6084C17064C81001A63D7 /* exif-format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-format.h"; sourceTree = "<group>"; };
+		BEB6084D17064C81001A63D7 /* exif-ifd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-ifd.h"; sourceTree = "<group>"; };
+		BEB6084E17064C81001A63D7 /* exif-log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-log.h"; sourceTree = "<group>"; };
+		BEB6084F17064C81001A63D7 /* exif-mem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-mem.h"; sourceTree = "<group>"; };
+		BEB6085017064C81001A63D7 /* exif-mnote-data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-mnote-data.h"; sourceTree = "<group>"; };
+		BEB6085117064C81001A63D7 /* exif-tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-tag.h"; sourceTree = "<group>"; };
+		BEB6085217064C81001A63D7 /* exif-utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-utils.h"; sourceTree = "<group>"; };
+		BEB6085317065C6F001A63D7 /* jinclude.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jinclude.h; sourceTree = "<group>"; };
+		BEB6085417065C7C001A63D7 /* transupp.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = transupp.c; sourceTree = "<group>"; };
+		BEB6085517065C7C001A63D7 /* transupp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = transupp.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +115,8 @@
 				1D6992EC16C014C200547D63 /* CoreGraphics.framework in Frameworks */,
 				1D6992E816C014C200547D63 /* UIKit.framework in Frameworks */,
 				1D6992EA16C014C200547D63 /* Foundation.framework in Frameworks */,
+				BE67C1351704FC4700EBB4DF /* libjpeg.a in Frameworks */,
+				BEB6084317064A4F001A63D7 /* libexif.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +143,8 @@
 		1D6992E616C014C200547D63 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BEB6084817064C36001A63D7 /* libexif */,
+				BEB6084717064C2D001A63D7 /* libjpeg */,
 				1D9B181316E32BCA003AB39F /* CoreImage.framework */,
 				1DE6DDF016C41A8300BAA92A /* opencv2.framework */,
 				1DC1EDC616C0E99F0076AF9D /* ImageIO.framework */,
@@ -185,9 +213,45 @@
 			isa = PBXGroup;
 			children = (
 				3A75C88617046889002A1A72 /* DrewFaceDetect.h */,
-				3A75C88717046889002A1A72 /* DrewFaceDetect.m */,
+				3A75C88717046889002A1A72 /* DrewFaceDetect.mm */,
 			);
 			name = NeedsPort;
+			sourceTree = "<group>";
+		};
+		BEB6084717064C2D001A63D7 /* libjpeg */ = {
+			isa = PBXGroup;
+			children = (
+				BE67C1371704FCB800EBB4DF /* jconfig.h */,
+				BE67C1381704FCC800EBB4DF /* jmorecfg.h */,
+				BE67C1361704FCA400EBB4DF /* jpeglib.h */,
+				BEB6084117062DDA001A63D7 /* jerror.h */,
+				BEB6085317065C6F001A63D7 /* jinclude.h */,
+				BEB6085517065C7C001A63D7 /* transupp.h */,
+				BEB6085417065C7C001A63D7 /* transupp.c */,
+				BE67C1341704FC4700EBB4DF /* libjpeg.a */,
+			);
+			name = libjpeg;
+			sourceTree = "<group>";
+		};
+		BEB6084817064C36001A63D7 /* libexif */ = {
+			isa = PBXGroup;
+			children = (
+				BEB6084517064C28001A63D7 /* exif-content.h */,
+				BEB6084617064C28001A63D7 /* exif-data.h */,
+				BEB6084417064C19001A63D7 /* exif-loader.h */,
+				BEB6084917064C81001A63D7 /* exif-byte-order.h */,
+				BEB6084A17064C81001A63D7 /* exif-data-type.h */,
+				BEB6084B17064C81001A63D7 /* exif-entry.h */,
+				BEB6084C17064C81001A63D7 /* exif-format.h */,
+				BEB6084D17064C81001A63D7 /* exif-ifd.h */,
+				BEB6084E17064C81001A63D7 /* exif-log.h */,
+				BEB6084F17064C81001A63D7 /* exif-mem.h */,
+				BEB6085017064C81001A63D7 /* exif-mnote-data.h */,
+				BEB6085117064C81001A63D7 /* exif-tag.h */,
+				BEB6085217064C81001A63D7 /* exif-utils.h */,
+				BEB6084217064A4F001A63D7 /* libexif.a */,
+			);
+			name = libexif;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -274,7 +338,7 @@
 				3A02316916C97F190092817E /* Detect.cpp in Sources */,
 				1D5C808C16CE872900234D0D /* FindMouthsViewController.m in Sources */,
 				1D8594A716D42F990088B5B4 /* ShowMouthsViewController.m in Sources */,
-				3A75C88817046889002A1A72 /* DrewFaceDetect.m in Sources */,
+				3A75C88817046889002A1A72 /* DrewFaceDetect.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,7 +431,11 @@
 				GCC_PREFIX_HEADER = "DrewFace/DrewFace-Prefix.pch";
 				INFOPLIST_FILE = "DrewFace/DrewFace-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/libexif-0.6.21/libexif/.libs\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -384,7 +452,11 @@
 				GCC_PREFIX_HEADER = "DrewFace/DrewFace-Prefix.pch";
 				INFOPLIST_FILE = "DrewFace/DrewFace-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/libexif-0.6.21/libexif/.libs\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
