@@ -29,22 +29,7 @@
 #define MIN_DARK_SIZE 1
 #define MAX_DARK_SIZE 4
 
-BOOL looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToothY) {
-    if (toothY < MIN_Y_BRIGHTNESS_THRESHOLD) {
-        return NO;
-    }
-    
-    if (prevToothY != -1 && abs(prevToothY - toothY) > DELTA_ALLOWED_FOR_WHITE) {
-        return NO;
-    }
-    if (toothCr > MAX_CR_THRESHOLD_WHITETEETH) {
-        return NO;
-    }
-    if (toothCb > MAX_CB_THRESHOLD_WHITETEETH) {
-        return NO;
-    }
-    return YES;
-}
+
 
 // Drew's Algorithm to go here:
 -(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage {
