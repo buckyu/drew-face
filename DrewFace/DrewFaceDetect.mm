@@ -11,6 +11,8 @@
 #import <ImageIO/ImageIO.h>
 #endif
 
+#import "FindMouthsViewController+CPlusPlusExtensions.h"
+
 #include "DrewFaceDetect.h"
 #include <opencv2/imgproc/imgproc_c.h>
 #include "exif-data.h"
@@ -280,7 +282,7 @@ FileInfo *extractGeometry(const char *fileNamePath) {
 
     cv::Mat jpeg = cv::imread(fileNamePath, CV_LOAD_IMAGE_UNCHANGED);
     if(!jpeg.data) {
-        printf("Could not open or find the image");
+        printf("Could not open or find the image %s", fileNamePath);
         return NULL;
     }
     cv::Mat scaledImg;
