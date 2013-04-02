@@ -30,8 +30,8 @@ Kernel configured for up to 8 processors.
 Processor type: i486 (Intel 80486)
 Processors active: 0 1 2 3 4 5 6 7
 Primary memory available: 8.00 gigabytes
-Default processor set: 160 tasks, 955 threads, 8 processors
-Load average: 1.69, Mach factor: 6.32
+Default processor set: 182 tasks, 1008 threads, 8 processors
+Load average: 0.85, Mach factor: 7.13
 /bin/machine           = unknown
 /usr/bin/oslevel       = unknown
 /bin/universe          = unknown
@@ -413,13 +413,13 @@ configure:12856: checking for GNU gettext in libc
 configure:12875: gcc -o conftest -arch i386   conftest.c  -lm >&5
 Undefined symbols for architecture i386:
   "__nl_domain_bindings", referenced from:
-      _main in ccZ0E4JP.o
+      _main in cck6WcyL.o
   "__nl_msg_cat_cntr", referenced from:
-      _main in ccZ0E4JP.o
+      _main in cck6WcyL.o
   "_libintl_bindtextdomain", referenced from:
-      _main in ccZ0E4JP.o
+      _main in cck6WcyL.o
   "_libintl_gettext", referenced from:
-      _main in ccZ0E4JP.o
+      _main in cck6WcyL.o
 ld: symbol(s) not found for architecture i386
 collect2: ld returned 1 exit status
 configure:12875: $? = 1
@@ -462,11 +462,11 @@ configure:12917: checking for iconv
 configure:12939: gcc -o conftest -arch i386   conftest.c  -lm >&5
 Undefined symbols for architecture i386:
   "_iconv", referenced from:
-      _main in ccdHCxod.o
+      _main in ccS1Nsaq.o
   "_iconv_close", referenced from:
-      _main in ccdHCxod.o
+      _main in ccS1Nsaq.o
   "_iconv_open", referenced from:
-      _main in ccdHCxod.o
+      _main in ccS1Nsaq.o
 ld: symbol(s) not found for architecture i386
 collect2: ld returned 1 exit status
 configure:12939: $? = 1
@@ -514,13 +514,13 @@ configure:13397: gcc -o conftest -arch i386  -I/usr/local/include  conftest.c  -
 ld: warning: ignoring file /usr/local/lib/libintl.dylib, file was built for unsupported file format ( 0xcf 0xfa 0xed 0xfe 0x 7 0x 0 0x 0 0x 1 0x 3 0x 0 0x 0 0x 0 0x 6 0x 0 0x 0 0x 0 ) which is not the architecture being linked (i386): /usr/local/lib/libintl.dylib
 Undefined symbols for architecture i386:
   "__nl_expand_alias", referenced from:
-      _main in ccYYxFvi.o
+      _main in ccCMrPwW.o
   "__nl_msg_cat_cntr", referenced from:
-      _main in ccYYxFvi.o
+      _main in ccCMrPwW.o
   "_libintl_bindtextdomain", referenced from:
-      _main in ccYYxFvi.o
+      _main in ccCMrPwW.o
   "_libintl_gettext", referenced from:
-      _main in ccYYxFvi.o
+      _main in ccCMrPwW.o
 ld: symbol(s) not found for architecture i386
 collect2: ld returned 1 exit status
 configure:13397: $? = 1
@@ -567,13 +567,13 @@ configure:13424: gcc -o conftest -arch i386  -I/usr/local/include  conftest.c  -
 ld: warning: ignoring file /usr/local/lib/libintl.dylib, file was built for unsupported file format ( 0xcf 0xfa 0xed 0xfe 0x 7 0x 0 0x 0 0x 1 0x 3 0x 0 0x 0 0x 0 0x 6 0x 0 0x 0 0x 0 ) which is not the architecture being linked (i386): /usr/local/lib/libintl.dylib
 Undefined symbols for architecture i386:
   "__nl_expand_alias", referenced from:
-      _main in ccSeA6FG.o
+      _main in ccg8ZxVp.o
   "__nl_msg_cat_cntr", referenced from:
-      _main in ccSeA6FG.o
+      _main in ccg8ZxVp.o
   "_libintl_bindtextdomain", referenced from:
-      _main in ccSeA6FG.o
+      _main in ccg8ZxVp.o
   "_libintl_gettext", referenced from:
-      _main in ccSeA6FG.o
+      _main in ccg8ZxVp.o
 ld: symbol(s) not found for architecture i386
 collect2: ld returned 1 exit status
 configure:13424: $? = 1
@@ -682,7 +682,7 @@ ac_cv_env_CC_set=
 ac_cv_env_CC_value=
 ac_cv_env_CFLAGS_set=set
 ac_cv_env_CFLAGS_value='-arch i386'
-ac_cv_env_CPPFLAGS_set=set
+ac_cv_env_CPPFLAGS_set=
 ac_cv_env_CPPFLAGS_value=
 ac_cv_env_CPP_set=
 ac_cv_env_CPP_value=

@@ -90,7 +90,7 @@ void setupStructures() {
 }
 
 struct jpeg {
-    cv::Mat *data;
+    IplImage *data;
     JDIMENSION width;
     JDIMENSION height;
     int colorComponents;
@@ -122,13 +122,7 @@ int exifOrientation(const char *filename) {
     return orientation[0] - '1' + 1;
 }
 
-struct jpeg *loadJPEGFromFile(const char *filename, int maxDimension);
-
 struct jpeg *loadJPEGFromFile(const char *filename) {
-    return loadJPEGFromFile(filename, INT_MAX);
-}
-
-struct jpeg *loadJPEGFromFile(const char *filename, int maxDimension) {
     /* This struct contains the JPEG decompression parameters and pointers to
      * working space (which is allocated as needed by the JPEG library).
      */
@@ -136,8 +130,6 @@ struct jpeg *loadJPEGFromFile(const char *filename, int maxDimension) {
 
     /* More stuff */
     FILE * infile;		/* source file */
-    JSAMPARRAY buffer;	/* Output row buffer */
-    int row_stride;		/* physical row width in output buffer */
     struct jpeg_error_mgr jerr;
 
     /* In this example we want to open the input file before doing anything else,
@@ -202,21 +194,12 @@ struct jpeg *loadJPEGFromFile(const char *filename, int maxDimension) {
     ret->width = cinfo->output_width;
     ret->height = cinfo->output_height;
 
-    if(ret->colorComponents == 3) {
-        cv::Mat M(ret->width, ret->height, CV_8UC3);
-        ret->data = &M;
-    } else if(ret->colorComponents == 1) {
-        cv::Mat M(ret->width, ret->height, CV_8UC1);
-        ret->data = &M;
-    } else {
-        //unusual colorspace
-        return NULL;
-    }
+    ret->data = cvCreateImage(cvSize(ret->width, ret->height), IPL_DEPTH_8U, ret->colorComponents);
 
     /* JSAMPLEs per row in output buffer */
-    row_stride = (*cinfo).output_width * (*cinfo).output_components;
+    int row_stride = cinfo->output_width * cinfo->output_components; /* physical row width in output buffer */
     /* Make a one-row-high sample array that will go away when done with image */
-    buffer = (*cinfo->mem->alloc_sarray)((j_common_ptr) cinfo, JPOOL_IMAGE, row_stride, 1);
+    JSAMPARRAY buffer = (*cinfo->mem->alloc_sarray)((j_common_ptr) cinfo, JPOOL_IMAGE, row_stride, 1); /* Output row buffer */
 
     /* Step 6: while (scan lines remain to be read) */
     /*           jpeg_read_scanlines(...); */
@@ -224,13 +207,16 @@ struct jpeg *loadJPEGFromFile(const char *filename, int maxDimension) {
     /* Here we use the library's state variable cinfo.output_scanline as the
      * loop counter, so that we don't have to keep track ourselves.
      */
+    assert(ret->data->widthStep >= row_stride);
     while(cinfo->output_scanline < cinfo->output_height) {
         /* jpeg_read_scanlines expects an array of pointers to scanlines.
          * Here the array is only one element long, but you could ask for
          * more than one scanline at a time if that's more convenient.
          */
+        typeof(cinfo->output_scanline) scanline = cinfo->output_scanline;
         (void) jpeg_read_scanlines(cinfo, buffer, 1);
-        memcpy(&(ret->data->data[cinfo->output_scanline * ret->colorComponents * ret->width]), buffer[0], sizeof(unsigned char));
+        assert(scanline * ret->data->widthStep + row_stride < ret->data->imageSize);
+        memcpy(&(ret->data->imageData[scanline * ret->data->widthStep]), buffer[0], row_stride);
     }
 
     /* Step 7: Finish decompression */
@@ -261,6 +247,7 @@ struct jpeg *loadJPEGFromFile(const char *filename, int maxDimension) {
 void freeJpeg(struct jpeg *jpg) {
     /* This is an important step since it will release a good deal of memory. */
     //delete jpg->data; (apparently opencv does its own memory management?
+    cvReleaseImage(&jpg->data);
     free(jpg);
 }
 
@@ -280,24 +267,23 @@ FileInfo *extractGeometry(const char *fileNamePath) {
 
     // Find Mouths in original images here
 
-    cv::Mat jpeg = cv::imread(fileNamePath, CV_LOAD_IMAGE_UNCHANGED);
-    if(!jpeg.data) {
-        printf("Could not open or find the image %s", fileNamePath);
-        return NULL;
-    }
+    struct jpeg *jpeg = loadJPEGFromFile(fileNamePath);
     cv::Mat scaledImg;
     {
-        int w = jpeg.cols;
-        int h = jpeg.rows;
+        int w = jpeg->width;
+        int h = jpeg->height;
         int max = (w > h)? w : h;
         if(max > 1024) {
             //facedetectScaleFactor = maxDimension / (float)max;
-            cv::resize(jpeg, scaledImg, cv::Size(1024.0/max, 1024.0/max), 0, 0);
+            cv::Mat mat = jpeg->data;
+            cv::resize(mat, scaledImg, cv::Size(1024.0/max, 1024.0/max), 0, 0);
+        } else {
+            scaledImg = jpeg->data;
         }
     }
 
     int orientation = exifOrientation(fileNamePath);
-    cv::Mat *rotatedImage = NULL;
+    cv::Mat *rotatedImage = &scaledImg;
 
     // Orient images for face detection (EXIF Orientation = 0)
     if (orientation == 6) {

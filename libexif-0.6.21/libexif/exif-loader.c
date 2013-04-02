@@ -112,7 +112,7 @@ exif_loader_write_file (ExifLoader *l, const char *path)
 
 	if (!l) 
 		return;
-
+    
 	f = fopen (path, "rb");
 	if (!f) {
 		exif_log (l->log, EXIF_LOG_CODE_NONE, "ExifLoader",
