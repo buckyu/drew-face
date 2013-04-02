@@ -22,6 +22,7 @@
 #include "jerror.h"
 
 #if DONT_PORT
+#import "DrewFaceAppDelegate.h"
 NSString *docsDir;
 NSString *originalDir;
 NSString *originalThumbsDir;
@@ -116,6 +117,9 @@ static char *get_tag(ExifData *d, ExifIfd ifd, ExifTag tag)
 int exifOrientation(const char *filename) {
     ExifData *ed = exif_data_new_from_file(filename);
     char *orientation = get_tag(ed, EXIF_IFD_0, EXIF_TAG_ORIENTATION);
+    if (!orientation) {
+        return 1;
+    }
     if(strlen(orientation) > 1 || orientation[0] < '1' || orientation[0] > '8') {
         return 1;
     }
@@ -165,9 +169,6 @@ struct jpeg *loadJPEGFromFile(const char *filename) {
 
     /* Step 4: set parameters for decompression */
 
-    //Scale down to maxDimension if necessary
-    
-
     /* Step 5: Start decompressor */
 
     (void) jpeg_start_decompress(cinfo);
@@ -194,7 +195,7 @@ struct jpeg *loadJPEGFromFile(const char *filename) {
     ret->width = cinfo->output_width;
     ret->height = cinfo->output_height;
 
-    ret->data = cvCreateImage(cvSize(ret->width, ret->height), IPL_DEPTH_8U, ret->colorComponents);
+    ret->data = cvCreateImage(cvSize(ret->width, ret->height), IPL_DEPTH_32S, ret->colorComponents);
 
     /* JSAMPLEs per row in output buffer */
     int row_stride = cinfo->output_width * cinfo->output_components; /* physical row width in output buffer */
@@ -273,10 +274,11 @@ FileInfo *extractGeometry(const char *fileNamePath) {
         int w = jpeg->width;
         int h = jpeg->height;
         int max = (w > h)? w : h;
-        if(max > 1024) {
+        if(false && max > 1024) {
             //facedetectScaleFactor = maxDimension / (float)max;
             cv::Mat mat = jpeg->data;
-            cv::resize(mat, scaledImg, cv::Size(1024.0/max, 1024.0/max), 0, 0);
+            const float scale = 1024.0 / max;
+            cv::resize(mat, scaledImg, cv::Size(w * scale, h * scale), 0, 0);
         } else {
             scaledImg = jpeg->data;
         }
@@ -295,6 +297,12 @@ FileInfo *extractGeometry(const char *fileNamePath) {
     }
 
     UIImage *scaledImage = [OpenCvClass UIImageFromCVMat:*rotatedImage];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        id delegate = (DrewFaceAppDelegate*)[UIApplication sharedApplication].delegate;
+        [[delegate window] addSubview:[[UIImageView alloc] initWithImage:scaledImage]];
+    });
+
+    return NULL;
 
     // search for face in scaledImage
     // OpenCV Processing Called Here for Face Detect
@@ -304,7 +312,7 @@ FileInfo *extractGeometry(const char *fileNamePath) {
     rect faceRect;
     UIImage *testimage = [ocv processUIImageForFace:scaledImage fromFile:fileNamePath outRect:&faceRect];
     if ((faceRect.width == 0) || (faceRect.height == 0)) {
-        printf("NO FACE in %s", fileNamePath);
+        printf("NO FACE in %s\n", fileNamePath);
         return NULL;
     }
 
@@ -326,7 +334,7 @@ FileInfo *extractGeometry(const char *fileNamePath) {
     //[self processUIImageForMouth:bottomhalffaceImage returnRect:&mouthRectInBottomHalfOfFace closestMouthMatch:&mouthIdx fileName:fileName];
 
     if ((mouthRectInBottomHalfOfFace.size.width == 0) || (mouthRectInBottomHalfOfFace.size.height == 0)) {
-        printf("NO MOUTH in %s", fileNamePath);
+        printf("NO MOUTH in %s\n", fileNamePath);
 #if DONT_PORT
         [manager copyItemAtPath:[NSString stringWithCString:fileNamePath encoding:NSMacOSRomanStringEncoding] toPath:[NoMouthDir stringByAppendingPathComponent:simpleFileName] error:nil];
 #endif
@@ -360,7 +368,7 @@ FileInfo *extractGeometry(const char *fileNamePath) {
         //processedMouthImage = [self lookForTeethInMouthImage:mouthImage];
 
         if (!((processedMouthImage.size.width>0) && (processedMouthImage.size.height>0))) {
-            printf("NO TEETH in %s", fileNamePath);
+            printf("NO TEETH in %s\n", fileNamePath);
             return NULL;
         }
     }
@@ -435,6 +443,9 @@ FileInfo *extractGeometry(const char *fileNamePath) {
 }
 
 NSMutableDictionary *objcDictOfStruct(FileInfo *dict) {
+    if(!dict) {
+        return nil;
+    }
     NSMutableDictionary *ret = [[NSMutableDictionary alloc] init];
 
     ret[@"originalFileName"] = [NSString stringWithCString:dict->originalFileNamePath encoding:NSMacOSRomanStringEncoding];

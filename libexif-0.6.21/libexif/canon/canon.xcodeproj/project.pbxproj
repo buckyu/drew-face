@@ -1,0 +1,146 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		BEE9DE68170B6F3400DD1540 /* Makefile-files */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Makefile-files"; sourceTree = "<group>"; };
+		BEE9DE69170B6F3400DD1540 /* exif-mnote-data-canon.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "exif-mnote-data-canon.c"; sourceTree = "<group>"; };
+		BEE9DE6A170B6F3400DD1540 /* exif-mnote-data-canon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-mnote-data-canon.h"; sourceTree = "<group>"; };
+		BEE9DE6B170B6F3400DD1540 /* mnote-canon-entry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "mnote-canon-entry.c"; sourceTree = "<group>"; };
+		BEE9DE6C170B6F3400DD1540 /* mnote-canon-entry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mnote-canon-entry.h"; sourceTree = "<group>"; };
+		BEE9DE6D170B6F3400DD1540 /* mnote-canon-tag.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "mnote-canon-tag.c"; sourceTree = "<group>"; };
+		BEE9DE6E170B6F3400DD1540 /* mnote-canon-tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mnote-canon-tag.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		BEE9DE62170B6F3400DD1540 = {
+			isa = PBXGroup;
+			children = (
+				BEE9DE68170B6F3400DD1540 /* Makefile-files */,
+				BEE9DE69170B6F3400DD1540 /* exif-mnote-data-canon.c */,
+				BEE9DE6A170B6F3400DD1540 /* exif-mnote-data-canon.h */,
+				BEE9DE6B170B6F3400DD1540 /* mnote-canon-entry.c */,
+				BEE9DE6C170B6F3400DD1540 /* mnote-canon-entry.h */,
+				BEE9DE6D170B6F3400DD1540 /* mnote-canon-tag.c */,
+				BEE9DE6E170B6F3400DD1540 /* mnote-canon-tag.h */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		BEE9DE67170B6F3400DD1540 /* canon */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = BEE9DE6F170B6F3400DD1540 /* Build configuration list for PBXLegacyTarget "canon" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/bion/projects/dca/drew-face/libexif-0.6.21/libexif/canon";
+			dependencies = (
+			);
+			name = canon;
+			passBuildSettingsInEnvironment = 1;
+			productName = canon;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		BEE9DE63170B6F3400DD1540 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = BEE9DE66170B6F3400DD1540 /* Build configuration list for PBXProject "canon" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BEE9DE62170B6F3400DD1540;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BEE9DE67170B6F3400DD1540 /* canon */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		BEE9DE64170B6F3400DD1540 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		BEE9DE65170B6F3400DD1540 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		BEE9DE70170B6F3400DD1540 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = canon;
+			};
+			name = Debug;
+		};
+		BEE9DE71170B6F3400DD1540 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = canon;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BEE9DE66170B6F3400DD1540 /* Build configuration list for PBXProject "canon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEE9DE64170B6F3400DD1540 /* Debug */,
+				BEE9DE65170B6F3400DD1540 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BEE9DE6F170B6F3400DD1540 /* Build configuration list for PBXLegacyTarget "canon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEE9DE70170B6F3400DD1540 /* Debug */,
+				BEE9DE71170B6F3400DD1540 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BEE9DE63170B6F3400DD1540 /* Project object */;
+}

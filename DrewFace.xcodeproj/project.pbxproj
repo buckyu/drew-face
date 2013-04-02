@@ -38,8 +38,38 @@
 		3AF0B626170AF37F0085531C /* DrewFaceDetectPart2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0B624170AF37F0085531C /* DrewFaceDetectPart2.cpp */; };
 		3AF0B629170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0B628170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.mm */; };
 		BEDEDA47170A355E008CCA47 /* jpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BEDEDA46170A355E008CCA47 /* jpeg.a */; };
-		BEDEDA49170A35D2008CCA47 /* exif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BEDEDA48170A35D2008CCA47 /* exif.a */; };
 		BEE9DE61170B5E5500DD1540 /* DrewFaceDetect.mm in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DE60170B5E5500DD1540 /* DrewFaceDetect.mm */; };
+		BEE9DED0170B6F3400DD1540 /* exif-byte-order.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEA3170B6F3400DD1540 /* exif-byte-order.c */; };
+		BEE9DED1170B6F3400DD1540 /* exif-content.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEA5170B6F3400DD1540 /* exif-content.c */; };
+		BEE9DED2170B6F3400DD1540 /* exif-data.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEA8170B6F3400DD1540 /* exif-data.c */; };
+		BEE9DED3170B6F3400DD1540 /* exif-entry.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEAA170B6F3400DD1540 /* exif-entry.c */; };
+		BEE9DED4170B6F3400DD1540 /* exif-format.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEAC170B6F3400DD1540 /* exif-format.c */; };
+		BEE9DED5170B6F3400DD1540 /* exif-ifd.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEAE170B6F3400DD1540 /* exif-ifd.c */; };
+		BEE9DED6170B6F3400DD1540 /* exif-loader.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEB0170B6F3400DD1540 /* exif-loader.c */; };
+		BEE9DED7170B6F3400DD1540 /* exif-log.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEB2170B6F3400DD1540 /* exif-log.c */; };
+		BEE9DED8170B6F3400DD1540 /* exif-mem.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEB4170B6F3400DD1540 /* exif-mem.c */; };
+		BEE9DED9170B6F3400DD1540 /* exif-mnote-data.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEB7170B6F3400DD1540 /* exif-mnote-data.c */; };
+		BEE9DEDA170B6F3400DD1540 /* exif-tag.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEBA170B6F3400DD1540 /* exif-tag.c */; };
+		BEE9DEDB170B6F3400DD1540 /* exif-utils.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEBC170B6F3400DD1540 /* exif-utils.c */; };
+		BEE9DEDC170B6F3400DD1540 /* libexif.sym in Resources */ = {isa = PBXBuildFile; fileRef = BEE9DEC0170B6F3400DD1540 /* libexif.sym */; };
+		BEE9DEDD170B6F3400DD1540 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEC1170B6F3400DD1540 /* Makefile */; };
+		BEE9DEDE170B6F3400DD1540 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = BEE9DEC2170B6F3400DD1540 /* Makefile.am */; };
+		BEE9DEDF170B6F3400DD1540 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = BEE9DEC3170B6F3400DD1540 /* Makefile.in */; };
+		BEE9DEFF170B708A00DD1540 /* mnote-pentax-entry.c in Resources */ = {isa = PBXBuildFile; fileRef = BEE9DEE7170B703500DD1540 /* mnote-pentax-entry.c */; };
+		BEE9DF00170B708A00DD1540 /* mnote-pentax-tag.c in Resources */ = {isa = PBXBuildFile; fileRef = BEE9DEE9170B703500DD1540 /* mnote-pentax-tag.c */; };
+		BEE9DF01170B708A00DD1540 /* exif-mnote-data-olympus.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEEB170B704C00DD1540 /* exif-mnote-data-olympus.c */; };
+		BEE9DF02170B708A00DD1540 /* mnote-olympus-entry.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEEE170B704C00DD1540 /* mnote-olympus-entry.c */; };
+		BEE9DF03170B708A00DD1540 /* mnote-olympus-tag.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEF0170B704C00DD1540 /* mnote-olympus-tag.c */; };
+		BEE9DF04170B708A00DD1540 /* exif-mnote-data-fuji.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEF2170B705A00DD1540 /* exif-mnote-data-fuji.c */; };
+		BEE9DF05170B708A00DD1540 /* mnote-fuji-entry.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEF4170B705B00DD1540 /* mnote-fuji-entry.c */; };
+		BEE9DF06170B708A00DD1540 /* mnote-fuji-tag.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEF6170B705B00DD1540 /* mnote-fuji-tag.c */; };
+		BEE9DF0D170B70BE00DD1540 /* exif-mnote-data-canon.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DF07170B70BE00DD1540 /* exif-mnote-data-canon.c */; };
+		BEE9DF0E170B70BE00DD1540 /* mnote-canon-entry.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DF09170B70BE00DD1540 /* mnote-canon-entry.c */; };
+		BEE9DF0F170B70BE00DD1540 /* mnote-canon-tag.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DF0B170B70BE00DD1540 /* mnote-canon-tag.c */; };
+		BEE9DF10170B713700DD1540 /* exif-mnote-data-pentax.c in Resources */ = {isa = PBXBuildFile; fileRef = BEE9DEE5170B703500DD1540 /* exif-mnote-data-pentax.c */; };
+		BEE9DF11170B719F00DD1540 /* exif-mnote-data-pentax.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEE5170B703500DD1540 /* exif-mnote-data-pentax.c */; };
+		BEE9DF12170B71AA00DD1540 /* mnote-pentax-entry.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEE7170B703500DD1540 /* mnote-pentax-entry.c */; };
+		BEE9DF13170B71B100DD1540 /* mnote-pentax-tag.c in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DEE9170B703500DD1540 /* mnote-pentax-tag.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,22 +119,74 @@
 		BE67C1371704FCB800EBB4DF /* jconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jconfig.h; sourceTree = "<group>"; };
 		BE67C1381704FCC800EBB4DF /* jmorecfg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jmorecfg.h; sourceTree = "<group>"; };
 		BEB6084117062DDA001A63D7 /* jerror.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jerror.h; sourceTree = "<group>"; };
-		BEB6084417064C19001A63D7 /* exif-loader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-loader.h"; sourceTree = "<group>"; };
-		BEB6084517064C28001A63D7 /* exif-content.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-content.h"; sourceTree = "<group>"; };
-		BEB6084617064C28001A63D7 /* exif-data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-data.h"; sourceTree = "<group>"; };
-		BEB6084917064C81001A63D7 /* exif-byte-order.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-byte-order.h"; sourceTree = "<group>"; };
-		BEB6084A17064C81001A63D7 /* exif-data-type.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-data-type.h"; sourceTree = "<group>"; };
-		BEB6084B17064C81001A63D7 /* exif-entry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-entry.h"; sourceTree = "<group>"; };
-		BEB6084C17064C81001A63D7 /* exif-format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-format.h"; sourceTree = "<group>"; };
-		BEB6084D17064C81001A63D7 /* exif-ifd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-ifd.h"; sourceTree = "<group>"; };
-		BEB6084E17064C81001A63D7 /* exif-log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-log.h"; sourceTree = "<group>"; };
-		BEB6084F17064C81001A63D7 /* exif-mem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-mem.h"; sourceTree = "<group>"; };
-		BEB6085017064C81001A63D7 /* exif-mnote-data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-mnote-data.h"; sourceTree = "<group>"; };
-		BEB6085117064C81001A63D7 /* exif-tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-tag.h"; sourceTree = "<group>"; };
-		BEB6085217064C81001A63D7 /* exif-utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-utils.h"; sourceTree = "<group>"; };
 		BEDEDA46170A355E008CCA47 /* jpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = jpeg.a; path = "jpeg-8b/.libs/jpeg.a"; sourceTree = "<group>"; };
-		BEDEDA48170A35D2008CCA47 /* exif.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = exif.a; path = "libexif-0.6.21/libexif/.libs/exif.a"; sourceTree = "<group>"; };
 		BEE9DE60170B5E5500DD1540 /* DrewFaceDetect.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DrewFaceDetect.mm; sourceTree = "<group>"; };
+		BEE9DEA2170B6F3400DD1540 /* _stdint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _stdint.h; path = "libexif-0.6.21/libexif/_stdint.h"; sourceTree = "<group>"; };
+		BEE9DEA3170B6F3400DD1540 /* exif-byte-order.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "exif-byte-order.c"; path = "libexif-0.6.21/libexif/exif-byte-order.c"; sourceTree = "<group>"; };
+		BEE9DEA4170B6F3400DD1540 /* exif-byte-order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "exif-byte-order.h"; path = "libexif-0.6.21/libexif/exif-byte-order.h"; sourceTree = "<group>"; };
+		BEE9DEA5170B6F3400DD1540 /* exif-content.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "exif-content.c"; path = "libexif-0.6.21/libexif/exif-content.c"; sourceTree = "<group>"; };
+		BEE9DEA6170B6F3400DD1540 /* exif-content.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "exif-content.h"; path = "libexif-0.6.21/libexif/exif-content.h"; sourceTree = "<group>"; };
+		BEE9DEA7170B6F3400DD1540 /* exif-data-type.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "exif-data-type.h"; path = "libexif-0.6.21/libexif/exif-data-type.h"; sourceTree = "<group>"; };
+		BEE9DEA8170B6F3400DD1540 /* exif-data.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "exif-data.c"; path = "libexif-0.6.21/libexif/exif-data.c"; sourceTree = "<group>"; };
+		BEE9DEA9170B6F3400DD1540 /* exif-data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "exif-data.h"; path = "libexif-0.6.21/libexif/exif-data.h"; sourceTree = "<group>"; };
+		BEE9DEAA170B6F3400DD1540 /* exif-entry.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "exif-entry.c"; path = "libexif-0.6.21/libexif/exif-entry.c"; sourceTree = "<group>"; };
+		BEE9DEAB170B6F3400DD1540 /* exif-entry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "exif-entry.h"; path = "libexif-0.6.21/libexif/exif-entry.h"; sourceTree = "<group>"; };
+		BEE9DEAC170B6F3400DD1540 /* exif-format.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "exif-format.c"; path = "libexif-0.6.21/libexif/exif-format.c"; sourceTree = "<group>"; };
+		BEE9DEAD170B6F3400DD1540 /* exif-format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "exif-format.h"; path = "libexif-0.6.21/libexif/exif-format.h"; sourceTree = "<group>"; };
+		BEE9DEAE170B6F3400DD1540 /* exif-ifd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "exif-ifd.c"; path = "libexif-0.6.21/libexif/exif-ifd.c"; sourceTree = "<group>"; };
+		BEE9DEAF170B6F3400DD1540 /* exif-ifd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "exif-ifd.h"; path = "libexif-0.6.21/libexif/exif-ifd.h"; sourceTree = "<group>"; };
+		BEE9DEB0170B6F3400DD1540 /* exif-loader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "exif-loader.c"; path = "libexif-0.6.21/libexif/exif-loader.c"; sourceTree = "<group>"; };
+		BEE9DEB1170B6F3400DD1540 /* exif-loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "exif-loader.h"; path = "libexif-0.6.21/libexif/exif-loader.h"; sourceTree = "<group>"; };
+		BEE9DEB2170B6F3400DD1540 /* exif-log.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "exif-log.c"; path = "libexif-0.6.21/libexif/exif-log.c"; sourceTree = "<group>"; };
+		BEE9DEB3170B6F3400DD1540 /* exif-log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "exif-log.h"; path = "libexif-0.6.21/libexif/exif-log.h"; sourceTree = "<group>"; };
+		BEE9DEB4170B6F3400DD1540 /* exif-mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "exif-mem.c"; path = "libexif-0.6.21/libexif/exif-mem.c"; sourceTree = "<group>"; };
+		BEE9DEB5170B6F3400DD1540 /* exif-mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "exif-mem.h"; path = "libexif-0.6.21/libexif/exif-mem.h"; sourceTree = "<group>"; };
+		BEE9DEB6170B6F3400DD1540 /* exif-mnote-data-priv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "exif-mnote-data-priv.h"; path = "libexif-0.6.21/libexif/exif-mnote-data-priv.h"; sourceTree = "<group>"; };
+		BEE9DEB7170B6F3400DD1540 /* exif-mnote-data.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "exif-mnote-data.c"; path = "libexif-0.6.21/libexif/exif-mnote-data.c"; sourceTree = "<group>"; };
+		BEE9DEB8170B6F3400DD1540 /* exif-mnote-data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "exif-mnote-data.h"; path = "libexif-0.6.21/libexif/exif-mnote-data.h"; sourceTree = "<group>"; };
+		BEE9DEB9170B6F3400DD1540 /* exif-system.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "exif-system.h"; path = "libexif-0.6.21/libexif/exif-system.h"; sourceTree = "<group>"; };
+		BEE9DEBA170B6F3400DD1540 /* exif-tag.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "exif-tag.c"; path = "libexif-0.6.21/libexif/exif-tag.c"; sourceTree = "<group>"; };
+		BEE9DEBB170B6F3400DD1540 /* exif-tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "exif-tag.h"; path = "libexif-0.6.21/libexif/exif-tag.h"; sourceTree = "<group>"; };
+		BEE9DEBC170B6F3400DD1540 /* exif-utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "exif-utils.c"; path = "libexif-0.6.21/libexif/exif-utils.c"; sourceTree = "<group>"; };
+		BEE9DEBD170B6F3400DD1540 /* exif-utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "exif-utils.h"; path = "libexif-0.6.21/libexif/exif-utils.h"; sourceTree = "<group>"; };
+		BEE9DEBE170B6F3400DD1540 /* exif.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = exif.h; path = "libexif-0.6.21/libexif/exif.h"; sourceTree = "<group>"; };
+		BEE9DEBF170B6F3400DD1540 /* i18n.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i18n.h; path = "libexif-0.6.21/libexif/i18n.h"; sourceTree = "<group>"; };
+		BEE9DEC0170B6F3400DD1540 /* libexif.sym */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = libexif.sym; path = "libexif-0.6.21/libexif/libexif.sym"; sourceTree = "<group>"; };
+		BEE9DEC1170B6F3400DD1540 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = "libexif-0.6.21/libexif/Makefile"; sourceTree = "<group>"; };
+		BEE9DEC2170B6F3400DD1540 /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Makefile.am; path = "libexif-0.6.21/libexif/Makefile.am"; sourceTree = "<group>"; };
+		BEE9DEC3170B6F3400DD1540 /* Makefile.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Makefile.in; path = "libexif-0.6.21/libexif/Makefile.in"; sourceTree = "<group>"; };
+		BEE9DEE4170B6F4800DD1540 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = config.h; path = "libexif-0.6.21/config.h"; sourceTree = "<group>"; };
+		BEE9DEE5170B703500DD1540 /* exif-mnote-data-pentax.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = "exif-mnote-data-pentax.c"; path = "libexif-0.6.21/libexif/pentax/exif-mnote-data-pentax.c"; sourceTree = "<group>"; };
+		BEE9DEE6170B703500DD1540 /* exif-mnote-data-pentax.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "exif-mnote-data-pentax.h"; path = "libexif-0.6.21/libexif/pentax/exif-mnote-data-pentax.h"; sourceTree = "<group>"; };
+		BEE9DEE7170B703500DD1540 /* mnote-pentax-entry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = "mnote-pentax-entry.c"; path = "libexif-0.6.21/libexif/pentax/mnote-pentax-entry.c"; sourceTree = "<group>"; };
+		BEE9DEE8170B703500DD1540 /* mnote-pentax-entry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "mnote-pentax-entry.h"; path = "libexif-0.6.21/libexif/pentax/mnote-pentax-entry.h"; sourceTree = "<group>"; };
+		BEE9DEE9170B703500DD1540 /* mnote-pentax-tag.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = "mnote-pentax-tag.c"; path = "libexif-0.6.21/libexif/pentax/mnote-pentax-tag.c"; sourceTree = "<group>"; };
+		BEE9DEEA170B703500DD1540 /* mnote-pentax-tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "mnote-pentax-tag.h"; path = "libexif-0.6.21/libexif/pentax/mnote-pentax-tag.h"; sourceTree = "<group>"; };
+		BEE9DEEB170B704C00DD1540 /* exif-mnote-data-olympus.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = "exif-mnote-data-olympus.c"; path = "libexif-0.6.21/libexif/olympus/exif-mnote-data-olympus.c"; sourceTree = "<group>"; };
+		BEE9DEEC170B704C00DD1540 /* exif-mnote-data-olympus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "exif-mnote-data-olympus.h"; path = "libexif-0.6.21/libexif/olympus/exif-mnote-data-olympus.h"; sourceTree = "<group>"; };
+		BEE9DEED170B704C00DD1540 /* Makefile-files */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Makefile-files"; path = "libexif-0.6.21/libexif/olympus/Makefile-files"; sourceTree = "<group>"; };
+		BEE9DEEE170B704C00DD1540 /* mnote-olympus-entry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = "mnote-olympus-entry.c"; path = "libexif-0.6.21/libexif/olympus/mnote-olympus-entry.c"; sourceTree = "<group>"; };
+		BEE9DEEF170B704C00DD1540 /* mnote-olympus-entry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "mnote-olympus-entry.h"; path = "libexif-0.6.21/libexif/olympus/mnote-olympus-entry.h"; sourceTree = "<group>"; };
+		BEE9DEF0170B704C00DD1540 /* mnote-olympus-tag.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = "mnote-olympus-tag.c"; path = "libexif-0.6.21/libexif/olympus/mnote-olympus-tag.c"; sourceTree = "<group>"; };
+		BEE9DEF1170B704C00DD1540 /* mnote-olympus-tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "mnote-olympus-tag.h"; path = "libexif-0.6.21/libexif/olympus/mnote-olympus-tag.h"; sourceTree = "<group>"; };
+		BEE9DEF2170B705A00DD1540 /* exif-mnote-data-fuji.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = "exif-mnote-data-fuji.c"; path = "libexif-0.6.21/libexif/fuji/exif-mnote-data-fuji.c"; sourceTree = "<group>"; };
+		BEE9DEF3170B705A00DD1540 /* exif-mnote-data-fuji.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "exif-mnote-data-fuji.h"; path = "libexif-0.6.21/libexif/fuji/exif-mnote-data-fuji.h"; sourceTree = "<group>"; };
+		BEE9DEF4170B705B00DD1540 /* mnote-fuji-entry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = "mnote-fuji-entry.c"; path = "libexif-0.6.21/libexif/fuji/mnote-fuji-entry.c"; sourceTree = "<group>"; };
+		BEE9DEF5170B705B00DD1540 /* mnote-fuji-entry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "mnote-fuji-entry.h"; path = "libexif-0.6.21/libexif/fuji/mnote-fuji-entry.h"; sourceTree = "<group>"; };
+		BEE9DEF6170B705B00DD1540 /* mnote-fuji-tag.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = "mnote-fuji-tag.c"; path = "libexif-0.6.21/libexif/fuji/mnote-fuji-tag.c"; sourceTree = "<group>"; };
+		BEE9DEF7170B705C00DD1540 /* mnote-fuji-tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "mnote-fuji-tag.h"; path = "libexif-0.6.21/libexif/fuji/mnote-fuji-tag.h"; sourceTree = "<group>"; };
+		BEE9DEF8170B707100DD1540 /* exif-mnote-data-olympus.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = "exif-mnote-data-olympus.c"; path = "libexif-0.6.21/libexif/olympus/exif-mnote-data-olympus.c"; sourceTree = "<group>"; };
+		BEE9DEF9170B707100DD1540 /* exif-mnote-data-olympus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "exif-mnote-data-olympus.h"; path = "libexif-0.6.21/libexif/olympus/exif-mnote-data-olympus.h"; sourceTree = "<group>"; };
+		BEE9DEFA170B707100DD1540 /* mnote-olympus-entry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = "mnote-olympus-entry.c"; path = "libexif-0.6.21/libexif/olympus/mnote-olympus-entry.c"; sourceTree = "<group>"; };
+		BEE9DEFB170B707100DD1540 /* mnote-olympus-entry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "mnote-olympus-entry.h"; path = "libexif-0.6.21/libexif/olympus/mnote-olympus-entry.h"; sourceTree = "<group>"; };
+		BEE9DEFC170B707100DD1540 /* mnote-olympus-tag.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = "mnote-olympus-tag.c"; path = "libexif-0.6.21/libexif/olympus/mnote-olympus-tag.c"; sourceTree = "<group>"; };
+		BEE9DEFD170B707100DD1540 /* mnote-olympus-tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "mnote-olympus-tag.h"; path = "libexif-0.6.21/libexif/olympus/mnote-olympus-tag.h"; sourceTree = "<group>"; };
+		BEE9DF07170B70BE00DD1540 /* exif-mnote-data-canon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "exif-mnote-data-canon.c"; path = "libexif-0.6.21/libexif/canon/exif-mnote-data-canon.c"; sourceTree = "<group>"; };
+		BEE9DF08170B70BE00DD1540 /* exif-mnote-data-canon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "exif-mnote-data-canon.h"; path = "libexif-0.6.21/libexif/canon/exif-mnote-data-canon.h"; sourceTree = "<group>"; };
+		BEE9DF09170B70BE00DD1540 /* mnote-canon-entry.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "mnote-canon-entry.c"; path = "libexif-0.6.21/libexif/canon/mnote-canon-entry.c"; sourceTree = "<group>"; };
+		BEE9DF0A170B70BE00DD1540 /* mnote-canon-entry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "mnote-canon-entry.h"; path = "libexif-0.6.21/libexif/canon/mnote-canon-entry.h"; sourceTree = "<group>"; };
+		BEE9DF0B170B70BE00DD1540 /* mnote-canon-tag.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "mnote-canon-tag.c"; path = "libexif-0.6.21/libexif/canon/mnote-canon-tag.c"; sourceTree = "<group>"; };
+		BEE9DF0C170B70BE00DD1540 /* mnote-canon-tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "mnote-canon-tag.h"; path = "libexif-0.6.21/libexif/canon/mnote-canon-tag.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,7 +201,6 @@
 				1D6992E816C014C200547D63 /* UIKit.framework in Frameworks */,
 				1D6992EA16C014C200547D63 /* Foundation.framework in Frameworks */,
 				BEDEDA47170A355E008CCA47 /* jpeg.a in Frameworks */,
-				BEDEDA49170A35D2008CCA47 /* exif.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,20 +321,72 @@
 		BEB6084817064C36001A63D7 /* libexif */ = {
 			isa = PBXGroup;
 			children = (
-				BEB6084517064C28001A63D7 /* exif-content.h */,
-				BEB6084617064C28001A63D7 /* exif-data.h */,
-				BEB6084417064C19001A63D7 /* exif-loader.h */,
-				BEB6084917064C81001A63D7 /* exif-byte-order.h */,
-				BEB6084A17064C81001A63D7 /* exif-data-type.h */,
-				BEB6084B17064C81001A63D7 /* exif-entry.h */,
-				BEB6084C17064C81001A63D7 /* exif-format.h */,
-				BEB6084D17064C81001A63D7 /* exif-ifd.h */,
-				BEB6084E17064C81001A63D7 /* exif-log.h */,
-				BEB6084F17064C81001A63D7 /* exif-mem.h */,
-				BEB6085017064C81001A63D7 /* exif-mnote-data.h */,
-				BEB6085117064C81001A63D7 /* exif-tag.h */,
-				BEB6085217064C81001A63D7 /* exif-utils.h */,
-				BEDEDA48170A35D2008CCA47 /* exif.a */,
+				BEE9DEE4170B6F4800DD1540 /* config.h */,
+				BEE9DEA2170B6F3400DD1540 /* _stdint.h */,
+				BEE9DEA3170B6F3400DD1540 /* exif-byte-order.c */,
+				BEE9DEA4170B6F3400DD1540 /* exif-byte-order.h */,
+				BEE9DEA5170B6F3400DD1540 /* exif-content.c */,
+				BEE9DEA6170B6F3400DD1540 /* exif-content.h */,
+				BEE9DEA7170B6F3400DD1540 /* exif-data-type.h */,
+				BEE9DEA8170B6F3400DD1540 /* exif-data.c */,
+				BEE9DEA9170B6F3400DD1540 /* exif-data.h */,
+				BEE9DEAA170B6F3400DD1540 /* exif-entry.c */,
+				BEE9DEAB170B6F3400DD1540 /* exif-entry.h */,
+				BEE9DEAC170B6F3400DD1540 /* exif-format.c */,
+				BEE9DEAD170B6F3400DD1540 /* exif-format.h */,
+				BEE9DEAE170B6F3400DD1540 /* exif-ifd.c */,
+				BEE9DEAF170B6F3400DD1540 /* exif-ifd.h */,
+				BEE9DEB0170B6F3400DD1540 /* exif-loader.c */,
+				BEE9DEB1170B6F3400DD1540 /* exif-loader.h */,
+				BEE9DEB2170B6F3400DD1540 /* exif-log.c */,
+				BEE9DEB3170B6F3400DD1540 /* exif-log.h */,
+				BEE9DEB4170B6F3400DD1540 /* exif-mem.c */,
+				BEE9DEB5170B6F3400DD1540 /* exif-mem.h */,
+				BEE9DEB6170B6F3400DD1540 /* exif-mnote-data-priv.h */,
+				BEE9DEB7170B6F3400DD1540 /* exif-mnote-data.c */,
+				BEE9DEB8170B6F3400DD1540 /* exif-mnote-data.h */,
+				BEE9DEB9170B6F3400DD1540 /* exif-system.h */,
+				BEE9DEBA170B6F3400DD1540 /* exif-tag.c */,
+				BEE9DEBB170B6F3400DD1540 /* exif-tag.h */,
+				BEE9DEBC170B6F3400DD1540 /* exif-utils.c */,
+				BEE9DEBD170B6F3400DD1540 /* exif-utils.h */,
+				BEE9DEBE170B6F3400DD1540 /* exif.h */,
+				BEE9DEBF170B6F3400DD1540 /* i18n.h */,
+				BEE9DF07170B70BE00DD1540 /* exif-mnote-data-canon.c */,
+				BEE9DF08170B70BE00DD1540 /* exif-mnote-data-canon.h */,
+				BEE9DF09170B70BE00DD1540 /* mnote-canon-entry.c */,
+				BEE9DF0A170B70BE00DD1540 /* mnote-canon-entry.h */,
+				BEE9DF0B170B70BE00DD1540 /* mnote-canon-tag.c */,
+				BEE9DF0C170B70BE00DD1540 /* mnote-canon-tag.h */,
+				BEE9DEE5170B703500DD1540 /* exif-mnote-data-pentax.c */,
+				BEE9DEE6170B703500DD1540 /* exif-mnote-data-pentax.h */,
+				BEE9DEE7170B703500DD1540 /* mnote-pentax-entry.c */,
+				BEE9DEE8170B703500DD1540 /* mnote-pentax-entry.h */,
+				BEE9DEE9170B703500DD1540 /* mnote-pentax-tag.c */,
+				BEE9DEEA170B703500DD1540 /* mnote-pentax-tag.h */,
+				BEE9DEEB170B704C00DD1540 /* exif-mnote-data-olympus.c */,
+				BEE9DEEC170B704C00DD1540 /* exif-mnote-data-olympus.h */,
+				BEE9DEED170B704C00DD1540 /* Makefile-files */,
+				BEE9DEEE170B704C00DD1540 /* mnote-olympus-entry.c */,
+				BEE9DEEF170B704C00DD1540 /* mnote-olympus-entry.h */,
+				BEE9DEF0170B704C00DD1540 /* mnote-olympus-tag.c */,
+				BEE9DEF1170B704C00DD1540 /* mnote-olympus-tag.h */,
+				BEE9DEF2170B705A00DD1540 /* exif-mnote-data-fuji.c */,
+				BEE9DEF3170B705A00DD1540 /* exif-mnote-data-fuji.h */,
+				BEE9DEF8170B707100DD1540 /* exif-mnote-data-olympus.c */,
+				BEE9DEF9170B707100DD1540 /* exif-mnote-data-olympus.h */,
+				BEE9DEFA170B707100DD1540 /* mnote-olympus-entry.c */,
+				BEE9DEFB170B707100DD1540 /* mnote-olympus-entry.h */,
+				BEE9DEFC170B707100DD1540 /* mnote-olympus-tag.c */,
+				BEE9DEFD170B707100DD1540 /* mnote-olympus-tag.h */,
+				BEE9DEF4170B705B00DD1540 /* mnote-fuji-entry.c */,
+				BEE9DEF5170B705B00DD1540 /* mnote-fuji-entry.h */,
+				BEE9DEF6170B705B00DD1540 /* mnote-fuji-tag.c */,
+				BEE9DEF7170B705C00DD1540 /* mnote-fuji-tag.h */,
+				BEE9DEC0170B6F3400DD1540 /* libexif.sym */,
+				BEE9DEC1170B6F3400DD1540 /* Makefile */,
+				BEE9DEC2170B6F3400DD1540 /* Makefile.am */,
+				BEE9DEC3170B6F3400DD1540 /* Makefile.in */,
 			);
 			name = libexif;
 			sourceTree = "<group>";
@@ -325,6 +458,12 @@
 				1DC6944116DB199300ED63E6 /* drewcolor.jpg in Resources */,
 				1DC6944216DB199300ED63E6 /* drewmouthcolor.png in Resources */,
 				1DC6944616DB1AA900ED63E6 /* drewfacecolor.png in Resources */,
+				BEE9DEDC170B6F3400DD1540 /* libexif.sym in Resources */,
+				BEE9DEDE170B6F3400DD1540 /* Makefile.am in Resources */,
+				BEE9DEDF170B6F3400DD1540 /* Makefile.in in Resources */,
+				BEE9DEFF170B708A00DD1540 /* mnote-pentax-entry.c in Resources */,
+				BEE9DF00170B708A00DD1540 /* mnote-pentax-tag.c in Resources */,
+				BEE9DF10170B713700DD1540 /* exif-mnote-data-pentax.c in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +484,31 @@
 				3AF0B626170AF37F0085531C /* DrewFaceDetectPart2.cpp in Sources */,
 				3AF0B629170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.mm in Sources */,
 				BEE9DE61170B5E5500DD1540 /* DrewFaceDetect.mm in Sources */,
+				BEE9DED0170B6F3400DD1540 /* exif-byte-order.c in Sources */,
+				BEE9DED1170B6F3400DD1540 /* exif-content.c in Sources */,
+				BEE9DED2170B6F3400DD1540 /* exif-data.c in Sources */,
+				BEE9DED3170B6F3400DD1540 /* exif-entry.c in Sources */,
+				BEE9DED4170B6F3400DD1540 /* exif-format.c in Sources */,
+				BEE9DED5170B6F3400DD1540 /* exif-ifd.c in Sources */,
+				BEE9DED6170B6F3400DD1540 /* exif-loader.c in Sources */,
+				BEE9DED7170B6F3400DD1540 /* exif-log.c in Sources */,
+				BEE9DED8170B6F3400DD1540 /* exif-mem.c in Sources */,
+				BEE9DED9170B6F3400DD1540 /* exif-mnote-data.c in Sources */,
+				BEE9DEDA170B6F3400DD1540 /* exif-tag.c in Sources */,
+				BEE9DEDB170B6F3400DD1540 /* exif-utils.c in Sources */,
+				BEE9DEDD170B6F3400DD1540 /* Makefile in Sources */,
+				BEE9DF01170B708A00DD1540 /* exif-mnote-data-olympus.c in Sources */,
+				BEE9DF02170B708A00DD1540 /* mnote-olympus-entry.c in Sources */,
+				BEE9DF03170B708A00DD1540 /* mnote-olympus-tag.c in Sources */,
+				BEE9DF04170B708A00DD1540 /* exif-mnote-data-fuji.c in Sources */,
+				BEE9DF05170B708A00DD1540 /* mnote-fuji-entry.c in Sources */,
+				BEE9DF06170B708A00DD1540 /* mnote-fuji-tag.c in Sources */,
+				BEE9DF0D170B70BE00DD1540 /* exif-mnote-data-canon.c in Sources */,
+				BEE9DF0E170B70BE00DD1540 /* mnote-canon-entry.c in Sources */,
+				BEE9DF0F170B70BE00DD1540 /* mnote-canon-tag.c in Sources */,
+				BEE9DF11170B719F00DD1540 /* exif-mnote-data-pentax.c in Sources */,
+				BEE9DF13170B71B100DD1540 /* mnote-pentax-tag.c in Sources */,
+				BEE9DF12170B71AA00DD1540 /* mnote-pentax-entry.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +601,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DrewFace/DrewFace-Prefix.pch";
+				HEADER_SEARCH_PATHS = "libexif-0.6.21/**";
 				INFOPLIST_FILE = "DrewFace/DrewFace-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -457,6 +622,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DrewFace/DrewFace-Prefix.pch";
+				HEADER_SEARCH_PATHS = "libexif-0.6.21/**";
 				INFOPLIST_FILE = "DrewFace/DrewFace-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
