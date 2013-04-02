@@ -191,11 +191,12 @@ struct jpeg *loadJPEGFromFile(const char *filename) {
     }
 
     ret->colorSpace = cinfo->jpeg_color_space;
+    cinfo->output_components = 4;
     ret->colorComponents = cinfo->output_components;
     ret->width = cinfo->output_width;
     ret->height = cinfo->output_height;
 
-    ret->data = cvCreateImage(cvSize(ret->width, ret->height), IPL_DEPTH_32S, ret->colorComponents);
+    ret->data = cvCreateImage(cvSize(ret->width, ret->height), IPL_DEPTH_8U, 4);
 
     /* JSAMPLEs per row in output buffer */
     int row_stride = cinfo->output_width * cinfo->output_components; /* physical row width in output buffer */
@@ -209,15 +210,24 @@ struct jpeg *loadJPEGFromFile(const char *filename) {
      * loop counter, so that we don't have to keep track ourselves.
      */
     assert(ret->data->widthStep >= row_stride);
-    while(cinfo->output_scanline < cinfo->output_height) {
+    for(int y = 0; y < ret->data->height; y++) {
+        
         /* jpeg_read_scanlines expects an array of pointers to scanlines.
          * Here the array is only one element long, but you could ask for
          * more than one scanline at a time if that's more convenient.
          */
         typeof(cinfo->output_scanline) scanline = cinfo->output_scanline;
         (void) jpeg_read_scanlines(cinfo, buffer, 1);
-        assert(scanline * ret->data->widthStep + row_stride < ret->data->imageSize);
-        memcpy(&(ret->data->imageData[scanline * ret->data->widthStep]), buffer[0], row_stride);
+        //assert(scanline * ret->data->widthStep + row_stride < ret->data->imageSize);
+        //memcpy(&(ret->data->imageData[scanline * ret->data->widthStep]), buffer[0], row_stride);
+        for(int x = 0; x < ret->data->width; x++) {
+            uint8_t *data = (uint8_t*) ret->data->imageData;
+            
+            data[y * ret->data->width * 4 + x * 4 + 0] =buffer[0][x*3+0];
+            data[y * ret->data->width * 4 + x * 4 + 1] =buffer[0][x*3+1];
+            data[y * ret->data->width * 4 + x * 4 + 2] =buffer[0][x*3+2];
+
+        }
     }
 
     /* Step 7: Finish decompression */
@@ -265,7 +275,7 @@ FileInfo *extractGeometry(const char *fileNamePath) {
 #if DONT_PORT
     NSString *simpleFileName = [[NSString stringWithCString:fileNamePath encoding:NSMacOSRomanStringEncoding] lastPathComponent];
 #endif
-
+    printf("processing image %s",fileNamePath);
     // Find Mouths in original images here
 
     struct jpeg *jpeg = loadJPEGFromFile(fileNamePath);
@@ -274,7 +284,7 @@ FileInfo *extractGeometry(const char *fileNamePath) {
         int w = jpeg->width;
         int h = jpeg->height;
         int max = (w > h)? w : h;
-        if(false && max > 1024) {
+        if( max > 1024) {
             //facedetectScaleFactor = maxDimension / (float)max;
             cv::Mat mat = jpeg->data;
             const float scale = 1024.0 / max;
