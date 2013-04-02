@@ -69,8 +69,7 @@ std::vector<NotCGPoint> findTeethArea(cv::Mat image) {
 #define GET_PIXEL_OF_MATRIX(MTX,X,Y,CHANNEL) image.at<cv::Vec<uint8_t,4>>(Y,X)[CHANNEL]
 #define WIDTH image.cols
 #define HEIGHT image.rows
-    
-    return std::vector<NotCGPoint>(); //for reasons that are sort of mysterious to me, c++ is not very forgiving about a null pointer here...
+
     
     uint8_t *testimagedataMod1 = (uint8_t*)malloc(HEIGHT * WIDTH *4);
     uint8_t *testimagedataMod2 = (uint8_t*)malloc(HEIGHT * WIDTH *4);
@@ -216,7 +215,71 @@ std::vector<NotCGPoint> findTeethArea(cv::Mat image) {
         
     }
     
+    //gitftwrap
+    //todo: convert this to more C
     
     
+    
+    std::vector<NotCGPoint> solutionArray = std::vector<NotCGPoint>();
+    int leftmostX = -1;
+    int leftmostY = -1;
+    for(int x = 0; x < WIDTH; x++) {
+        for(int y = 0; y < HEIGHT; y++) {
+            if (GET_PIXELMOD2(x, y, 0)==0xff) {
+                leftmostX = x;
+                leftmostY = y;
+                break;
+            }
+        }
+        if (leftmostX != -1) break;
+    }
+    int pX = leftmostX;
+    int pY = leftmostY;
+    while(true) {
+        int qX = -1;
+        int qY = -1;
+        //p --> q --> r
+        
+        qX = leftmostX;
+        qY = leftmostY;
+        for(int rX = 0; rX < WIDTH; rX++) {
+            for(int rY = 0; rY < HEIGHT; rY++) {
+                
+                if (GET_PIXELMOD2(rX, rY, 0)!=0xff) continue;
+#define TURN_LEFT 1
+#define TURN_RIGHT -1
+#define TURN_NONE 0
+                
+                float dist_p_r = pow(pX - rX,2) + pow(pY - rY,2);
+                float dist_p_q = pow(pX - qX,2) + pow(pY - qY,2);
+                //compute the turn
+                int t = -999;
+                int lside = (qX - pX) * (rY - pY) - (rX - pX) * (qY - pY);
+                if (lside < 0) t = -1;
+                if (lside > 0) t = 1;
+                if (lside==0) t = 0;
+                if (t==TURN_RIGHT || (t==TURN_NONE && dist_p_r > dist_p_q)) {
+                    qX = rX;
+                    qY = rY;
+                }
+            }
+        }
+        //we consider qX to be in our solution
+        NotCGPoint soln;
+        soln.x = qX;
+        soln.y = qY;
+        solutionArray.push_back(soln);
+        if (qX == leftmostX && qY == leftmostY) {
+            break;
+        }
+        pX = qX;
+        pY = qY;
+    }
+    free(testimagedataMod1);
+    free(testimagedataMod2);
+    
+    printf("solution of size %lu\n",solutionArray.size());
+
+    return solutionArray;
     
 }
