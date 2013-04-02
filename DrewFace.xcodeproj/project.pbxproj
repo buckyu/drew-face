@@ -36,6 +36,8 @@
 		1DE6DDF916C41D5F00BAA92A /* OpenCvClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1DE6DDF816C41D5F00BAA92A /* OpenCvClass.mm */; };
 		3A02316916C97F190092817E /* Detect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A02316816C97F190092817E /* Detect.cpp */; };
 		3A75C88817046889002A1A72 /* DrewFaceDetect.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A75C88717046889002A1A72 /* DrewFaceDetect.m */; };
+		3AF0B626170AF37F0085531C /* DrewFaceDetectPart2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0B624170AF37F0085531C /* DrewFaceDetectPart2.cpp */; };
+		3AF0B629170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0B628170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +80,10 @@
 		3A02316A16C97F220092817E /* Detect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Detect.h; sourceTree = "<group>"; };
 		3A75C88617046889002A1A72 /* DrewFaceDetect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrewFaceDetect.h; sourceTree = "<group>"; };
 		3A75C88717046889002A1A72 /* DrewFaceDetect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrewFaceDetect.m; sourceTree = "<group>"; };
+		3AF0B624170AF37F0085531C /* DrewFaceDetectPart2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrewFaceDetectPart2.cpp; sourceTree = "<group>"; };
+		3AF0B625170AF37F0085531C /* DrewFaceDetectPart2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrewFaceDetectPart2.h; sourceTree = "<group>"; };
+		3AF0B627170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FindMouthsViewController+CPlusPlusExtensions.h"; sourceTree = "<group>"; };
+		3AF0B628170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "FindMouthsViewController+CPlusPlusExtensions.mm"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +147,8 @@
 				1DE6DDF816C41D5F00BAA92A /* OpenCvClass.mm */,
 				1D5C808916CE872800234D0D /* FindMouthsViewController.h */,
 				1D5C808A16CE872900234D0D /* FindMouthsViewController.m */,
+				3AF0B627170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.h */,
+				3AF0B628170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.mm */,
 				1D5C808B16CE872900234D0D /* FindMouthsViewController.xib */,
 				1D8594A416D42F990088B5B4 /* ShowMouthsViewController.h */,
 				1D8594A516D42F990088B5B4 /* ShowMouthsViewController.m */,
@@ -186,6 +194,8 @@
 			children = (
 				3A75C88617046889002A1A72 /* DrewFaceDetect.h */,
 				3A75C88717046889002A1A72 /* DrewFaceDetect.m */,
+				3AF0B624170AF37F0085531C /* DrewFaceDetectPart2.cpp */,
+				3AF0B625170AF37F0085531C /* DrewFaceDetectPart2.h */,
 			);
 			name = NeedsPort;
 			sourceTree = "<group>";
@@ -275,6 +285,8 @@
 				1D5C808C16CE872900234D0D /* FindMouthsViewController.m in Sources */,
 				1D8594A716D42F990088B5B4 /* ShowMouthsViewController.m in Sources */,
 				3A75C88817046889002A1A72 /* DrewFaceDetect.m in Sources */,
+				3AF0B626170AF37F0085531C /* DrewFaceDetectPart2.cpp in Sources */,
+				3AF0B629170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

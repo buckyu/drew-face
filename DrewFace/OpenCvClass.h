@@ -5,7 +5,6 @@
 //  Created by FCW Consulting LLC on 2/7/13.
 //  Copyright (c) 2013 FCW Consulting LLC. All rights reserved.
 //
-
 @protocol OpenCvClassDelegate
 -(void)setFaceRect:(CGRect)faceRect;
 @end
@@ -31,6 +30,9 @@
 
 -(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(NSString *)fn outRect:(rect*) outRect;
 -(CGRect)processUIImageForMouth:(UIImage *)img fromFile:(NSString *)fn;
+#ifdef __cplusplus
+- (cv::Mat)cvMatFromUIImage:(UIImage *)image;
+#endif
 
 -(UIImage *)edgeDetectReturnOverlay:(UIImage *)img;
 -(UIImage *)edgeDetectReturnEdges:(UIImage *)img;

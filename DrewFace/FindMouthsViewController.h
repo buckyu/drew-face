@@ -42,6 +42,5 @@
 
 -(void)processUIImageForMouth:(UIImage *)bottomhalffaceImage returnRect:(CGRect *)mouthRectInBottomHalfOfFace closestMouthMatch:(int *)idx fileName:(NSString *)fn;
 
--(UIImage *)lookForTeethInMouthImage:(UIImage*)mouthImage;
 
 @end

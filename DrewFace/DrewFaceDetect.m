@@ -27,6 +27,7 @@ NSString *testDir;
 NSString *modelMouthDir;
 NSFileManager *manager;
 #import "FindMouthsViewController.h"
+#import "FindMouthsViewController+CPlusPlusExtensions.h"
 #endif
 
 
