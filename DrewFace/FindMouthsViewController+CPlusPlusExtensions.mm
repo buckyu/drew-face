@@ -81,9 +81,6 @@ BOOL looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToo
             uint8_t pxR = GET_PIXEL((x), (y), 0);
             uint8_t pxG = GET_PIXEL((x), (y), 1);
             uint8_t pxB = GET_PIXEL((x), (y), 2);
-            if (x==5 && y==12) {
-                printf("objc says it was %d\n",pxG);
-            }
             float Y = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
             float CR = 0.713*((float)pxR - Y);
             if (CR<0) CR = 0;
