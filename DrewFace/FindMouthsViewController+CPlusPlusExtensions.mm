@@ -51,7 +51,7 @@ BOOL looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToo
     
     
     ocv = [OpenCvClass new];
-    cv::Mat mouthImageMatrix = [ocv cvMatFromUIImage:mouthImage];
+    cv::Mat mouthImageMatrix = [OpenCvClass cvMatFromUIImage:mouthImage];
     findTeethArea(mouthImageMatrix);
 
     mouthImage = [ocv edgeDetectReturnEdges:mouthImage];

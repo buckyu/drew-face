@@ -190,6 +190,7 @@ struct jpeg *loadJPEGFromFile(const char *filename) {
         return NULL;
     }
 
+    assert(cinfo->output_components == 3);
     ret->colorSpace = cinfo->jpeg_color_space;
     cinfo->output_components = 4;
     ret->colorComponents = cinfo->output_components;
@@ -223,9 +224,9 @@ struct jpeg *loadJPEGFromFile(const char *filename) {
         for(int x = 0; x < ret->data->width; x++) {
             uint8_t *data = (uint8_t*) ret->data->imageData;
             
-            data[y * ret->data->width * 4 + x * 4 + 0] =buffer[0][x*3+0];
-            data[y * ret->data->width * 4 + x * 4 + 1] =buffer[0][x*3+1];
-            data[y * ret->data->width * 4 + x * 4 + 2] =buffer[0][x*3+2];
+            data[y * ret->data->width * 4 + x * 4 + 0] = buffer[0][x*3+0];
+            data[y * ret->data->width * 4 + x * 4 + 1] = buffer[0][x*3+1];
+            data[y * ret->data->width * 4 + x * 4 + 2] = buffer[0][x*3+2];
 
         }
     }
@@ -307,12 +308,13 @@ FileInfo *extractGeometry(const char *fileNamePath) {
     }
 
     UIImage *scaledImage = [OpenCvClass UIImageFromCVMat:*rotatedImage];
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    assert(scaledImage);
+    /*dispatch_sync(dispatch_get_main_queue(), ^{
         id delegate = (DrewFaceAppDelegate*)[UIApplication sharedApplication].delegate;
         [[delegate window] addSubview:[[UIImageView alloc] initWithImage:scaledImage]];
     });
 
-    return NULL;
+    return NULL;*/
 
     // search for face in scaledImage
     // OpenCV Processing Called Here for Face Detect
@@ -320,7 +322,13 @@ FileInfo *extractGeometry(const char *fileNamePath) {
     // testimage - faceRectInScaledOrigImage is set by delegate method call
     OpenCvClass *ocv = [OpenCvClass new];
     rect faceRect;
+    cv::Mat testMatrix = [OpenCvClass cvMatFromUIImage:scaledImage];
+    UIImage *roundTripped = [OpenCvClass UIImageFromCVMat:testMatrix];
+
+
+
     UIImage *testimage = [ocv processUIImageForFace:scaledImage fromFile:fileNamePath outRect:&faceRect];
+
     if ((faceRect.width == 0) || (faceRect.height == 0)) {
         printf("NO FACE in %s\n", fileNamePath);
         return NULL;
@@ -329,8 +337,12 @@ FileInfo *extractGeometry(const char *fileNamePath) {
     // extract bottom half of face from COLOR image
     CGImageRef cutBottomHalfFaceRef = CGImageCreateWithImageInRect(testimage.CGImage, CGRectMake((int)(faceRect.x), (int)(faceRect.y+0.66*faceRect.height), (int)(faceRect.width), (int)(0.34*faceRect.height)));
 
+
     // locate mouth in bottom half of greyscale face image
     UIImage *bottomhalffaceImage = [UIImage imageWithCGImage:cutBottomHalfFaceRef];
+
+
+
     // do not know why but CGImageCreateWithImageInRect() can not be pixel mapped??
     // bottomhalffaceImage = [ocv greyTheImage:bottomhalffaceImage];
 
@@ -354,12 +366,17 @@ FileInfo *extractGeometry(const char *fileNamePath) {
     // extract mouth from face
     CGImageRef cutMouthRef = CGImageCreateWithImageInRect(bottomhalffaceImage.CGImage, CGRectMake(mouthRectInBottomHalfOfFace.origin.x, mouthRectInBottomHalfOfFace.origin.y, mouthRectInBottomHalfOfFace.size.width, mouthRectInBottomHalfOfFace.size.height));
     UIImage *mouthImage = [UIImage imageWithCGImage:cutMouthRef];
+
+
+
+
     CGImageRelease(cutMouthRef);
 
     UIImage *processedMouthImage = nil;
     if ((faceRect.width > 0) && (faceRect.height > 0)) {
         processedMouthImage = [ocv edgeDetectReturnOverlay:mouthImage];
     }
+
 
     // write mouth images to EXTRACTED_MOUTHS directory
 #if DONT_PORT
@@ -403,7 +420,7 @@ FileInfo *extractGeometry(const char *fileNamePath) {
             sum += *(mutablebuffer + i*w*3 + j*3 + 1);
             sum += *(mutablebuffer + i*w*3 + j*3 + 2);
 
-            memcpy((mutablebuffer4 + i*w*4 + j*4), (mutablebuffer + i*w*3 + j*3), 3);
+            memcpy((mutablebuffer4 + i*w*3 + j*3), (mutablebuffer + i*w*3 + j*3), 3);
             //bzero((mutablebuffer4 + i*w*4 + j*4), 3);
         }
     }
@@ -414,8 +431,8 @@ FileInfo *extractGeometry(const char *fileNamePath) {
 #ifdef DONT_PORT
     // show image on iPhone view
 
-    CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(processedMouthImage.CGImage);
-    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(processedMouthImage.CGImage);
+    CGColorSpaceRef colorspaceRef = CGColorSpaceCreateDeviceRGB();
+    CGBitmapInfo bitmapInfo = kCGImageAlphaNoneSkipLast | kCGBitmapByteOrderDefault;
 
     CGContextRef newContextRef = CGBitmapContextCreate(mutablebuffer4, w, h, 8, w*4,colorspaceRef, bitmapInfo);
 
@@ -423,6 +440,14 @@ FileInfo *extractGeometry(const char *fileNamePath) {
 
     // this is actually going to be a cvMatrix (or whatever) and it's the input value to the second half of a function.
     UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
+
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        id delegate = (DrewFaceAppDelegate*)[UIApplication sharedApplication].delegate;
+        UIImageView *img = [[UIImageView alloc] initWithImage:processedMouthImage];
+        img.frame = CGRectMake(0, 0, 200, 200);
+        img.contentMode = UIViewContentModeScaleAspectFit;
+        [[delegate window] addSubview:img];
+    });
 
     CGImageRelease(newImageRef);
     CGContextRelease(newContextRef);

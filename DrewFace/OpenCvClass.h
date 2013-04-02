@@ -30,9 +30,6 @@
 
 -(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(const char*)fn outRect:(rect*) outRect;
 -(CGRect)processUIImageForMouth:(UIImage *)img fromFile:(const char*)fn;
-#ifdef __cplusplus
-- (cv::Mat)cvMatFromUIImage:(UIImage *)image;
-#endif
 
 -(UIImage *)edgeDetectReturnOverlay:(UIImage *)img;
 -(UIImage *)edgeDetectReturnEdges:(UIImage *)img;

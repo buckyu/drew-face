@@ -220,6 +220,8 @@
                                         false,                                      //should interpolate
                                         kCGRenderingIntentDefault                   //intent
                                         );
+
+    if (imageRef) NSLog(@"created image successfully");
     
     
     // Getting UIImage from CGImage
