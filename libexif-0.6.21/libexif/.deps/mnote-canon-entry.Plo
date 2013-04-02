@@ -24,10 +24,7 @@ mnote-canon-entry.lo mnote-canon-entry.o: canon/mnote-canon-entry.c \
   /usr/include/machine/types.h /usr/include/i386/types.h \
   /usr/include/i386/_types.h /usr/include/string.h /usr/include/strings.h \
   /usr/include/secure/_string.h /usr/include/math.h ../libexif/i18n.h \
-  ../config.h /usr/local/include/libintl.h /usr/include/locale.h \
-  /usr/include/_locale.h /usr/include/xlocale.h /usr/include/_xlocale.h \
-  /usr/include/xlocale/_stdio.h /usr/include/xlocale/_stdlib.h \
-  /usr/include/xlocale/_string.h
+  ../config.h
 
 ../config.h:
 
@@ -140,19 +137,3 @@ canon/mnote-canon-entry.h:
 ../libexif/i18n.h:
 
 ../config.h:
-
-/usr/local/include/libintl.h:
-
-/usr/include/locale.h:
-
-/usr/include/_locale.h:
-
-/usr/include/xlocale.h:
-
-/usr/include/_xlocale.h:
-
-/usr/include/xlocale/_stdio.h:
-
-/usr/include/xlocale/_stdlib.h:
-
-/usr/include/xlocale/_string.h:

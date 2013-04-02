@@ -24,11 +24,7 @@ mnote-olympus-entry.lo mnote-olympus-entry.o:  \
   ../libexif/exif-data-type.h ../libexif/exif-data.h \
   ../libexif/exif-log.h ../libexif/exif-mem.h \
   /usr/llvm-gcc-4.2/bin/../lib/gcc/i686-apple-darwin11/4.2.1/include/stdarg.h \
-  ../libexif/exif-mnote-data.h ../libexif/i18n.h \
-  /usr/local/include/libintl.h /usr/include/locale.h \
-  /usr/include/_locale.h /usr/include/xlocale.h /usr/include/_xlocale.h \
-  /usr/include/xlocale/_stdio.h /usr/include/xlocale/_stdlib.h \
-  /usr/include/xlocale/_string.h
+  ../libexif/exif-mnote-data.h ../libexif/i18n.h
 
 ../config.h:
 
@@ -137,19 +133,3 @@ olympus/mnote-olympus-entry.h:
 ../libexif/exif-mnote-data.h:
 
 ../libexif/i18n.h:
-
-/usr/local/include/libintl.h:
-
-/usr/include/locale.h:
-
-/usr/include/_locale.h:
-
-/usr/include/xlocale.h:
-
-/usr/include/_xlocale.h:
-
-/usr/include/xlocale/_stdio.h:
-
-/usr/include/xlocale/_stdlib.h:
-
-/usr/include/xlocale/_string.h:

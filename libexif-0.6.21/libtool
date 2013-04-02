@@ -161,7 +161,7 @@ lock_old_archive_extraction=yes
 LTCC="gcc"
 
 # LTCC compiler flags.
-LTCFLAGS="-g -O2"
+LTCFLAGS="-arch i386"
 
 # Take the output of nm and produce a listing of raw symbols and C names.
 global_symbol_pipe="sed -n -e 's/^.*[	 ]\\([BCDEGRST][BCDEGRST]*\\)[	 ][	 ]*_\\([_A-Za-z][_A-Za-z0-9]*\\)\$/\\1 _\\2 \\2/p' | sed '/ __gnu_lto/d'"
@@ -269,7 +269,7 @@ finish_eval=""
 hardcode_into_libs=no
 
 # Compile-time system search path for libraries.
-sys_lib_search_path_spec="/usr/llvm-gcc-4.2/lib/gcc/i686-apple-darwin11/4.2.1/x86_64 /Applications/Xcode.app/Contents/Developer/usr/llvm-gcc-4.2/lib/gcc/i686-apple-darwin11/4.2.1/x86_64 /usr/lib /usr/llvm-gcc-4.2/lib/gcc /usr/llvm-gcc-4.2/lib /Applications/Xcode.app/Contents/Developer/usr/llvm-gcc-4.2/lib  /usr/local/lib"
+sys_lib_search_path_spec="/usr/llvm-gcc-4.2/lib/gcc/i686-apple-darwin11/4.2.1/x86_64 /Applications/Xcode.app/Contents/Developer/usr/llvm-gcc-4.2/lib/gcc/i686-apple-darwin11/4.2.1/x86_64 /usr/lib /usr/llvm-gcc-4.2/lib/gcc/i686-apple-darwin11/4.2.1 /usr/llvm-gcc-4.2/lib/gcc /Applications/Xcode.app/Contents/Developer/usr/llvm-gcc-4.2/lib/gcc/i686-apple-darwin11/4.2.1 /usr/llvm-gcc-4.2/lib /Applications/Xcode.app/Contents/Developer/usr/llvm-gcc-4.2/lib  /usr/local/lib"
 
 # Run-time system search path for libraries.
 sys_lib_dlsearch_path_spec="/usr/local/lib /lib /usr/lib"

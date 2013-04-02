@@ -17,15 +17,15 @@ old_library='libmnote-pentax.a'
 inherited_linker_flags=' '
 
 # Libraries that this one depends upon.
-dependency_libs=' -L/usr/local/lib /usr/local/lib/libintl.la -liconv -lc -lm'
+dependency_libs=' -lm'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''
 
 # Version information for libmnote-pentax.
-current=9
-age=1
-revision=1
+current=
+age=
+revision=
 
 # Is this an already installed library?
 installed=no

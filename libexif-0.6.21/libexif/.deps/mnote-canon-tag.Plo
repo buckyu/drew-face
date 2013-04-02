@@ -21,10 +21,7 @@ mnote-canon-tag.lo mnote-canon-tag.o: canon/mnote-canon-tag.c ../config.h \
   /usr/include/libkern/_OSByteOrder.h \
   /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h \
   /usr/include/machine/types.h /usr/include/i386/types.h \
-  /usr/include/i386/_types.h ../libexif/i18n.h \
-  /usr/local/include/libintl.h /usr/include/locale.h \
-  /usr/include/_locale.h /usr/include/xlocale.h /usr/include/_xlocale.h \
-  /usr/include/xlocale/_stdlib.h
+  /usr/include/i386/_types.h ../libexif/i18n.h
 
 ../config.h:
 
@@ -119,15 +116,3 @@ canon/mnote-canon-tag.h:
 /usr/include/i386/_types.h:
 
 ../libexif/i18n.h:
-
-/usr/local/include/libintl.h:
-
-/usr/include/locale.h:
-
-/usr/include/_locale.h:
-
-/usr/include/xlocale.h:
-
-/usr/include/_xlocale.h:
-
-/usr/include/xlocale/_stdlib.h:

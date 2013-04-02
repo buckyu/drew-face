@@ -44,4 +44,7 @@
 // do not know why but CGImageCreateWithImageInRect() can not be pixel mapped??
 -(UIImage *)greyTheImage:(UIImage *)origimg;
 
++ (cv::Mat)cvMatFromUIImage:(UIImage *)image;
++ (UIImage *)UIImageFromCVMat:(cv::Mat)cvMat;
+
 @end

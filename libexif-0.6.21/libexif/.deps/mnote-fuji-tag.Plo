@@ -15,13 +15,11 @@ mnote-fuji-tag.lo mnote-fuji-tag.o: fuji/mnote-fuji-tag.c \
   /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h \
   /usr/include/machine/types.h /usr/include/i386/types.h \
   /usr/include/i386/_types.h ../config.h ../libexif/i18n.h \
-  /usr/local/include/libintl.h /usr/include/locale.h \
-  /usr/include/_locale.h /usr/include/xlocale.h /usr/include/_xlocale.h \
-  /usr/include/xlocale/_stdlib.h fuji/mnote-fuji-tag.h \
-  ../libexif/exif-data.h ../libexif/exif-byte-order.h \
-  ../libexif/exif-data-type.h ../libexif/exif-ifd.h ../libexif/exif-log.h \
-  ../libexif/exif-mem.h ../libexif/exif-utils.h ../libexif/exif-format.h \
-  ../libexif/_stdint.h /usr/include/stdint.h \
+  fuji/mnote-fuji-tag.h ../libexif/exif-data.h \
+  ../libexif/exif-byte-order.h ../libexif/exif-data-type.h \
+  ../libexif/exif-ifd.h ../libexif/exif-log.h ../libexif/exif-mem.h \
+  ../libexif/exif-utils.h ../libexif/exif-format.h ../libexif/_stdint.h \
+  /usr/include/stdint.h \
   /usr/llvm-gcc-4.2/bin/../lib/gcc/i686-apple-darwin11/4.2.1/include/stdarg.h \
   ../libexif/exif-tag.h ../libexif/exif-content.h ../libexif/exif-entry.h \
   ../libexif/exif-mnote-data.h
@@ -87,18 +85,6 @@ mnote-fuji-tag.lo mnote-fuji-tag.o: fuji/mnote-fuji-tag.c \
 ../config.h:
 
 ../libexif/i18n.h:
-
-/usr/local/include/libintl.h:
-
-/usr/include/locale.h:
-
-/usr/include/_locale.h:
-
-/usr/include/xlocale.h:
-
-/usr/include/_xlocale.h:
-
-/usr/include/xlocale/_stdlib.h:
 
 fuji/mnote-fuji-tag.h:
 

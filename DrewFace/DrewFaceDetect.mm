@@ -18,7 +18,6 @@
 #include "OpenCvClass.h"
 #include "jpeglib.h"
 #include "jerror.h"
-#include "transupp.h"
 
 #if DONT_PORT
 NSString *docsDir;
@@ -96,6 +95,31 @@ struct jpeg {
     J_COLOR_SPACE colorSpace;
 };
 
+/* Show the tag name and contents if the tag exists */
+static char *get_tag(ExifData *d, ExifIfd ifd, ExifTag tag)
+{
+    /* See if this tag exists */
+    ExifEntry *entry = exif_content_get_entry(d->ifd[ifd],tag);
+    if (entry) {
+        char *ret = (char*)calloc(1024, sizeof(char));
+
+        /* Get the contents of the tag in human-readable form */
+        exif_entry_get_value(entry, ret, sizeof(ret));
+
+        return ret;
+    }
+    return NULL;
+}
+
+int exifOrientation(const char *filename) {
+    ExifData *ed = exif_data_new_from_file(filename);
+    char *orientation = get_tag(ed, EXIF_IFD_0, EXIF_TAG_ORIENTATION);
+    if(strlen(orientation) > 1 || orientation[0] < '1' || orientation[0] > '8') {
+        return 1;
+    }
+    return orientation[0] - '1' + 1;
+}
+
 struct jpeg *loadJPEGFromFile(const char *filename, int maxDimension);
 
 struct jpeg *loadJPEGFromFile(const char *filename) {
@@ -148,14 +172,7 @@ struct jpeg *loadJPEGFromFile(const char *filename, int maxDimension) {
     /* Step 4: set parameters for decompression */
 
     //Scale down to maxDimension if necessary
-    int w = cinfo->image_width;
-    int h = cinfo->image_height;
-    int max = (w > h)? w : h;
-    if(max > maxDimension) {
-        //facedetectScaleFactor = maxDimension / (float)max;
-        cinfo->scale_num = maxDimension;
-        cinfo->scale_denom = max;
-    }
+    
 
     /* Step 5: Start decompressor */
 
@@ -245,58 +262,14 @@ void freeJpeg(struct jpeg *jpg) {
     free(jpg);
 }
 
-/* Show the tag name and contents if the tag exists */
-static char *get_tag(ExifData *d, ExifIfd ifd, ExifTag tag)
+cv::Mat *rotateImage(const cv::Mat& source, double angle)
 {
-    /* See if this tag exists */
-    ExifEntry *entry = exif_content_get_entry(d->ifd[ifd],tag);
-    if (entry) {
-        char *ret = (char*)calloc(1024, sizeof(char));
-
-        /* Get the contents of the tag in human-readable form */
-        exif_entry_get_value(entry, ret, sizeof(ret));
-
-        return ret;
-    }
-    return NULL;
+    cv::Point2f src_center(source.cols/2.0F, source.rows/2.0F);
+    cv::Mat rot_mat = getRotationMatrix2D(src_center, angle, 1.0);
+    cv::Mat *dst = NULL;
+    warpAffine(source, *dst, rot_mat, source.size());
+    return dst;
 }
-
-int exifOrientation(const char *filename) {
-    ExifData *ed = exif_data_new_from_file(filename);
-    char *orientation = get_tag(ed, EXIF_IFD_0, EXIF_TAG_ORIENTATION);
-    if(strlen(orientation) > 1 || orientation[0] < '1' || orientation[0] > '8') {
-        return 1;
-    }
-    return orientation[0] - '1' + 1;
-}
-
-//it's up to the caller to close out image
-//it's up to the caller to close out the returned structure
-struct jpeg_compress_struct *transformImage(struct jpeg_decompress_struct *image, jpeg_transform_info info) {
-    info.trim = true;
-    if(!jtransform_request_workspace(image, &info)) {
-        return NULL;
-    }
-
-    struct jpeg_compress_struct *ret = (struct jpeg_compress_struct*)malloc(sizeof(jpeg_compress_struct));
-    if(!ret) {
-        return NULL;
-    }
-    struct jpeg_error_mgr jdstderr;
-    ret->err = jpeg_std_error(&jdstderr);
-    jpeg_create_compress(ret);
-
-    jvirt_barray_ptr *src_oef_arrays = jpeg_read_coefficients(image);
-    jpeg_copy_critical_parameters(image, ret);
-    jvirt_barray_ptr *dst_oef_arrays = jtransform_adjust_parameters(image, ret, src_oef_arrays, &info);
-    jpeg_write_coefficients(ret, dst_oef_arrays);
-
-    jtransform_execute_transform(image, ret, src_oef_arrays, &info);
-
-    return ret;
-}
-
-#warning Now I need some not-terrible way to turn the jpeg_compress_struct from transformImage back into a jpeg_decompress_struct I can use anywhere (we're going to be cropping later...)
 
 FileInfo *extractGeometry(const char *fileNamePath) {
 #if DONT_PORT
@@ -305,33 +278,35 @@ FileInfo *extractGeometry(const char *fileNamePath) {
 
     // Find Mouths in original images here
 
-    // Orient images for face detection (EXIF Orientation = 0)
-    int orientation = exifOrientation(fileNamePath);
+    cv::Mat jpeg = cv::imread(fileNamePath, CV_LOAD_IMAGE_UNCHANGED);
+    if(!jpeg.data) {
+        printf("Could not open or find the image");
+        return NULL;
+    }
+    cv::Mat scaledImg;
+    {
+        int w = jpeg.cols;
+        int h = jpeg.rows;
+        int max = (w > h)? w : h;
+        if(max > 1024) {
+            //facedetectScaleFactor = maxDimension / (float)max;
+            cv::resize(jpeg, scaledImg, cv::Size(1024.0/max, 1024.0/max), 0, 0);
+        }
+    }
 
-    UIImage *testimage = [UIImage imageWithContentsOfFile:fileNamePath];
+    int orientation = exifOrientation(fileNamePath);
+    cv::Mat *rotatedImage = NULL;
+
+    // Orient images for face detection (EXIF Orientation = 0)
     if (orientation == 6) {
-        // rotate CGImageRef data
-        CGImageRef rotatedImageRef= [self CGImageRotatedByAngle:testimage.CGImage angle:-M_PI/2.0];
-        testimage = [UIImage imageWithCGImage:rotatedImageRef];
-        CGImageRelease(rotatedImageRef);
+        rotatedImage = rotateImage(scaledImg, -M_PI_2);
     } else if (orientation == 3) {
-        CGImageRef rotatedImageRef= [self CGImageRotatedByAngle:testimage.CGImage angle:M_PI];
-        testimage = [UIImage imageWithCGImage:rotatedImageRef];
-        CGImageRelease(rotatedImageRef);
+        rotatedImage = rotateImage(scaledImg, M_PI_2);
     } else if (orientation > 1) {
         printf("%s Orientation %d not 0, 1 or 6. Need to accommodate here", fileNamePath, orientation);
     }
 
-    // Scale down to 1024 max dimension for speed optimization of face detect
-    int w = (int)testimage.size.width;
-    int h = (int)testimage.size.height;
-    int maxDimension = w>h? w : h;
-    CGFloat facedetectScaleFactor = 1.0;
-    if (maxDimension > 1024) {
-        facedetectScaleFactor = 1024.0 / (CGFloat)maxDimension;
-    }
-    CGSize scaledDownSize = CGSizeMake(facedetectScaleFactor*w, facedetectScaleFactor*h);
-    UIImage *scaledImage = [self imageWithImage:testimage scaledToSize:scaledDownSize];
+    UIImage *scaledImage = [OpenCvClass UIImageFromCVMat:*rotatedImage];
 
     // search for face in scaledImage
     // OpenCV Processing Called Here for Face Detect
@@ -339,7 +314,7 @@ FileInfo *extractGeometry(const char *fileNamePath) {
     // testimage - faceRectInScaledOrigImage is set by delegate method call
     OpenCvClass *ocv = [OpenCvClass new];
     rect faceRect;
-    testimage = [ocv processUIImageForFace:scaledImage fromFile:fileNamePath outRect:&faceRect];
+    UIImage *testimage = [ocv processUIImageForFace:scaledImage fromFile:fileNamePath outRect:&faceRect];
     if ((faceRect.width == 0) || (faceRect.height == 0)) {
         printf("NO FACE in %s", fileNamePath);
         return NULL;
@@ -408,8 +383,8 @@ FileInfo *extractGeometry(const char *fileNamePath) {
     CFDataRef pixelData = CGDataProviderCopyData(myDataProvider);
     const uint8_t *testimagedata = CFDataGetBytePtr(pixelData);
 
-    w = (int)processedMouthImage.size.width;
-    h = (int)processedMouthImage.size.height;
+    int w = (int)processedMouthImage.size.width;
+    int h = (int)processedMouthImage.size.height;
     uint8_t *mutablebuffer = (uint8_t *)malloc(w*h*3);
     uint8_t *mutablebuffer4 = (uint8_t *)malloc(w*h*4);
 
@@ -428,6 +403,9 @@ FileInfo *extractGeometry(const char *fileNamePath) {
     }
     CFRelease(pixelData);
 
+    free(mutablebuffer);
+
+#ifdef DONT_PORT
     // show image on iPhone view
 
     CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(processedMouthImage.CGImage);
@@ -437,28 +415,25 @@ FileInfo *extractGeometry(const char *fileNamePath) {
 
     CGImageRef newImageRef = CGBitmapContextCreateImage(newContextRef);
 
-    // show MODIFIED  image on iPhone screen
+    // this is actually going to be a cvMatrix (or whatever) and it's the input value to the second half of a function.
     UIImage *modifiedImage = [UIImage imageWithCGImage:newImageRef];
 
     CGImageRelease(newImageRef);
     CGContextRelease(newContextRef);
 
-    free(mutablebuffer);
-    free(mutablebuffer4);
-
     // write mouth images to EXTRACTED_MOUTHS_EDGES directory
     dataToWrite = UIImageJPEGRepresentation(modifiedImage, 0.8);
-#ifdef DONT_PORT
     thumbPath = [extractedMouthsEdgesDir stringByAppendingPathComponent:simpleFileName];
     thumbPath = [[thumbPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
-#else
-    thumbPath = some reasonable path?
-#endif
     [dataToWrite writeToFile:thumbPath atomically:YES];
+#endif
+
+    free(mutablebuffer4);
 
     FileInfo *ret = (FileInfo*)malloc(sizeof(FileInfo));
     ret->originalFileNamePath = fileNamePath;
-    ret->facedetectScaleFactor = facedetectScaleFactor;
+    //ret->facedetectScaleFactor = facedetectScaleFactor;
+    ret->facedetectScaleFactor = 1;
     ret->facedetectX = faceRect.x;
     ret->facedetectY = faceRect.y;
     ret->facedetectW = faceRect.width;

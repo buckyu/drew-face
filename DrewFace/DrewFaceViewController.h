@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 
 #import <ImageIO/ImageIO.h>
-#import "OpenCvClass.h"
+//#import "OpenCvClass.h"
 
 #import "FindMouthsViewController.h"
 

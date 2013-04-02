@@ -9,18 +9,18 @@
 /* Begin PBXBuildFile section */
 		1D0E674716C9B94100537AEC /* haarcascade_mcs_mouth.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1D0E674616C9B94100537AEC /* haarcascade_mcs_mouth.xml */; };
 		1D19850D16C6E31600AF57CC /* haarcascade_frontalface_default.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1D19850C16C6E31600AF57CC /* haarcascade_frontalface_default.xml */; };
-		1D5C808C16CE872900234D0D /* FindMouthsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C808A16CE872900234D0D /* FindMouthsViewController.m */; };
+		1D5C808C16CE872900234D0D /* FindMouthsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C808A16CE872900234D0D /* FindMouthsViewController.mm */; };
 		1D5C808D16CE872900234D0D /* FindMouthsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D5C808B16CE872900234D0D /* FindMouthsViewController.xib */; };
 		1D6992E816C014C200547D63 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6992E716C014C200547D63 /* UIKit.framework */; };
 		1D6992EA16C014C200547D63 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6992E916C014C200547D63 /* Foundation.framework */; };
 		1D6992EC16C014C200547D63 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6992EB16C014C200547D63 /* CoreGraphics.framework */; };
 		1D6992F216C014C200547D63 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D6992F016C014C200547D63 /* InfoPlist.strings */; };
 		1D6992F416C014C200547D63 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6992F316C014C200547D63 /* main.m */; };
-		1D6992F816C014C200547D63 /* DrewFaceAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6992F716C014C200547D63 /* DrewFaceAppDelegate.m */; };
+		1D6992F816C014C200547D63 /* DrewFaceAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1D6992F716C014C200547D63 /* DrewFaceAppDelegate.mm */; };
 		1D6992FA16C014C200547D63 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D6992F916C014C200547D63 /* Default.png */; };
 		1D6992FC16C014C200547D63 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D6992FB16C014C200547D63 /* Default@2x.png */; };
 		1D6992FE16C014C200547D63 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D6992FD16C014C200547D63 /* Default-568h@2x.png */; };
-		1D69930116C014C200547D63 /* DrewFaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D69930016C014C200547D63 /* DrewFaceViewController.m */; };
+		1D69930116C014C200547D63 /* DrewFaceViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1D69930016C014C200547D63 /* DrewFaceViewController.mm */; };
 		1D69930416C014C200547D63 /* DrewFaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D69930216C014C200547D63 /* DrewFaceViewController.xib */; };
 		1D8594A716D42F990088B5B4 /* ShowMouthsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D8594A516D42F990088B5B4 /* ShowMouthsViewController.m */; };
 		1D8594A816D42F990088B5B4 /* ShowMouthsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D8594A616D42F990088B5B4 /* ShowMouthsViewController.xib */; };
@@ -36,15 +36,15 @@
 		1DE6DDF916C41D5F00BAA92A /* OpenCvClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1DE6DDF816C41D5F00BAA92A /* OpenCvClass.mm */; };
 		3A02316916C97F190092817E /* Detect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A02316816C97F190092817E /* Detect.cpp */; };
 		3A75C88817046889002A1A72 /* DrewFaceDetect.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A75C88717046889002A1A72 /* DrewFaceDetect.mm */; };
-		BE67C1351704FC4700EBB4DF /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE67C1341704FC4700EBB4DF /* libjpeg.a */; };
-		BEB6084317064A4F001A63D7 /* libexif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BEB6084217064A4F001A63D7 /* libexif.a */; };
+		BEDEDA47170A355E008CCA47 /* jpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BEDEDA46170A355E008CCA47 /* jpeg.a */; };
+		BEDEDA49170A35D2008CCA47 /* exif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BEDEDA48170A35D2008CCA47 /* exif.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1D0E674616C9B94100537AEC /* haarcascade_mcs_mouth.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_mcs_mouth.xml; sourceTree = "<group>"; };
 		1D19850C16C6E31600AF57CC /* haarcascade_frontalface_default.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_frontalface_default.xml; sourceTree = "<group>"; };
 		1D5C808916CE872800234D0D /* FindMouthsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindMouthsViewController.h; sourceTree = "<group>"; };
-		1D5C808A16CE872900234D0D /* FindMouthsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindMouthsViewController.m; sourceTree = "<group>"; };
+		1D5C808A16CE872900234D0D /* FindMouthsViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FindMouthsViewController.mm; sourceTree = "<group>"; };
 		1D5C808B16CE872900234D0D /* FindMouthsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FindMouthsViewController.xib; sourceTree = "<group>"; };
 		1D6992E416C014C200547D63 /* DrewFace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DrewFace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D6992E716C014C200547D63 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -55,12 +55,12 @@
 		1D6992F316C014C200547D63 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1D6992F516C014C200547D63 /* DrewFace-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DrewFace-Prefix.pch"; sourceTree = "<group>"; };
 		1D6992F616C014C200547D63 /* DrewFaceAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DrewFaceAppDelegate.h; sourceTree = "<group>"; };
-		1D6992F716C014C200547D63 /* DrewFaceAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DrewFaceAppDelegate.m; sourceTree = "<group>"; };
+		1D6992F716C014C200547D63 /* DrewFaceAppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DrewFaceAppDelegate.mm; sourceTree = "<group>"; };
 		1D6992F916C014C200547D63 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		1D6992FB16C014C200547D63 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		1D6992FD16C014C200547D63 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		1D6992FF16C014C200547D63 /* DrewFaceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DrewFaceViewController.h; sourceTree = "<group>"; };
-		1D69930016C014C200547D63 /* DrewFaceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DrewFaceViewController.m; sourceTree = "<group>"; };
+		1D69930016C014C200547D63 /* DrewFaceViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DrewFaceViewController.mm; sourceTree = "<group>"; };
 		1D69930316C014C200547D63 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DrewFaceViewController.xib; sourceTree = "<group>"; };
 		1D8594A416D42F990088B5B4 /* ShowMouthsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowMouthsViewController.h; sourceTree = "<group>"; };
 		1D8594A516D42F990088B5B4 /* ShowMouthsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowMouthsViewController.m; sourceTree = "<group>"; };
@@ -80,12 +80,10 @@
 		3A02316A16C97F220092817E /* Detect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Detect.h; sourceTree = "<group>"; };
 		3A75C88617046889002A1A72 /* DrewFaceDetect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrewFaceDetect.h; sourceTree = "<group>"; };
 		3A75C88717046889002A1A72 /* DrewFaceDetect.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DrewFaceDetect.mm; sourceTree = "<group>"; };
-		BE67C1341704FC4700EBB4DF /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjpeg.a; sourceTree = "<group>"; };
 		BE67C1361704FCA400EBB4DF /* jpeglib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jpeglib.h; sourceTree = "<group>"; };
 		BE67C1371704FCB800EBB4DF /* jconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jconfig.h; sourceTree = "<group>"; };
 		BE67C1381704FCC800EBB4DF /* jmorecfg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jmorecfg.h; sourceTree = "<group>"; };
 		BEB6084117062DDA001A63D7 /* jerror.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jerror.h; sourceTree = "<group>"; };
-		BEB6084217064A4F001A63D7 /* libexif.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexif.a; path = "libexif-0.6.21/libexif/.libs/libexif.a"; sourceTree = "<group>"; };
 		BEB6084417064C19001A63D7 /* exif-loader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-loader.h"; sourceTree = "<group>"; };
 		BEB6084517064C28001A63D7 /* exif-content.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-content.h"; sourceTree = "<group>"; };
 		BEB6084617064C28001A63D7 /* exif-data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-data.h"; sourceTree = "<group>"; };
@@ -99,9 +97,8 @@
 		BEB6085017064C81001A63D7 /* exif-mnote-data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-mnote-data.h"; sourceTree = "<group>"; };
 		BEB6085117064C81001A63D7 /* exif-tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-tag.h"; sourceTree = "<group>"; };
 		BEB6085217064C81001A63D7 /* exif-utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-utils.h"; sourceTree = "<group>"; };
-		BEB6085317065C6F001A63D7 /* jinclude.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jinclude.h; sourceTree = "<group>"; };
-		BEB6085417065C7C001A63D7 /* transupp.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = transupp.c; sourceTree = "<group>"; };
-		BEB6085517065C7C001A63D7 /* transupp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = transupp.h; sourceTree = "<group>"; };
+		BEDEDA46170A355E008CCA47 /* jpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = jpeg.a; path = "jpeg-8b/.libs/jpeg.a"; sourceTree = "<group>"; };
+		BEDEDA48170A35D2008CCA47 /* exif.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = exif.a; path = "libexif-0.6.21/libexif/.libs/exif.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,8 +112,8 @@
 				1D6992EC16C014C200547D63 /* CoreGraphics.framework in Frameworks */,
 				1D6992E816C014C200547D63 /* UIKit.framework in Frameworks */,
 				1D6992EA16C014C200547D63 /* Foundation.framework in Frameworks */,
-				BE67C1351704FC4700EBB4DF /* libjpeg.a in Frameworks */,
-				BEB6084317064A4F001A63D7 /* libexif.a in Frameworks */,
+				BEDEDA47170A355E008CCA47 /* jpeg.a in Frameworks */,
+				BEDEDA49170A35D2008CCA47 /* exif.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,14 +158,14 @@
 				3A75C88517046874002A1A72 /* NeedsPort */,
 				3A02316716C97EF50092817E /* C/C++ Only */,
 				1D6992F616C014C200547D63 /* DrewFaceAppDelegate.h */,
-				1D6992F716C014C200547D63 /* DrewFaceAppDelegate.m */,
+				1D6992F716C014C200547D63 /* DrewFaceAppDelegate.mm */,
 				1D6992FF16C014C200547D63 /* DrewFaceViewController.h */,
-				1D69930016C014C200547D63 /* DrewFaceViewController.m */,
+				1D69930016C014C200547D63 /* DrewFaceViewController.mm */,
 				1D69930216C014C200547D63 /* DrewFaceViewController.xib */,
 				1DE6DDF716C41D5F00BAA92A /* OpenCvClass.h */,
 				1DE6DDF816C41D5F00BAA92A /* OpenCvClass.mm */,
 				1D5C808916CE872800234D0D /* FindMouthsViewController.h */,
-				1D5C808A16CE872900234D0D /* FindMouthsViewController.m */,
+				1D5C808A16CE872900234D0D /* FindMouthsViewController.mm */,
 				1D5C808B16CE872900234D0D /* FindMouthsViewController.xib */,
 				1D8594A416D42F990088B5B4 /* ShowMouthsViewController.h */,
 				1D8594A516D42F990088B5B4 /* ShowMouthsViewController.m */,
@@ -225,10 +222,7 @@
 				BE67C1381704FCC800EBB4DF /* jmorecfg.h */,
 				BE67C1361704FCA400EBB4DF /* jpeglib.h */,
 				BEB6084117062DDA001A63D7 /* jerror.h */,
-				BEB6085317065C6F001A63D7 /* jinclude.h */,
-				BEB6085517065C7C001A63D7 /* transupp.h */,
-				BEB6085417065C7C001A63D7 /* transupp.c */,
-				BE67C1341704FC4700EBB4DF /* libjpeg.a */,
+				BEDEDA46170A355E008CCA47 /* jpeg.a */,
 			);
 			name = libjpeg;
 			sourceTree = "<group>";
@@ -249,7 +243,7 @@
 				BEB6085017064C81001A63D7 /* exif-mnote-data.h */,
 				BEB6085117064C81001A63D7 /* exif-tag.h */,
 				BEB6085217064C81001A63D7 /* exif-utils.h */,
-				BEB6084217064A4F001A63D7 /* libexif.a */,
+				BEDEDA48170A35D2008CCA47 /* exif.a */,
 			);
 			name = libexif;
 			sourceTree = "<group>";
@@ -332,11 +326,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D6992F416C014C200547D63 /* main.m in Sources */,
-				1D6992F816C014C200547D63 /* DrewFaceAppDelegate.m in Sources */,
-				1D69930116C014C200547D63 /* DrewFaceViewController.m in Sources */,
+				1D6992F816C014C200547D63 /* DrewFaceAppDelegate.mm in Sources */,
+				1D69930116C014C200547D63 /* DrewFaceViewController.mm in Sources */,
 				1DE6DDF916C41D5F00BAA92A /* OpenCvClass.mm in Sources */,
 				3A02316916C97F190092817E /* Detect.cpp in Sources */,
-				1D5C808C16CE872900234D0D /* FindMouthsViewController.m in Sources */,
+				1D5C808C16CE872900234D0D /* FindMouthsViewController.mm in Sources */,
 				1D8594A716D42F990088B5B4 /* ShowMouthsViewController.m in Sources */,
 				3A75C88817046889002A1A72 /* DrewFaceDetect.mm in Sources */,
 			);
@@ -391,6 +385,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-Wl,-no_implicit_dylibs";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -415,6 +410,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "-Wl,-no_implicit_dylibs";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -434,7 +430,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/libexif-0.6.21/libexif/.libs\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -455,7 +450,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/libexif-0.6.21/libexif/.libs\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

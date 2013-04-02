@@ -132,7 +132,7 @@ EXTRA_LOCALE_CATEGORIES =
 	mv t-$@ $@
 
 
-all: all-yes
+all: all-no
 
 all-yes: stamp-po
 all-no:
@@ -199,7 +199,7 @@ $(POFILES): $(srcdir)/$(DOMAIN).pot
 
 install: install-exec install-data
 install-exec:
-install-data: install-data-yes
+install-data: install-data-no
 	if test "$(PACKAGE)" = "gettext-tools"; then \
 	  $(mkinstalldirs) $(DESTDIR)$(gettextsrcdir); \
 	  for file in $(DISTFILES.common) Makevars.template; do \
@@ -258,7 +258,7 @@ install-strip: install
 
 installdirs: installdirs-exec installdirs-data
 installdirs-exec:
-installdirs-data: installdirs-data-yes
+installdirs-data: installdirs-data-no
 	if test "$(PACKAGE)" = "gettext-tools"; then \
 	  $(mkinstalldirs) $(DESTDIR)$(gettextsrcdir); \
 	else \
@@ -303,7 +303,7 @@ installcheck:
 
 uninstall: uninstall-exec uninstall-data
 uninstall-exec:
-uninstall-data: uninstall-data-yes
+uninstall-data: uninstall-data-no
 	if test "$(PACKAGE)" = "gettext-tools"; then \
 	  for file in $(DISTFILES.common) Makevars.template; do \
 	    rm -f $(DESTDIR)$(gettextsrcdir)/$$file; \
