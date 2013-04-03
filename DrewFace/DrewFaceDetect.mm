@@ -324,8 +324,14 @@ FileInfo *extractGeometry(const char *fileNamePath) {
 
     // extract bottom half of face from COLOR image
     // locate mouth in bottom half of greyscale face image
+    IplImage testImageImage = *testimage;
     cv::Rect roi = cvRect((int)(faceRect.x), (int)(faceRect.y+0.66*faceRect.height), (int)(faceRect.width), (int)(0.34*faceRect.height));
-    cv::Mat bottomhalffaceImage = (*testimage)(roi);
+    cvSetImageROI(&testImageImage, roi);
+    IplImage *cropImage = cvCreateImage(cvGetSize(&testImageImage), testImageImage.depth, testImageImage.nChannels);
+    cvCopy(&testImageImage, cropImage);
+    cvResetImageROI(&testImageImage);
+    cv::Mat bottomhalffaceImage = cropImage;
+    //NSData *testData = UIImageJPEGRepresentation([OpenCvClass UIImageFromCVMat:bottomhalffaceImage], 0.8);
 
     // do not know why but CGImageCreateWithImageInRect() can not be pixel mapped??
     // bottomhalffaceImage = [ocv greyTheImage:bottomhalffaceImage];
@@ -348,8 +354,13 @@ FileInfo *extractGeometry(const char *fileNamePath) {
     }
 
     // extract mouth from face
-    cv::Rect mouthRect = cvRect(mouthRectInBottomHalfOfFace.x, mouthRectInBottomHalfOfFace.y, mouthRectInBottomHalfOfFace.width, mouthRectInBottomHalfOfFace.height);
-    cv::Mat mouthImage = (bottomhalffaceImage)(mouthRect);
+    testImageImage = bottomhalffaceImage;
+    roi = cvRect(mouthRectInBottomHalfOfFace.x, mouthRectInBottomHalfOfFace.y, mouthRectInBottomHalfOfFace.width, mouthRectInBottomHalfOfFace.height);
+    cvSetImageROI(&testImageImage, roi);
+    cropImage = cvCreateImage(cvGetSize(&testImageImage), testImageImage.depth, testImageImage.nChannels);
+    cvCopy(&testImageImage, cropImage);
+    cvResetImageROI(&testImageImage);
+    cv::Mat mouthImage = cropImage;
 
     cv::Mat processedMouthImage;
     if ((faceRect.width > 0) && (faceRect.height > 0)) {
@@ -360,7 +371,7 @@ FileInfo *extractGeometry(const char *fileNamePath) {
     // write mouth images to EXTRACTED_MOUTHS directory
 #if DONT_PORT
     NSData *dataToWrite = UIImageJPEGRepresentation([OpenCvClass UIImageFromCVMat:mouthImage], 0.8);
-    //assert(dataToWrite);
+    assert(dataToWrite);
     NSString *thumbPath = [extractedMouthsDir stringByAppendingPathComponent:simpleFileName];
     thumbPath = [[thumbPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
     [dataToWrite writeToFile:thumbPath atomically:YES];
