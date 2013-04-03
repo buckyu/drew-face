@@ -28,10 +28,10 @@
 
 @property (weak) id <OpenCvClassDelegate> delegate;
 
--(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(const char*)fn outRect:(rect*) outRect;
--(CGRect)processUIImageForMouth:(UIImage *)img fromFile:(const char*)fn;
+-(cv::Mat *)processUIImageForFace:(cv::Mat *)img fromFile:(const char*)fn outRect:(rect*) outRect;
+-(cv::Rect)processUIImageForMouth:(cv::Mat *)img fromFile:(const char*)fn;
 
--(UIImage *)edgeDetectReturnOverlay:(UIImage *)img;
+-(cv::Mat)edgeDetectReturnOverlay:(cv::Mat *)img;
 -(UIImage *)edgeDetectReturnEdges:(UIImage *)img;
 -(UIImage *)edgeMeanShiftDetectReturnEdges:(UIImage *)origimg;
 

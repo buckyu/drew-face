@@ -20,9 +20,9 @@
     return [OpenCvClass UIImageFromCVMat:greyMat];
 }
 
--(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(const char*)fn outRect:(rect*) outRect {
+-(cv::Mat *)processUIImageForFace:(cv::Mat *)img fromFile:(const char*)fn outRect:(rect*) outRect {
     
-    cv::Mat myCvMat = [OpenCvClass cvMatFromUIImage:img];
+    cv::Mat myCvMat = *img;
     cv::Mat greyMat;
     cv::cvtColor(myCvMat, greyMat, CV_BGR2GRAY);
     
@@ -36,15 +36,15 @@
 }
 
 
--(CGRect)processUIImageForMouth:(UIImage *)colorimg fromFile:(const char*)fn {
+-(cv::Rect)processUIImageForMouth:(cv::Mat *)colorimg fromFile:(const char*)fn {
     
-    cv::Mat myCvMat = [OpenCvClass cvMatFromUIImage:colorimg];
+    cv::Mat myCvMat = *colorimg;
     
     // mouth detection
     IplImage myImage = myCvMat;
     rect mouthDetectedInRect = [self opencvMouthDetect:&myImage fromFile:fn];
     
-    return [self rectToCGRect:mouthDetectedInRect];
+    return cvRect(mouthDetectedInRect.x, mouthDetectedInRect.y, mouthDetectedInRect.width, mouthDetectedInRect.height);
 }
 
 
@@ -74,15 +74,15 @@
 
 
 
--(UIImage *)edgeDetectReturnOverlay:(UIImage *)img {
-    cv::Mat myCvMat = [OpenCvClass cvMatFromUIImage:img];
+-(cv::Mat)edgeDetectReturnOverlay:(cv::Mat *)img {
+    cv::Mat myCvMat = *img;
     cv::Mat edges;
     cv::cvtColor(myCvMat, edges, CV_BGR2GRAY);
     cv::Canny(edges, edges, 30, 255);
     cv::cvtColor(edges, edges, CV_GRAY2BGRA);
     myCvMat = myCvMat - edges;
     
-    return [OpenCvClass UIImageFromCVMat:myCvMat];
+    return myCvMat;
 }
 
 -(UIImage *)edgeDetectReturnEdges:(UIImage *)img {

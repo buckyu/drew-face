@@ -33,6 +33,7 @@ Brief overview of the function: it accepts a filename, returns a dictionary of c
 
 
 #import <Foundation/Foundation.h>
+#include "DrewFaceDetectPart2.h"
 
 #if DONT_PORT
 extern NSString *docsDir;
@@ -51,6 +52,7 @@ extern NSString *modelMouthDir;
 
 typedef struct FileInfo {
     const char *originalFileNamePath;
+    std::vector<NotCGPoint> *points;
     float facedetectScaleFactor;
     float facedetectX;
     float facedetectY;
