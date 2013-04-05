@@ -7,8 +7,10 @@
 //
 
 #import "DrewFaceViewController.h"
+#import "DrewFaceDetect.h"
+@interface DrewFaceViewController () {
 
-@interface DrewFaceViewController ()
+}
 
 @end
 
@@ -16,6 +18,8 @@
 
 - (void)viewDidLoad
 {
+    [DrewFaceDetect setupStructures];
+
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
@@ -97,7 +101,8 @@
     // OpenCV Processing Called Here for Face Detect
     ocv = [OpenCvClass new];
     ocv.delegate = self;
-    testimage = [ocv processUIImageForFace:testimage fromFile:testFileName];
+    rect faceRect;
+    testimage = [ocv processUIImageForFace:testimage fromFile:testFileName outRect:&faceRect];
     
     // replace image in UIImageView with greyscale image from OpenCV
     iv.image = testimage;

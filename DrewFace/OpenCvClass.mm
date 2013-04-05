@@ -39,7 +39,7 @@
 
 
 
--(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(NSString *)fn {
+-(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(NSString *)fn outRect:(rect*) outRect {
     
     cv::Mat myCvMat = [self cvMatFromUIImage:img];
     cv::Mat greyMat;
@@ -48,7 +48,7 @@
     // face detection
     IplImage myImage = myCvMat;
     rect faceDetectedInRect = [self opencvFaceDetect:&myImage fromFile:fn];
-    [self.delegate setFaceRect:[self rectToCGRect:faceDetectedInRect]];
+    *outRect = faceDetectedInRect;
         
     //return [self UIImageFromCVMat:greyMat];
     return img;
@@ -106,10 +106,16 @@
 
 -(UIImage *)edgeDetectReturnEdges:(UIImage *)img {
     cv::Mat myCvMat = [self cvMatFromUIImage:img];
-    cv::Mat edges;
-    cv::Canny(myCvMat, edges, 30, 255);
     
-    return [self UIImageFromCVMat:edges];
+    cv::Mat edges;
+    //cv::blur(myCvMat, edges, cv::Size(4,4));
+    cv::cvtColor(myCvMat, myCvMat, CV_BGRA2BGR);
+    cv::pyrMeanShiftFiltering(myCvMat.clone(), myCvMat, 10, 10, 4);
+    cv::cvtColor(myCvMat, myCvMat, CV_BGR2BGRA);
+    
+    //cv::Canny(edges, edges, 40, 120, 3, true);
+    //cv::cvtColor(edges, edges, CV_BGR2BGRA);
+    return [self UIImageFromCVMat:myCvMat];
 }
 
 -(UIImage *)edgeMeanShiftDetectReturnEdges:(UIImage *)origimg {
@@ -117,12 +123,12 @@
     //cv::Mat bgr;
     //cv::cvtColor(myCvMat, bgr, CV_GRAY2BGR);
     
-    //cv::blur(bgr, bgr, cv::Size(2,2));
-    //return [self UIImageFromCVMat:bgr];
+    //cv::blur(myCvMat, myCvMat, cv::Size(4,4));
+    //return [self UIImageFromCVMat:myCvMat];
     
     cv::cvtColor(myCvMat, myCvMat, CV_BGRA2BGR);
-    cv::pyrMeanShiftFiltering(myCvMat.clone(), myCvMat, 10, 10, 3);
-    //cv::cvtColor(myCvMat, myCvMat, CV_BGR2GRAY);
+    cv::pyrMeanShiftFiltering(myCvMat.clone(), myCvMat, 10, 10, 4);
+    cv::cvtColor(myCvMat, myCvMat, CV_BGR2BGRA);
     return [self UIImageFromCVMat:myCvMat];
     
 //    cv::cvtColor(bgr, bgr, CV_BGR2GRAY);
