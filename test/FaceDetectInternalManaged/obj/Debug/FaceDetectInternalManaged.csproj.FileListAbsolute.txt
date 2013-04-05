@@ -1,0 +1,4 @@
+C:\Users\dev13\drew-face\test\FaceDetectInternalManaged\bin\Debug\FaceDetectInternalManaged.dll
+C:\Users\dev13\drew-face\test\FaceDetectInternalManaged\bin\Debug\FaceDetectInternalManaged.pdb
+C:\Users\dev13\drew-face\test\FaceDetectInternalManaged\obj\Debug\FaceDetectInternalManaged.dll
+C:\Users\dev13\drew-face\test\FaceDetectInternalManaged\obj\Debug\FaceDetectInternalManaged.pdb

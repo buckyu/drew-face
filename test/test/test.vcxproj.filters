@@ -91,16 +91,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\..\..\..\Downloads\jpeg-9\Release\jpeg.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
-  </ItemGroup>
-  <ItemGroup>
     <Xml Include="..\..\..\..\..\Downloads\haarcascade_frontalface_default.xml">
       <Filter>Resource Files</Filter>
     </Xml>
     <Xml Include="..\..\..\..\..\Downloads\haarcascade_mcs_mouth.xml">
       <Filter>Resource Files</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\jpeg-9\Release\jpeg.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
   </ItemGroup>
 </Project>
