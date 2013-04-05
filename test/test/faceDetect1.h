@@ -6,7 +6,8 @@
 //__declspec(dllexport) typedef struct FileInfo
 typedef struct FileInfo {
 	const char *originalFileNamePath;
-	std::vector<NotCGPoint> points;
+	NotCGPoint *points;
+	int numPoints;
 	float facedetectScaleFactor;
 	float facedetectX;
 	float facedetectY;
@@ -19,5 +20,6 @@ typedef struct FileInfo {
 } FileInfo;
 
 FileInfo *extractGeometry(const char *fileNamePath);
+char *getAndPrintCurrentWorkingDirectory();
 
 #endif

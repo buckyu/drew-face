@@ -13,7 +13,7 @@ namespace ConsoleApplication2
         {
             Console.WriteLine("About to detect.");
             FaceDetect.GeometryType geometryType = new FaceDetect.GeometryType();
-            geometryType.fileName = "test.jpg";
+            geometryType.fileName = "C:\\test.jpg";
             FaceDetect.FaceDetector.detectFaces(geometryType);
 
             Console.WriteLine("List value is {0}", geometryType.teethArea);
