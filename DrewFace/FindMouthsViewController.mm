@@ -10,6 +10,7 @@
 
 #import "FindMouthsViewController.h"
 #import "DrewFaceDetect.h"
+#include "FaceDetectRenamed.h"
 
 @interface FindMouthsViewController () {
     NSFileManager *manager;
@@ -96,7 +97,10 @@
         NSString *thumbPath = [originalThumbsDir stringByAppendingPathComponent:fileName];
         thumbPath = [[thumbPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
         [dataToWrite writeToFile:thumbPath atomically:YES];
-        fileInfo = objcDictOfStruct(extractGeometry([fileNamePath cStringUsingEncoding:NSMacOSRomanStringEncoding]));
+        NSString *haar_cascade_path = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default" ofType:@"xml"];
+        
+        //who the hell uses MacOSRomanEncoding?  Not I, said the cat.
+        fileInfo = objcDictOfStruct(extractGeometry([fileNamePath cStringUsingEncoding:NSUTF8StringEncoding],[haar_cascade_path cStringUsingEncoding:NSUTF8StringEncoding]));
         if (!fileInfo) continue;
         fileInfo = [fileInfo mutableCopy];
         fileInfo[@"thumbScaleFactor"] = @(thumbScaleFactor);

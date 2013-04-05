@@ -50,19 +50,7 @@ extern NSString *modelMouthDir;
 #import "FindMouthsViewController.h"
 #endif
 
-typedef struct FileInfo {
-    const char *originalFileNamePath;
-    std::vector<NotCGPoint> *points;
-    float facedetectScaleFactor;
-    float facedetectX;
-    float facedetectY;
-    float facedetectW;
-    float facedetectH;
-    float mouthdetectX;
-    float mouthdetectY;
-    float mouthdetectW;
-    float mouthdetectH;
-} FileInfo;
+
 
 @interface DrewFaceDetect : NSObject
 
@@ -72,6 +60,5 @@ typedef struct FileInfo {
 
 void setupStructures();
 
-FileInfo *extractGeometry(const char *fileNamePath);
 //WARNING: This will free the struct that is passed in!
 NSMutableDictionary *objcDictOfStruct(FileInfo *dict);

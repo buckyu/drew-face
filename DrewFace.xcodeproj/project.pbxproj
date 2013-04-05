@@ -67,6 +67,8 @@
 		3A76720D170F71730004D6CE /* Makefile-files in Resources */ = {isa = PBXBuildFile; fileRef = 3A7671E8170F71730004D6CE /* Makefile-files */; };
 		3A76720E170F71730004D6CE /* mnote-pentax-entry.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A7671E9170F71730004D6CE /* mnote-pentax-entry.c */; };
 		3A76720F170F71730004D6CE /* mnote-pentax-tag.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A7671EB170F71730004D6CE /* mnote-pentax-tag.c */; };
+		3A767219170F72780004D6CE /* FaceDetectRenamed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A767217170F72780004D6CE /* FaceDetectRenamed.cpp */; };
+		3A76721C170F73650004D6CE /* openCVNative.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A76721A170F73640004D6CE /* openCVNative.cpp */; };
 		3AF0B626170AF37F0085531C /* DrewFaceDetectPart2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0B624170AF37F0085531C /* DrewFaceDetectPart2.cpp */; };
 		3AF0B629170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0B628170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.mm */; };
 		BEDEDA47170A355E008CCA47 /* jpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BEDEDA46170A355E008CCA47 /* jpeg.a */; };
@@ -178,6 +180,11 @@
 		3A7671EB170F71730004D6CE /* mnote-pentax-tag.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "mnote-pentax-tag.c"; sourceTree = "<group>"; };
 		3A7671EC170F71730004D6CE /* mnote-pentax-tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "mnote-pentax-tag.h"; sourceTree = "<group>"; };
 		3A7671ED170F71730004D6CE /* pentax.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = pentax.xcodeproj; sourceTree = "<group>"; };
+		3A767215170F71F50004D6CE /* FaceDetectExports.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceDetectExports.h; sourceTree = "<group>"; };
+		3A767217170F72780004D6CE /* FaceDetectRenamed.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FaceDetectRenamed.cpp; sourceTree = "<group>"; };
+		3A767218170F72780004D6CE /* FaceDetectRenamed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceDetectRenamed.h; sourceTree = "<group>"; };
+		3A76721A170F73640004D6CE /* openCVNative.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = openCVNative.cpp; sourceTree = "<group>"; };
+		3A76721B170F73650004D6CE /* openCVNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = openCVNative.h; sourceTree = "<group>"; };
 		3AF0B624170AF37F0085531C /* DrewFaceDetectPart2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrewFaceDetectPart2.cpp; sourceTree = "<group>"; };
 		3AF0B625170AF37F0085531C /* DrewFaceDetectPart2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrewFaceDetectPart2.h; sourceTree = "<group>"; };
 		3AF0B627170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FindMouthsViewController+CPlusPlusExtensions.h"; sourceTree = "<group>"; };
@@ -303,6 +310,11 @@
 				BEE9DE60170B5E5500DD1540 /* DrewFaceDetect.mm */,
 				3AF0B624170AF37F0085531C /* DrewFaceDetectPart2.cpp */,
 				3AF0B625170AF37F0085531C /* DrewFaceDetectPart2.h */,
+				3A767215170F71F50004D6CE /* FaceDetectExports.h */,
+				3A767217170F72780004D6CE /* FaceDetectRenamed.cpp */,
+				3A767218170F72780004D6CE /* FaceDetectRenamed.h */,
+				3A76721A170F73640004D6CE /* openCVNative.cpp */,
+				3A76721B170F73650004D6CE /* openCVNative.h */,
 			);
 			name = NeedsPort;
 			sourceTree = "<group>";
@@ -593,6 +605,8 @@
 				3A76720C170F71730004D6CE /* exif-mnote-data-pentax.c in Sources */,
 				3A76720E170F71730004D6CE /* mnote-pentax-entry.c in Sources */,
 				3A76720F170F71730004D6CE /* mnote-pentax-tag.c in Sources */,
+				3A767219170F72780004D6CE /* FaceDetectRenamed.cpp in Sources */,
+				3A76721C170F73650004D6CE /* openCVNative.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,11 +17,7 @@
 #include <iostream>
 #include <vector>
 
-typedef struct {
-    int x;
-    int y;
-} NotCGPoint;
-
+#include "FaceDetectExports.h"
 std::vector<NotCGPoint> findTeethArea(cv::Mat image);
 
 char looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToothY);
