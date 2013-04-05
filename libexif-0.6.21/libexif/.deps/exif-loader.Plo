@@ -1,0 +1,124 @@
+exif-loader.lo exif-loader.o: exif-loader.c ../config.h \
+  ../libexif/exif-loader.h ../libexif/exif-data.h \
+  ../libexif/exif-byte-order.h ../libexif/exif-data-type.h \
+  ../libexif/exif-ifd.h ../libexif/exif-log.h ../libexif/exif-mem.h \
+  ../libexif/exif-utils.h ../libexif/exif-format.h ../libexif/_stdint.h \
+  /usr/include/stdint.h \
+  /usr/lib/gcc/i686-pc-cygwin/3.4.4/include/stdarg.h \
+  ../libexif/exif-tag.h ../libexif/exif-content.h ../libexif/exif-entry.h \
+  ../libexif/exif-mnote-data.h ../libexif/i18n.h /usr/include/libintl.h \
+  /usr/include/locale.h /usr/include/_ansi.h /usr/include/newlib.h \
+  /usr/include/sys/config.h /usr/include/machine/ieeefp.h \
+  /usr/include/sys/features.h /usr/include/cygwin/config.h \
+  /usr/include/sys/types.h /usr/include/_ansi.h \
+  /usr/include/machine/_types.h /usr/include/machine/_default_types.h \
+  /usr/include/sys/_types.h /usr/include/sys/lock.h \
+  /usr/lib/gcc/i686-pc-cygwin/3.4.4/include/stddef.h \
+  /usr/include/machine/types.h /usr/include/cygwin/types.h \
+  /usr/include/endian.h /usr/include/bits/endian.h \
+  /usr/include/byteswap.h /usr/include/sys/sysmacros.h \
+  /usr/include/stdlib.h /usr/include/sys/reent.h \
+  /usr/include/machine/stdlib.h /usr/include/alloca.h \
+  /usr/include/cygwin/stdlib.h /usr/include/cygwin/wait.h \
+  /usr/include/string.h /usr/include/sys/cdefs.h \
+  /usr/include/sys/string.h /usr/include/stdio.h /usr/include/sys/stdio.h
+
+../config.h:
+
+../libexif/exif-loader.h:
+
+../libexif/exif-data.h:
+
+../libexif/exif-byte-order.h:
+
+../libexif/exif-data-type.h:
+
+../libexif/exif-ifd.h:
+
+../libexif/exif-log.h:
+
+../libexif/exif-mem.h:
+
+../libexif/exif-utils.h:
+
+../libexif/exif-format.h:
+
+../libexif/_stdint.h:
+
+/usr/include/stdint.h:
+
+/usr/lib/gcc/i686-pc-cygwin/3.4.4/include/stdarg.h:
+
+../libexif/exif-tag.h:
+
+../libexif/exif-content.h:
+
+../libexif/exif-entry.h:
+
+../libexif/exif-mnote-data.h:
+
+../libexif/i18n.h:
+
+/usr/include/libintl.h:
+
+/usr/include/locale.h:
+
+/usr/include/_ansi.h:
+
+/usr/include/newlib.h:
+
+/usr/include/sys/config.h:
+
+/usr/include/machine/ieeefp.h:
+
+/usr/include/sys/features.h:
+
+/usr/include/cygwin/config.h:
+
+/usr/include/sys/types.h:
+
+/usr/include/_ansi.h:
+
+/usr/include/machine/_types.h:
+
+/usr/include/machine/_default_types.h:
+
+/usr/include/sys/_types.h:
+
+/usr/include/sys/lock.h:
+
+/usr/lib/gcc/i686-pc-cygwin/3.4.4/include/stddef.h:
+
+/usr/include/machine/types.h:
+
+/usr/include/cygwin/types.h:
+
+/usr/include/endian.h:
+
+/usr/include/bits/endian.h:
+
+/usr/include/byteswap.h:
+
+/usr/include/sys/sysmacros.h:
+
+/usr/include/stdlib.h:
+
+/usr/include/sys/reent.h:
+
+/usr/include/machine/stdlib.h:
+
+/usr/include/alloca.h:
+
+/usr/include/cygwin/stdlib.h:
+
+/usr/include/cygwin/wait.h:
+
+/usr/include/string.h:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/sys/string.h:
+
+/usr/include/stdio.h:
+
+/usr/include/sys/stdio.h:
