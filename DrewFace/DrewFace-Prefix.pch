@@ -18,3 +18,5 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+#define GETTEXT_PACKAGE "libexif-12"

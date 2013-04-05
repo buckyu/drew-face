@@ -19,18 +19,7 @@
     UIProgressView *progress;
     UIActivityIndicatorView *activity;
 
-    NSFileManager *manager;
-    NSString *docsDir;
-    NSString *originalDir;
-    NSString *originalThumbsDir;
-    NSString *extractedMouthsDir;
-    NSString *extractedMouthsEdgesDir;
-    
-    NSString *NoFaceDir;
-    NSString *NoMouthDir;
-    
-    NSString *testDir;
-    NSString *modelMouthDir;
+
 
     NSMutableArray *fileInfos;
     CGRect faceRectInScaledOrigImage;

@@ -5,7 +5,6 @@
 //  Created by FCW Consulting LLC on 2/7/13.
 //  Copyright (c) 2013 FCW Consulting LLC. All rights reserved.
 //
-
 @protocol OpenCvClassDelegate
 -(void)setFaceRect:(CGRect)faceRect;
 @end
@@ -18,6 +17,7 @@
 
 #import <opencv2/features2d/features2d.hpp>
 #import <opencv2/nonfree/features2d.hpp>
+#import "Detect.h"
 
 
 @interface OpenCvClass : NSObject {
@@ -28,10 +28,10 @@
 
 @property (weak) id <OpenCvClassDelegate> delegate;
 
--(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(NSString *)fn;
--(CGRect)processUIImageForMouth:(UIImage *)img fromFile:(NSString *)fn;
+-(cv::Mat *)processUIImageForFace:(cv::Mat *)img fromFile:(const char*)fn outRect:(rect*) outRect;
+-(cv::Rect)processUIImageForMouth:(cv::Mat *)img fromFile:(const char*)fn;
 
--(UIImage *)edgeDetectReturnOverlay:(UIImage *)img;
+-(cv::Mat)edgeDetectReturnOverlay:(cv::Mat *)img;
 -(UIImage *)edgeDetectReturnEdges:(UIImage *)img;
 -(UIImage *)edgeMeanShiftDetectReturnEdges:(UIImage *)origimg;
 
@@ -42,9 +42,8 @@
 
 // do not know why but CGImageCreateWithImageInRect() can not be pixel mapped??
 -(UIImage *)greyTheImage:(UIImage *)origimg;
--(UIImage *)colorTheImage:(UIImage *)origimg;
--(UIImage *)BGR2BGRATheImage:(UIImage *)origimg;
--(UIImage *)BGRA2BGRTheImage:(UIImage *)origimg;
 
++ (cv::Mat)cvMatFromUIImage:(UIImage *)image;
++ (UIImage *)UIImageFromCVMat:(cv::Mat)cvMat;
 
 @end
