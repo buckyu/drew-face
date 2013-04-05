@@ -15,29 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="OpenCVClass.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Detect.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="faceDetect2.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="faceDetect1.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="OpenCVClass.h">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Detect.h">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="jconfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -95,6 +72,21 @@
     <ClInclude Include="faceDetect1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\DrewFace\FaceDetectRenamed.h">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DrewFace\openCVNative.h">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DrewFace\Detect.h">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DrewFace\DrewFaceDetectPart2.h">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DrewFace\FaceDetectExports.h">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\..\..\..\Downloads\haarcascade_frontalface_default.xml">
@@ -108,5 +100,22 @@
     <Library Include="..\..\jpeg-9\Release\jpeg.lib">
       <Filter>Resource Files</Filter>
     </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\DrewFace\FaceDetectRenamed.cpp">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DrewFace\openCVNative.cpp">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DrewFace\Detect.cpp">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DrewFace\DrewFaceDetectPart2.cpp">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

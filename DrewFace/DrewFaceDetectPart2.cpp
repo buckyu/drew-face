@@ -7,6 +7,9 @@
 //
 
 #include "DrewFaceDetectPart2.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
+#include <opencv2/imgproc/imgproc.hpp>
 
 #define GET_PIXELORIG(X,Y,Z) testimagedataOrig[((int)WIDTH * 4 * Y) + (4 * X) + Z]
 #define GET_PIXEL(X,Y,Z) testimagedata[((int)WIDTH * 4 * Y) + (4 * X) + Z]
@@ -73,8 +76,8 @@ std::vector<NotCGPoint> findTeethArea(cv::Mat image) {
     
     uint8_t *testimagedataMod1 = (uint8_t*)malloc(HEIGHT * WIDTH *4);
     uint8_t *testimagedataMod2 = (uint8_t*)malloc(HEIGHT * WIDTH *4);
-    bzero(testimagedataMod1, HEIGHT * WIDTH *4);
-    bzero(testimagedataMod2, HEIGHT * WIDTH *4);
+    memset(testimagedataMod1, 0,HEIGHT * WIDTH *4);
+    memset(testimagedataMod2, 0,HEIGHT * WIDTH *4);
     
     for(int x = 0; x < WIDTH; x++) {
         for(int y = 0; y < HEIGHT; y++) {

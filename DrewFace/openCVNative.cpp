@@ -9,6 +9,7 @@
 #include "openCVNative.h"
 #include "Detect.h"
 #include <opencv2/imgproc/imgproc_c.h>
+#include <opencv2/imgproc/imgproc.hpp>
 
 rect opencvFaceDetect(IplImage *myImage, const char*fn)  {
     // Load XML

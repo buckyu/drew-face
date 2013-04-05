@@ -8,7 +8,7 @@
 
 #ifndef DrewFace_Detect_h
 #define DrewFace_Detect_h
-#import <opencv2/highgui/highgui_c.h>
+#include <opencv2/highgui/highgui_c.h>
 
 typedef struct {
     int x;

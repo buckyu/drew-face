@@ -8,12 +8,15 @@
 
 #include "FaceDetectRenamed.h"
 #include <opencv2/imgproc/imgproc_c.h>
+#include <opencv2/imgproc/imgproc.hpp>
 #include "exif-data.h"
 #include <stdio.h>
 #include "jpeglib.h"
 #include "jerror.h"
 #include "DrewFaceDetectPart2.h"
 #include "openCVNative.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 struct jpeg {
     IplImage *data;

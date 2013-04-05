@@ -18,7 +18,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v110</PlatformToolset>
@@ -53,13 +53,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;TEST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\opencv\build\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\jpeg-9\;$(ProjectDir)\..\..\libexif-0.6.21-windows\;$(ProjectDir)\..\..\libexif-0.6.21-windows\libexif;$(ProjectDir)\..\..\opencv\build\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\opencv\build\x86\vc10\lib;$(ProjectDir)\..\..\jpeg-9\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_core243d.lib;opencv_imgproc243d.lib;opencv_highgui243d.lib;opencv_ml243d.lib;opencv_video243d.lib;opencv_features2d243d.lib;opencv_calib3d243d.lib;opencv_objdetect243d.lib;opencv_contrib243d.lib;opencv_legacy243d.lib;opencv_flann243d.lib;opencv_nonfree243d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\libexif-0.6.21-windows\libexif\.libs;$(ProjectDir)\..\..\opencv\build\x86\vc10\lib;$(ProjectDir)\..\..\jpeg-9\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libexif.dll.a;opencv_core243d.lib;opencv_imgproc243d.lib;opencv_highgui243d.lib;opencv_ml243d.lib;opencv_video243d.lib;opencv_features2d243d.lib;opencv_calib3d243d.lib;opencv_objdetect243d.lib;opencv_contrib243d.lib;opencv_legacy243d.lib;opencv_flann243d.lib;opencv_nonfree243d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>main</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
@@ -81,14 +81,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Detect.cpp" />
-    <ClCompile Include="faceDetect1.cpp" />
-    <ClCompile Include="faceDetect2.cpp" />
-    <ClCompile Include="OpenCVClass.cpp" />
-    <ClCompile Include="Source.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Detect.h" />
+    <ClInclude Include="..\..\DrewFace\Detect.h" />
+    <ClInclude Include="..\..\DrewFace\DrewFaceDetectPart2.h" />
+    <ClInclude Include="..\..\DrewFace\FaceDetectExports.h" />
+    <ClInclude Include="..\..\DrewFace\FaceDetectRenamed.h" />
+    <ClInclude Include="..\..\DrewFace\openCVNative.h" />
     <ClInclude Include="exif-byte-order.h" />
     <ClInclude Include="exif-content.h" />
     <ClInclude Include="exif-data-type.h" />
@@ -107,7 +104,6 @@
     <ClInclude Include="jerror.h" />
     <ClInclude Include="jmorecfg.h" />
     <ClInclude Include="jpeglib.h" />
-    <ClInclude Include="OpenCVClass.h" />
     <ClInclude Include="_stdint.h" />
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +112,13 @@
   <ItemGroup>
     <Xml Include="..\..\..\..\..\Downloads\haarcascade_frontalface_default.xml" />
     <Xml Include="..\..\..\..\..\Downloads\haarcascade_mcs_mouth.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\DrewFace\Detect.cpp" />
+    <ClCompile Include="..\..\DrewFace\DrewFaceDetectPart2.cpp" />
+    <ClCompile Include="..\..\DrewFace\FaceDetectRenamed.cpp" />
+    <ClCompile Include="..\..\DrewFace\openCVNative.cpp" />
+    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

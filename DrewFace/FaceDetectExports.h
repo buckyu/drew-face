@@ -8,6 +8,7 @@
 
 #ifndef __DrewFace__FaceDetectExports__
 #define __DrewFace__FaceDetectExports__
+#include <vector>
 
 #include <iostream>
 typedef struct {

@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include "Detect.h"
+#include <opencv2/objdetect/objdetect.hpp>
 
 
 
