@@ -17,31 +17,12 @@
 // do not know why but CGImageCreateWithImageInRect() can not be pixel mapped?? 
 -(UIImage *)greyTheImage:(UIImage *)origimg {
     cv::Mat greyMat = [self cvGreyMatFromUIImage:origimg];
-    return [self UIImageFromCVMat:greyMat];
+    return [OpenCvClass UIImageFromCVMat:greyMat];
 }
 
--(UIImage *)colorTheImage:(UIImage *)origimg {
-    cv::Mat myMat = [self cvMatFromUIImage:origimg];
-    return [self UIImageFromCVMat:myMat];
-}
-
--(UIImage *)BGR2BGRATheImage:(UIImage *)origimg {
-    cv::Mat myMat = [self cvMatFromUIImage:origimg];
-    cv::cvtColor(myMat, myMat, CV_BGR2BGRA);
-    return [self UIImageFromCVMat:myMat];
-}
-
--(UIImage *)BGRA2BGRTheImage:(UIImage *)origimg {
-    cv::Mat myMat = [self cvMatFromUIImage:origimg];
-    cv::cvtColor(myMat, myMat, CV_BGRA2BGR);
-    return [self UIImageFromCVMat:myMat];
-}
-
-
-
--(UIImage *)processUIImageForFace:(UIImage *)img fromFile:(NSString *)fn outRect:(rect*) outRect {
+-(cv::Mat *)processUIImageForFace:(cv::Mat *)img fromFile:(const char*)fn outRect:(rect*) outRect {
     
-    cv::Mat myCvMat = [self cvMatFromUIImage:img];
+    cv::Mat myCvMat = *img;
     cv::Mat greyMat;
     cv::cvtColor(myCvMat, greyMat, CV_BGR2GRAY);
     
@@ -49,39 +30,39 @@
     IplImage myImage = myCvMat;
     rect faceDetectedInRect = [self opencvFaceDetect:&myImage fromFile:fn];
     *outRect = faceDetectedInRect;
-        
+    
     //return [self UIImageFromCVMat:greyMat];
     return img;
 }
 
 
--(CGRect)processUIImageForMouth:(UIImage *)colorimg fromFile:(NSString *)fn {
+-(cv::Rect)processUIImageForMouth:(cv::Mat *)colorimg fromFile:(const char*)fn {
     
-    cv::Mat myCvMat = [self cvMatFromUIImage:colorimg];
+    cv::Mat myCvMat = *colorimg;
     
     // mouth detection
     IplImage myImage = myCvMat;
     rect mouthDetectedInRect = [self opencvMouthDetect:&myImage fromFile:fn];
     
-    return [self rectToCGRect:mouthDetectedInRect];
+    return cvRect(mouthDetectedInRect.x, mouthDetectedInRect.y, mouthDetectedInRect.width, mouthDetectedInRect.height);
 }
 
 
 
-- (rect) opencvFaceDetect:(IplImage *)myImage fromFile:(NSString *)fn  {
+- (rect) opencvFaceDetect:(IplImage *)myImage fromFile:(const char*)fn  {
     // Load XML
     NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default" ofType:@"xml"];
     rect myRect;
-    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect, "Face", [fn UTF8String]);
+    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect, "Face", fn);
     return myRect;
 }
 
 
-- (rect) opencvMouthDetect:(IplImage *)myImage fromFile:(NSString *)fn  {
+- (rect) opencvMouthDetect:(IplImage *)myImage fromFile:(const char*)fn  {
     // Load XML
     NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_mcs_mouth" ofType:@"xml"];
     rect myRect;
-    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect, "Mouth", [fn UTF8String]);
+    Detect(myImage, [path cStringUsingEncoding:NSUTF8StringEncoding], &myRect, "Mouth", fn);
     return myRect;
 }
 
@@ -93,19 +74,19 @@
 
 
 
--(UIImage *)edgeDetectReturnOverlay:(UIImage *)img {
-    cv::Mat myCvMat = [self cvMatFromUIImage:img];
+-(cv::Mat)edgeDetectReturnOverlay:(cv::Mat *)img {
+    cv::Mat myCvMat = *img;
     cv::Mat edges;
     cv::cvtColor(myCvMat, edges, CV_BGR2GRAY);
     cv::Canny(edges, edges, 30, 255);
     cv::cvtColor(edges, edges, CV_GRAY2BGRA);
     myCvMat = myCvMat - edges;
     
-    return [self UIImageFromCVMat:myCvMat];
+    return myCvMat;
 }
 
 -(UIImage *)edgeDetectReturnEdges:(UIImage *)img {
-    cv::Mat myCvMat = [self cvMatFromUIImage:img];
+    cv::Mat myCvMat = [OpenCvClass cvMatFromUIImage:img];
     
     cv::Mat edges;
     //cv::blur(myCvMat, edges, cv::Size(4,4));
@@ -115,11 +96,11 @@
     
     //cv::Canny(edges, edges, 40, 120, 3, true);
     //cv::cvtColor(edges, edges, CV_BGR2BGRA);
-    return [self UIImageFromCVMat:myCvMat];
+    return [OpenCvClass UIImageFromCVMat:myCvMat];
 }
 
 -(UIImage *)edgeMeanShiftDetectReturnEdges:(UIImage *)origimg {
-    cv::Mat myCvMat = [self cvMatFromUIImage:origimg];
+    cv::Mat myCvMat = [OpenCvClass cvMatFromUIImage:origimg];
     //cv::Mat bgr;
     //cv::cvtColor(myCvMat, bgr, CV_GRAY2BGR);
     
@@ -129,7 +110,7 @@
     cv::cvtColor(myCvMat, myCvMat, CV_BGRA2BGR);
     cv::pyrMeanShiftFiltering(myCvMat.clone(), myCvMat, 10, 10, 4);
     cv::cvtColor(myCvMat, myCvMat, CV_BGR2BGRA);
-    return [self UIImageFromCVMat:myCvMat];
+    return [OpenCvClass UIImageFromCVMat:myCvMat];
     
 //    cv::cvtColor(bgr, bgr, CV_BGR2GRAY);
 //    cv::Mat edges;
@@ -185,7 +166,7 @@
 }
 
 
-- (cv::Mat)cvMatFromUIImage:(UIImage *)image
++ (cv::Mat)cvMatFromUIImage:(UIImage *)image
 {
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(image.CGImage);
     CGFloat cols = image.size.width;
@@ -201,7 +182,8 @@
                                                     colorSpace,                 // Colorspace
                                                     kCGImageAlphaNoneSkipLast |
                                                     kCGBitmapByteOrderDefault); // Bitmap info flags
-    
+    //printf("%x: %x",CGImageGetColorSpace(image.CGImage),colorSpace);
+
     CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), image.CGImage);
     CGContextRelease(contextRef);
     
@@ -209,7 +191,7 @@
 }
 
 
--(UIImage *)UIImageFromCVMat:(cv::Mat)cvMat
++(UIImage *)UIImageFromCVMat:(cv::Mat)cvMat
 {
     NSData *data = [NSData dataWithBytes:cvMat.data length:cvMat.elemSize()*cvMat.total()];
     CGColorSpaceRef colorSpace;
@@ -238,6 +220,8 @@
                                         false,                                      //should interpolate
                                         kCGRenderingIntentDefault                   //intent
                                         );
+
+    if (imageRef) NSLog(@"created image successfully");
     
     
     // Getting UIImage from CGImage
@@ -255,7 +239,7 @@
 
 -(BOOL)Search2DImage:(UIImage *)objectImage inside:(UIImage *)sceneImage {
     
-    cv::Mat img_object = [self cvMatFromUIImage:objectImage];
+    cv::Mat img_object = [OpenCvClass cvMatFromUIImage:objectImage];
     cv::Mat img_scene = [self cvGreyMatFromUIImage:sceneImage];
     
     cv::cvtColor(img_object, img_object, CV_BGR2GRAY);

@@ -31,8 +31,13 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+<<<<<<< HEAD
 build_triplet = i686-pc-cygwin
 host_triplet = i686-pc-cygwin
+=======
+build_triplet = x86_64-apple-darwin12.3.0
+host_triplet = x86_64-apple-darwin12.3.0
+>>>>>>> remotes/origin/cport
 check_PROGRAMS = photographer$(EXEEXT) thumbnail$(EXEEXT) \
 	write-exif$(EXEEXT)
 subdir = contrib/examples
@@ -105,12 +110,18 @@ DIST_SOURCES = photographer.c thumbnail.c write-exif.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+<<<<<<< HEAD
 ACLOCAL = ${SHELL} /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21/missing --run aclocal-1.11
 AMTAR = ${SHELL} /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21/missing --run tar
+=======
+ACLOCAL = ${SHELL} /Users/bion/projects/dca/drew-face/libexif-0.6.21/missing --run aclocal-1.11
+AMTAR = ${SHELL} /Users/bion/projects/dca/drew-face/libexif-0.6.21/missing --run tar
+>>>>>>> remotes/origin/cport
 AM_CPPFLAGS =  -DGETTEXT_PACKAGE=\"libexif-12\" -DLOCALEDIR=\"$(datadir)/locale\" -I$(top_srcdir) -I$(top_builddir) -g -Wall -Wmissing-declarations -Wmissing-prototypes
 AM_DEFAULT_VERBOSITY = 1
 AM_LDFLAGS =  -g -Wall
 AR = ar
+<<<<<<< HEAD
 AUTOCONF = ${SHELL} /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21/missing --run autoconf
 AUTOHEADER = ${SHELL} /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21/missing --run autoheader
 AUTOMAKE = ${SHELL} /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21/missing --run automake-1.11
@@ -139,6 +150,36 @@ GETTEXT_PACKAGE = libexif-12
 GMSGFMT = :
 GREP = /usr/bin/grep
 HAVE_DOT = NO
+=======
+AUTOCONF = ${SHELL} /Users/bion/projects/dca/drew-face/libexif-0.6.21/missing --run autoconf
+AUTOHEADER = ${SHELL} /Users/bion/projects/dca/drew-face/libexif-0.6.21/missing --run autoheader
+AUTOMAKE = ${SHELL} /Users/bion/projects/dca/drew-face/libexif-0.6.21/missing --run automake-1.11
+AWK = awk
+CC = gcc
+CCDEPMODE = depmode=gcc3
+CFLAGS = -arch i386
+CPP = gcc -E
+CPPFLAGS = 
+CYGPATH_W = echo
+DEFS = -DHAVE_CONFIG_H
+DEPDIR = .deps
+DLLTOOL = false
+DOT = /usr/local/bin/dot
+DOXYGEN = /usr/local/bin/doxygen
+DOXYGEN_OUTPUT_DIR = doxygen-output
+DSYMUTIL = dsymutil
+DUMPBIN = 
+ECHO_C = \c
+ECHO_N = 
+ECHO_T = 
+EGREP = /usr/bin/grep -E
+EXEEXT = 
+FGREP = /usr/bin/grep -F
+GETTEXT_PACKAGE = libexif-12
+GMSGFMT = /usr/local/bin/msgfmt
+GREP = /usr/bin/grep
+HAVE_DOT = YES
+>>>>>>> remotes/origin/cport
 HTML_APIDOC_DIR = libexif-api.html
 HTML_APIDOC_INTERNALS_DIR = libexif-internals.html
 INSTALL = /usr/bin/install -c
@@ -146,14 +187,20 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
+<<<<<<< HEAD
 INTLLIBS = -lintl
 LD = /usr/i686-pc-cygwin/bin/ld.exe
+=======
+INTLLIBS = 
+LD = /usr/llvm-gcc-4.2/libexec/gcc/i686-apple-darwin11/4.2.1/ld
+>>>>>>> remotes/origin/cport
 LDFLAGS = 
 LIBEXIF_AGE = 3
 LIBEXIF_CURRENT = 15
 LIBEXIF_CURRENT_MIN = 12
 LIBEXIF_REVISION = 3
 LIBEXIF_VERSION_INFO = 15:3:3
+<<<<<<< HEAD
 LIBICONV = 
 LIBINTL = -lintl
 LIBOBJS = 
@@ -177,6 +224,31 @@ OBJDUMP = objdump
 OBJEXT = o
 OTOOL = 
 OTOOL64 = 
+=======
+LIBICONV = -liconv
+LIBINTL = 
+LIBOBJS = 
+LIBS =  -lm
+LIBTOOL = $(SHELL) $(top_builddir)/libtool
+LIPO = lipo
+LN_S = ln -s
+LTLIBICONV = -liconv
+LTLIBINTL = 
+LTLIBOBJS = 
+MAINT = #
+MAKEINFO = ${SHELL} /Users/bion/projects/dca/drew-face/libexif-0.6.21/missing --run makeinfo
+MANIFEST_TOOL = :
+MKDIR_P = ../.././install-sh -c -d
+MKINSTALLDIRS = $(top_builddir)/./mkinstalldirs
+MSGFMT = /usr/local/bin/msgfmt
+MSGMERGE = /usr/local/bin/msgmerge
+NM = /usr/bin/nm
+NMEDIT = nmedit
+OBJDUMP = false
+OBJEXT = o
+OTOOL = otool
+OTOOL64 = :
+>>>>>>> remotes/origin/cport
 PACKAGE = libexif
 PACKAGE_BUGREPORT = libexif-devel@lists.sourceforge.net
 PACKAGE_NAME = EXIF library
@@ -185,12 +257,17 @@ PACKAGE_TARNAME = libexif
 PACKAGE_URL = 
 PACKAGE_VERSION = 0.6.21
 PATH_SEPARATOR = :
+<<<<<<< HEAD
 POSUB = po
+=======
+POSUB = 
+>>>>>>> remotes/origin/cport
 RANLIB = ranlib
 SED = /usr/bin/sed
 SET_MAKE = 
 SHELL = /bin/sh
 STRIP = strip
+<<<<<<< HEAD
 USE_NLS = yes
 VERSION = 0.6.21
 XGETTEXT = :
@@ -198,6 +275,15 @@ abs_builddir = /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21/contrib/examples
 abs_srcdir = /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21/contrib/examples
 abs_top_builddir = /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21
 abs_top_srcdir = /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21
+=======
+USE_NLS = no
+VERSION = 0.6.21
+XGETTEXT = /usr/local/bin/xgettext
+abs_builddir = /Users/bion/projects/dca/drew-face/libexif-0.6.21/contrib/examples
+abs_srcdir = /Users/bion/projects/dca/drew-face/libexif-0.6.21/contrib/examples
+abs_top_builddir = /Users/bion/projects/dca/drew-face/libexif-0.6.21
+abs_top_srcdir = /Users/bion/projects/dca/drew-face/libexif-0.6.21
+>>>>>>> remotes/origin/cport
 ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_DUMPBIN = 
@@ -207,17 +293,26 @@ am__quote =
 am__tar = ${AMTAR} chof - "$$tardir"
 am__untar = ${AMTAR} xf -
 bindir = ${exec_prefix}/bin
+<<<<<<< HEAD
 build = i686-pc-cygwin
 build_alias = 
 build_cpu = i686
 build_os = cygwin
 build_vendor = pc
+=======
+build = x86_64-apple-darwin12.3.0
+build_alias = 
+build_cpu = x86_64
+build_os = darwin12.3.0
+build_vendor = apple
+>>>>>>> remotes/origin/cport
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
 docdir = ${prefix}/share/doc/libexif
 dvidir = ${docdir}
 exec_prefix = ${prefix}
+<<<<<<< HEAD
 host = i686-pc-cygwin
 host_alias = 
 host_cpu = i686
@@ -227,12 +322,27 @@ htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
 install_sh = ${SHELL} /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21/install-sh
+=======
+host = x86_64-apple-darwin12.3.0
+host_alias = 
+host_cpu = x86_64
+host_os = darwin12.3.0
+host_vendor = apple
+htmldir = ${docdir}
+includedir = ${prefix}/include
+infodir = ${datarootdir}/info
+install_sh = ${SHELL} /Users/bion/projects/dca/drew-face/libexif-0.6.21/install-sh
+>>>>>>> remotes/origin/cport
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = $(datadir)/locale
 localstatedir = ${prefix}/var
 mandir = ${datarootdir}/man
+<<<<<<< HEAD
 mkdir_p = /usr/bin/mkdir -p
+=======
+mkdir_p = $(top_builddir)/./install-sh -c -d
+>>>>>>> remotes/origin/cport
 oldincludedir = /usr/include
 pdfdir = ${docdir}
 prefix = /usr/local

@@ -3,20 +3,35 @@
 
 /* Define to 1 if translation of program messages to the user's native
    language is requested. */
+<<<<<<< HEAD
 #define ENABLE_NLS 1
 
 /* Define if the GNU dcgettext() function is already present or preinstalled.
    */
 #define HAVE_DCGETTEXT 1
+=======
+/* #undef ENABLE_NLS */
+
+/* Define if the GNU dcgettext() function is already present or preinstalled.
+   */
+/* #undef HAVE_DCGETTEXT */
+>>>>>>> remotes/origin/cport
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
 
 /* Define if the GNU gettext() function is already present or preinstalled. */
+<<<<<<< HEAD
 #define HAVE_GETTEXT 1
 
 /* Define if you have the iconv() function. */
 /* #undef HAVE_ICONV */
+=======
+/* #undef HAVE_GETTEXT */
+
+/* Define if you have the iconv() function. */
+#define HAVE_ICONV 1
+>>>>>>> remotes/origin/cport
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
@@ -49,7 +64,11 @@
 #define HAVE_UNISTD_H 1
 
 /* Define as const if the declaration of iconv() needs const. */
+<<<<<<< HEAD
 /* #undef ICONV_CONST */
+=======
+#define ICONV_CONST 
+>>>>>>> remotes/origin/cport
 
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */

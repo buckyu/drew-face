@@ -1,0 +1,146 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		BEE9DE98170B6F3400DD1540 /* Makefile-files */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Makefile-files"; sourceTree = "<group>"; };
+		BEE9DE99170B6F3400DD1540 /* exif-mnote-data-pentax.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "exif-mnote-data-pentax.c"; sourceTree = "<group>"; };
+		BEE9DE9A170B6F3400DD1540 /* exif-mnote-data-pentax.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-mnote-data-pentax.h"; sourceTree = "<group>"; };
+		BEE9DE9B170B6F3400DD1540 /* mnote-pentax-entry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "mnote-pentax-entry.c"; sourceTree = "<group>"; };
+		BEE9DE9C170B6F3400DD1540 /* mnote-pentax-entry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mnote-pentax-entry.h"; sourceTree = "<group>"; };
+		BEE9DE9D170B6F3400DD1540 /* mnote-pentax-tag.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "mnote-pentax-tag.c"; sourceTree = "<group>"; };
+		BEE9DE9E170B6F3400DD1540 /* mnote-pentax-tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mnote-pentax-tag.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		BEE9DE92170B6F3400DD1540 = {
+			isa = PBXGroup;
+			children = (
+				BEE9DE98170B6F3400DD1540 /* Makefile-files */,
+				BEE9DE99170B6F3400DD1540 /* exif-mnote-data-pentax.c */,
+				BEE9DE9A170B6F3400DD1540 /* exif-mnote-data-pentax.h */,
+				BEE9DE9B170B6F3400DD1540 /* mnote-pentax-entry.c */,
+				BEE9DE9C170B6F3400DD1540 /* mnote-pentax-entry.h */,
+				BEE9DE9D170B6F3400DD1540 /* mnote-pentax-tag.c */,
+				BEE9DE9E170B6F3400DD1540 /* mnote-pentax-tag.h */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		BEE9DE97170B6F3400DD1540 /* pentax */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = BEE9DE9F170B6F3400DD1540 /* Build configuration list for PBXLegacyTarget "pentax" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/bion/projects/dca/drew-face/libexif-0.6.21/libexif/pentax";
+			dependencies = (
+			);
+			name = pentax;
+			passBuildSettingsInEnvironment = 1;
+			productName = pentax;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		BEE9DE93170B6F3400DD1540 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = BEE9DE96170B6F3400DD1540 /* Build configuration list for PBXProject "pentax" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BEE9DE92170B6F3400DD1540;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BEE9DE97170B6F3400DD1540 /* pentax */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		BEE9DE94170B6F3400DD1540 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		BEE9DE95170B6F3400DD1540 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		BEE9DEA0170B6F3400DD1540 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = pentax;
+			};
+			name = Debug;
+		};
+		BEE9DEA1170B6F3400DD1540 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = pentax;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BEE9DE96170B6F3400DD1540 /* Build configuration list for PBXProject "pentax" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEE9DE94170B6F3400DD1540 /* Debug */,
+				BEE9DE95170B6F3400DD1540 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BEE9DE9F170B6F3400DD1540 /* Build configuration list for PBXLegacyTarget "pentax" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEE9DEA0170B6F3400DD1540 /* Debug */,
+				BEE9DEA1170B6F3400DD1540 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BEE9DE93170B6F3400DD1540 /* Project object */;
+}

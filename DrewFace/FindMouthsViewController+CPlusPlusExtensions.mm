@@ -44,7 +44,7 @@
     memcpy(testimagedata, testimagedataOrig, mouthImage.size.height * mouthImage.size.width * 4);
     CFRelease(pixelData);*/
 
-    cv::Mat mouthImageMatrix = [ocv cvMatFromUIImage:mouthImage];
+    cv::Mat mouthImageMatrix = [OpenCvClass cvMatFromUIImage:mouthImage];
     
     std::vector<NotCGPoint> solution = findTeethArea(mouthImageMatrix);
     assert(solution.size()!=0);

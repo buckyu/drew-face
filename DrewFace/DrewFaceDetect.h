@@ -33,6 +33,7 @@ Brief overview of the function: it accepts a filename, returns a dictionary of c
 
 
 #import <Foundation/Foundation.h>
+#include "DrewFaceDetectPart2.h"
 
 #if DONT_PORT
 extern NSString *docsDir;
@@ -49,12 +50,28 @@ extern NSString *modelMouthDir;
 #import "FindMouthsViewController.h"
 #endif
 
+typedef struct FileInfo {
+    const char *originalFileNamePath;
+    std::vector<NotCGPoint> *points;
+    float facedetectScaleFactor;
+    float facedetectX;
+    float facedetectY;
+    float facedetectW;
+    float facedetectH;
+    float mouthdetectX;
+    float mouthdetectY;
+    float mouthdetectW;
+    float mouthdetectH;
+} FileInfo;
+
 @interface DrewFaceDetect : NSObject
 
-
-
-
-+ (NSMutableDictionary *)extractGeometry:(NSString *)fileNamePath;
 + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
-+(void) setupStructures;
+
 @end
+
+void setupStructures();
+
+FileInfo *extractGeometry(const char *fileNamePath);
+//WARNING: This will free the struct that is passed in!
+NSMutableDictionary *objcDictOfStruct(FileInfo *dict);

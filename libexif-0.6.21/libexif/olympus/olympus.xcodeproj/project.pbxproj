@@ -1,0 +1,146 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		BEE9DE88170B6F3400DD1540 /* Makefile-files */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Makefile-files"; sourceTree = "<group>"; };
+		BEE9DE89170B6F3400DD1540 /* exif-mnote-data-olympus.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "exif-mnote-data-olympus.c"; sourceTree = "<group>"; };
+		BEE9DE8A170B6F3400DD1540 /* exif-mnote-data-olympus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-mnote-data-olympus.h"; sourceTree = "<group>"; };
+		BEE9DE8B170B6F3400DD1540 /* mnote-olympus-entry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "mnote-olympus-entry.c"; sourceTree = "<group>"; };
+		BEE9DE8C170B6F3400DD1540 /* mnote-olympus-entry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mnote-olympus-entry.h"; sourceTree = "<group>"; };
+		BEE9DE8D170B6F3400DD1540 /* mnote-olympus-tag.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "mnote-olympus-tag.c"; sourceTree = "<group>"; };
+		BEE9DE8E170B6F3400DD1540 /* mnote-olympus-tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mnote-olympus-tag.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		BEE9DE82170B6F3400DD1540 = {
+			isa = PBXGroup;
+			children = (
+				BEE9DE88170B6F3400DD1540 /* Makefile-files */,
+				BEE9DE89170B6F3400DD1540 /* exif-mnote-data-olympus.c */,
+				BEE9DE8A170B6F3400DD1540 /* exif-mnote-data-olympus.h */,
+				BEE9DE8B170B6F3400DD1540 /* mnote-olympus-entry.c */,
+				BEE9DE8C170B6F3400DD1540 /* mnote-olympus-entry.h */,
+				BEE9DE8D170B6F3400DD1540 /* mnote-olympus-tag.c */,
+				BEE9DE8E170B6F3400DD1540 /* mnote-olympus-tag.h */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		BEE9DE87170B6F3400DD1540 /* olympus */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = BEE9DE8F170B6F3400DD1540 /* Build configuration list for PBXLegacyTarget "olympus" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/bion/projects/dca/drew-face/libexif-0.6.21/libexif/olympus";
+			dependencies = (
+			);
+			name = olympus;
+			passBuildSettingsInEnvironment = 1;
+			productName = olympus;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		BEE9DE83170B6F3400DD1540 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = BEE9DE86170B6F3400DD1540 /* Build configuration list for PBXProject "olympus" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BEE9DE82170B6F3400DD1540;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BEE9DE87170B6F3400DD1540 /* olympus */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		BEE9DE84170B6F3400DD1540 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		BEE9DE85170B6F3400DD1540 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		BEE9DE90170B6F3400DD1540 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = olympus;
+			};
+			name = Debug;
+		};
+		BEE9DE91170B6F3400DD1540 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = olympus;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BEE9DE86170B6F3400DD1540 /* Build configuration list for PBXProject "olympus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEE9DE84170B6F3400DD1540 /* Debug */,
+				BEE9DE85170B6F3400DD1540 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BEE9DE8F170B6F3400DD1540 /* Build configuration list for PBXLegacyTarget "olympus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEE9DE90170B6F3400DD1540 /* Debug */,
+				BEE9DE91170B6F3400DD1540 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BEE9DE83170B6F3400DD1540 /* Project object */;
+}

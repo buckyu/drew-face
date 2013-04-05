@@ -31,11 +31,19 @@ INSTALL_DATA = ${INSTALL} -m 644
 MKINSTALLDIRS = $(top_builddir)/./mkinstalldirs
 mkinstalldirs = $(SHELL) $(MKINSTALLDIRS)
 
+<<<<<<< HEAD
 GMSGFMT = :
 MSGFMT = :
 XGETTEXT = :
 MSGMERGE = msgmerge
 MSGMERGE_UPDATE = : --update
+=======
+GMSGFMT = /usr/local/bin/msgfmt
+MSGFMT = /usr/local/bin/msgfmt
+XGETTEXT = /usr/local/bin/xgettext
+MSGMERGE = msgmerge
+MSGMERGE_UPDATE = /usr/local/bin/msgmerge --update
+>>>>>>> remotes/origin/cport
 MSGINIT = msginit
 MSGCONV = msgconv
 MSGFILTER = msgfilter
@@ -132,7 +140,11 @@ EXTRA_LOCALE_CATEGORIES =
 	mv t-$@ $@
 
 
+<<<<<<< HEAD
 all: all-yes
+=======
+all: all-no
+>>>>>>> remotes/origin/cport
 
 all-yes: stamp-po
 all-no:
@@ -199,7 +211,11 @@ $(POFILES): $(srcdir)/$(DOMAIN).pot
 
 install: install-exec install-data
 install-exec:
+<<<<<<< HEAD
 install-data: install-data-yes
+=======
+install-data: install-data-no
+>>>>>>> remotes/origin/cport
 	if test "$(PACKAGE)" = "gettext-tools"; then \
 	  $(mkinstalldirs) $(DESTDIR)$(gettextsrcdir); \
 	  for file in $(DISTFILES.common) Makevars.template; do \
@@ -258,7 +274,11 @@ install-strip: install
 
 installdirs: installdirs-exec installdirs-data
 installdirs-exec:
+<<<<<<< HEAD
 installdirs-data: installdirs-data-yes
+=======
+installdirs-data: installdirs-data-no
+>>>>>>> remotes/origin/cport
 	if test "$(PACKAGE)" = "gettext-tools"; then \
 	  $(mkinstalldirs) $(DESTDIR)$(gettextsrcdir); \
 	else \
@@ -303,7 +323,11 @@ installcheck:
 
 uninstall: uninstall-exec uninstall-data
 uninstall-exec:
+<<<<<<< HEAD
 uninstall-data: uninstall-data-yes
+=======
+uninstall-data: uninstall-data-no
+>>>>>>> remotes/origin/cport
 	if test "$(PACKAGE)" = "gettext-tools"; then \
 	  for file in $(DISTFILES.common) Makevars.template; do \
 	    rm -f $(DESTDIR)$(gettextsrcdir)/$$file; \

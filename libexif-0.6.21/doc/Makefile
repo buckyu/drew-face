@@ -36,6 +36,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+<<<<<<< HEAD
 build_triplet = i686-pc-cygwin
 host_triplet = i686-pc-cygwin
 #am__append_1 = $(HTML_APIDOC_DIR).uploaded
@@ -49,6 +50,21 @@ host_triplet = i686-pc-cygwin
 #am__append_9 = install-apidocs
 #am__append_10 = uninstall-apidocs
 #am__append_11 = clean-apidocs
+=======
+build_triplet = x86_64-apple-darwin12.3.0
+host_triplet = x86_64-apple-darwin12.3.0
+am__append_1 = $(HTML_APIDOC_DIR).uploaded
+am__append_2 = $(HTML_APIDOC_DIR).stamp
+am__append_3 = $(HTML_APIDOC_DIR).tar.gz
+#am__append_4 = $(HTML_APIDOC_INTERNALS_DIR).uploaded
+#am__append_5 = $(HTML_APIDOC_INTERNALS_DIR).stamp
+#am__append_6 = $(HTML_APIDOC_INTERNALS_DIR).tar.gz
+#am__append_7 = install-apidocs-internals
+#am__append_8 = uninstall-apidocs-internals
+am__append_9 = install-apidocs
+am__append_10 = uninstall-apidocs
+am__append_11 = clean-apidocs
+>>>>>>> remotes/origin/cport
 subdir = doc
 DIST_COMMON = $(srcdir)/Doxyfile-internals.in $(srcdir)/Doxyfile.in \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -106,12 +122,18 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(docdir)"
 DATA = $(doc_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+<<<<<<< HEAD
 ACLOCAL = ${SHELL} /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21/missing --run aclocal-1.11
 AMTAR = ${SHELL} /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21/missing --run tar
+=======
+ACLOCAL = ${SHELL} /Users/bion/projects/dca/drew-face/libexif-0.6.21/missing --run aclocal-1.11
+AMTAR = ${SHELL} /Users/bion/projects/dca/drew-face/libexif-0.6.21/missing --run tar
+>>>>>>> remotes/origin/cport
 AM_CPPFLAGS =  -DGETTEXT_PACKAGE=\"libexif-12\" -DLOCALEDIR=\"$(datadir)/locale\" -I$(top_srcdir) -I$(top_builddir) -g -Wall -Wmissing-declarations -Wmissing-prototypes
 AM_DEFAULT_VERBOSITY = 1
 AM_LDFLAGS =  -g -Wall
 AR = ar
+<<<<<<< HEAD
 AUTOCONF = ${SHELL} /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21/missing --run autoconf
 AUTOHEADER = ${SHELL} /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21/missing --run autoheader
 AUTOMAKE = ${SHELL} /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21/missing --run automake-1.11
@@ -140,6 +162,36 @@ GETTEXT_PACKAGE = libexif-12
 GMSGFMT = :
 GREP = /usr/bin/grep
 HAVE_DOT = NO
+=======
+AUTOCONF = ${SHELL} /Users/bion/projects/dca/drew-face/libexif-0.6.21/missing --run autoconf
+AUTOHEADER = ${SHELL} /Users/bion/projects/dca/drew-face/libexif-0.6.21/missing --run autoheader
+AUTOMAKE = ${SHELL} /Users/bion/projects/dca/drew-face/libexif-0.6.21/missing --run automake-1.11
+AWK = awk
+CC = gcc
+CCDEPMODE = depmode=gcc3
+CFLAGS = -arch i386
+CPP = gcc -E
+CPPFLAGS = 
+CYGPATH_W = echo
+DEFS = -DHAVE_CONFIG_H
+DEPDIR = .deps
+DLLTOOL = false
+DOT = /usr/local/bin/dot
+DOXYGEN = /usr/local/bin/doxygen
+DOXYGEN_OUTPUT_DIR = doxygen-output
+DSYMUTIL = dsymutil
+DUMPBIN = 
+ECHO_C = \c
+ECHO_N = 
+ECHO_T = 
+EGREP = /usr/bin/grep -E
+EXEEXT = 
+FGREP = /usr/bin/grep -F
+GETTEXT_PACKAGE = libexif-12
+GMSGFMT = /usr/local/bin/msgfmt
+GREP = /usr/bin/grep
+HAVE_DOT = YES
+>>>>>>> remotes/origin/cport
 HTML_APIDOC_DIR = libexif-api.html
 HTML_APIDOC_INTERNALS_DIR = libexif-internals.html
 INSTALL = /usr/bin/install -c
@@ -147,14 +199,20 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
+<<<<<<< HEAD
 INTLLIBS = -lintl
 LD = /usr/i686-pc-cygwin/bin/ld.exe
+=======
+INTLLIBS = 
+LD = /usr/llvm-gcc-4.2/libexec/gcc/i686-apple-darwin11/4.2.1/ld
+>>>>>>> remotes/origin/cport
 LDFLAGS = 
 LIBEXIF_AGE = 3
 LIBEXIF_CURRENT = 15
 LIBEXIF_CURRENT_MIN = 12
 LIBEXIF_REVISION = 3
 LIBEXIF_VERSION_INFO = 15:3:3
+<<<<<<< HEAD
 LIBICONV = 
 LIBINTL = -lintl
 LIBOBJS = 
@@ -178,6 +236,31 @@ OBJDUMP = objdump
 OBJEXT = o
 OTOOL = 
 OTOOL64 = 
+=======
+LIBICONV = -liconv
+LIBINTL = 
+LIBOBJS = 
+LIBS =  -lm
+LIBTOOL = $(SHELL) $(top_builddir)/libtool
+LIPO = lipo
+LN_S = ln -s
+LTLIBICONV = -liconv
+LTLIBINTL = 
+LTLIBOBJS = 
+MAINT = #
+MAKEINFO = ${SHELL} /Users/bion/projects/dca/drew-face/libexif-0.6.21/missing --run makeinfo
+MANIFEST_TOOL = :
+MKDIR_P = .././install-sh -c -d
+MKINSTALLDIRS = $(top_builddir)/./mkinstalldirs
+MSGFMT = /usr/local/bin/msgfmt
+MSGMERGE = /usr/local/bin/msgmerge
+NM = /usr/bin/nm
+NMEDIT = nmedit
+OBJDUMP = false
+OBJEXT = o
+OTOOL = otool
+OTOOL64 = :
+>>>>>>> remotes/origin/cport
 PACKAGE = libexif
 PACKAGE_BUGREPORT = libexif-devel@lists.sourceforge.net
 PACKAGE_NAME = EXIF library
@@ -186,12 +269,17 @@ PACKAGE_TARNAME = libexif
 PACKAGE_URL = 
 PACKAGE_VERSION = 0.6.21
 PATH_SEPARATOR = :
+<<<<<<< HEAD
 POSUB = po
+=======
+POSUB = 
+>>>>>>> remotes/origin/cport
 RANLIB = ranlib
 SED = /usr/bin/sed
 SET_MAKE = 
 SHELL = /bin/sh
 STRIP = strip
+<<<<<<< HEAD
 USE_NLS = yes
 VERSION = 0.6.21
 XGETTEXT = :
@@ -199,6 +287,15 @@ abs_builddir = /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21/doc
 abs_srcdir = /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21/doc
 abs_top_builddir = /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21
 abs_top_srcdir = /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21
+=======
+USE_NLS = no
+VERSION = 0.6.21
+XGETTEXT = /usr/local/bin/xgettext
+abs_builddir = /Users/bion/projects/dca/drew-face/libexif-0.6.21/doc
+abs_srcdir = /Users/bion/projects/dca/drew-face/libexif-0.6.21/doc
+abs_top_builddir = /Users/bion/projects/dca/drew-face/libexif-0.6.21
+abs_top_srcdir = /Users/bion/projects/dca/drew-face/libexif-0.6.21
+>>>>>>> remotes/origin/cport
 ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_DUMPBIN = 
@@ -208,17 +305,26 @@ am__quote =
 am__tar = ${AMTAR} chof - "$$tardir"
 am__untar = ${AMTAR} xf -
 bindir = ${exec_prefix}/bin
+<<<<<<< HEAD
 build = i686-pc-cygwin
 build_alias = 
 build_cpu = i686
 build_os = cygwin
 build_vendor = pc
+=======
+build = x86_64-apple-darwin12.3.0
+build_alias = 
+build_cpu = x86_64
+build_os = darwin12.3.0
+build_vendor = apple
+>>>>>>> remotes/origin/cport
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
 docdir = ${prefix}/share/doc/libexif
 dvidir = ${docdir}
 exec_prefix = ${prefix}
+<<<<<<< HEAD
 host = i686-pc-cygwin
 host_alias = 
 host_cpu = i686
@@ -228,12 +334,27 @@ htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
 install_sh = ${SHELL} /cygdrive/c/Users/dev13/Downloads/libexif-0.6.21/install-sh
+=======
+host = x86_64-apple-darwin12.3.0
+host_alias = 
+host_cpu = x86_64
+host_os = darwin12.3.0
+host_vendor = apple
+htmldir = ${docdir}
+includedir = ${prefix}/include
+infodir = ${datarootdir}/info
+install_sh = ${SHELL} /Users/bion/projects/dca/drew-face/libexif-0.6.21/install-sh
+>>>>>>> remotes/origin/cport
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = $(datadir)/locale
 localstatedir = ${prefix}/var
 mandir = ${datarootdir}/man
+<<<<<<< HEAD
 mkdir_p = /usr/bin/mkdir -p
+=======
+mkdir_p = $(top_builddir)/./install-sh -c -d
+>>>>>>> remotes/origin/cport
 oldincludedir = /usr/include
 pdfdir = ${docdir}
 prefix = /usr/local
@@ -481,6 +602,7 @@ uninstall-am: uninstall-docDATA uninstall-local
 #        Depending on libexif.la works at least.
 $(top_builddir)/libexif/libexif.la:
 	cd $(top_builddir)/libexif && $(MAKE) libexif.la
+<<<<<<< HEAD
 #$(HTML_APIDOC_DIR).stamp: Doxyfile $(top_builddir)/libexif/libexif.la
 #	$(DOXYGEN) $<
 #	echo > $@
@@ -519,6 +641,46 @@ $(top_builddir)/libexif/libexif.la:
 #	rsync -avz --progress $(DOXYGEN_OUTPUT_DIR)/$(HTML_APIDOC_DIR)/ sf:/home/users/h/hu/hun/libexif/htdocs/api/
 ##	rsync -avz --progress $(DOXYGEN_OUTPUT_DIR)/$(HTML_APIDOC_INTERNALS_DIR)/ sf:/home/users/h/hu/hun/libexif/htdocs/internals/
 #	ssh "sf" "find /home/groups/l/li/libexif/htdocs/internals /home/groups/l/li/libexif/htdocs/api \( -type d -exec chgrp libexif {} \; -exec chmod g+rwxs,a+rx {} \; \) -or \( -type f -exec chgrp libexif {} \; -exec chmod g+rw {} \; \( -name '*.html' -or -name '*.png' -or -name '*.php' -or -name '*.jpg' -or -name '*.css' -name '*.dot' -name '*.map' \) -exec chmod a+r {} \; \)"
+=======
+$(HTML_APIDOC_DIR).stamp: Doxyfile $(top_builddir)/libexif/libexif.la
+	$(DOXYGEN) $<
+	echo > $@
+$(HTML_APIDOC_DIR).tar.gz: $(HTML_APIDOC_DIR).stamp
+	(cd $(DOXYGEN_OUTPUT_DIR) && $(AMTAR) chof - $(HTML_APIDOC_DIR) | GZIP=--best gzip -c) > $@
+#$(HTML_APIDOC_INTERNALS_DIR).stamp: Doxyfile-internals $(top_builddir)/libexif/libexif.la
+#	$(DOXYGEN) $<
+#	echo > $@
+#$(HTML_APIDOC_INTERNALS_DIR).tar.gz: $(HTML_APIDOC_INTERNALS_DIR).stamp
+#	(cd $(DOXYGEN_OUTPUT_DIR) && $(AMTAR) chof - $(HTML_APIDOC_INTERNALS_DIR) | GZIP=--best gzip -c) > $@
+#install-apidocs-internals: $(HTML_APIDOC_INTERNALS_DIR).stamp
+#	mkdir -p "$(DESTDIR)$(docdir)"
+#	find "$(DOXYGEN_OUTPUT_DIR)/$(HTML_APIDOC_INTERNALS_DIR)" \
+#		\( -type d -exec chmod 0755 {} \; \) -or \
+#		\( -type f -exec chmod 0644 {} \; \)
+#	(unset CDPATH; cd "$(DOXYGEN_OUTPUT_DIR)" && tar cpf - "$(HTML_APIDOC_INTERNALS_DIR)") \
+#		| (cd "$(DESTDIR)$(docdir)" && tar xpf -)
+#uninstall-apidocs-internals:
+#	rm -rf "$(DESTDIR)$(docdir)/$(HTML_APIDOC_INTERNALS_DIR)"
+install-apidocs: $(HTML_APIDOC_DIR).stamp
+	mkdir -p "$(DESTDIR)$(docdir)"
+	find "$(DOXYGEN_OUTPUT_DIR)/$(HTML_APIDOC_DIR)" \
+		\( -type d -exec chmod 0755 {} \; \) -or \
+		\( -type f -exec chmod 0644 {} \; \)
+	(unset CDPATH; cd "$(DOXYGEN_OUTPUT_DIR)" && tar cpf - "$(HTML_APIDOC_DIR)") \
+		| (cd "$(DESTDIR)$(docdir)" && tar xpf -)
+uninstall-apidocs:
+	rm -rf "$(DESTDIR)$(docdir)/$(HTML_APIDOC_DIR)"
+clean-apidocs:
+	rm -rf $(DOXYGEN_OUTPUT_DIR)
+	rm -f $(HTML_APIDOC_DIR).tar.gz $(HTML_APIDOC_INTERNALS_DIR).tar.gz
+
+$(DOXYGEN_UPLOAD): $(DOXYGEN_STAMPS)
+	find $(DOXYGEN_OUTPUT_DIR) \( -type d -exec chmod a+rx,go-w,g+s {} \; \) \
+		-or \( -type f -exec chmod a+r {} \; \)
+	rsync -avz --progress $(DOXYGEN_OUTPUT_DIR)/$(HTML_APIDOC_DIR)/ sf:/home/users/h/hu/hun/libexif/htdocs/api/
+#	rsync -avz --progress $(DOXYGEN_OUTPUT_DIR)/$(HTML_APIDOC_INTERNALS_DIR)/ sf:/home/users/h/hu/hun/libexif/htdocs/internals/
+	ssh "sf" "find /home/groups/l/li/libexif/htdocs/internals /home/groups/l/li/libexif/htdocs/api \( -type d -exec chgrp libexif {} \; -exec chmod g+rwxs,a+rx {} \; \) -or \( -type f -exec chgrp libexif {} \; -exec chmod g+rw {} \; \( -name '*.html' -or -name '*.png' -or -name '*.php' -or -name '*.jpg' -or -name '*.css' -name '*.dot' -name '*.map' \) -exec chmod a+r {} \; \)"
+>>>>>>> remotes/origin/cport
 
 all-local: $(DOXYGEN_STAMPS)
 

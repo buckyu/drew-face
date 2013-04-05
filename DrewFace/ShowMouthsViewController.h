@@ -14,7 +14,7 @@
 
 
 #import <UIKit/UIKit.h>
-#import "OpenCvClass.h"
+//#import "OpenCvClass.h"
 
 @interface ShowMouthsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
     

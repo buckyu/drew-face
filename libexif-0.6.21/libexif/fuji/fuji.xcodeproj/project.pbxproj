@@ -1,0 +1,146 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		BEE9DE78170B6F3400DD1540 /* Makefile-files */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Makefile-files"; sourceTree = "<group>"; };
+		BEE9DE79170B6F3400DD1540 /* exif-mnote-data-fuji.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "exif-mnote-data-fuji.c"; sourceTree = "<group>"; };
+		BEE9DE7A170B6F3400DD1540 /* exif-mnote-data-fuji.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "exif-mnote-data-fuji.h"; sourceTree = "<group>"; };
+		BEE9DE7B170B6F3400DD1540 /* mnote-fuji-entry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "mnote-fuji-entry.c"; sourceTree = "<group>"; };
+		BEE9DE7C170B6F3400DD1540 /* mnote-fuji-entry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mnote-fuji-entry.h"; sourceTree = "<group>"; };
+		BEE9DE7D170B6F3400DD1540 /* mnote-fuji-tag.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "mnote-fuji-tag.c"; sourceTree = "<group>"; };
+		BEE9DE7E170B6F3400DD1540 /* mnote-fuji-tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mnote-fuji-tag.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		BEE9DE72170B6F3400DD1540 = {
+			isa = PBXGroup;
+			children = (
+				BEE9DE78170B6F3400DD1540 /* Makefile-files */,
+				BEE9DE79170B6F3400DD1540 /* exif-mnote-data-fuji.c */,
+				BEE9DE7A170B6F3400DD1540 /* exif-mnote-data-fuji.h */,
+				BEE9DE7B170B6F3400DD1540 /* mnote-fuji-entry.c */,
+				BEE9DE7C170B6F3400DD1540 /* mnote-fuji-entry.h */,
+				BEE9DE7D170B6F3400DD1540 /* mnote-fuji-tag.c */,
+				BEE9DE7E170B6F3400DD1540 /* mnote-fuji-tag.h */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		BEE9DE77170B6F3400DD1540 /* fuji */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = BEE9DE7F170B6F3400DD1540 /* Build configuration list for PBXLegacyTarget "fuji" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/bion/projects/dca/drew-face/libexif-0.6.21/libexif/fuji";
+			dependencies = (
+			);
+			name = fuji;
+			passBuildSettingsInEnvironment = 1;
+			productName = fuji;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		BEE9DE73170B6F3400DD1540 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = BEE9DE76170B6F3400DD1540 /* Build configuration list for PBXProject "fuji" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BEE9DE72170B6F3400DD1540;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BEE9DE77170B6F3400DD1540 /* fuji */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		BEE9DE74170B6F3400DD1540 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		BEE9DE75170B6F3400DD1540 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		BEE9DE80170B6F3400DD1540 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = fuji;
+			};
+			name = Debug;
+		};
+		BEE9DE81170B6F3400DD1540 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = fuji;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BEE9DE76170B6F3400DD1540 /* Build configuration list for PBXProject "fuji" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEE9DE74170B6F3400DD1540 /* Debug */,
+				BEE9DE75170B6F3400DD1540 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BEE9DE7F170B6F3400DD1540 /* Build configuration list for PBXLegacyTarget "fuji" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEE9DE80170B6F3400DD1540 /* Debug */,
+				BEE9DE81170B6F3400DD1540 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BEE9DE73170B6F3400DD1540 /* Project object */;
+}
