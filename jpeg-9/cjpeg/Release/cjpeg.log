@@ -1,0 +1,29 @@
+﻿Build started 4/4/2013 1:13:46 PM.
+     1>Project "C:\Users\dev13\Downloads\jpeg-9\cjpeg.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /Ox /Oy /GT /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cjpeg\Release\\" /Fd"cjpeg\Release\vc110.pdb" /Gd /TC /wd4996 /analyze- /errorReport:prompt cdjpeg.c cjpeg.c rdbmp.c rdgif.c rdppm.c rdrle.c rdswitch.c rdtarga.c
+         cdjpeg.c
+         cjpeg.c
+         rdbmp.c
+         rdgif.c
+         rdppm.c
+         rdrle.c
+         rdswitch.c
+         rdtarga.c
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"cjpeg\Release\cjpeg.exe" /INCREMENTAL:NO /NOLOGO Release\jpeg.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"cjpeg\Release\cjpeg.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"cjpeg\Release\cjpeg.lib" /MACHINE:X86 /SAFESEH cjpeg\Release\cdjpeg.obj
+         cjpeg\Release\cjpeg.obj
+         cjpeg\Release\rdbmp.obj
+         cjpeg\Release\rdgif.obj
+         cjpeg\Release\rdppm.obj
+         cjpeg\Release\rdrle.obj
+         cjpeg\Release\rdswitch.obj
+         cjpeg\Release\rdtarga.obj
+         Generating code
+         Finished generating code
+         cjpeg.vcxproj -> C:\Users\dev13\Downloads\jpeg-9\cjpeg\Release\cjpeg.exe
+     1>Done Building Project "C:\Users\dev13\Downloads\jpeg-9\cjpeg.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.37
