@@ -1,5 +1,6 @@
 #include "faceDetect1.h"
 #include <stdio.h>
+#include <direct.h>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/objdetect/objdetect.hpp>
 #include <opencv2\imgproc\imgproc.hpp>
@@ -17,6 +18,13 @@ struct jpeg {
 	int colorComponents;
 	J_COLOR_SPACE colorSpace;
 };
+
+char *getAndPrintCurrentWorkingDirectory() {
+	char cwd[1024];
+	char *ret = getcwd(cwd, sizeof(cwd));
+	printf("processing in %s\n", ret);
+	return ret;
+}
 
 struct jpeg *loadJPEGFromFile(const char *filename) {
 	/* This struct contains the JPEG decompression parameters and pointers to
@@ -156,7 +164,9 @@ void freeJpeg(struct jpeg *jpg) {
 }
 
 FileInfo *extractGeometry(const char *fileNamePath) {
-	printf("processing image %s",fileNamePath);
+	char cwd[1024];
+	printf("processing image %s in %s\n", fileNamePath, getcwd(cwd, sizeof(cwd)));
+	getAndPrintCurrentWorkingDirectory();
 	// Find Mouths in original images here
 
 	struct jpeg *jpeg = loadJPEGFromFile(fileNamePath);
@@ -238,15 +248,22 @@ FileInfo *extractGeometry(const char *fileNamePath) {
 	}
 
 	//processedMouthImage = [ocv edgeDetectReturnEdges:mouthImage];
-	std::vector<NotCGPoint> pointList;
+	NotCGPoint *points;
+	int numPoints;
 	if ((faceRect.width > 0) && (faceRect.height > 0)) {
-		pointList = findTeethArea(mouthImage);
+		std::vector<NotCGPoint> pointList = findTeethArea(mouthImage);
+		numPoints = pointList.size();
+		points = (NotCGPoint*)calloc(numPoints, sizeof(NotCGPoint));
+		for(int i = 0; i < numPoints; i++) {
+			points[i] = pointList[i];
+		}
 	}
 	freeJpeg(jpeg);
 
 	FileInfo *ret = (FileInfo*)malloc(sizeof(FileInfo));
 	ret->originalFileNamePath = fileNamePath;
-	ret->points = pointList;
+	ret->points = points;
+	ret->numPoints = numPoints;
 	ret->facedetectScaleFactor = facedetectScaleFactor;
 	ret->facedetectX = faceRect.x;
 	ret->facedetectY = faceRect.y;

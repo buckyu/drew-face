@@ -11,14 +11,15 @@ void FaceDetect::FaceDetector::detectFaces(FaceDetect::GeometryType ^geometryTyp
 	printf("Filename = %s\n", geometryType->fileName);
 
 	char *str = (char*)(void*)Marshal::StringToHGlobalAnsi(geometryType->fileName);
+	assert(strcmp(str, "C:\\test.jpg") == 0);
 	FileInfo *info = extractGeometry(str);
-	std::vector<NotCGPoint> result = info->points;
+	NotCGPoint *result = info->points;
 	System::Collections::Generic::List<Point^> ^l = gcnew System::Collections::Generic::List<Point^>();
-	for(int i = 0; i < result.size(); i++) {
-
+	for(int i = 0; i < info->numPoints; i++) {
 		Point ^p = gcnew Point();
-		p->x = 5.0;
-		p->y = 6.0;
+		NotCGPoint point = result[i];
+		p->x = point.x;
+		p->y = point.y;
 		l->Add(p);
 	}
 	geometryType->teethArea = l;

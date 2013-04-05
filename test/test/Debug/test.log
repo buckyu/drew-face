@@ -1,39 +1,9 @@
-﻿Build started 4/5/2013 1:35:59 PM.
+﻿Build started 4/5/2013 2:22:44 PM.
      1>Project "C:\Users\dev13\drew-face\test\test\test.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\dev13\drew-face\test\test\\..\..\opencv\build\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D TEST_EXPORTS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt faceDetect1.cpp
-         faceDetect1.cpp
-     1>c:\users\dev13\drew-face\test\test\facedetect1.cpp(176): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\dev13\drew-face\test\test\facedetect1.cpp(177): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\dev13\drew-face\test\test\facedetect1.cpp(251): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\dev13\drew-face\test\test\facedetect1.cpp(252): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\dev13\drew-face\test\test\facedetect1.cpp(253): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\dev13\drew-face\test\test\facedetect1.cpp(254): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\dev13\drew-face\test\test\facedetect1.cpp(255): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\dev13\drew-face\test\test\facedetect1.cpp(256): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\dev13\drew-face\test\test\facedetect1.cpp(257): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\dev13\drew-face\test\test\facedetect1.cpp(258): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\dev13\drew-face\test\Debug\FaceDetectInternalNative.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Users\dev13\drew-face\test\test\\..\..\opencv\build\x86\vc10\lib" /LIBPATH:"C:\Users\dev13\drew-face\test\test\\..\..\jpeg-9\Release\\" opencv_core243d.lib opencv_imgproc243d.lib opencv_highgui243d.lib opencv_ml243d.lib opencv_video243d.lib opencv_features2d243d.lib opencv_calib3d243d.lib opencv_objdetect243d.lib opencv_contrib243d.lib opencv_legacy243d.lib opencv_flann243d.lib opencv_nonfree243d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\dev13\drew-face\test\Debug\FaceDetectInternalNative.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\dev13\drew-face\test\Debug\FaceDetectInternalNative.lib" /MACHINE:X86 Debug\Detect.obj
-         Debug\faceDetect1.obj
-         Debug\faceDetect2.obj
-         Debug\OpenCVClass.obj
-         Debug\Source.obj
-         "..\..\jpeg-9\Release\jpeg.lib"
-     1>Detect.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
-         jpeg.lib(jerror.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
-     1>Detect.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
-         Generating code
-         Finished generating code
-     1>Detect.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
-     1>faceDetect1.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
-     1>faceDetect2.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
-     1>OpenCVClass.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
-     1>Source.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
-     1>MSVCRTD.lib(atonexit.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
-         test.vcxproj -> C:\Users\dev13\drew-face\test\Debug\FaceDetectInternalNative.exe
+     1>Lib:
+         test.vcxproj -> C:\Users\dev13\drew-face\test\Debug\FaceDetectInternalNative.lib
      1>Done Building Project "C:\Users\dev13\drew-face\test\test\test.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:04.67
+Time Elapsed 00:00:00.10
