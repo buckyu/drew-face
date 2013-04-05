@@ -1,6 +1,7 @@
 #ifndef __DrewFace__DrewFaceDetectPart2__
 #define __DrewFace__DrewFaceDetectPart2__
 
+
 #include <opencv2/highgui/highgui_c.h>
 #include <opencv2/imgproc/imgproc_c.h>
 
@@ -14,6 +15,7 @@ typedef struct {
     int x;
     int y;
 } NotCGPoint;
+
 
 std::vector<NotCGPoint> findTeethArea(cv::Mat image);
 

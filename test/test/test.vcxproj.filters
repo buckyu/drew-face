@@ -35,9 +35,6 @@
     <ClInclude Include="Detect.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="faceDetect2.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="jconfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -87,6 +84,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="exif-entry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="faceDetect2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
