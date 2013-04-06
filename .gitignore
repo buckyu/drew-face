@@ -6,3 +6,5 @@ test/ConsoleApplication2/bin/*
 *.obj
 *.csproj.user
 *.tlog
+*.DS_Store
+*xcuserdata
