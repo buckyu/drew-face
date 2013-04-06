@@ -1,0 +1,769 @@
+﻿Build started 4/5/2013 6:08:39 PM.
+     1>Project "C:\Users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\win32\lib_exif\lib_exif.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I. /I..\..\ /ZI /nologo /W3 /WX- /Od /Oy- /D "GETTEXT_PACKAGE=\"libexif-12\"" /D LOCALEDIR= /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TC /analyze- /errorReport:prompt "..\..\libexif\canon\exif-mnote-data-canon.c" "..\..\libexif\canon\mnote-canon-entry.c" "..\..\libexif\canon\mnote-canon-tag.c" "..\..\libexif\exif-content.c" "..\..\libexif\exif-data.c" "..\..\libexif\exif-entry.c" "..\..\libexif\exif-loader.c" "..\..\libexif\exif-log.c" "..\..\libexif\exif-mem.c" "..\..\libexif\exif-mnote-data.c" "..\..\libexif\exif-utils.c" "..\..\libexif\fuji\exif-mnote-data-fuji.c" "..\..\libexif\fuji\mnote-fuji-entry.c" "..\..\libexif\fuji\mnote-fuji-tag.c" "..\..\libexif\olympus\exif-mnote-data-olympus.c" "..\..\libexif\olympus\mnote-olympus-entry.c" "..\..\libexif\olympus\mnote-olympus-tag.c" "..\..\libexif\pentax\exif-mnote-data-pentax.c" "..\..\libexif\pentax\mnote-pentax-entry.c"
+         mnote-pentax-entry.c
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(341): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(342): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(350): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(359): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(362): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(365): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(366): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(374): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(383): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(386): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(391): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(392): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(394): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(397): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(398): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(400): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(404): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(405): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(406): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(409): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(410): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(413): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(416): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(417): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(418): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(423): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(431): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(443): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\mnote-pentax-entry.c(452): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+         exif-mnote-data-pentax.c
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\exif-mnote-data-pentax.c(103): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(110) : see declaration of 'strcpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\exif-mnote-data-pentax.c(117): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(110) : see declaration of 'strcpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\pentax\exif-mnote-data-pentax.c(133): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(110) : see declaration of 'strcpy'
+         mnote-olympus-tag.c
+         mnote-olympus-entry.c
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(294): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(295): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(300): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(304): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(305): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(308): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(311): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(312): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(315): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(330): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(336): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(337): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(339): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(344): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(345): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(348): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(353): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(354): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(356): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(363): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(364): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(366): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(369): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(370): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(375): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(378): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(379): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(383): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(385): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(389): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(390): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(395): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(398): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(399): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(405): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(408): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(409): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(411): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(412): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(413): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(414): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(415): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(416): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(417): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(418): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(419): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(420): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(421): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(422): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(426): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(427): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(433): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(436): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(441): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(444): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(448): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(451): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(454): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(486): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(503): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(506): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(511): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(514): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(525): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(526): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(530): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(533): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(536): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : see declaration of 'sprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(537): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(542): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(543): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(547): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(550): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(553): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(556): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : see declaration of 'sprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(557): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(562): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(563): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(575): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(581): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(582): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(586): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(589): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(592): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(595): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(598): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(601): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(602): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(606): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(609): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(612): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(615): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(619): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(620): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(626): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(628): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : see declaration of 'sprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(629): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(632): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(633): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(636): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : see declaration of 'sprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(637): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(642): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(643): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(646): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : see declaration of 'sprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(647): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(651): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(652): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(653): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(656): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(657): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(660): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(661): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(662): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(665): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(666): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(667): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(670): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(671): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(674): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : see declaration of 'sprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(675): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(679): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(680): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(683): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(687): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(691): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(692): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(696): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(726): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(729): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(735): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(738): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(744): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(745): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(747): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(749): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : see declaration of 'sprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(750): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(754): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(757): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(759): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(762): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : see declaration of 'sprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(763): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(770): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(775): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(778): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(780): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(783): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(785): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(788): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(791): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(794): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(798): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(801): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(804): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(810): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(812): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : see declaration of 'sprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\mnote-olympus-entry.c(813): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+         exif-mnote-data-olympus.c
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\exif-mnote-data-olympus.c(126): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(110) : see declaration of 'strcpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\exif-mnote-data-olympus.c(140): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(110) : see declaration of 'strcpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\olympus\exif-mnote-data-olympus.c(169): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(110) : see declaration of 'strcpy'
+         mnote-fuji-tag.c
+         mnote-fuji-entry.c
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(207): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(208): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(228): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(229): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(236): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(245): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(248): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(251): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(252): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(255): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(259): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(260): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(264): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(270): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(274): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(278): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(282): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(288): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(294): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\fuji\mnote-fuji-entry.c(299): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+         exif-mnote-data-fuji.c
+         exif-utils.c
+         exif-mnote-data.c
+         exif-mem.c
+         exif-log.c
+         exif-loader.c
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-loader.c(116): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(218) : see declaration of 'fopen'
+         exif-entry.c
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(462): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(467): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(471): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(472): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(479): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(484): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(485): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(492): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(498): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(499): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(506): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(512): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(513): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(520): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(525): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(526): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(532): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(537): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(553): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(557): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(558): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(566): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(576): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(580): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(581): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(590): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(859): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(886): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(890): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(898): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(927): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(933): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(942): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(944): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(946): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(957): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(959): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(960): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(961): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(964): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(970): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(972): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(974): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(975): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(987): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(999): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1000): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1002): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1036): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1039): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1041): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1052): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1064): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1066): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1068): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1079): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1082): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1084): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1085): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1096): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1098): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1100): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1107): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1110): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1126): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1128): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1140): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1147): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1150): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1160): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1162): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1164): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1173): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1181): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1191): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1196): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1204): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1208): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1209): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1218): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1232): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1234): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1237): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1268): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1288): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1297): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1306): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1308): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1333): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1340): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1342): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1344): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1598): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\time.inl(112) : see declaration of 'localtime'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1608): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1633): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1642): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(110) : see declaration of 'strcpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\exif-entry.c(1643): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(110) : see declaration of 'strcpy'
+         exif-data.c
+         exif-content.c
+         mnote-canon-tag.c
+         mnote-canon-entry.c
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(453): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(456): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(489): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(491): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(496): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(566): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(569): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(574): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(577): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(582): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(591): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(595): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(601): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(605): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(613): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(617): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(621): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(629): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(632): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(636): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(639): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(645): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(649): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(655): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(657): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(660): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(663): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(667): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(671): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(674): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(682): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(688): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(691): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(692): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(696): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(698): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : see declaration of 'strncpy'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(702): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(703): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(707): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(711): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(712): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(714): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(718): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(721): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(723): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(724): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(182) : see declaration of 'strncat'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(728): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+     1>c:\users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\libexif\canon\mnote-canon-entry.c(731): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(349) : see declaration of '_snprintf'
+         exif-mnote-data-canon.c
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"C:\Users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\win32\Debug\lib_exif.lib" /NOLOGO "Debug\exif-byte-order.obj"
+         "Debug\exif-content.obj"
+         "Debug\exif-data.obj"
+         "Debug\exif-entry.obj"
+         "Debug\exif-format.obj"
+         "Debug\exif-ifd.obj"
+         "Debug\exif-loader.obj"
+         "Debug\exif-log.obj"
+         "Debug\exif-mem.obj"
+         "Debug\exif-mnote-data-canon.obj"
+         "Debug\exif-mnote-data-fuji.obj"
+         "Debug\exif-mnote-data-olympus.obj"
+         "Debug\exif-mnote-data-pentax.obj"
+         "Debug\exif-mnote-data.obj"
+         "Debug\exif-tag.obj"
+         "Debug\exif-utils.obj"
+         "Debug\mnote-canon-entry.obj"
+         "Debug\mnote-canon-tag.obj"
+         "Debug\mnote-fuji-entry.obj"
+         "Debug\mnote-fuji-tag.obj"
+         "Debug\mnote-olympus-entry.obj"
+         "Debug\mnote-olympus-tag.obj"
+         "Debug\mnote-pentax-entry.obj"
+         "Debug\mnote-pentax-tag.obj"
+         lib_exif.vcxproj -> C:\Users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\win32\Debug\lib_exif.lib
+     1>Done Building Project "C:\Users\dev13\drew-face\libexif_sleuth_windows\libexif-0.6.20\win32\lib_exif\lib_exif.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:11.89
