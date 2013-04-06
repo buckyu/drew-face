@@ -12,6 +12,8 @@ namespace ConsoleApplication2
         static void Main(string[] args)
         {
             Console.WriteLine("About to detect.");
+            Console.ReadLine();
+
             FaceDetect.GeometryType geometryType = new FaceDetect.GeometryType();
             geometryType.fileName = "C:\\test.jpg";
             FaceDetect.FaceDetector.detectFaces(geometryType);

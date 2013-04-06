@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include <vector>
 #include "FaceDetect.h"
-#include "faceDetect1.h"
+#include "FaceDetectRenamed.h"
 using namespace System::Runtime::InteropServices;
 
 void FaceDetect::FaceDetector::detectFaces(FaceDetect::GeometryType ^geometryType) {
@@ -11,13 +11,13 @@ void FaceDetect::FaceDetector::detectFaces(FaceDetect::GeometryType ^geometryTyp
 	printf("Filename = %s\n", geometryType->fileName);
 
 	char *str = (char*)(void*)Marshal::StringToHGlobalAnsi(geometryType->fileName);
-	assert(strcmp(str, "C:\\test.jpg") == 0);
-	FileInfo *info = extractGeometry(str);
-	NotCGPoint *result = info->points;
+	FileInfo *info = extractGeometry(str,"C:\\Users\\dev13\\drew-face\\haarcascade_frontalface_default.xml");
 	System::Collections::Generic::List<Point^> ^l = gcnew System::Collections::Generic::List<Point^>();
-	for(int i = 0; i < info->numPoints; i++) {
+	std::vector<NotCGPoint> points = *(info->points);
+
+	for(int i = 0; i < (info->points)->size(); i++) {
 		Point ^p = gcnew Point();
-		NotCGPoint point = result[i];
+		NotCGPoint point = points[i];
 		p->x = point.x;
 		p->y = point.y;
 		l->Add(p);

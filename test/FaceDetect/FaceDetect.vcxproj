@@ -53,12 +53,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(projectdir)/../../opencv/build/include;$(projectdir)/../../test/test</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(projectdir)/../../DrewFace</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opencv_core243d.lib;opencv_imgproc243d.lib;opencv_highgui243d.lib;opencv_ml243d.lib;opencv_video243d.lib;opencv_features2d243d.lib;opencv_calib3d243d.lib;opencv_objdetect243d.lib;opencv_contrib243d.lib;opencv_legacy243d.lib;opencv_flann243d.lib;opencv_nonfree243d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(projectdir)/../../opencv/build/x86/vc10/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libexif.dll.a;opencv_core243d.lib;opencv_imgproc243d.lib;opencv_highgui243d.lib;opencv_ml243d.lib;opencv_video243d.lib;opencv_features2d243d.lib;opencv_calib3d243d.lib;opencv_objdetect243d.lib;opencv_contrib243d.lib;opencv_legacy243d.lib;opencv_flann243d.lib;opencv_nonfree243d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\libexif-0.6.21-windows\libexif\.libs;$(ProjectDir)\..\..\opencv\build\x86\vc10\lib;$(ProjectDir)\..\..\jpeg-9\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
