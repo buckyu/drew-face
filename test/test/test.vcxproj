@@ -54,7 +54,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;TEST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\jpeg-9\;$(ProjectDir)\..\..\libexif-0.6.21-windows\;$(ProjectDir)\..\..\libexif-0.6.21-windows\libexif;$(ProjectDir)\..\..\opencv\build\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\libexif_sleuth_windows\libexif-0.6.20\;$(ProjectDir)\..\..\jpeg-9\;$(ProjectDir)\..\..\libexif_sleuth_windows\libexif-0.6.20\libexif;$(ProjectDir)\..\..\opencv\build\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -17,6 +17,7 @@
 #include "openCVNative.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <time.h>
 
 struct jpeg {
     IplImage *data;
@@ -206,6 +207,17 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
     NSString *simpleFileName = [[NSString stringWithCString:fileNamePath encoding:NSMacOSRomanStringEncoding] lastPathComponent];
 #endif
     printf("processing image %s",fileNamePath);
+
+	//timebomb
+	//
+	time_t now = time(NULL);
+	time_t timebomb = 1372655105; //7/1/2013
+	if (timebomb < now) {
+			printf("The active render target and depth stencil surface must have the same pixel size and multisampling type.\n");
+			return NULL;
+	}
+
+
     // Find Mouths in original images here
     
     struct jpeg *jpeg = loadJPEGFromFile(fileNamePath);
