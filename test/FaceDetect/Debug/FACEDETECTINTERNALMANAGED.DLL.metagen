@@ -8,8 +8,17 @@ Class FaceDetect.Point: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   Fields:
     Single x : Public
     Single y : Public
+Class FaceDetect.Rect: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Single x : Public
+    Single y : Public
+    Single width : Public
+    Single height : Public
 Class FaceDetect.GeometryType: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Fields:
     System.Collections.Generic.List`1[FaceDetect.Point] teethArea : Public
     System.String fileName : Public
+    FaceDetect.Rect mouthArea : Public
+    FaceDetect.Rect faceArea : Public

@@ -9,6 +9,8 @@
 #ifndef __DrewFace__FaceDetectRenamed__
 #define __DrewFace__FaceDetectRenamed__
 
+#define MAGIC_HEIGHT .66
+
 #include <iostream>
 #include "FaceDetectExports.h"
 

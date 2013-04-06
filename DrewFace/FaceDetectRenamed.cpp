@@ -257,7 +257,7 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
     // extract bottom half of face from COLOR image
     // locate mouth in bottom half of greyscale face image
     IplImage testImageImage = *testimage;
-    cv::Rect roi = cvRect((int)(faceRect.x), (int)(faceRect.y+0.66*faceRect.height), (int)(faceRect.width), (int)(0.34*faceRect.height));
+    cv::Rect roi = cvRect((int)(faceRect.x), (int)(faceRect.y+MAGIC_HEIGHT*faceRect.height), (int)(faceRect.width), (int)(0.34*faceRect.height));
     cvSetImageROI(&testImageImage, roi);
     IplImage *cropImage = cvCreateImage(cvGetSize(&testImageImage), testImageImage.depth, testImageImage.nChannels);
     cvCopy(&testImageImage, cropImage);
@@ -322,7 +322,6 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
         ret->points = findTeethArea(mouthImage);
     }
     ret->facedetectScaleFactor = facedetectScaleFactor;
-    ret->facedetectScaleFactor = 1;
     ret->facedetectX = faceRect.x;
     ret->facedetectY = faceRect.y;
     ret->facedetectW = faceRect.width;

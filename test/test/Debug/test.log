@@ -1,9 +1,36 @@
-﻿Build started 4/5/2013 7:40:44 PM.
+﻿Build started 4/5/2013 8:50:08 PM.
      1>Project "C:\Users\dev13\drew-face\test\test\test.vcxproj" on node 2 (Build target(s)).
-     1>Lib:
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\dev13\drew-face\test\test\\..\..\jpeg-9\\" /I"C:\Users\dev13\drew-face\test\test\\..\..\libexif-0.6.21-windows\\" /I"C:\Users\dev13\drew-face\test\test\\..\..\libexif-0.6.21-windows\libexif" /I"C:\Users\dev13\drew-face\test\test\\..\..\opencv\build\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D TEST_EXPORTS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\DrewFace\FaceDetectRenamed.cpp Source.cpp
+         FaceDetectRenamed.cpp
+     1>c:\users\dev13\drew-face\drewface\facedetectrenamed.cpp(73): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(218) : see declaration of 'fopen'
+     1>c:\users\dev13\drew-face\drewface\facedetectrenamed.cpp(221): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\dev13\drew-face\drewface\facedetectrenamed.cpp(222): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\dev13\drew-face\drewface\facedetectrenamed.cpp(325): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\dev13\drew-face\drewface\facedetectrenamed.cpp(326): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\dev13\drew-face\drewface\facedetectrenamed.cpp(327): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\dev13\drew-face\drewface\facedetectrenamed.cpp(328): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\dev13\drew-face\drewface\facedetectrenamed.cpp(329): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\dev13\drew-face\drewface\facedetectrenamed.cpp(330): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\dev13\drew-face\drewface\facedetectrenamed.cpp(331): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\dev13\drew-face\drewface\facedetectrenamed.cpp(332): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\dev13\drew-face\drewface\facedetectrenamed.cpp(316): warning C4101: 'points' : unreferenced local variable
+         Generating Code...
+         Compiling...
+         Source.cpp
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"C:\Users\dev13\drew-face\test\Debug\FaceDetectInternalNative.lib" /NOLOGO Debug\Detect.obj
+         Debug\DrewFaceDetectPart2.obj
+         Debug\FaceDetectRenamed.obj
+         Debug\openCVNative.obj
+         Debug\Source.obj
+         "..\..\jpeg-9\Release\jpeg.lib"
+         jpeg.lib(jaricom.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
          test.vcxproj -> C:\Users\dev13\drew-face\test\Debug\FaceDetectInternalNative.lib
      1>Done Building Project "C:\Users\dev13\drew-face\test\test\test.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.06
+Time Elapsed 00:00:03.68

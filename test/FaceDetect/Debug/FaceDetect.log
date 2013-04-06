@@ -1,19 +1,10 @@
-﻿Build started 4/5/2013 7:36:45 PM.
-     1>Project "C:\Users\dev13\drew-face\test\FaceDetect\FaceDetect.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 4/5/2013 8:50:11 PM.
+     1>Project "C:\Users\dev13\drew-face\test\FaceDetect\FaceDetect.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\dev13\drew-face\test\FaceDetect\/../../DrewFace" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.0\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\FaceDetect.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /TP /FU"C:\Users\dev13\drew-face\test\FaceDetectInternalManaged\bin\Debug\FaceDetectInternalManaged.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /analyze- /errorReport:prompt /clr:nostdlib Stdafx.cpp
-         Stdafx.cpp
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\dev13\drew-face\test\FaceDetect\/../../DrewFace" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.0\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\FaceDetect.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /TP /FU"C:\Users\dev13\drew-face\test\FaceDetectInternalManaged\bin\Debug\FaceDetectInternalManaged.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /analyze- /errorReport:prompt /clr:nostdlib AssemblyInfo.cpp FaceDetect.cpp
-         AssemblyInfo.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\dev13\drew-face\test\FaceDetect\/../../DrewFace" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.0\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\FaceDetect.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /TP /FU"C:\Users\dev13\drew-face\test\FaceDetectInternalManaged\bin\Debug\FaceDetectInternalManaged.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /analyze- /errorReport:prompt /clr:nostdlib FaceDetect.cpp
          FaceDetect.cpp
-     1>FaceDetect.cpp(18): warning C4018: '<' : signed/unsigned mismatch
-     1>FaceDetect.cpp(21): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>FaceDetect.cpp(22): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-         Generating Code...
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\dev13\drew-face\test\FaceDetect\/../../DrewFace" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /TP /analyze- /errorReport:prompt "C:\Users\dev13\AppData\Local\Temp\2\.NETFramework,Version=v4.5.AssemblyAttributes.cpp"
-         .NETFramework,Version=v4.5.AssemblyAttributes.cpp
-       ResourceCompile:
-         C:\Program Files (x86)\Windows Kits\8.0\bin\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Debug\app.res" app.rc 
+     1>FaceDetect.cpp(25): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>FaceDetect.cpp(31): warning C4018: '<' : signed/unsigned mismatch
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\dev13\drew-face\test\Debug\FaceDetect.dll" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\dev13\drew-face\test\FaceDetect\\..\..\libexif_sleuth_windows\libexif-0.6.20\win32\Debug" /LIBPATH:"C:\Users\dev13\drew-face\test\FaceDetect\\..\..\opencv\build\x86\vc10\lib" /LIBPATH:"C:\Users\dev13\drew-face\test\FaceDetect\\..\..\jpeg-9\Release\\" lib_exif.lib opencv_core243d.lib opencv_imgproc243d.lib opencv_highgui243d.lib opencv_ml243d.lib opencv_video243d.lib opencv_features2d243d.lib opencv_calib3d243d.lib opencv_objdetect243d.lib opencv_contrib243d.lib opencv_legacy243d.lib opencv_flann243d.lib opencv_nonfree243d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\dev13\drew-face\test\Debug\FaceDetect.pdb" /ASSEMBLYDEBUG /TLBID:1 /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 /DLL Debug\app.res
          Debug\AssemblyInfo.obj
@@ -54,8 +45,8 @@
      1>FaceDetectInternalNative.lib(jidctfst.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jidctfst.obj)' or at 'C:\Users\dev13\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
      1>FaceDetectInternalNative.lib(jaricom.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jaricom.obj)' or at 'C:\Users\dev13\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
          FaceDetect.vcxproj -> C:\Users\dev13\drew-face\test\Debug\FaceDetect.dll
-     1>Done Building Project "C:\Users\dev13\drew-face\test\FaceDetect\FaceDetect.vcxproj" (Rebuild target(s)).
+     1>Done Building Project "C:\Users\dev13\drew-face\test\FaceDetect\FaceDetect.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:04.48
+Time Elapsed 00:00:03.74
