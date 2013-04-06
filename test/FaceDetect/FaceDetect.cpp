@@ -11,7 +11,7 @@ void FaceDetect::FaceDetector::detectFaces(FaceDetect::GeometryType ^geometryTyp
 	printf("Filename = %s\n", geometryType->fileName);
 
 	char *str = (char*)(void*)Marshal::StringToHGlobalAnsi(geometryType->fileName);
-	FileInfo *info = extractGeometry("c:\\test.jpg","C:\\Users\\dev13\\drew-face\\haarcascade_frontalface_default.xml","C:\\Users\\dev13\\drew-face\\haarcascade_mcs_mouth.xml");
+	FileInfo *info = extractGeometry("c:\\test.jpg","haarcascade_frontalface_default.xml","haarcascade_mcs_mouth.xml");
 	System::Collections::Generic::List<Point^> ^l = gcnew System::Collections::Generic::List<Point^>();
 	std::vector<NotCGPoint> points = *(info->points);
 

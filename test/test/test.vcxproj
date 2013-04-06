@@ -110,8 +110,12 @@
     <Library Include="..\..\jpeg-9\Release\jpeg.lib" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="..\..\..\..\..\Downloads\haarcascade_frontalface_default.xml" />
-    <Xml Include="..\..\..\..\..\Downloads\haarcascade_mcs_mouth.xml" />
+    <Xml Include="..\..\..\..\..\Downloads\haarcascade_frontalface_default.xml">
+      <DeploymentContent>true</DeploymentContent>
+    </Xml>
+    <Xml Include="..\..\..\..\..\Downloads\haarcascade_mcs_mouth.xml">
+      <DeploymentContent>true</DeploymentContent>
+    </Xml>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\DrewFace\Detect.cpp" />

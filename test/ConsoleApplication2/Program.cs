@@ -11,7 +11,7 @@ namespace ConsoleApplication2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("About to detect.");
+            Console.WriteLine("Press enter to detect an image.");
             Console.ReadLine();
 
             FaceDetect.GeometryType geometryType = new FaceDetect.GeometryType();
