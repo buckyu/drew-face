@@ -19,6 +19,10 @@ namespace ConsoleApplication2
             FaceDetect.FaceDetector.detectFaces(geometryType);
 
             Console.WriteLine("List value is {0}", geometryType.teethArea.ToString());
+            foreach (Point p in geometryType.teethArea)
+            {
+                Console.WriteLine("{0},{1}", p.x, p.y);
+            }
             Console.ReadLine();
         }
     }

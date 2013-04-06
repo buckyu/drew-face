@@ -1,4 +1,4 @@
-﻿Build started 4/5/2013 6:56:57 PM.
+﻿Build started 4/5/2013 7:40:44 PM.
      1>Project "C:\Users\dev13\drew-face\test\test\test.vcxproj" on node 2 (Build target(s)).
      1>Lib:
          test.vcxproj -> C:\Users\dev13\drew-face\test\Debug\FaceDetectInternalNative.lib
@@ -6,4 +6,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.09
+Time Elapsed 00:00:00.06
