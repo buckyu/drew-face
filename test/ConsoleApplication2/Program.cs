@@ -18,7 +18,7 @@ namespace ConsoleApplication2
             geometryType.fileName = "C:\\test.jpg";
             FaceDetect.FaceDetector.detectFaces(geometryType);
 
-            Console.WriteLine("List value is {0}", geometryType.teethArea);
+            Console.WriteLine("List value is {0}", geometryType.teethArea.ToString());
             Console.ReadLine();
         }
     }

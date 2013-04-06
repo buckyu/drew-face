@@ -18,7 +18,7 @@
 #include <vector>
 
 #include "FaceDetectExports.h"
-std::vector<NotCGPoint> findTeethArea(cv::Mat image);
+std::vector<NotCGPoint>* findTeethArea(cv::Mat image);
 #include <stdint.h> //gets uint8_t
 char looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToothY);
 

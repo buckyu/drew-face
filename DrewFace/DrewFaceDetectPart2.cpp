@@ -50,10 +50,11 @@ char looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToo
 }
 
 
-std::vector<NotCGPoint> findTeethArea(cv::Mat image) {
+std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     //originally: mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
     //this implementation looks approximately in-place to me
     //cv::blur(myCvMat, edges, cv::Size(4,4));
+	printf("finding teeth area\n");
     cv::cvtColor(image, image, CV_BGRA2BGR);
     cv::pyrMeanShiftFiltering(image.clone(), image, 10, 10, 4);
     cv::cvtColor(image, image, CV_BGR2BGRA);
@@ -223,7 +224,7 @@ std::vector<NotCGPoint> findTeethArea(cv::Mat image) {
     
     
     
-    std::vector<NotCGPoint> solutionArray = std::vector<NotCGPoint>();
+    std::vector<NotCGPoint> *solutionArray = new std::vector<NotCGPoint>;
     int leftmostX = -1;
     int leftmostY = -1;
     for(int x = 0; x < WIDTH; x++) {
@@ -271,7 +272,7 @@ std::vector<NotCGPoint> findTeethArea(cv::Mat image) {
         NotCGPoint soln;
         soln.x = qX;
         soln.y = qY;
-        solutionArray.push_back(soln);
+        solutionArray->push_back(soln);
         if (qX == leftmostX && qY == leftmostY) {
             break;
         }
@@ -281,7 +282,7 @@ std::vector<NotCGPoint> findTeethArea(cv::Mat image) {
     free(testimagedataMod1);
     free(testimagedataMod2);
     
-    printf("solution of size %lu\n",solutionArray.size());
+    printf("solution of size %lu\n",solutionArray->size());
 
     return solutionArray;
     

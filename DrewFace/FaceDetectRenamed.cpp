@@ -201,7 +201,7 @@ cv::Mat *rotateImage(const cv::Mat& source, double angle)
 }
 
 /**haar_cascade_path here is a path to haarcascade_frontalface_default.xml */
-FileInfo *extractGeometry(const char *fileNamePath, const char* haar_cascade_path) {
+FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascade_path,const char *mouth_haar_casecade_path) {
 #if DONT_PORT
     NSString *simpleFileName = [[NSString stringWithCString:fileNamePath encoding:NSMacOSRomanStringEncoding] lastPathComponent];
 #endif
@@ -224,8 +224,9 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* haar_cascade_pat
             scaledImg = jpeg->data;
         }
     }
-    
+    printf("about to exif\n");
     int orientation = exifOrientation(fileNamePath);
+	printf("exif complete\n");
     cv::Mat *rotatedImage = &scaledImg;
     
     // Orient images for face detection (EXIF Orientation = 0)
@@ -245,8 +246,8 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* haar_cascade_pat
     rect faceRect;
     
     
-    
-    cv::Mat *testimage = processUIImageForFace(rotatedImage, haar_cascade_path, &faceRect); //[ocv processUIImageForFace:rotatedImage fromFile:fileNamePath outRect:&faceRect];
+    printf("begin opencv\n");
+	cv::Mat *testimage = processUIImageForFace(rotatedImage, face_haar_cascade_path, &faceRect); //[ocv processUIImageForFace:rotatedImage fromFile:fileNamePath outRect:&faceRect];
     
     if ((faceRect.width == 0) || (faceRect.height == 0)) {
         printf("NO FACE in %s\n", fileNamePath);
@@ -272,7 +273,7 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* haar_cascade_pat
     mouthRectInBottomHalfOfFace.x = 0; mouthRectInBottomHalfOfFace.y = 0; mouthRectInBottomHalfOfFace.width = 0; mouthRectInBottomHalfOfFace.height = 0;
     
     // OpenCV Processing Called Here - search for mouth in bottom half of greyscale face
-    mouthRectInBottomHalfOfFace = processUIImageForMouth(&bottomhalffaceImage, haar_cascade_path); //mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:&bottomhalffaceImage fromFile:fileNamePath];
+	mouthRectInBottomHalfOfFace = processUIImageForMouth(&bottomhalffaceImage, mouth_haar_casecade_path); //mouthRectInBottomHalfOfFace = [ocv processUIImageForMouth:&bottomhalffaceImage fromFile:fileNamePath];
     
     // BruteForce Processing Called Here - search for mouth in bottom half of greyscale face
     // using MODELMOUTHxxx.png files in /MODEL_MOUTHS/
@@ -312,14 +313,14 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* haar_cascade_pat
 #endif
     
     //processedMouthImage = [ocv edgeDetectReturnEdges:mouthImage];
-    std::vector<NotCGPoint> points;
-    if ((faceRect.width > 0) && (faceRect.height > 0)) {
-        points = findTeethArea(mouthImage);
-    }
+    std::vector<NotCGPoint> *points;
+
     
     FileInfo *ret = (FileInfo*)malloc(sizeof(FileInfo));
     ret->originalFileNamePath = fileNamePath;
-    ret->points = &points;
+	    if ((faceRect.width > 0) && (faceRect.height > 0)) {
+        ret->points = findTeethArea(mouthImage);
+    }
     ret->facedetectScaleFactor = facedetectScaleFactor;
     ret->facedetectScaleFactor = 1;
     ret->facedetectX = faceRect.x;

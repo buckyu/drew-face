@@ -12,7 +12,7 @@
 #include <iostream>
 #include "FaceDetectExports.h"
 
-FileInfo *extractGeometry(const char *fileNamePath, const char* haar_cascade_path);
+FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascade_path,const char *mouth_haar_casecade_path);
 
 
 #endif /* defined(__DrewFace__FaceDetectRenamed__) */

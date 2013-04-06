@@ -1,7 +1,7 @@
-﻿Build started 4/5/2013 5:25:08 PM.
+﻿Build started 4/5/2013 6:52:57 PM.
      1>Project "C:\Users\dev13\drew-face\test\test\test.vcxproj" on node 2 (Build target(s)).
-     1>Link:
-         test.vcxproj -> C:\Users\dev13\drew-face\test\Debug\FaceDetectInternalNative.exe
+     1>Lib:
+         test.vcxproj -> C:\Users\dev13\drew-face\test\Debug\FaceDetectInternalNative.lib
      1>Done Building Project "C:\Users\dev13\drew-face\test\test\test.vcxproj" (Build target(s)).
 
 Build succeeded.
