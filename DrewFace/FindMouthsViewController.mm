@@ -304,15 +304,7 @@
 -(void)processUIImageForMouth:(UIImage *)bottomhalffaceImage returnRect:(CGRect *)mouthRectInBottomHalfOfFace closestMouthMatch:(int *)idx fileName:(NSString *)fn {
     
     NSLog(@"Processing: %@",fn);
-    
-    NSData *dataToWrite1 = UIImagePNGRepresentation(bottomhalffaceImage);
-    NSString *thumbPath2 = [testDir stringByAppendingPathComponent:@"temp"];
-    thumbPath2 = [[thumbPath2 stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
-    [dataToWrite1 writeToFile:thumbPath2 atomically:YES];
-    bottomhalffaceImage = [UIImage imageWithContentsOfFile:thumbPath2];
 
-    
-    
     // bottomhalffaceImageBuffer is a bottomhalffaceImageBufferw by bottomhalffaceImageBufferh 2D GreyScale Buffer to search
     CGDataProviderRef myDataProvider = CGImageGetDataProvider(bottomhalffaceImage.CGImage);
     CFDataRef pixelData = CGDataProviderCopyData(myDataProvider);

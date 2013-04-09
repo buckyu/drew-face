@@ -19,6 +19,12 @@
 #include <math.h>
 #include <time.h>
 
+#define DONT_PORT 1
+#ifdef DONT_PORT
+#import "FaceDetectRenamedObjCExtensions.h"
+
+#endif
+
 struct jpeg {
     IplImage *data;
     JDIMENSION width;
@@ -204,9 +210,6 @@ cv::Mat *rotateImage(const cv::Mat& source, double angle)
 
 /**haar_cascade_path here is a path to haarcascade_frontalface_default.xml */
 FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascade_path,const char *mouth_haar_casecade_path) {
-#if DONT_PORT
-    NSString *simpleFileName = [[NSString stringWithCString:fileNamePath encoding:NSMacOSRomanStringEncoding] lastPathComponent];
-#endif
     printf("processing image %s",fileNamePath);
 
 	//timebomb
@@ -294,9 +297,6 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
     
     if ((mouthRectInBottomHalfOfFace.width == 0) || (mouthRectInBottomHalfOfFace.height == 0)) {
         printf("NO MOUTH in %s\n", fileNamePath);
-#if DONT_PORT
-        [manager copyItemAtPath:[NSString stringWithCString:fileNamePath encoding:NSMacOSRomanStringEncoding] toPath:[NoMouthDir stringByAppendingPathComponent:simpleFileName] error:nil];
-#endif
         return NULL;
     }
     
@@ -318,11 +318,8 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
     
     // write mouth images to EXTRACTED_MOUTHS directory
 #if DONT_PORT
-    NSData *dataToWrite = UIImageJPEGRepresentation([OpenCvClass UIImageFromCVMat:mouthImage], 0.8);
-    assert(dataToWrite);
-    NSString *thumbPath = [extractedMouthsDir stringByAppendingPathComponent:simpleFileName];
-    thumbPath = [[thumbPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
-    [dataToWrite writeToFile:thumbPath atomically:YES];
+    
+    writeToDisk(mouthImage,fileNamePath);
 #endif
     
     //processedMouthImage = [ocv edgeDetectReturnEdges:mouthImage];
