@@ -1,4 +1,9 @@
-This is v1.0 of FaceDetect, the image recognition component of selected smiles.
+This is v1.1 of FaceDetect, the image recognition component of selected smiles.
+
+Version History:
+
+1.1 - fixed a bug that causes a crash if the image is missing EXIF data
+1.0 - initial release
 
 A sample C# application that utilizes the library is provided.  The sample application's expected output is provided below.  You should be able to compile and run the sample application out of the box with Visual Studio 2012 for Windows Desktop.
 

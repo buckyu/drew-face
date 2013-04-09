@@ -19,7 +19,9 @@
 #include <math.h>
 #include <time.h>
 
+#ifdef __APPLE__
 #define DONT_PORT 1
+#endif
 #ifdef DONT_PORT
 #import "FaceDetectRenamedObjCExtensions.h"
 
