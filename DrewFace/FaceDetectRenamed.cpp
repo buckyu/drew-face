@@ -45,6 +45,7 @@ static char *get_tag(ExifData *d, ExifIfd ifd, ExifTag tag)
 
 int exifOrientation(const char *filename) {
     ExifData *ed = exif_data_new_from_file(filename);
+    if (!ed) return 1;
     char *orientation = get_tag(ed, EXIF_IFD_0, EXIF_TAG_ORIENTATION);
     if (!orientation) {
         return 1;

@@ -98,9 +98,10 @@
         thumbPath = [[thumbPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
         [dataToWrite writeToFile:thumbPath atomically:YES];
         NSString *haar_cascade_path = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default" ofType:@"xml"];
+        NSString *mouth_cascade_path = [[NSBundle mainBundle] pathForResource:@"haarcascade_mcs_mouth" ofType:@"xml"];
         
         //who the hell uses MacOSRomanEncoding?  Not I, said the cat.
-        fileInfo = objcDictOfStruct(extractGeometry([fileNamePath cStringUsingEncoding:NSUTF8StringEncoding],[haar_cascade_path cStringUsingEncoding:NSUTF8StringEncoding]));
+        fileInfo = objcDictOfStruct(extractGeometry([fileNamePath cStringUsingEncoding:NSUTF8StringEncoding],[haar_cascade_path cStringUsingEncoding:NSUTF8StringEncoding],[mouth_cascade_path cStringUsingEncoding:NSUTF8StringEncoding]));
         if (!fileInfo) continue;
         fileInfo = [fileInfo mutableCopy];
         fileInfo[@"thumbScaleFactor"] = @(thumbScaleFactor);
