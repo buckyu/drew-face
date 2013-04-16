@@ -48,7 +48,8 @@
     
     std::vector<NotCGPoint> *ptrSolution = findTeethArea(mouthImageMatrix);
     std::vector<NotCGPoint> solution = *ptrSolution;
-    assert(solution.size()!=0);
+    if (solution.size()==0) return mouthImage;
+    //assert(solution.size()!=0);
 
         
     
