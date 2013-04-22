@@ -49,6 +49,12 @@ char looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToo
     return YES;
 }
 
+cv::Mat findTeethAreaDebug(cv::Mat image) {
+    cv::cvtColor(image, image, CV_BGRA2BGR);
+    cv::pyrMeanShiftFiltering(image.clone(), image, 30, 30, 4);
+    cv::cvtColor(image, image, CV_BGR2BGRA);
+    return image;
+}
 
 
 std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
@@ -56,9 +62,7 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     //this implementation looks approximately in-place to me
     //cv::blur(myCvMat, edges, cv::Size(4,4));
 	printf("finding teeth area\n");
-    cv::cvtColor(image, image, CV_BGRA2BGR);
-    cv::pyrMeanShiftFiltering(image.clone(), image, 10, 10, 4);
-    cv::cvtColor(image, image, CV_BGR2BGRA);
+    image = findTeethAreaDebug(image);
     
     assert(image.dims==2);
     assert(CV_MAT_TYPE(image.type())==CV_8UC4);
