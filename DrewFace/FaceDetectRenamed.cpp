@@ -313,7 +313,8 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
     
     cv::Mat processedMouthImage;
     if ((faceRect.width > 0) && (faceRect.height > 0)) {
-        processedMouthImage =  edgeDetectReturnOverlay(&mouthImage); //[ocv edgeDetectReturnOverlay:&mouthImage];
+        processedMouthImage = mouthImage;
+        //processedMouthImage =  edgeDetectReturnOverlay(&mouthImage); //[ocv edgeDetectReturnOverlay:&mouthImage];
 
     }
     
