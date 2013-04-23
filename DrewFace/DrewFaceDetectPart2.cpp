@@ -115,10 +115,14 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     int baseCr = GET_PIXELMOD1(cX, cY, 1);
     int baseCb = GET_PIXELMOD1(cX, cY, 2);
     printf("hi!");
-#define COLOR_THRESHOLD 20
+#define COLOR_THRESHOLD 15
 #define SLICE_FOR_NUM_SLICES(num) (M_PI_4 / (num / 8))
+#define POINTS_PER_VECTOR 8
     std::vector<NotCGPoint> *solutionArray = new std::vector<NotCGPoint>;
+    std::vector<std::vector<NotCGPoint>*> *vectors = new std::vector<std::vector<NotCGPoint>*>;
     for(float theta = 0; theta <= 2 * M_PI; theta += SLICE_FOR_NUM_SLICES(1024)) {
+        std::vector<NotCGPoint> *transitions = new std::vector<NotCGPoint>;
+        int transitionCount = 0;
         for(float r = 0; r <= MouthWidth / 2; r += 0.5) {
             int x = (int)roundf(cX + r * cos(theta));
             int y = (int)roundf(cY + r * sin(theta));
@@ -139,178 +143,19 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
                 NotCGPoint pt;
                 pt.x = x;
                 pt.y = y;
-                solutionArray->push_back(pt);
-                break;
+                transitions->push_back(pt);
+                transitionCount++;
+                if(++transitionCount == POINTS_PER_VECTOR) {
+                    solutionArray->push_back(pt);
+                    break;
+                }
+                baseY = testY;
+                baseCr = testCr;
+                baseCb = testCb;
             }
         }
-        /*for(int searchBeginPx = 0; searchBeginPx < 100; searchBeginPx++) {
-            int prevToothY = -1;
-            
-            typedef struct {
-                int x;
-                int y;
-                int z;
-            } NotCG3DPoint;
-            std::vector<NotCG3DPoint> line = std::vector<NotCG3DPoint>();
-            
-            int prevToothCenter = searchBeginPx;
-            int toothCenter = prevToothCenter + (MIN_TOOTH_SIZE);
-        searchTooth:
-            for(; toothCenter <= prevToothCenter + MAX_TOOTH_SIZE; toothCenter++) {
-                int tooth_notRotated_Y = 0;
-                int toothCenterX = toothCenter;
-                int toothCenterY = tooth_notRotated_Y;
-                int tooth_rotatedX = toothCenterX*cos(theta) - toothCenterY*sin(theta);
-                int tooth_rotatedY = toothCenterX * sin(theta) + toothCenterY * cos(theta) + cY; //which we rotate along some angle, §L95
-                if (tooth_rotatedX >= WIDTH || tooth_rotatedX < 0) {
-                    continue;
-                }
-                if (tooth_rotatedY >= HEIGHT || tooth_rotatedY < 0) {
-                    continue;
-                }
-                
-                int toothY = GET_PIXELMOD1(tooth_rotatedX, tooth_rotatedY, 0);
-                int toothCR = GET_PIXELMOD1(tooth_rotatedX, tooth_rotatedY, 1);
-                int toothCB = GET_PIXELMOD1(tooth_rotatedX, tooth_rotatedY, 2);
-                
-                if (!looksWhite(toothY, toothCR, toothCB, prevToothY)) continue;
-                //now let's look for a suitable dark patch
-                
-                char found_dark = NO;
-                int dark_rotatedX_sln = -99;
-                int dark_rotatedY_sln = -99;
-                for(int darkCenter = toothCenter + MIN_TOOTH_SIZE / 2; darkCenter <= toothCenter + MAX_TOOTH_SIZE / 2; darkCenter++) {
-                    int dark_notRotated_Y = tooth_notRotated_Y;
-                    int dark_rotatedX = darkCenter * cos(theta) - dark_notRotated_Y * sin(theta);
-                    int dark_rotatedY = darkCenter * sin(theta) + dark_notRotated_Y * cos(theta) + cY;
-                    if (dark_rotatedX >= WIDTH || dark_rotatedX < 0) {
-                        continue;
-                    }
-                    if (dark_rotatedY >= HEIGHT || dark_rotatedY < 0) {
-                        continue;
-                    }
-                    int darkY = GET_PIXELMOD1(dark_rotatedX, dark_rotatedY, 0);
-                    if (abs(toothY - darkY) < THRESHOLD_WHITE_BLACK) {
-                        continue;
-                    }
-                    if (darkY > MAX_Y_FOR_DARK_THRESHOLD) {
-                        continue;
-                    }
-                    //check that we've gone back to white after MAX_DARK_SIZE
-                    int darkEnd = darkCenter + MAX_DARK_SIZE;
-                    int dark_rotatedEndX = darkEnd * cos(theta) - dark_notRotated_Y * sin(theta);
-                    int dark_rotatedEndY = darkEnd * sin(theta) + dark_notRotated_Y * cos(theta) + cY;
-                    if (dark_rotatedEndY < 0 || dark_rotatedEndY >= MouthHeight) continue;
-                    if (dark_rotatedEndX < 0 || dark_rotatedEndX >= MouthWidth) continue;
-                    int darkEndY = GET_PIXELMOD1(dark_rotatedEndX, dark_rotatedEndY, 0);
-                    int darkEndCr = GET_PIXELMOD1(dark_rotatedEndX, dark_rotatedEndY, 1);
-                    int darkEndCb = GET_PIXELMOD1(dark_rotatedEndX, dark_rotatedEndY, 2);
-                    if (!looksWhite(darkEndY, darkEndCr, darkEndCb, prevToothY)) {
-                        continue;
-                    }
-                    
-                    found_dark = YES;
-                    dark_rotatedX_sln = dark_rotatedX;
-                    dark_rotatedY_sln = dark_rotatedY;
-                    
-                }
-                if (!found_dark) {
-                    continue;
-                }
-                
-                
-                
-                
-                
-                
-                
-                NotCG3DPoint coord;
-                coord.x = tooth_rotatedX;
-                coord.y = tooth_rotatedY;
-                coord.z = 0;
-                
-                NotCG3DPoint darkCoord;
-                darkCoord.x = dark_rotatedX_sln;
-                darkCoord.y = dark_rotatedY_sln;
-                darkCoord.z = 2;
-                
-                line.push_back(coord);
-                line.push_back(darkCoord);
-                prevToothY = toothY;
-                prevToothCenter = toothCenter;
-                toothCenter = prevToothCenter + MIN_TOOTH_SIZE;
-            }
-            
-            if (line.size() >= EXPECT_TEETH) {
-                //NSLog(@"found teeth at %@",line);
-                for(int i = 0; i < line.size(); i++) {
-                    NotCG3DPoint coord = line[i];
-                    GET_PIXELMOD2(coord.x, coord.y, coord.z) = 0xff;
-                }
-            }
-            
-        }*/
+        vectors->push_back(transitions);
     }
-    
-    //gitftwrap
-    //todo: convert this to more C
-    
-    
-
-    /*int leftmostX = -1;
-    int leftmostY = -1;
-    for(int x = 0; x < WIDTH; x++) {
-        for(int y = 0; y < HEIGHT; y++) {
-            if (GET_PIXELMOD2(x, y, 0)==0xff) {
-                leftmostX = x;
-                leftmostY = y;
-                break;
-            }
-        }
-        if (leftmostX != -1) break;
-    }
-    int pX = leftmostX;
-    int pY = leftmostY;
-    while(true) {
-        int qX = -1;
-        int qY = -1;
-        //p --> q --> r
-        
-        qX = leftmostX;
-        qY = leftmostY;
-        for(int rX = 0; rX < WIDTH; rX++) {
-            for(int rY = 0; rY < HEIGHT; rY++) {
-                
-                if (GET_PIXELMOD2(rX, rY, 0)!=0xff) continue;
-#define TURN_LEFT 1
-#define TURN_RIGHT -1
-#define TURN_NONE 0
-                
-                float dist_p_r = pow(pX - rX,2) + pow(pY - rY,2);
-                float dist_p_q = pow(pX - qX,2) + pow(pY - qY,2);
-                //compute the turn
-                int t = -999;
-                int lside = (qX - pX) * (rY - pY) - (rX - pX) * (qY - pY);
-                if (lside < 0) t = -1;
-                if (lside > 0) t = 1;
-                if (lside==0) t = 0;
-                if (t==TURN_RIGHT || (t==TURN_NONE && dist_p_r > dist_p_q)) {
-                    qX = rX;
-                    qY = rY;
-                }
-            }
-        }
-        //we consider qX to be in our solution
-        NotCGPoint soln;
-        soln.x = qX;
-        soln.y = qY;
-        solutionArray->push_back(soln);
-        if (qX == leftmostX && qY == leftmostY) {
-            break;
-        }
-        pX = qX;
-        pY = qY;
-    }*/
 
     free(testimagedataMod1);
     free(testimagedataMod2);
