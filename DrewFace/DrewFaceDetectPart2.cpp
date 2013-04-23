@@ -51,7 +51,7 @@ char looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToo
 
 cv::Mat findTeethAreaDebug(cv::Mat image) {
     cv::cvtColor(image, image, CV_BGRA2BGR);
-    cv::pyrMeanShiftFiltering(image.clone(), image, 30, 30, 4);
+    cv::pyrMeanShiftFiltering(image.clone(), image, 20, 20, 4);
     cv::cvtColor(image, image, CV_BGR2BGRA);
     return image;
 }
@@ -84,7 +84,8 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     uint8_t *testimagedataMod2 = (uint8_t*)malloc(HEIGHT * WIDTH *4);
     memset(testimagedataMod1, 0,HEIGHT * WIDTH *4);
     memset(testimagedataMod2, 0,HEIGHT * WIDTH *4);
-    
+
+
     for(int x = 0; x < WIDTH; x++) {
         for(int y = 0; y < HEIGHT; y++) {
             
@@ -102,7 +103,6 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
             GET_PIXELMOD1(x,y,0) = Y;
             GET_PIXELMOD1(x,y,1) = CR;
             GET_PIXELMOD1(x,y,2) = CB;
-            
         }
     }
     
@@ -134,7 +134,7 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
             int diffCr = abs(testCr - baseCr);
             int diffCb = abs(testCb - baseCb);
 
-            if(diffCb + diffCr > COLOR_THRESHOLD) {
+            if(diffCr > COLOR_THRESHOLD) {
                 //GET_PIXELMOD2(x, y, 0) = 0xff;
                 NotCGPoint pt;
                 pt.x = x;
