@@ -81,9 +81,9 @@ cv::Mat findTeethAreaDebug(cv::Mat image) {
     return image;
 }
 
-float heuristic(NotCGPoint where, std::vector<NotCGPoint> goals) {
+float heuristic(pointIndex where, std::vector<NotCGPoint> goals) {
     NotCGPoint stupid = goals[0];
-    return sqrtf(powf(where.x - stupid.x, 2) + powf(where.y - stupid.y, 2));
+    return 1023 - where.second;
 }
 
 float heuristic2(NotCGPoint from, NotCGPoint to) {
@@ -213,6 +213,12 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
         vectors->push_back(transitions);
     }
     
+    /*for(int i = 0; i < 1023; i++) {
+        for(int y = 0; y < vectors->at(i)->size(); y++) {
+            vectors->
+        }
+    }*/
+    
     
     std::vector<pointIndex> *closedSet = new std::vector<pointIndex>;
     std::vector<pointIndex> *openSet = new std::vector<pointIndex>;
@@ -227,7 +233,7 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
         NotCGPoint node = vectors->at(0)->at(i);
         openSet->push_back(pointIndex(node,0));
         g->insert(score(pointIndex(node,0),0));
-        f->insert(score(pointIndex(node,0),heuristic(node, *goals)));
+        f->insert(score(pointIndex(node,0),heuristic(pointIndex(node,1023), *goals)));
         printf("start node %d,%d at position %d\n",node.x,node.y,vectors->size());
     }
     while (openSet->size()) {
@@ -276,7 +282,7 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
                 }
                 (*came_from)[neighborPointIndex]=current;
                 (*g)[neighborPointIndex] = tentative_g_score; //(score(neighborPointIndex,tentative_g_score));
-                (*f)[neighborPointIndex] = g->at(neighborPointIndex) + heuristic(neighbor, *goals);
+                (*f)[neighborPointIndex] = g->at(neighborPointIndex) + heuristic(neighborPointIndex, *goals);
                 //f->insert(score(neighborPointIndex,g->at(neighborPointIndex) + heuristic(neighbor, *goals)));
                 if (std::find(openSet->begin(), openSet->end(), neighborPointIndex)==openSet->end()) {
                     openSet->push_back(neighborPointIndex);
