@@ -192,13 +192,13 @@ cv::Mat findTeethAreaDebug(cv::Mat image) {
     cv::cvtColor(image, image, CV_BGRA2BGR);
     cv::pyrMeanShiftFiltering(image.clone(), image, 20, 20, 4);
     cv::cvtColor(image, image, CV_BGR2BGRA);
-    std::vector<std::vector<NotCGPoint> *> *vectors = bionsCalc(image);
+    std::vector<std::vector<CalcStruct> *> *vectors = bionsCalc(image);
 
     return image;
 }
 
-float heuristic(pointIndex where, std::vector<NotCGPoint> goals) {
-    NotCGPoint stupid = goals[0];
+float heuristic(pointIndex where, std::vector<CalcStruct> goals) {
+    NotCGPoint stupid = goals[0].pt;
     return 1023 - where.second;
 }
 
@@ -227,7 +227,7 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
 	printf("finding teeth area\n");
     image = findTeethAreaDebug(image);
     
-    std::vector<std::vector<NotCGPoint> *> *vectors = bionsCalc(image);
+    std::vector<std::vector<CalcStruct> *> *vectors = bionsCalc(image);
     
     
     std::vector<pointIndex> *closedSet = new std::vector<pointIndex>;
@@ -242,9 +242,9 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
         printf("bion gave us no solution, you're not getting one either\n");
         return new std::vector<NotCGPoint>;
     }
-    std::vector<NotCGPoint> *goals = vectors->at(vectors->size() - 1);
+    std::vector<CalcStruct> *goals = vectors->at(vectors->size() - 1);
     for (int i = 0; i < vectors->at(0)->size(); i++) {
-        NotCGPoint node = vectors->at(0)->at(i);
+        NotCGPoint node = vectors->at(0)->at(i).pt;
         openSet->push_back(pointIndex(node,0));
         g->insert(score(pointIndex(node,0),0));
         f->insert(score(pointIndex(node,0),heuristic(pointIndex(node,1023), *goals)));
@@ -278,9 +278,10 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
         closedSet->push_back(current);
         int nextIndex = current.second + 1;
         printf("the next index is %d\n",nextIndex);
-        std::vector<NotCGPoint> *next = vectors->at(nextIndex);
+        
+        std::vector<CalcStruct> *next = vectors->at(nextIndex);
         for(int i = 0; i < next->size(); i++) {
-            NotCGPoint neighbor = next->at(i);
+            NotCGPoint neighbor = next->at(i).pt;
             pointIndex neighborPointIndex = pointIndex(neighbor,nextIndex);
             NotCGPoint centerPt;
             int MouthWidth = WIDTH;
