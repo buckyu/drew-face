@@ -167,7 +167,7 @@ std::vector<std::vector<NotCGPoint>*> *bionsCalc(cv::Mat image) {
         if(transitionCount < MIN_POINTS_PER_VECTOR) {
             if(colorThreshold == 0) {
                 fprintf(stderr, "There is no red shift anywhere along this angle. Your image just sucks.\n");
-                abort();
+                return new std::vector<std::vector<NotCGPoint>*>;
             }
             colorThreshold--;
             goto radius_loop;
@@ -238,6 +238,10 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     typedef std::pair<pointIndex,float> score;
     std::map<pointIndex,float> *f = new std::map<pointIndex,float>;
     //typedef std::pair<pointIndex,int> pointIndex;
+    if (!vectors->size() || true) {
+        printf("bion gave us no solution, you're not getting one either\n");
+        return new std::vector<NotCGPoint>;
+    }
     std::vector<NotCGPoint> *goals = vectors->at(vectors->size() - 1);
     for (int i = 0; i < vectors->at(0)->size(); i++) {
         NotCGPoint node = vectors->at(0)->at(i);
