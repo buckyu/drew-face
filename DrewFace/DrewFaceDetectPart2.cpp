@@ -87,8 +87,8 @@ float heuristic(pointIndex where, std::vector<NotCGPoint> goals) {
 }
 
 float heuristic2(NotCGPoint from, NotCGPoint to) {
-    float test = abs(from.y - to.y) * 5;
-    test -= 0.5 * abs(from.x - to.y);
+    float test = abs(from.y - to.y) * 5 + abs(from.x - to.x) * .1;
+    //test -= 0.5 * abs(from.x - to.y);
     if (test < 0) return 0;
     return test;
 }
@@ -213,11 +213,11 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
         vectors->push_back(transitions);
     }
     
-    /*for(int i = 0; i < 1023; i++) {
+    for(int i = 0; i < 1023; i++) {
         for(int y = 0; y < vectors->at(i)->size(); y++) {
-            vectors->
+            vectors->at(i)->at(y);
         }
-    }*/
+    }
     
     
     std::vector<pointIndex> *closedSet = new std::vector<pointIndex>;
