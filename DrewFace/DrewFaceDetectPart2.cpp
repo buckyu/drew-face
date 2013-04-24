@@ -160,9 +160,6 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     int cX = MouthWidth / 2;
     int cY = MouthHeight / 2;
 
-    int baseY = GET_PIXELMOD1(cX, cY, 0);
-    int baseCr = GET_PIXELMOD1(cX, cY, 1);
-    int baseCb = GET_PIXELMOD1(cX, cY, 2);
     printf("hi!");
 #define SLICE_FOR_NUM_SLICES(num) (M_PI_4 / (num / 8))
 #define COLOR_THRESHOLD 30
@@ -170,9 +167,12 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     std::vector<NotCGPoint> *solutionArray = new std::vector<NotCGPoint>;
     std::vector<std::vector<NotCGPoint>*> *vectors = new std::vector<std::vector<NotCGPoint>*>;
     for(float theta = 0; theta <= 2 * M_PI; theta += SLICE_FOR_NUM_SLICES(1024)) {
-        int transitionCount = 0;
         int colorThreshold = COLOR_THRESHOLD;
     radius_loop:
+        int transitionCount = 0;
+        int baseY = GET_PIXELMOD1(cX, cY, 0);
+        int baseCr = GET_PIXELMOD1(cX, cY, 1);
+        int baseCb = GET_PIXELMOD1(cX, cY, 2);
         std::vector<NotCGPoint> *transitions = new std::vector<NotCGPoint>;
         for(float r = 0; r <= MouthWidth / 2; r += 0.5) {
             int x = (int)roundf(cX + r * cos(theta));
