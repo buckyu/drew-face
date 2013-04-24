@@ -11,10 +11,19 @@
 #include <vector>
 
 #include <iostream>
-typedef struct {
+struct NCGP {
     int x;
     int y;
-} NotCGPoint;
+    
+    //i'm very sorry
+    bool operator<( const NCGP & n ) const {
+        return this->x < n.x;   // for example
+    }
+        bool operator==( const NCGP & n) const {
+            return this->x==n.x && this->y == n.y;
+        }
+};
+        typedef struct NCGP NotCGPoint;
 
 typedef struct FileInfo {
     const char *originalFileNamePath;

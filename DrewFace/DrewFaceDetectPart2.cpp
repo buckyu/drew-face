@@ -32,6 +32,31 @@
 #define NO 0
 #define YES 1
 
+struct pindex {
+    NotCGPoint first;
+    int second;
+    /**I continue to be sorry*/
+    pindex(NotCGPoint ifirst,int isecond) {
+        this->first = ifirst;
+        this->second = isecond;
+    }
+    pindex() {
+        
+    }
+    bool operator<( const pindex & n ) const {
+        //compute hash
+        int hash = this->first.x * 5000 + this->first.y * 2000 + this->second;
+        int hash2 = n.first.x * 5000 + n.first.y * 2000 + n.second;
+        return hash < hash2;   // for example
+    }
+    bool operator==( const pindex & n) const {
+        return this->first.x==n.first.x && this->first.y == n.first.y && this->second==n.second;
+    }
+
+};
+typedef struct pindex pointIndex;
+
+
 char looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToothY) {
     if (toothY < MIN_Y_BRIGHTNESS_THRESHOLD) {
         return NO;
@@ -56,6 +81,30 @@ cv::Mat findTeethAreaDebug(cv::Mat image) {
     return image;
 }
 
+float heuristic(NotCGPoint where, std::vector<NotCGPoint> goals) {
+    NotCGPoint stupid = goals[0];
+    return sqrtf(powf(where.x - stupid.x, 2) + powf(where.y - stupid.y, 2));
+}
+
+float heuristic2(NotCGPoint from, NotCGPoint to) {
+    float test = abs(from.y - to.y) * 5;
+    test -= 0.5 * abs(from.x - to.y);
+    if (test < 0) return 0;
+    return test;
+}
+
+std::vector<pointIndex> *reconstruct_path(std::map<pointIndex,pointIndex> *came_from, pointIndex current_node) {
+    if (came_from->count(current_node)) {
+        pointIndex a = came_from->at(current_node);
+        assert(a.second==current_node.second - 1);
+        std::vector<pointIndex> *path = reconstruct_path(came_from, came_from->at(current_node));
+        path->insert(path->begin(), current_node);
+        return path;
+    }
+    std::vector<pointIndex> *newPath = new std::vector<pointIndex>;
+    newPath->push_back(current_node);
+    return newPath;
+}
 
 std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     //originally: mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
@@ -155,6 +204,91 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
             }
         }
         vectors->push_back(transitions);
+    }
+    
+    
+    std::vector<pointIndex> *closedSet = new std::vector<pointIndex>;
+    std::vector<pointIndex> *openSet = new std::vector<pointIndex>;
+    std::map<pointIndex,pointIndex> *came_from = new std::map<pointIndex,pointIndex>();
+    typedef std::pair<pointIndex,pointIndex> pointToPoint;
+    std::map<pointIndex,float> *g = new std::map<pointIndex,float>;
+    typedef std::pair<pointIndex,float> score;
+    std::map<pointIndex,float> *f = new std::map<pointIndex,float>;
+    //typedef std::pair<pointIndex,int> pointIndex;
+    std::vector<NotCGPoint> *goals = vectors->at(vectors->size() - 1);
+    for (int i = 0; i < vectors->at(0)->size(); i++) {
+        NotCGPoint node = vectors->at(0)->at(i);
+        openSet->push_back(pointIndex(node,0));
+        g->insert(score(pointIndex(node,0),0));
+        f->insert(score(pointIndex(node,0),heuristic(node, *goals)));
+        printf("start node %d,%d at position %d\n",node.x,node.y,vectors->size());
+    }
+    while (openSet->size()) {
+        pointIndex current;
+        float low_f = 999999999;
+        int currentOSIndex = -1;
+        for(int i = 0; i < openSet->size(); i++) {
+            pointIndex test = openSet->at(i);
+            float test_f = f->at(test);
+            if (test_f < low_f) {
+                low_f = test_f;
+                current = test;
+                currentOSIndex = i;
+            }
+        }
+        printf("visiting node %d,%d\n",current.first.x,current.first.y);
+        //if(g->at(current) > 10 && std::find(goals->begin(), goals->end(), current.first) != goals->end()) {
+        if (current.second==1023) { //aparrently some magic number for bion's code, although unsure how to derive
+            std::vector<pointIndex> *solution = reconstruct_path(came_from, current);
+            printf("solution of size %d\n",solution->size());
+            std::vector<NotCGPoint> *actualSolution = new std::vector<NotCGPoint>;
+            for(int i = 0; i < solution->size(); i++) {
+                actualSolution->push_back(solution->at(i).first);
+            }
+            return actualSolution;
+        }
+        openSet->erase(openSet->begin() + currentOSIndex);
+        closedSet->push_back(current);
+        int nextIndex = current.second + 1;
+        printf("the next index is %d\n",nextIndex);
+        std::vector<NotCGPoint> *next = vectors->at(nextIndex);
+        for(int i = 0; i < next->size(); i++) {
+            NotCGPoint neighbor = next->at(i);
+            pointIndex neighborPointIndex = pointIndex(neighbor,nextIndex);
+
+            float tentative_g_score = g->at(current) + heuristic2(current.first, neighbor);
+            if(std::find(closedSet->begin(), closedSet->end(), neighborPointIndex) != closedSet->end()) {
+                if (tentative_g_score >= g->at(neighborPointIndex)) {
+                    continue;
+                }
+            }
+            if (std::find(openSet->begin(), openSet->end(), neighborPointIndex)==openSet->end() || tentative_g_score < g->at(neighborPointIndex)) {
+                if (neighborPointIndex.second != current.second + 1) {
+                    printf("what\n");
+                    abort();
+                }
+                (*came_from)[neighborPointIndex]=current;
+                (*g)[neighborPointIndex] = tentative_g_score; //(score(neighborPointIndex,tentative_g_score));
+                (*f)[neighborPointIndex] = g->at(neighborPointIndex) + heuristic(neighbor, *goals);
+                //f->insert(score(neighborPointIndex,g->at(neighborPointIndex) + heuristic(neighbor, *goals)));
+                if (std::find(openSet->begin(), openSet->end(), neighborPointIndex)==openSet->end()) {
+                    openSet->push_back(neighborPointIndex);
+                    printf("scheduling %d,%d for visit\n",neighbor.x,neighbor.y);
+                }
+                
+            }
+            else {
+                printf("not considering node %d,%d because not open or poor score\n",neighbor.x,neighbor.y);
+            }
+        }
+    }
+    printf("no solution??\n");
+    return new std::vector<NotCGPoint>;
+    
+    for(int i = 0; i < vectors->size(); i++) {
+        std::vector<NotCGPoint> *transitions = new std::vector<NotCGPoint>;
+        //while
+        
     }
 
     free(testimagedataMod1);
