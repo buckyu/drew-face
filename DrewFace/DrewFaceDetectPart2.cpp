@@ -178,7 +178,9 @@ std::vector<std::vector<NotCGPoint>*> *bionsCalc(cv::Mat image) {
     for(int i = 0; i < 1023; i++) {
         for(int y = 0; y < vectors->at(i)->size(); y++) {
             NotCGPoint debug = vectors->at(i)->at(y);
-            SET_PIXEL_OF_MATRIX(image, debug.x, debug.y, 0,0);
+            SET_PIXEL_OF_MATRIX(image, debug.x, debug.y, 0,0xff);
+            SET_PIXEL_OF_MATRIX(image, debug.x, debug.y, 1,0xff);
+
         }
     }
     free(testimagedataMod1);
