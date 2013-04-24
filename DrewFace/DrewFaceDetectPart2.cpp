@@ -45,8 +45,8 @@ struct pindex {
     }
     bool operator<( const pindex & n ) const {
         //compute hash
-        int hash = this->first.x * 5000 + this->first.y * 2000 + this->second;
-        int hash2 = n.first.x * 5000 + n.first.y * 2000 + n.second;
+        int hash = this->first.x * 100000 + this->first.y * 10000 + this->second;
+        int hash2 = n.first.x * 100000 + n.first.y * 10000 + n.second;
         return hash < hash2;   // for example
     }
     bool operator==( const pindex & n) const {
@@ -74,45 +74,7 @@ char looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToo
     return YES;
 }
 
-cv::Mat findTeethAreaDebug(cv::Mat image) {
-    cv::cvtColor(image, image, CV_BGRA2BGR);
-    cv::pyrMeanShiftFiltering(image.clone(), image, 20, 20, 4);
-    cv::cvtColor(image, image, CV_BGR2BGRA);
-    return image;
-}
-
-float heuristic(pointIndex where, std::vector<NotCGPoint> goals) {
-    NotCGPoint stupid = goals[0];
-    return 1023 - where.second;
-}
-
-float heuristic2(NotCGPoint from, NotCGPoint to) {
-    float test = abs(from.y - to.y) * 5 + abs(from.x - to.x) * .1;
-    //test -= 0.5 * abs(from.x - to.y);
-    if (test < 0) return 0;
-    return test;
-}
-
-std::vector<pointIndex> *reconstruct_path(std::map<pointIndex,pointIndex> *came_from, pointIndex current_node) {
-    if (came_from->count(current_node)) {
-        pointIndex a = came_from->at(current_node);
-        assert(a.second==current_node.second - 1);
-        std::vector<pointIndex> *path = reconstruct_path(came_from, came_from->at(current_node));
-        path->insert(path->begin(), current_node);
-        return path;
-    }
-    std::vector<pointIndex> *newPath = new std::vector<pointIndex>;
-    newPath->push_back(current_node);
-    return newPath;
-}
-
-std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
-    //originally: mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
-    //this implementation looks approximately in-place to me
-    //cv::blur(myCvMat, edges, cv::Size(4,4));
-	printf("finding teeth area\n");
-    image = findTeethAreaDebug(image);
-    
+std::vector<std::vector<NotCGPoint>*> *bionsCalc(cv::Mat image) {
     assert(image.dims==2);
     assert(CV_MAT_TYPE(image.type())==CV_8UC4);
     
@@ -125,16 +87,17 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     printf("%ld\n",sizeof(ushort));
     //if you want to grab x: 5, y: 12, channel: g, you do this one:
 #define GET_PIXEL_OF_MATRIX(MTX,X,Y,CHANNEL) image.at<cv::Vec<uint8_t,4>>(Y,X)[CHANNEL]
+#define SET_PIXEL_OF_MATRIX(MTX,X,Y,CHANNEL,VALUE) image.at<cv::Vec<uint8_t,4>>(Y,X)[CHANNEL] = VALUE
 #define WIDTH image.cols
 #define HEIGHT image.rows
-
+    
     
     uint8_t *testimagedataMod1 = (uint8_t*)malloc(HEIGHT * WIDTH *4);
     uint8_t *testimagedataMod2 = (uint8_t*)malloc(HEIGHT * WIDTH *4);
     memset(testimagedataMod1, 0,HEIGHT * WIDTH *4);
     memset(testimagedataMod2, 0,HEIGHT * WIDTH *4);
-
-
+    
+    
     for(int x = 0; x < WIDTH; x++) {
         for(int y = 0; y < HEIGHT; y++) {
             
@@ -155,17 +118,16 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
         }
     }
     
-    int MouthWidth = WIDTH;
-    int MouthHeight = HEIGHT;
-    int cX = MouthWidth / 2;
-    int cY = MouthHeight / 2;
-
+    
+    
     printf("hi!");
 #define SLICE_FOR_NUM_SLICES(num) (M_PI_4 / (num / 8))
 #define COLOR_THRESHOLD 30
 #define MIN_POINTS_PER_VECTOR 3
     std::vector<NotCGPoint> *solutionArray = new std::vector<NotCGPoint>;
     std::vector<std::vector<NotCGPoint>*> *vectors = new std::vector<std::vector<NotCGPoint>*>;
+    int cX = WIDTH / 2;
+    int cY = HEIGHT / 2;
     for(float theta = 0; theta <= 2 * M_PI; theta += SLICE_FOR_NUM_SLICES(1024)) {
         int colorThreshold = COLOR_THRESHOLD;
     radius_loop:
@@ -174,21 +136,21 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
         int baseCr = GET_PIXELMOD1(cX, cY, 1);
         int baseCb = GET_PIXELMOD1(cX, cY, 2);
         std::vector<NotCGPoint> *transitions = new std::vector<NotCGPoint>;
-        for(float r = 0; r <= MouthWidth / 2; r += 0.5) {
+        for(float r = 0; r <= WIDTH / 2; r += 0.5) {
             int x = (int)roundf(cX + r * cos(theta));
             int y = (int)roundf(cY + r * sin(theta));
-            if(x < 0 || y < 0 || x >= MouthWidth || y >= MouthHeight) {
+            if(x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) {
                 break;
             }
-
+            
             int testY = GET_PIXELMOD1(x, y, 0);
             int testCr = GET_PIXELMOD1(x, y, 1);
             int testCb = GET_PIXELMOD1(x, y, 2);
-
+            
             int diffY = abs(testY - baseY);
             int diffCr = abs(testCr - baseCr);
             int diffCb = abs(testCb - baseCb);
-
+            
             if(diffCr > colorThreshold) {
                 //GET_PIXELMOD2(x, y, 0) = 0xff;
                 NotCGPoint pt;
@@ -215,9 +177,57 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     
     for(int i = 0; i < 1023; i++) {
         for(int y = 0; y < vectors->at(i)->size(); y++) {
-            vectors->at(i)->at(y);
+            NotCGPoint debug = vectors->at(i)->at(y);
+            SET_PIXEL_OF_MATRIX(image, debug.x, debug.y, 0,0);
         }
     }
+    free(testimagedataMod1);
+    free(testimagedataMod2);
+    
+    return vectors;
+    
+}
+
+cv::Mat findTeethAreaDebug(cv::Mat image) {
+    cv::cvtColor(image, image, CV_BGRA2BGR);
+    cv::pyrMeanShiftFiltering(image.clone(), image, 20, 20, 4);
+    cv::cvtColor(image, image, CV_BGR2BGRA);
+    std::vector<std::vector<NotCGPoint> *> *vectors = bionsCalc(image);
+
+    return image;
+}
+
+float heuristic(pointIndex where, std::vector<NotCGPoint> goals) {
+    NotCGPoint stupid = goals[0];
+    return 1023 - where.second;
+}
+
+float heuristic2(NotCGPoint from, NotCGPoint to, NotCGPoint centerPt) {
+    //the cost is the inverse of the distance from the center? (e.g. find the outermost point such that)
+    return 1.0 / (sqrtf(powf(centerPt.y - to.y, 2) + pow(centerPt.x - to.x, 2)));
+}
+
+std::vector<pointIndex> *reconstruct_path(std::map<pointIndex,pointIndex> *came_from, pointIndex current_node) {
+    if (came_from->count(current_node)) {
+        pointIndex a = came_from->at(current_node);
+        assert(a.second==current_node.second - 1);
+        std::vector<pointIndex> *path = reconstruct_path(came_from, came_from->at(current_node));
+        path->insert(path->begin(), current_node);
+        return path;
+    }
+    std::vector<pointIndex> *newPath = new std::vector<pointIndex>;
+    newPath->push_back(current_node);
+    return newPath;
+}
+
+std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
+    //originally: mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
+    //this implementation looks approximately in-place to me
+    //cv::blur(myCvMat, edges, cv::Size(4,4));
+	printf("finding teeth area\n");
+    image = findTeethAreaDebug(image);
+    
+    std::vector<std::vector<NotCGPoint> *> *vectors = bionsCalc(image);
     
     
     std::vector<pointIndex> *closedSet = new std::vector<pointIndex>;
@@ -268,8 +278,13 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
         for(int i = 0; i < next->size(); i++) {
             NotCGPoint neighbor = next->at(i);
             pointIndex neighborPointIndex = pointIndex(neighbor,nextIndex);
+            NotCGPoint centerPt;
+            int MouthWidth = WIDTH;
+            int MouthHeight = HEIGHT;
 
-            float tentative_g_score = g->at(current) + heuristic2(current.first, neighbor);
+            centerPt.x = MouthWidth / 2;
+            centerPt.y = MouthHeight / 2;
+            float tentative_g_score = g->at(current) + heuristic2(current.first, neighbor,centerPt);
             if(std::find(closedSet->begin(), closedSet->end(), neighborPointIndex) != closedSet->end()) {
                 if (tentative_g_score >= g->at(neighborPointIndex)) {
                     continue;
@@ -304,11 +319,9 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
         
     }
 
-    free(testimagedataMod1);
-    free(testimagedataMod2);
-    
-    printf("solution of size %lu\n",solutionArray->size());
 
-    return solutionArray;
+    
+    return new std::vector<NotCGPoint>;
+    
     
 }
