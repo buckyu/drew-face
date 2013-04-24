@@ -71,6 +71,7 @@
 		3A76721C170F73650004D6CE /* openCVNative.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A76721A170F73640004D6CE /* openCVNative.cpp */; };
 		3AF0B626170AF37F0085531C /* DrewFaceDetectPart2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0B624170AF37F0085531C /* DrewFaceDetectPart2.cpp */; };
 		3AF0B629170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0B628170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.mm */; };
+		BE432B10172872F700BD43E6 /* SmileStitcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE432B0E172872F700BD43E6 /* SmileStitcher.cpp */; };
 		BE8A45B6171E0171008A6485 /* FaceDetectRenamedObjCExtensions.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE8A45B5171E0171008A6485 /* FaceDetectRenamedObjCExtensions.mm */; };
 		BEDEDA47170A355E008CCA47 /* jpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BEDEDA46170A355E008CCA47 /* jpeg.a */; };
 		BEE9DE61170B5E5500DD1540 /* DrewFaceDetect.mm in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DE60170B5E5500DD1540 /* DrewFaceDetect.mm */; };
@@ -190,6 +191,8 @@
 		3AF0B625170AF37F0085531C /* DrewFaceDetectPart2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrewFaceDetectPart2.h; sourceTree = "<group>"; };
 		3AF0B627170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FindMouthsViewController+CPlusPlusExtensions.h"; sourceTree = "<group>"; };
 		3AF0B628170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "FindMouthsViewController+CPlusPlusExtensions.mm"; sourceTree = "<group>"; };
+		BE432B0E172872F700BD43E6 /* SmileStitcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmileStitcher.cpp; sourceTree = "<group>"; };
+		BE432B0F172872F700BD43E6 /* SmileStitcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmileStitcher.h; sourceTree = "<group>"; };
 		BE67C1361704FCA400EBB4DF /* jpeglib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jpeglib.h; sourceTree = "<group>"; };
 		BE67C1371704FCB800EBB4DF /* jconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jconfig.h; sourceTree = "<group>"; };
 		BE67C1381704FCC800EBB4DF /* jmorecfg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jmorecfg.h; sourceTree = "<group>"; };
@@ -304,6 +307,8 @@
 			children = (
 				3A02316A16C97F220092817E /* Detect.h */,
 				3A02316816C97F190092817E /* Detect.cpp */,
+				BE432B0F172872F700BD43E6 /* SmileStitcher.h */,
+				BE432B0E172872F700BD43E6 /* SmileStitcher.cpp */,
 			);
 			name = "C/C++ Only";
 			sourceTree = "<group>";
@@ -613,6 +618,7 @@
 				3A767219170F72780004D6CE /* FaceDetectRenamed.cpp in Sources */,
 				3A76721C170F73650004D6CE /* openCVNative.cpp in Sources */,
 				BE8A45B6171E0171008A6485 /* FaceDetectRenamedObjCExtensions.mm in Sources */,
+				BE432B10172872F700BD43E6 /* SmileStitcher.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

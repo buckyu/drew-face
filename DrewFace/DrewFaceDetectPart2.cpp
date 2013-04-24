@@ -32,6 +32,12 @@
 #define NO 0
 #define YES 1
 
+struct CalcStruct {
+    NotCGPoint pt;
+    int diffCr;
+};
+typedef struct CalcStruct CalcStruct;
+
 struct pindex {
     NotCGPoint first;
     int second;
@@ -74,11 +80,9 @@ char looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToo
     return YES;
 }
 
-std::vector<std::vector<NotCGPoint>*> *bionsCalc(cv::Mat image) {
+std::vector<std::vector<CalcStruct>*> *bionsCalc(cv::Mat image) {
     assert(image.dims==2);
     assert(CV_MAT_TYPE(image.type())==CV_8UC4);
-    
-    
     
     /**drew's handy dandy translation guide:
      image.size.width == matrix.cols
@@ -91,12 +95,10 @@ std::vector<std::vector<NotCGPoint>*> *bionsCalc(cv::Mat image) {
 #define WIDTH image.cols
 #define HEIGHT image.rows
     
-    
     uint8_t *testimagedataMod1 = (uint8_t*)malloc(HEIGHT * WIDTH *4);
     uint8_t *testimagedataMod2 = (uint8_t*)malloc(HEIGHT * WIDTH *4);
     memset(testimagedataMod1, 0,HEIGHT * WIDTH *4);
     memset(testimagedataMod2, 0,HEIGHT * WIDTH *4);
-    
     
     for(int x = 0; x < WIDTH; x++) {
         for(int y = 0; y < HEIGHT; y++) {
@@ -118,14 +120,12 @@ std::vector<std::vector<NotCGPoint>*> *bionsCalc(cv::Mat image) {
         }
     }
     
-    
-    
     printf("hi!");
 #define SLICE_FOR_NUM_SLICES(num) (M_PI_4 / (num / 8))
-#define COLOR_THRESHOLD 30
-#define MIN_POINTS_PER_VECTOR 3
-    std::vector<NotCGPoint> *solutionArray = new std::vector<NotCGPoint>;
-    std::vector<std::vector<NotCGPoint>*> *vectors = new std::vector<std::vector<NotCGPoint>*>;
+#define COLOR_THRESHOLD 20
+#define MIN_POINTS_PER_VECTOR 8
+    //std::vector<NotCGPoint> *solutionArray = new std::vector<NotCGPoint>;
+    std::vector<std::vector<CalcStruct>*> *vectors = new std::vector<std::vector<CalcStruct>*>;
     int cX = WIDTH / 2;
     int cY = HEIGHT / 2;
     for(float theta = 0; theta <= 2 * M_PI; theta += SLICE_FOR_NUM_SLICES(1024)) {
@@ -135,7 +135,7 @@ std::vector<std::vector<NotCGPoint>*> *bionsCalc(cv::Mat image) {
         int baseY = GET_PIXELMOD1(cX, cY, 0);
         int baseCr = GET_PIXELMOD1(cX, cY, 1);
         int baseCb = GET_PIXELMOD1(cX, cY, 2);
-        std::vector<NotCGPoint> *transitions = new std::vector<NotCGPoint>;
+        std::vector<CalcStruct> *transitions = new std::vector<CalcStruct>;
         for(float r = 0; r <= WIDTH / 2; r += 0.5) {
             int x = (int)roundf(cX + r * cos(theta));
             int y = (int)roundf(cY + r * sin(theta));
@@ -153,12 +153,10 @@ std::vector<std::vector<NotCGPoint>*> *bionsCalc(cv::Mat image) {
             
             if(diffCr > colorThreshold) {
                 //GET_PIXELMOD2(x, y, 0) = 0xff;
-                NotCGPoint pt;
-                pt.x = x;
-                pt.y = y;
+                CalcStruct pt = {.pt={.x=x, .y=y}, .diffCr=diffCr};
                 transitions->push_back(pt);
                 transitionCount++;
-                solutionArray->push_back(pt);
+                //solutionArray->push_back(pt);
                 baseY = testY;
                 baseCr = testCr;
                 baseCb = testCb;
@@ -167,7 +165,8 @@ std::vector<std::vector<NotCGPoint>*> *bionsCalc(cv::Mat image) {
         if(transitionCount < MIN_POINTS_PER_VECTOR) {
             if(colorThreshold == 0) {
                 fprintf(stderr, "There is no red shift anywhere along this angle. Your image just sucks.\n");
-                return new std::vector<std::vector<NotCGPoint>*>;
+                assert(!vectors->empty());
+                return (std::vector<std::vector<CalcStruct>*> *)vectors->back();
             }
             colorThreshold--;
             goto radius_loop;
@@ -177,10 +176,9 @@ std::vector<std::vector<NotCGPoint>*> *bionsCalc(cv::Mat image) {
     
     for(int i = 0; i < 1023; i++) {
         for(int y = 0; y < vectors->at(i)->size(); y++) {
-            NotCGPoint debug = vectors->at(i)->at(y);
+            NotCGPoint debug = vectors->at(i)->at(y).pt;
             SET_PIXEL_OF_MATRIX(image, debug.x, debug.y, 0,0xff);
             SET_PIXEL_OF_MATRIX(image, debug.x, debug.y, 1,0xff);
-
         }
     }
     free(testimagedataMod1);
