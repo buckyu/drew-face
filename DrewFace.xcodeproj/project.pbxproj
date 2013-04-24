@@ -72,6 +72,7 @@
 		3AF0B626170AF37F0085531C /* DrewFaceDetectPart2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0B624170AF37F0085531C /* DrewFaceDetectPart2.cpp */; };
 		3AF0B629170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0B628170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.mm */; };
 		BE432B10172872F700BD43E6 /* SmileStitcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE432B0E172872F700BD43E6 /* SmileStitcher.cpp */; };
+		BE432B1B17287B8E00BD43E6 /* jpegHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE432B1917287B8E00BD43E6 /* jpegHelpers.cpp */; };
 		BE8A45B6171E0171008A6485 /* FaceDetectRenamedObjCExtensions.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE8A45B5171E0171008A6485 /* FaceDetectRenamedObjCExtensions.mm */; };
 		BEDEDA47170A355E008CCA47 /* jpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BEDEDA46170A355E008CCA47 /* jpeg.a */; };
 		BEE9DE61170B5E5500DD1540 /* DrewFaceDetect.mm in Sources */ = {isa = PBXBuildFile; fileRef = BEE9DE60170B5E5500DD1540 /* DrewFaceDetect.mm */; };
@@ -193,6 +194,8 @@
 		3AF0B628170AF6F70085531C /* FindMouthsViewController+CPlusPlusExtensions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "FindMouthsViewController+CPlusPlusExtensions.mm"; sourceTree = "<group>"; };
 		BE432B0E172872F700BD43E6 /* SmileStitcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmileStitcher.cpp; sourceTree = "<group>"; };
 		BE432B0F172872F700BD43E6 /* SmileStitcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmileStitcher.h; sourceTree = "<group>"; };
+		BE432B1917287B8E00BD43E6 /* jpegHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jpegHelpers.cpp; sourceTree = "<group>"; };
+		BE432B1A17287B8E00BD43E6 /* jpegHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jpegHelpers.h; sourceTree = "<group>"; };
 		BE67C1361704FCA400EBB4DF /* jpeglib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jpeglib.h; sourceTree = "<group>"; };
 		BE67C1371704FCB800EBB4DF /* jconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jconfig.h; sourceTree = "<group>"; };
 		BE67C1381704FCC800EBB4DF /* jmorecfg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jmorecfg.h; sourceTree = "<group>"; };
@@ -305,6 +308,8 @@
 		3A02316716C97EF50092817E /* C/C++ Only */ = {
 			isa = PBXGroup;
 			children = (
+				BE432B1A17287B8E00BD43E6 /* jpegHelpers.h */,
+				BE432B1917287B8E00BD43E6 /* jpegHelpers.cpp */,
 				3A02316A16C97F220092817E /* Detect.h */,
 				3A02316816C97F190092817E /* Detect.cpp */,
 				BE432B0F172872F700BD43E6 /* SmileStitcher.h */,
@@ -619,6 +624,7 @@
 				3A76721C170F73650004D6CE /* openCVNative.cpp in Sources */,
 				BE8A45B6171E0171008A6485 /* FaceDetectRenamedObjCExtensions.mm in Sources */,
 				BE432B10172872F700BD43E6 /* SmileStitcher.cpp in Sources */,
+				BE432B1B17287B8E00BD43E6 /* jpegHelpers.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
