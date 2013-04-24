@@ -122,7 +122,7 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
      image.size.width == matrix.cols
      image.size.height == matrix.rows
      */
-    printf("%d\n",sizeof(ushort));
+    printf("%ld\n",sizeof(ushort));
     //if you want to grab x: 5, y: 12, channel: g, you do this one:
 #define GET_PIXEL_OF_MATRIX(MTX,X,Y,CHANNEL) image.at<cv::Vec<uint8_t,4>>(Y,X)[CHANNEL]
 #define WIDTH image.cols
@@ -164,14 +164,16 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     int baseCr = GET_PIXELMOD1(cX, cY, 1);
     int baseCb = GET_PIXELMOD1(cX, cY, 2);
     printf("hi!");
-#define COLOR_THRESHOLD 15
+#define COLOR_THRESHOLD 30
 #define SLICE_FOR_NUM_SLICES(num) (M_PI_4 / (num / 8))
-#define POINTS_PER_VECTOR 8
+#define MIN_POINTS_PER_VECTOR 3
     std::vector<NotCGPoint> *solutionArray = new std::vector<NotCGPoint>;
     std::vector<std::vector<NotCGPoint>*> *vectors = new std::vector<std::vector<NotCGPoint>*>;
     for(float theta = 0; theta <= 2 * M_PI; theta += SLICE_FOR_NUM_SLICES(1024)) {
-        std::vector<NotCGPoint> *transitions = new std::vector<NotCGPoint>;
         int transitionCount = 0;
+        int colorThreshold = COLOR_THRESHOLD;
+    radius_loop:
+        std::vector<NotCGPoint> *transitions = new std::vector<NotCGPoint>;
         for(float r = 0; r <= MouthWidth / 2; r += 0.5) {
             int x = (int)roundf(cX + r * cos(theta));
             int y = (int)roundf(cY + r * sin(theta));
@@ -187,21 +189,26 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
             int diffCr = abs(testCr - baseCr);
             int diffCb = abs(testCb - baseCb);
 
-            if(diffCr > COLOR_THRESHOLD) {
+            if(diffCr > colorThreshold) {
                 //GET_PIXELMOD2(x, y, 0) = 0xff;
                 NotCGPoint pt;
                 pt.x = x;
                 pt.y = y;
                 transitions->push_back(pt);
                 transitionCount++;
-                if(++transitionCount == POINTS_PER_VECTOR) {
-                    solutionArray->push_back(pt);
-                    break;
-                }
+                solutionArray->push_back(pt);
                 baseY = testY;
                 baseCr = testCr;
                 baseCb = testCb;
             }
+        }
+        if(transitionCount == 0 || transitionCount < MIN_POINTS_PER_VECTOR) {
+            if(colorThreshold == 0) {
+                fprintf(stderr, "There is no red shift anywhere along this angle. Your image just sucks.\n");
+                abort();
+            }
+            colorThreshold--;
+            goto radius_loop;
         }
         vectors->push_back(transitions);
     }
