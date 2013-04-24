@@ -164,8 +164,8 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     int baseCr = GET_PIXELMOD1(cX, cY, 1);
     int baseCb = GET_PIXELMOD1(cX, cY, 2);
     printf("hi!");
-#define COLOR_THRESHOLD 30
 #define SLICE_FOR_NUM_SLICES(num) (M_PI_4 / (num / 8))
+#define COLOR_THRESHOLD 30
 #define MIN_POINTS_PER_VECTOR 3
     std::vector<NotCGPoint> *solutionArray = new std::vector<NotCGPoint>;
     std::vector<std::vector<NotCGPoint>*> *vectors = new std::vector<std::vector<NotCGPoint>*>;
@@ -202,7 +202,7 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
                 baseCb = testCb;
             }
         }
-        if(transitionCount == 0 || transitionCount < MIN_POINTS_PER_VECTOR) {
+        if(transitionCount < MIN_POINTS_PER_VECTOR) {
             if(colorThreshold == 0) {
                 fprintf(stderr, "There is no red shift anywhere along this angle. Your image just sucks.\n");
                 abort();
