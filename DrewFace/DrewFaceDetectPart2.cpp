@@ -125,7 +125,7 @@ std::vector<std::vector<CalcStruct>*> *bionsCalc(cv::Mat image) {
     printf("hi!");
 #define SLICE_FOR_NUM_SLICES(num) (M_PI_4 / (num / 8))
 #define COLOR_THRESHOLD 20
-#define MIN_POINTS_PER_VECTOR 8
+#define MIN_POINTS_PER_VECTOR 4
     //std::vector<NotCGPoint> *solutionArray = new std::vector<NotCGPoint>;
     std::vector<std::vector<CalcStruct>*> *vectors = new std::vector<std::vector<CalcStruct>*>;
     int cX = WIDTH / 2;
@@ -164,7 +164,7 @@ std::vector<std::vector<CalcStruct>*> *bionsCalc(cv::Mat image) {
                 baseCb = testCb;
             }
         }
-        if(transitionCount < MIN_POINTS_PER_VECTOR && 0) {
+        if(transitionCount < MIN_POINTS_PER_VECTOR) {
             if(colorThreshold == 0) {
                 fprintf(stderr, "There is no red shift anywhere along this angle. Your image just sucks.\n");
                 assert(!vectors->empty());
@@ -248,7 +248,7 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
             bucketV->push_back(vectors->at(i)->at(y));
         }
         bucket++;
-        if (bucketV->size() && bucket >  HOW_MANY_BUCKETS / bucketV->size()) {
+        if (bucket > vectors->size() / HOW_MANY_BUCKETS) {
             printf("bucket of size %d\n",bucketV->size());
             scaled->push_back(bucketV);
             bucketV = new std::vector<CalcStruct>;
