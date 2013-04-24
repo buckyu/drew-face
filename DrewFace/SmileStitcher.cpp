@@ -16,12 +16,12 @@
 #endif
 
 const char *stitchMouthOnFace(FileInfo *fileInfo, char *mouthImage) {
-    char *ret = (char*)calloc(strlen(fileInfo->originalFileNamePath) + 5 + 1, sizeof(char));
+    char *ret = (char*)calloc(strlen(fileInfo->originalFileNamePath) + 9 + 1, sizeof(char));
     if(!ret) {
         //out of memory
         return NULL;
     }
-    sprintf(ret, "modd-%s", fileInfo->originalFileNamePath);
+    sprintf(ret, "%s-replaced", fileInfo->originalFileNamePath);
 
     std::vector<cv::Mat> *imgs = new std::vector<cv::Mat>;
     jpeg *face = loadJPEGFromFile(fileInfo->originalFileNamePath);
@@ -37,7 +37,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, char *mouthImage) {
     freeJpeg(mouth);
 
 #if DONT_PORT
-    writeToDisk(stitched, ret);
+    writeReplaceToDisk(stitched, ret);
 #endif
 
     return ret;

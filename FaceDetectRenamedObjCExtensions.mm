@@ -10,8 +10,6 @@
 #import "OpenCvClass.h"
 #import "FindMouthsViewController+CPlusPlusExtensions.h"
 void writeToDisk(cv::Mat mtx,const char *fullPath) {
-
-
     NSData *dataToWrite = UIImagePNGRepresentation([OpenCvClass UIImageFromCVMat:mtx]);
     assert(dataToWrite);
     NSString *path = [NSString stringWithFormat:@"%s",fullPath];
@@ -19,7 +17,6 @@ void writeToDisk(cv::Mat mtx,const char *fullPath) {
     UIImage *teethDetect = [[[FindMouthsViewController alloc] init] lookForTeethInMouthImage:[OpenCvClass UIImageFromCVMat:mtx]];
     
     NSString *docsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    
 
     NSString *extractedMouthsDir = [docsDir stringByAppendingPathComponent:@"EXTRACTED_MOUTHS"];
     NSString *extractedTeethDir = [docsDir stringByAppendingPathComponent:@"EXTRACTED_MOUTHS_EDGES"];
@@ -35,5 +32,21 @@ void writeToDisk(cv::Mat mtx,const char *fullPath) {
     thumbPath = [extractedTeethDir stringByAppendingPathComponent:simpleFileName];
     thumbPath = [[thumbPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
     [dataToWrite writeToFile:thumbPath atomically:YES];
+}
 
+void writeReplaceToDisk(cv::Mat mtx, const char *fullPath) {
+    NSData *dataToWrite = UIImagePNGRepresentation([OpenCvClass UIImageFromCVMat:mtx]);
+    assert(dataToWrite);
+    NSString *path = [NSString stringWithFormat:@"%s",fullPath];
+    NSString *simpleFileName = [path lastPathComponent];
+
+    NSString *docsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+
+    NSString *extractedReplaceDir = [docsDir stringByAppendingPathComponent:@"EXTRACTED_REPLACE"];
+
+    [[NSFileManager defaultManager] createDirectoryAtPath:extractedReplaceDir withIntermediateDirectories:YES attributes:nil error:nil];
+
+    NSString *thumbPath = [extractedReplaceDir stringByAppendingPathComponent:simpleFileName];
+    thumbPath = [[thumbPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
+    [dataToWrite writeToFile:thumbPath atomically:YES];
 }
