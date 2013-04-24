@@ -26,10 +26,11 @@
     NSString *docsDir;
     NSString *extractedMouthsDir;
     NSString *extractedMouthsEdgesDir;
+    NSString *extractedReplaceDir;
     
     BOOL ShowMouthsBool;
     BOOL ShowEdgesBool;
-    
+    BOOL ShowReplaceBool;
 }
 
 @property (weak) id <ShowMouthsViewControllerClassDelegate> delegate;

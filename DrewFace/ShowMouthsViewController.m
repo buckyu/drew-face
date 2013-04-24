@@ -15,31 +15,14 @@
 @end
 
 @implementation ShowMouthsViewController
-
 @synthesize delegate;
-
 @synthesize tableview;
 @synthesize navbar;
 @synthesize backButton;
 @synthesize activity;
 @synthesize toggleListButton;
 
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        
-        // data source for tableview
-        //fileInfos = [NSMutableArray new];
-        
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
@@ -47,12 +30,14 @@
     toggleListButton.enabled = NO;
     ShowMouthsBool = YES;
     ShowEdgesBool = NO;
+    ShowReplaceBool = NO;
     
     // directory and file IO stuff
     manager = [NSFileManager defaultManager];
     docsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     extractedMouthsDir = [docsDir stringByAppendingPathComponent:@"EXTRACTED_MOUTHS"];
     extractedMouthsEdgesDir = [docsDir stringByAppendingPathComponent:@"EXTRACTED_MOUTHS_EDGES"];
+    extractedReplaceDir = [docsDir stringByAppendingPathComponent:@"EXTRACTED_REPLACE"];
     
     [activity startAnimating];
     self.tableview.hidden = YES;
@@ -61,15 +46,11 @@
     
 }
 
-
-
 -(void)loadTableView {
-    
     // data source for tableview
     fileInfos = [NSMutableArray new];
 
     @autoreleasepool {
-        
         NSArray *fileList;
         
         fileList = nil;
@@ -112,7 +93,10 @@
             [fileInfos addObject:fileInfo];
         }
 
-        
+        fileList = nil;
+        if (ShowReplaceBool) {
+            fileList = [manager contentsOfDirectoryAtPath:extractedReplaceDir error:NULL];
+        }
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -125,16 +109,12 @@
             [self.tableview selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedCellRow inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
         }
     });
-    
 }
-
-
 
 -(IBAction)backButtonPressed {
     [self.delegate centerOnSelectedCell];
     [self.presentingViewController dismissModalViewControllerAnimated:YES];
 }
-
 
 -(IBAction)toggleListButtonPressed {
     backButton.enabled = NO;
@@ -142,22 +122,30 @@
     self.tableview.hidden = YES;
     [activity startAnimating];
     
-    if ([toggleListButton.title isEqualToString:@"Mouths"]) {
-        self.navbar.topItem.title = @"Mouths";
+    if([toggleListButton.title isEqualToString:@"Mouths"]) {
         toggleListButton.title = @"Teeth";
+        self.navbar.topItem.title = @"Mouths";
         ShowMouthsBool = YES;
         ShowEdgesBool = NO;
-    } else {
-        toggleListButton.title = @"Mouths";
+        ShowReplaceBool = NO;
+    } else if([toggleListButton.title isEqualToString:@"Teeth"]) {
+        toggleListButton.title = @"Replace";
         self.navbar.topItem.title = @"Teeth";
         ShowMouthsBool = NO;
         ShowEdgesBool = YES;
+        ShowReplaceBool = NO;
+    } else {
+        toggleListButton.title = @"Mouths";
+        self.navbar.topItem.title = @"Replace";
+        ShowMouthsBool = NO;
+        ShowEdgesBool = NO;
+        ShowReplaceBool = YES;
     }
     
     [self performSelectorInBackground:@selector(loadTableView) withObject:nil];
 }
 
-
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	return 1;
@@ -168,14 +156,6 @@
         return fileInfos.count;
     } else {
         return 1;
-    }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (fileInfos.count == 0) {
-        return 568;
-    } else {
-        return TABLEVIEW_CELL_HEIGHT;
     }
 }
 
@@ -208,6 +188,15 @@
     return cell;
 }
 
+#pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (fileInfos.count == 0) {
+        return 568;
+    } else {
+        return TABLEVIEW_CELL_HEIGHT;
+    }
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -220,7 +209,6 @@
     [self.delegate setHighlightedCellRow:self.selectedCellRow];
     
 }
-
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -235,17 +223,6 @@
         cell.backgroundColor = [UIColor clearColor];
     }
     
-}
-
-
-
-
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

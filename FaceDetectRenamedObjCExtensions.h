@@ -9,3 +9,4 @@
 //#import <Foundation/Foundation.h>
 
 void writeToDisk(cv::Mat mtx,const char *filePath);
+void writeReplaceToDisk(cv::Mat mtx, const char *fullPath);
