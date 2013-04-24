@@ -166,7 +166,7 @@ std::vector<std::vector<CalcStruct>*> *bionsCalc(cv::Mat image) {
             if(colorThreshold == 0) {
                 fprintf(stderr, "There is no red shift anywhere along this angle. Your image just sucks.\n");
                 assert(!vectors->empty());
-                return (std::vector<std::vector<CalcStruct>*> *)vectors->back();
+                return new std::vector<std::vector<CalcStruct>*>;
             }
             colorThreshold--;
             goto radius_loop;
@@ -202,9 +202,16 @@ float heuristic(pointIndex where, std::vector<CalcStruct> goals) {
     return 1023 - where.second;
 }
 
-float heuristic2(NotCGPoint from, NotCGPoint to, NotCGPoint centerPt) {
+float heuristic2(NotCGPoint from, CalcStruct to, NotCGPoint centerPt) {
+    float weighted_diffcr = 1/ (to.diffCr / 0.3);
+    float horizontal_is_good = 1 / (fabsf(from.x - to.pt.x) + 1) * 5;
+    //printf("adjusted diffcf %f\n",weighted_diffcr);
+    //if (from.x==to.pt.x && from.y==to.pt.y) return 2;
+    float euclid = sqrtf(powf(from.y - to.pt.y, 2) + powf(from.x - to.pt.x, 2));
+    return weighted_diffcr + euclid + horizontal_is_good+  1;
     //the cost is the inverse of the distance from the center? (e.g. find the outermost point such that)
-    return 1.0 / (sqrtf(powf(centerPt.y - to.y, 2) + pow(centerPt.x - to.x, 2)));
+
+    //return abs(from.y - to.y) + 1.0 / (sqrtf(powf(centerPt.y - to.y, 2) + pow(centerPt.x - to.x, 2)));
 }
 
 std::vector<pointIndex> *reconstruct_path(std::map<pointIndex,pointIndex> *came_from, pointIndex current_node) {
@@ -238,7 +245,7 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     typedef std::pair<pointIndex,float> score;
     std::map<pointIndex,float> *f = new std::map<pointIndex,float>;
     //typedef std::pair<pointIndex,int> pointIndex;
-    if (!vectors->size() || true) {
+    if (!vectors->size()) {
         printf("bion gave us no solution, you're not getting one either\n");
         return new std::vector<NotCGPoint>;
     }
@@ -289,7 +296,7 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
 
             centerPt.x = MouthWidth / 2;
             centerPt.y = MouthHeight / 2;
-            float tentative_g_score = g->at(current) + heuristic2(current.first, neighbor,centerPt);
+            float tentative_g_score = g->at(current) + heuristic2(current.first, next->at(i),centerPt);
             if(std::find(closedSet->begin(), closedSet->end(), neighborPointIndex) != closedSet->end()) {
                 if (tentative_g_score >= g->at(neighborPointIndex)) {
                     continue;
