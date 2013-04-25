@@ -10,6 +10,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui_c.h>
 
 #define GET_PIXELORIG(X,Y,Z) testimagedataOrig[((int)WIDTH * 4 * Y) + (4 * X) + Z]
 #define GET_PIXEL(X,Y,Z) testimagedata[((int)WIDTH * 4 * Y) + (4 * X) + Z]
@@ -40,28 +41,6 @@ struct CalcStruct {
 };
 typedef struct CalcStruct CalcStruct;
 
-struct pindex {
-    NotCGPoint first;
-    int second;
-    /**I continue to be sorry*/
-    pindex(NotCGPoint ifirst,int isecond) {
-        this->first = ifirst;
-        this->second = isecond;
-    }
-    pindex() {
-        
-    }
-    bool operator<( const pindex & n ) const {
-        //compute hash
-        int hash = this->first.x * 100000 + this->first.y * 10000 + this->second;
-        int hash2 = n.first.x * 100000 + n.first.y * 10000 + n.second;
-        return hash < hash2;   // for example
-    }
-    bool operator==( const pindex & n) const {
-        return this->first.x==n.first.x && this->first.y == n.first.y && this->second==n.second;
-    }
-
-};
 typedef struct pindex pointIndex;
 
 
@@ -82,164 +61,127 @@ char looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToo
     return YES;
 }
 
-std::vector<std::vector<CalcStruct>*> *bionsCalc(cv::Mat image) {
-    assert(image.dims==2);
-    assert(CV_MAT_TYPE(image.type())==CV_8UC4);
-    
-    /**drew's handy dandy translation guide:
-     image.size.width == matrix.cols
-     image.size.height == matrix.rows
-     */
-    printf("%ld\n",sizeof(ushort));
-    //if you want to grab x: 5, y: 12, channel: g, you do this one:
-#define GET_PIXEL_OF_MATRIX(MTX,X,Y,CHANNEL) image.at<cv::Vec<uint8_t,4>>(Y,X)[CHANNEL]
-#define SET_PIXEL_OF_MATRIX(MTX,X,Y,CHANNEL,VALUE) image.at<cv::Vec<uint8_t,4>>(Y,X)[CHANNEL] = VALUE
-#define WIDTH image.cols
-#define HEIGHT image.rows
-    
-    uint8_t *testimagedataMod1 = (uint8_t*)malloc(HEIGHT * WIDTH *4);
-    uint8_t *testimagedataMod2 = (uint8_t*)malloc(HEIGHT * WIDTH *4);
-    memset(testimagedataMod1, 0,HEIGHT * WIDTH *4);
-    memset(testimagedataMod2, 0,HEIGHT * WIDTH *4);
-    
-    for(int x = 0; x < WIDTH; x++) {
-        for(int y = 0; y < HEIGHT; y++) {
-            
-            uint8_t pxR = GET_PIXEL_OF_MATRIX(image, x, y, 0);
-            uint8_t pxG = GET_PIXEL_OF_MATRIX(image, x, y, 1);
-            uint8_t pxB = GET_PIXEL_OF_MATRIX(image, x, y, 2);
-            float Y = 0.299*(float)pxR + 0.587*(float)pxG + 0.114*(float)pxB;
-            float CR = 0.713*((float)pxR - Y);
-            if (CR<0) CR = 0;
-            if (CR>255) CR = 255;
-            float CB = 0.564*((float)pxB - Y);
-            if (CB<0) CB= 0;
-            if (CB>255) CB = 255;
-            
-            GET_PIXELMOD1(x,y,0) = Y;
-            GET_PIXELMOD1(x,y,1) = CR;
-            GET_PIXELMOD1(x,y,2) = CB;
-        }
-    }
-    
-    printf("hi!");
-#define SLICE_FOR_NUM_SLICES(num) (M_PI_4 / (num / 8))
-#define COLOR_THRESHOLD 20
-#define MIN_POINTS_PER_VECTOR 4
-    //std::vector<NotCGPoint> *solutionArray = new std::vector<NotCGPoint>;
-    std::vector<std::vector<CalcStruct>*> *vectors = new std::vector<std::vector<CalcStruct>*>;
-    int cX = WIDTH / 2;
-    int cY = HEIGHT / 2;
-    for(float theta = 0; theta <= 2 * M_PI; theta += SLICE_FOR_NUM_SLICES(1024)) {
-        int colorThreshold = COLOR_THRESHOLD;
-    radius_loop:
-        int transitionCount = 0;
-        int baseY = GET_PIXELMOD1(cX, cY, 0);
-        int baseCr = GET_PIXELMOD1(cX, cY, 1);
-        int baseCb = GET_PIXELMOD1(cX, cY, 2);
-        std::vector<CalcStruct> *transitions = new std::vector<CalcStruct>;
-        for(float r = 0; r <= WIDTH / 2; r += 0.5) {
-            int x = (int)roundf(cX + r * cos(theta));
-            int y = (int)roundf(cY + r * sin(theta));
-            if(x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) {
-                break;
-            }
-            
-            int testY = GET_PIXELMOD1(x, y, 0);
-            int testCr = GET_PIXELMOD1(x, y, 1);
-            int testCb = GET_PIXELMOD1(x, y, 2);
-            
-            int diffY = abs(testY - baseY);
-            int diffCr = abs(testCr - baseCr);
-            int diffCb = abs(testCb - baseCb);
-            
-            if(diffCr > colorThreshold) {
-                //GET_PIXELMOD2(x, y, 0) = 0xff;
-                CalcStruct pt = {.pt={.x=x, .y=y}, .diffCr=diffCr};
-                transitions->push_back(pt);
-                transitionCount++;
-                //solutionArray->push_back(pt);
-                baseY = testY;
-                baseCr = testCr;
-                baseCb = testCb;
-            }
-        }
-        if(transitionCount < MIN_POINTS_PER_VECTOR) {
-            if(colorThreshold == 0) {
-                fprintf(stderr, "There is no red shift anywhere along this angle. Your image just sucks.\n");
-                assert(!vectors->empty());
-                return new std::vector<std::vector<CalcStruct>*>;
-            }
-            colorThreshold--;
-            goto radius_loop;
-        }
-        vectors->push_back(transitions);
-    }
-    
-    int points = 0;
-    for(int i = 1; i < vectors->size(); i++) { //get a 1px buffer
-        for(int y = 1; y < vectors->at(i)->size() -1; y++) {
-            NotCGPoint debug = vectors->at(i)->at(y).pt;
-            if (debug.x < 1 || debug.y < 1) continue;
-            if (debug.x==WIDTH || debug.y ==HEIGHT) continue;
-            SET_PIXEL_OF_MATRIX(image, debug.x, debug.y, 0,0xff);
-            SET_PIXEL_OF_MATRIX(image, debug.x, debug.y, 1,0xff);
-            SET_PIXEL_OF_MATRIX(image, debug.x, debug.y+1, 0,0xff);
-            SET_PIXEL_OF_MATRIX(image, debug.x, debug.y+1, 1,0xff);
-            SET_PIXEL_OF_MATRIX(image, debug.x+1, debug.y+1, 0,0xff);
-            SET_PIXEL_OF_MATRIX(image, debug.x+1, debug.y+1, 1,0xff);
-            SET_PIXEL_OF_MATRIX(image, debug.x+1, debug.y, 0,0xff);
-            SET_PIXEL_OF_MATRIX(image, debug.x+1, debug.y, 1,0xff);
-            ++points;
-            
-        }
-    }
-    printf("all the points were %d\n",points);
-    free(testimagedataMod1);
-    free(testimagedataMod2);
-    
-    return vectors;
-    
-}
+/**drew's handy dandy translation guide:
+ image.size.width == matrix.cols
+ image.size.height == matrix.rows
+ */
+
+#define GET_PIXEL_OF_MATRIX4(MTX,X,Y,CHANNEL) MTX.at<cv::Vec<uint8_t,4>>(Y,X)[CHANNEL]
+#define SET_PIXEL_OF_MATRIX4(MTX,X,Y,CHANNEL,VALUE) MTX.at<cv::Vec<uint8_t,4>>(Y,X)[CHANNEL] = VALUE
+#define GET_PIXEL_OF_MATRIX3(MTX,X,Y,CHANNEL) MTX.at<cv::Vec<uint8_t,3>>(Y,X)[CHANNEL]
+#define SET_PIXEL_OF_MATRIX3(MTX,X,Y,CHANNEL,VALUE) MTX.at<cv::Vec<uint8_t,3>>(Y,X)[CHANNEL] = VALUE
 
 cv::Mat findTeethAreaDebug(cv::Mat image) {
-    cv::cvtColor(image, image, CV_BGRA2BGR);
-    //cv::pyrMeanShiftFiltering(image.clone(), image, 20, 20, 4);
-    cv::cvtColor(image, image, CV_BGR2BGRA);
-    std::vector<std::vector<CalcStruct> *> *vectors = bionsCalc(image);
+    
+    //first we build a custom color space to work in.  This space is given in §L181, and an empirical derivation on §L184.
+    cv::Mat RGB = image.clone();
+    cv::cvtColor(image, RGB, CV_BGRA2BGR);
+    
+    cv::Mat CIELAB = RGB.clone();
+    cv::cvtColor(image, CIELAB, CV_BGR2Lab);
+    
+    cv::Mat CIELUV = RGB.clone();
+    cv::cvtColor(image, CIELUV, CV_BGR2Luv);
+    
+    cv::Mat CIELAU = RGB.clone();
+    for(int x = 0; x < image.cols; x++) {
+        for(int y = 0; y < image.rows; y++) {
+            /*
+            int k1 = GET_PIXEL_OF_MATRIX3(CIELAB, x, y, 0);
+            int k2 = GET_PIXEL_OF_MATRIX3(CIELAB, x, y, 1);
+            int k3 = GET_PIXEL_OF_MATRIX3(CIELAB, x, y, 2);
+            int k4 = GET_PIXEL_OF_MATRIX3(CIELUV, x, y, 0);
+            int k5 = GET_PIXEL_OF_MATRIX3(CIELUV, x, y, 1);
+            int k6 = GET_PIXEL_OF_MATRIX3(CIELUV, x, y, 2);*/
+            int l = GET_PIXEL_OF_MATRIX3(CIELAB, x, y, 0);
+            int l2 = GET_PIXEL_OF_MATRIX3(CIELUV, x, y, 0);
+            assert(fabs(l - l2) < 5);
+            int a = GET_PIXEL_OF_MATRIX3(CIELAB, x, y, 1);
+            int u = GET_PIXEL_OF_MATRIX3(CIELUV, x, y, 1);
+            SET_PIXEL_OF_MATRIX3(CIELAU, x, y, 0, l);
+            SET_PIXEL_OF_MATRIX3(CIELAU, x, y, 1, a);
+            SET_PIXEL_OF_MATRIX3(CIELAU, x, y, 2, u);
 
-    return image;
-}
-
-float heuristic(pointIndex where, std::vector<CalcStruct> goals) {
-    NotCGPoint stupid = goals[0].pt;
-    return HOW_MANY_BUCKETS - where.second;
-}
-
-float heuristic2(NotCGPoint from, CalcStruct to, NotCGPoint centerPt) {
-    float weighted_diffcr = 1/ (to.diffCr / 0.3);
-    float horizontal_is_good = 1 / (fabsf(from.x - to.pt.x) + 1) * 5;
-    //printf("adjusted diffcf %f\n",weighted_diffcr);
-    //if (from.x==to.pt.x && from.y==to.pt.y) return 2;
-    float euclid = sqrtf(powf(from.y - to.pt.y, 2) + powf(from.x - to.pt.x, 2));
-    return weighted_diffcr + euclid + horizontal_is_good+  1;
-    //the cost is the inverse of the distance from the center? (e.g. find the outermost point such that)
-
-    //return abs(from.y - to.y) + 1.0 / (sqrtf(powf(centerPt.y - to.y, 2) + pow(centerPt.x - to.x, 2)));
-}
-
-std::vector<pointIndex> *reconstruct_path(std::map<pointIndex,pointIndex> *came_from, pointIndex current_node) {
-    if (came_from->count(current_node)) {
-        pointIndex a = came_from->at(current_node);
-        assert(a.second==current_node.second - 1);
-        std::vector<pointIndex> *path = reconstruct_path(came_from, came_from->at(current_node));
-        path->insert(path->begin(), current_node);
-        return path;
+        }
     }
-    std::vector<pointIndex> *newPath = new std::vector<pointIndex>;
-    newPath->push_back(current_node);
-    return newPath;
+    
+    //now we apply a fairly robust transformation on the luminance.  The transformation is given on §L183.
+    for(int x = 0; x < image.cols; x++) {
+        for(int y = 0; y < image.rows; y++) {
+            int top_l_value = GET_PIXEL_OF_MATRIX3(CIELAU, x, 0, 0);
+            int bottom_l_value = GET_PIXEL_OF_MATRIX3(CIELAU, x, image.rows-1, 0);
+            float t1 = GET_PIXEL_OF_MATRIX3(CIELAU, x, y, 0);
+            float t2 = (bottom_l_value - top_l_value) / (image.rows - 1.0) * (y - 1);
+            float t3 = (top_l_value + bottom_l_value) / 2.0;
+            float t4 = -1 * bottom_l_value;
+            float newLuminance = t1 + t2 + t3 + t4;
+            SET_PIXEL_OF_MATRIX3(CIELAU, x, y, 0, newLuminance);
+        }
+    }
+    
+    
+    //now we partition on the formula given by §L184
+    double meanU = 0;
+    double meanA = 0;
+    for(int x = 0; x < image.cols; x++) {
+        int rSumA = 0;
+        int rSumU = 0;
+        for(int y = 0; y < image.rows; y++) {
+            int a = GET_PIXEL_OF_MATRIX3(CIELAB, x, y, 1);
+            int u = GET_PIXEL_OF_MATRIX3(CIELUV, x, y, 1);
+            rSumA += a;
+            rSumU += u;
+        }
+        meanA += (rSumA * 1.0 / (image.rows * image.cols));
+        meanU += (rSumU * 1.0 / (image.rows * image.cols));
+    }
+    assert(meanA >= 0);
+    assert(meanU >= 0);
+    assert(meanA <= 255);
+    assert(meanU <= 255);
+    double stdevA = 0;
+    double stdevU = 0;
+    for(int x = 0; x < image.cols; x++) {
+        for(int y = 0; y < image.rows; y++) {
+            int a = GET_PIXEL_OF_MATRIX3(CIELAB, x, y, 1);
+            int u = GET_PIXEL_OF_MATRIX3(CIELUV, x, y, 1);
+            stdevA += powf(a-meanA, 2) / (image.rows * image.cols);
+            stdevU += powf(u-meanU, 2) / (image.rows * image.cols);
+        }
+
+    }
+    stdevA = sqrtf(stdevA);
+    stdevU = sqrtf(stdevU);
+    assert(stdevA >= 0);
+    assert(stdevU >= 0);
+    assert(stdevA <= 255);
+    assert(stdevU<= 255);
+    
+    int tA = meanA - stdevA;
+    if (tA < 9) tA = 9;
+    
+    int tU = meanU - stdevU;
+    if (tU < 29) tU = 29;
+    
+    for(int x = 0; x < image.cols; x++) {
+        for(int y = 0; y < image.rows; y++) {
+            int a = GET_PIXEL_OF_MATRIX3(CIELAB, x, y, 1);
+            int u = GET_PIXEL_OF_MATRIX3(CIELUV, x, y, 1);
+            int l = GET_PIXEL_OF_MATRIX3(CIELAU, x, y, 0);
+            if (a <= tA || u <= tU || l <= 89) {
+                SET_PIXEL_OF_MATRIX3(CIELAU, x, y, 0, 0);
+                SET_PIXEL_OF_MATRIX3(CIELAU, x, y, 1, 0);
+                SET_PIXEL_OF_MATRIX3(CIELAU, x, y, 2, 0);
+
+            }
+        }
+    }
+    
+    //we interpret the CIELAU as RGB for unusual display.  The parent implementation wants a RGBA (4-component) output.
+    cv::cvtColor(CIELAU, CIELAU, CV_BGR2BGRA);
+    return CIELAU;
 }
+
 
 std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     //originally: mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
@@ -248,124 +190,6 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
 
 	printf("finding teeth area\n");
     image = findTeethAreaDebug(image);
-    
-    std::vector<std::vector<CalcStruct> *> *vectors = bionsCalc(image);
-    
-    //scale down to 100 results
-    std::vector<std::vector<CalcStruct> *> *scaled = new std::vector<std::vector<CalcStruct> *>;
-    int bucket = 0;
-    std::vector<CalcStruct> *bucketV = new std::vector<CalcStruct>;
-
-    for(int i = 0; i < vectors->size(); i++) {
-        for(int y = 0; y < vectors->at(i)->size(); y++) {
-            bucketV->push_back(vectors->at(i)->at(y));
-        }
-        bucket++;
-        if (bucket > vectors->size() / HOW_MANY_BUCKETS) {
-            printf("bucket of size %d\n",bucketV->size());
-            scaled->push_back(bucketV);
-            bucketV = new std::vector<CalcStruct>;
-            bucket = 0;
-        }
-    }
-    printf("total buckets %d\n",scaled->size());
-    vectors = scaled;
-    
-    std::vector<pointIndex> *closedSet = new std::vector<pointIndex>;
-    std::vector<pointIndex> *openSet = new std::vector<pointIndex>;
-    std::map<pointIndex,pointIndex> *came_from = new std::map<pointIndex,pointIndex>();
-    typedef std::pair<pointIndex,pointIndex> pointToPoint;
-    std::map<pointIndex,float> *g = new std::map<pointIndex,float>;
-    typedef std::pair<pointIndex,float> score;
-    std::map<pointIndex,float> *f = new std::map<pointIndex,float>;
-    //typedef std::pair<pointIndex,int> pointIndex;
-    if (!vectors->size()) {
-        printf("bion gave us no solution, you're not getting one either\n");
-        return new std::vector<NotCGPoint>;
-    }
-    std::vector<CalcStruct> *goals = vectors->at(vectors->size() - 1);
-    for (int i = 0; i < vectors->at(0)->size(); i++) {
-        NotCGPoint node = vectors->at(0)->at(i).pt;
-        openSet->push_back(pointIndex(node,0));
-        g->insert(score(pointIndex(node,0),0));
-        f->insert(score(pointIndex(node,0),heuristic(pointIndex(node,vectors->size()), *goals)));
-        printf("start node %d,%d at position %d\n",node.x,node.y,vectors->size());
-    }
-    while (openSet->size()) {
-        pointIndex current;
-        float low_f = 999999999;
-        int currentOSIndex = -1;
-        for(int i = 0; i < openSet->size(); i++) {
-            pointIndex test = openSet->at(i);
-            float test_f = f->at(test);
-            if (test_f < low_f) {
-                low_f = test_f;
-                current = test;
-                currentOSIndex = i;
-            }
-        }
-        printf("visiting node %d,%d\n",current.first.x,current.first.y);
-        //if(g->at(current) > 10 && std::find(goals->begin(), goals->end(), current.first) != goals->end()) {
-        if (current.second==vectors->size()-1) { 
-            std::vector<pointIndex> *solution = reconstruct_path(came_from, current);
-            printf("solution of size %d\n",solution->size());
-            std::vector<NotCGPoint> *actualSolution = new std::vector<NotCGPoint>;
-            for(int i = 0; i < solution->size(); i++) {
-                actualSolution->push_back(solution->at(i).first);
-            }
-            return actualSolution;
-        }
-        openSet->erase(openSet->begin() + currentOSIndex);
-        closedSet->push_back(current);
-        int nextIndex = current.second + 1;
-        printf("the next index is %d\n",nextIndex);
-        
-        std::vector<CalcStruct> *next = vectors->at(nextIndex);
-        for(int i = 0; i < next->size(); i++) {
-            NotCGPoint neighbor = next->at(i).pt;
-            pointIndex neighborPointIndex = pointIndex(neighbor,nextIndex);
-            NotCGPoint centerPt;
-            int MouthWidth = WIDTH;
-            int MouthHeight = HEIGHT;
-
-            centerPt.x = MouthWidth / 2;
-            centerPt.y = MouthHeight / 2;
-            float tentative_g_score = g->at(current) + heuristic2(current.first, next->at(i),centerPt);
-            if(std::find(closedSet->begin(), closedSet->end(), neighborPointIndex) != closedSet->end()) {
-                if (tentative_g_score >= g->at(neighborPointIndex)) {
-                    continue;
-                }
-            }
-            if (std::find(openSet->begin(), openSet->end(), neighborPointIndex)==openSet->end() || tentative_g_score < g->at(neighborPointIndex)) {
-                if (neighborPointIndex.second != current.second + 1) {
-                    printf("what\n");
-                    abort();
-                }
-                (*came_from)[neighborPointIndex]=current;
-                (*g)[neighborPointIndex] = tentative_g_score; //(score(neighborPointIndex,tentative_g_score));
-                (*f)[neighborPointIndex] = g->at(neighborPointIndex) + heuristic(neighborPointIndex, *goals);
-                //f->insert(score(neighborPointIndex,g->at(neighborPointIndex) + heuristic(neighbor, *goals)));
-                if (std::find(openSet->begin(), openSet->end(), neighborPointIndex)==openSet->end()) {
-                    openSet->push_back(neighborPointIndex);
-                    printf("scheduling %d,%d for visit\n",neighbor.x,neighbor.y);
-                }
-                
-            }
-            else {
-                printf("not considering node %d,%d because not open or poor score\n",neighbor.x,neighbor.y);
-            }
-        }
-    }
-    printf("no solution??\n");
-    return new std::vector<NotCGPoint>;
-    
-    for(int i = 0; i < vectors->size(); i++) {
-        std::vector<NotCGPoint> *transitions = new std::vector<NotCGPoint>;
-        //while
-        
-    }
-
-
     
     return new std::vector<NotCGPoint>;
     
