@@ -32,6 +32,8 @@
 #define NO 0
 #define YES 1
 
+const int HOW_MANY_BUCKETS = 50;
+
 struct CalcStruct {
     NotCGPoint pt;
     int diffCr;
@@ -162,11 +164,11 @@ std::vector<std::vector<CalcStruct>*> *bionsCalc(cv::Mat image) {
                 baseCb = testCb;
             }
         }
-        if(transitionCount < MIN_POINTS_PER_VECTOR) {
+        if(transitionCount < MIN_POINTS_PER_VECTOR && 0) {
             if(colorThreshold == 0) {
                 fprintf(stderr, "There is no red shift anywhere along this angle. Your image just sucks.\n");
                 assert(!vectors->empty());
-                return (std::vector<std::vector<CalcStruct>*> *)vectors->back();
+                return new std::vector<std::vector<CalcStruct>*>;
             }
             colorThreshold--;
             goto radius_loop;
@@ -174,7 +176,7 @@ std::vector<std::vector<CalcStruct>*> *bionsCalc(cv::Mat image) {
         vectors->push_back(transitions);
     }
     
-    for(int i = 0; i < 1023; i++) {
+    for(int i = 0; i < vectors->at(i)->size(); i++) {
         for(int y = 0; y < vectors->at(i)->size(); y++) {
             NotCGPoint debug = vectors->at(i)->at(y).pt;
             SET_PIXEL_OF_MATRIX(image, debug.x, debug.y, 0,0xff);
@@ -199,12 +201,19 @@ cv::Mat findTeethAreaDebug(cv::Mat image) {
 
 float heuristic(pointIndex where, std::vector<CalcStruct> goals) {
     NotCGPoint stupid = goals[0].pt;
-    return 1023 - where.second;
+    return HOW_MANY_BUCKETS - where.second;
 }
 
-float heuristic2(NotCGPoint from, NotCGPoint to, NotCGPoint centerPt) {
+float heuristic2(NotCGPoint from, CalcStruct to, NotCGPoint centerPt) {
+    float weighted_diffcr = 1/ (to.diffCr / 0.3);
+    float horizontal_is_good = 1 / (fabsf(from.x - to.pt.x) + 1) * 5;
+    //printf("adjusted diffcf %f\n",weighted_diffcr);
+    //if (from.x==to.pt.x && from.y==to.pt.y) return 2;
+    float euclid = sqrtf(powf(from.y - to.pt.y, 2) + powf(from.x - to.pt.x, 2));
+    return weighted_diffcr + euclid + horizontal_is_good+  1;
     //the cost is the inverse of the distance from the center? (e.g. find the outermost point such that)
-    return 1.0 / (sqrtf(powf(centerPt.y - to.y, 2) + pow(centerPt.x - to.x, 2)));
+
+    //return abs(from.y - to.y) + 1.0 / (sqrtf(powf(centerPt.y - to.y, 2) + pow(centerPt.x - to.x, 2)));
 }
 
 std::vector<pointIndex> *reconstruct_path(std::map<pointIndex,pointIndex> *came_from, pointIndex current_node) {
@@ -229,6 +238,25 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     
     std::vector<std::vector<CalcStruct> *> *vectors = bionsCalc(image);
     
+    //scale down to 100 results
+    std::vector<std::vector<CalcStruct> *> *scaled = new std::vector<std::vector<CalcStruct> *>;
+    int bucket = 0;
+    std::vector<CalcStruct> *bucketV = new std::vector<CalcStruct>;
+
+    for(int i = 0; i < vectors->size(); i++) {
+        for(int y = 0; y < vectors->at(i)->size(); y++) {
+            bucketV->push_back(vectors->at(i)->at(y));
+        }
+        bucket++;
+        if (bucketV->size() && bucket >  HOW_MANY_BUCKETS / bucketV->size()) {
+            printf("bucket of size %d\n",bucketV->size());
+            scaled->push_back(bucketV);
+            bucketV = new std::vector<CalcStruct>;
+            bucket = 0;
+        }
+    }
+    printf("total buckets %d\n",scaled->size());
+    vectors = scaled;
     
     std::vector<pointIndex> *closedSet = new std::vector<pointIndex>;
     std::vector<pointIndex> *openSet = new std::vector<pointIndex>;
@@ -238,7 +266,7 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     typedef std::pair<pointIndex,float> score;
     std::map<pointIndex,float> *f = new std::map<pointIndex,float>;
     //typedef std::pair<pointIndex,int> pointIndex;
-    if (!vectors->size() || true) {
+    if (!vectors->size()) {
         printf("bion gave us no solution, you're not getting one either\n");
         return new std::vector<NotCGPoint>;
     }
@@ -247,7 +275,7 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
         NotCGPoint node = vectors->at(0)->at(i).pt;
         openSet->push_back(pointIndex(node,0));
         g->insert(score(pointIndex(node,0),0));
-        f->insert(score(pointIndex(node,0),heuristic(pointIndex(node,1023), *goals)));
+        f->insert(score(pointIndex(node,0),heuristic(pointIndex(node,vectors->size()), *goals)));
         printf("start node %d,%d at position %d\n",node.x,node.y,vectors->size());
     }
     while (openSet->size()) {
@@ -265,7 +293,7 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
         }
         printf("visiting node %d,%d\n",current.first.x,current.first.y);
         //if(g->at(current) > 10 && std::find(goals->begin(), goals->end(), current.first) != goals->end()) {
-        if (current.second==1023) { //aparrently some magic number for bion's code, although unsure how to derive
+        if (current.second==vectors->size()-1) { 
             std::vector<pointIndex> *solution = reconstruct_path(came_from, current);
             printf("solution of size %d\n",solution->size());
             std::vector<NotCGPoint> *actualSolution = new std::vector<NotCGPoint>;
@@ -289,7 +317,7 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
 
             centerPt.x = MouthWidth / 2;
             centerPt.y = MouthHeight / 2;
-            float tentative_g_score = g->at(current) + heuristic2(current.first, neighbor,centerPt);
+            float tentative_g_score = g->at(current) + heuristic2(current.first, next->at(i),centerPt);
             if(std::find(closedSet->begin(), closedSet->end(), neighborPointIndex) != closedSet->end()) {
                 if (tentative_g_score >= g->at(neighborPointIndex)) {
                     continue;
