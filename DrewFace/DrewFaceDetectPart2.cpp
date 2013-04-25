@@ -176,13 +176,25 @@ std::vector<std::vector<CalcStruct>*> *bionsCalc(cv::Mat image) {
         vectors->push_back(transitions);
     }
     
-    for(int i = 0; i < vectors->at(i)->size(); i++) {
-        for(int y = 0; y < vectors->at(i)->size(); y++) {
+    int points = 0;
+    for(int i = 1; i < vectors->size(); i++) { //get a 1px buffer
+        for(int y = 1; y < vectors->at(i)->size() -1; y++) {
             NotCGPoint debug = vectors->at(i)->at(y).pt;
+            if (debug.x < 1 || debug.y < 1) continue;
+            if (debug.x==WIDTH || debug.y ==HEIGHT) continue;
             SET_PIXEL_OF_MATRIX(image, debug.x, debug.y, 0,0xff);
             SET_PIXEL_OF_MATRIX(image, debug.x, debug.y, 1,0xff);
+            SET_PIXEL_OF_MATRIX(image, debug.x, debug.y+1, 0,0xff);
+            SET_PIXEL_OF_MATRIX(image, debug.x, debug.y+1, 1,0xff);
+            SET_PIXEL_OF_MATRIX(image, debug.x+1, debug.y+1, 0,0xff);
+            SET_PIXEL_OF_MATRIX(image, debug.x+1, debug.y+1, 1,0xff);
+            SET_PIXEL_OF_MATRIX(image, debug.x+1, debug.y, 0,0xff);
+            SET_PIXEL_OF_MATRIX(image, debug.x+1, debug.y, 1,0xff);
+            ++points;
+            
         }
     }
+    printf("all the points were %d\n",points);
     free(testimagedataMod1);
     free(testimagedataMod2);
     
@@ -192,7 +204,7 @@ std::vector<std::vector<CalcStruct>*> *bionsCalc(cv::Mat image) {
 
 cv::Mat findTeethAreaDebug(cv::Mat image) {
     cv::cvtColor(image, image, CV_BGRA2BGR);
-    cv::pyrMeanShiftFiltering(image.clone(), image, 20, 20, 4);
+    //cv::pyrMeanShiftFiltering(image.clone(), image, 20, 20, 4);
     cv::cvtColor(image, image, CV_BGR2BGRA);
     std::vector<std::vector<CalcStruct> *> *vectors = bionsCalc(image);
 
@@ -233,6 +245,7 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     //originally: mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
     //this implementation looks approximately in-place to me
     //cv::blur(myCvMat, edges, cv::Size(4,4));
+
 	printf("finding teeth area\n");
     image = findTeethAreaDebug(image);
     
