@@ -97,8 +97,19 @@
         if (ShowReplaceBool) {
             fileList = [manager contentsOfDirectoryAtPath:extractedReplaceDir error:NULL];
         }
+
+        for (int i=0; i < fileList.count; i++) {
+            NSString *fileName = [fileList objectAtIndex:i];
+            NSString *fileNamePath = [extractedReplaceDir stringByAppendingPathComponent:fileName];
+
+            NSMutableDictionary *fileInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                             fileName,@"fileName",
+                                             fileNamePath,@"filePathName",
+                                             nil];
+            [fileInfos addObject:fileInfo];
+        }
     }
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         [tableview reloadData];
         self.tableview.hidden = NO;
