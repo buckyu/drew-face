@@ -11,6 +11,7 @@
 #import "FindMouthsViewController.h"
 #import "DrewFaceDetect.h"
 #include "FaceDetectRenamed.h"
+#include "SmileStitcher.h"
 
 @interface FindMouthsViewController () {
     NSFileManager *manager;
@@ -68,7 +69,7 @@
     NSArray *fileList;
     fileList = [manager contentsOfDirectoryAtPath:originalDir error:NULL];
     fileInfos = [[NSMutableArray alloc] init];
-    
+
     for (int i=0; i < fileList.count; i++) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -78,7 +79,6 @@
         NSString *fileName = [fileList objectAtIndex:i];
         NSString *fileNamePath = [originalDir stringByAppendingPathComponent:fileName];
 
-        NSMutableDictionary *fileInfo;
         // Process originals for thumbs here
         UIImage *origImage = [UIImage imageWithContentsOfFile:fileNamePath];
         if (!origImage) {
@@ -101,15 +101,18 @@
         NSString *mouth_cascade_path = [[NSBundle mainBundle] pathForResource:@"haarcascade_mcs_mouth" ofType:@"xml"];
         
         //who the hell uses MacOSRomanEncoding?  Not I, said the cat.
-        fileInfo = objcDictOfStruct(extractGeometry([fileNamePath cStringUsingEncoding:NSUTF8StringEncoding],[haar_cascade_path cStringUsingEncoding:NSUTF8StringEncoding],[mouth_cascade_path cStringUsingEncoding:NSUTF8StringEncoding]));
+        //the above reference makes negative sense
+        FileInfo *info = extractGeometry([fileNamePath cStringUsingEncoding:NSUTF8StringEncoding],[haar_cascade_path cStringUsingEncoding:NSUTF8StringEncoding],[mouth_cascade_path cStringUsingEncoding:NSUTF8StringEncoding]);
+        NSMutableDictionary *fileInfo = objcDictOfStruct(info);
         if (!fileInfo) continue;
         fileInfo = [fileInfo mutableCopy];
         fileInfo[@"thumbScaleFactor"] = @(thumbScaleFactor);
         [fileInfos addObject:fileInfo];
         
-        
+        const char *teeth = [[docsDir stringByAppendingPathComponent:@"front.jpg"] cStringUsingEncoding:NSUTF8StringEncoding];
+        stitchMouthOnFace(info, teeth);
+        free(info);
     }
-        
 }
     
     // reload tableview with created data model

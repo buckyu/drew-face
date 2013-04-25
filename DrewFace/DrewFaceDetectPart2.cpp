@@ -330,3 +330,13 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     
     
 }
+
+float quadRegA(NotCGPoint p1, NotCGPoint p2, NotCGPoint p3) {
+    float x1 = p1.x;
+    float y1 = p1.y;
+    float x2 = p2.x;
+    float y2 = p2.y;
+    float x3 = p3.x;
+    float y3 = p3.y;
+    return (x3 * (-y1 + y2) + x2 * (y1 - y3) + x1 * (-y2 + y3)) / ((x1 - x2) * (x1 - x3) * (x2 - x3));
+}

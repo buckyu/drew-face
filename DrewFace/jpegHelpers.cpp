@@ -39,7 +39,7 @@ int exifOrientation(const char *filename) {
     return orientation[0] - '1' + 1;
 }
 
-struct jpeg *loadJPEGFromFile(const char *filename) {
+struct jpeg *loadJPEGFromFile(const char *filename, int colorChannels) {
     /* This struct contains the JPEG decompression parameters and pointers to
      * working space (which is allocated as needed by the JPEG library).
      */
@@ -105,12 +105,12 @@ struct jpeg *loadJPEGFromFile(const char *filename) {
 
     assert(cinfo->output_components == 3);
     ret->colorSpace = cinfo->jpeg_color_space;
-    cinfo->output_components = 4;
+    cinfo->output_components = colorChannels;
     ret->colorComponents = cinfo->output_components;
     ret->width = cinfo->output_width;
     ret->height = cinfo->output_height;
 
-    ret->data = cvCreateImage(cvSize(ret->width, ret->height), IPL_DEPTH_8U, 4);
+    ret->data = cvCreateImage(cvSize(ret->width, ret->height), IPL_DEPTH_8U, colorChannels);
 
     /* JSAMPLEs per row in output buffer */
     int row_stride = cinfo->output_width * cinfo->output_components; /* physical row width in output buffer */
@@ -137,9 +137,9 @@ struct jpeg *loadJPEGFromFile(const char *filename) {
         for(int x = 0; x < ret->data->width; x++) {
             uint8_t *data = (uint8_t*) ret->data->imageData;
 
-            data[y * ret->data->width * 4 + x * 4 + 0] = buffer[0][x*3+0];
-            data[y * ret->data->width * 4 + x * 4 + 1] = buffer[0][x*3+1];
-            data[y * ret->data->width * 4 + x * 4 + 2] = buffer[0][x*3+2];
+            data[y * ret->data->width * colorChannels + x * colorChannels + 0] = buffer[0][x*3+0];
+            data[y * ret->data->width * colorChannels + x * colorChannels + 1] = buffer[0][x*3+1];
+            data[y * ret->data->width * colorChannels + x * colorChannels + 2] = buffer[0][x*3+2];
 
         }
     }

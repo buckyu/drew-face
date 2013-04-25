@@ -24,4 +24,7 @@ char looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToo
 
 cv::Mat findTeethAreaDebug(cv::Mat image);
 
+//y = ax^2 + bx + c
+float quadRegA(NotCGPoint p1, NotCGPoint p2, NotCGPoint p3);
+
 #endif /* defined(__DrewFace__DrewFaceDetectPart2__) */

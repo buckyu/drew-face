@@ -23,8 +23,9 @@ struct NCGP {
             return this->x==n.x && this->y == n.y;
         }
 };
-        typedef struct NCGP NotCGPoint;
+typedef struct NCGP NotCGPoint;
 
+//everything here is in a different coordinate space. So says Drew
 typedef struct FileInfo {
     const char *originalFileNamePath;
     std::vector<NotCGPoint> *points;

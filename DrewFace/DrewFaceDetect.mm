@@ -117,6 +117,5 @@ NSMutableDictionary *objcDictOfStruct(FileInfo *dict) {
     ret[@"mouthdetectW"] = @(dict->mouthdetectW);
     ret[@"mouthdetectH"] = @(dict->mouthdetectH);
 
-    free(dict);
     return ret;
 }

@@ -20,7 +20,7 @@ struct jpeg {
 };
 
 int exifOrientation(const char *filename);
-struct jpeg *loadJPEGFromFile(const char *filename);
+struct jpeg *loadJPEGFromFile(const char *filename, int colorChannels);
 void freeJpeg(struct jpeg *jpg);
 cv::Mat *rotateImage(const cv::Mat& source, double angle);
 

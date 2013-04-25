@@ -60,5 +60,5 @@ extern NSString *modelMouthDir;
 
 void setupStructures();
 
-//WARNING: This will free the struct that is passed in!
+//WARNING: You are responsible for freeing the struct that is passed in!
 NSMutableDictionary *objcDictOfStruct(FileInfo *dict);

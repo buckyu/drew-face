@@ -15,6 +15,6 @@
 
 #include "FaceDetectExports.h"
 
-
+const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage);
 
 #endif /* defined(__DrewFace__SmileStitcher__) */
