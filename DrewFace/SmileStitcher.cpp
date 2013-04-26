@@ -71,17 +71,12 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     cv::Mat mouthMat = mouth->data;
     cv::Mat smallMouthMat;
     cv::resize(mouthMat, smallMouthMat, mouthSize);
-    IplImage smallMouthImg = smallMouthMat;
 
     //http://stackoverflow.com/questions/10176184/with-opencv-try-to-extract-a-region-of-a-picture-described-by-arrayofarrays
     //http://www.pieter-jan.com/node/5
     //create a mask and black it out
     cv::Mat mask = cvCreateMat(faceMat.rows, faceMat.cols, CV_8UC1);
-    for(int i = 0; i < mask.cols; i++) {
-        for(int j = 0; j < mask.rows; j++) {
-            mask.at<uchar>(cv::Point(i, j)) = 0;
-        }
-    }
+    mask.setTo(0);
 
     //white out the mask region we're actually interested in
     const cv::Scalar white = CV_RGB(255, 255, 255);
@@ -89,16 +84,44 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     cv::fillPoly(mask, (const cv::Point**)&boundArray, &boundArraySize, 1, white);
     IplImage maskImg = mask;
 
+    //balance image exposure
+    //http://stackoverflow.com/questions/13978689/balancing-contrast-and-brightness-between-stitched-images
+    //http://docs.opencv.org/modules/stitching/doc/exposure_compensation.html
+    cv::Mat smallMouthMask = cvCreateMat(smallMouthMat.rows, smallMouthMat.cols, CV_8UC1);
+    smallMouthMask.setTo(255);
+
+    cv::detail::ExposureCompensator *compensator = new cv::detail::GainCompensator; //bypassing recommended constructor because it has memory issues. Stupid C++
+    std::vector<cv::Point> *corners = new std::vector<cv::Point>;
+    corners->push_back(cv::Point(0, 0));
+    corners->push_back(cv::Point(mouthRect.x, mouthRect.y)); //based on GainCompensator's use of overlapRoi and overlapRoi's definition in modules/stitching/util.cpp:100
+    std::vector<cv::Mat> *images = new std::vector<cv::Mat>;
+    images->push_back(faceMat);
+    images->push_back(smallMouthMat);
+    std::vector<std::pair<cv::Mat, uchar>> *masks = new std::vector<std::pair<cv::Mat, uchar>>;
+    masks->push_back(std::make_pair(mask, 255));
+    masks->push_back(std::make_pair(smallMouthMask, 255));
+    assert(corners->size() == images->size() && images->size() == masks->size());
+
+    compensator->feed(*corners, *images, *masks);
+    compensator->apply(1, corners->at(1), images->at(1), masks->at(1).first);
+    assert(smallMouthMat.size() == mouthSize);
+    IplImage smallMouthImg = smallMouthMat;
+
+    //@see jpegHelpers.ccp
     //replace the mask region on face with mouth
     IplImage faceImg = faceMat;
+    uint8_t *data = (uint8_t*) faceImg.imageData;
     for(int y = 0; y < faceImg.height; ++y) {
         for(int x = 0; x < faceImg.width; ++x) {
-            uint8_t *data = (uint8_t*) faceImg.imageData;
-
             if(maskImg.imageData[y * maskImg.widthStep + x * maskImg.nChannels]) {
-                data[y * faceImg.widthStep + x * faceImg.nChannels + 0] = smallMouthImg.imageData[(y - mouthRect.y) * smallMouthImg.widthStep + (x - mouthRect.x) * smallMouthImg.nChannels + 0];
-                data[y * faceImg.widthStep + x * faceImg.nChannels + 1] = smallMouthImg.imageData[(y - mouthRect.y) * smallMouthImg.widthStep + (x - mouthRect.x) * smallMouthImg.nChannels + 1];
-                data[y * faceImg.widthStep + x * faceImg.nChannels + 2] = smallMouthImg.imageData[(y - mouthRect.y) * smallMouthImg.widthStep + (x - mouthRect.x) * smallMouthImg.nChannels + 2];
+                int smallMouthX = x - mouthRect.x;
+                int smallMouthY = y - mouthRect.y;
+                if(smallMouthY >= smallMouthImg.height || smallMouthX >= smallMouthImg.width) {
+                    continue;
+                }
+                data[y * faceImg.widthStep + x * faceImg.nChannels + 0] = smallMouthImg.imageData[smallMouthY * smallMouthImg.widthStep + smallMouthX * smallMouthImg.nChannels + 0];
+                data[y * faceImg.widthStep + x * faceImg.nChannels + 1] = smallMouthImg.imageData[smallMouthY * smallMouthImg.widthStep + smallMouthX * smallMouthImg.nChannels + 1];
+                data[y * faceImg.widthStep + x * faceImg.nChannels + 2] = smallMouthImg.imageData[smallMouthY * smallMouthImg.widthStep + smallMouthX * smallMouthImg.nChannels + 2];
             }
         }
     }

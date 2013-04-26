@@ -124,8 +124,8 @@ struct jpeg *loadJPEGFromFile(const char *filename, int colorChannels) {
      * loop counter, so that we don't have to keep track ourselves.
      */
     assert(ret->data->widthStep >= row_stride);
+    uint8_t *data = (uint8_t*) ret->data->imageData;
     for(int y = 0; y < ret->data->height; y++) {
-
         /* jpeg_read_scanlines expects an array of pointers to scanlines.
          * Here the array is only one element long, but you could ask for
          * more than one scanline at a time if that's more convenient.
@@ -135,8 +135,6 @@ struct jpeg *loadJPEGFromFile(const char *filename, int colorChannels) {
         //assert(scanline * ret->data->widthStep + row_stride < ret->data->imageSize);
         //memcpy(&(ret->data->imageData[scanline * ret->data->widthStep]), buffer[0], row_stride);
         for(int x = 0; x < ret->data->width; x++) {
-            uint8_t *data = (uint8_t*) ret->data->imageData;
-
             data[y * ret->data->width * colorChannels + x * colorChannels + 0] = buffer[0][x*3+0];
             data[y * ret->data->width * colorChannels + x * colorChannels + 1] = buffer[0][x*3+1];
             data[y * ret->data->width * colorChannels + x * colorChannels + 2] = buffer[0][x*3+2];
