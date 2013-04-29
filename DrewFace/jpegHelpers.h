@@ -9,7 +9,9 @@
 #ifndef __DrewFace__jpegHelpers__
 #define __DrewFace__jpegHelpers__
 
+#include <stdio.h>
 #include "jpeglib.h"
+#include <opencv2\core\core.hpp>
 
 struct jpeg {
     IplImage *data;

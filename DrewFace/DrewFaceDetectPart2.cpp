@@ -34,6 +34,12 @@
 
 const int HOW_MANY_BUCKETS = 50;
 
+#ifndef roundf
+float roundf(float r) {
+    return (r > 0.0) ? floor(r + 0.5) : ceil(r - 0.5);
+}
+#endif
+
 struct CalcStruct {
     NotCGPoint pt;
     int diffCr;
@@ -155,7 +161,10 @@ std::vector<std::vector<CalcStruct>*> *bionsCalc(cv::Mat image) {
             
             if(diffCr > colorThreshold) {
                 //GET_PIXELMOD2(x, y, 0) = 0xff;
-                CalcStruct pt = {.pt={.x=x, .y=y}, .diffCr=diffCr};
+                CalcStruct pt;
+				pt.pt.x=x;
+				pt.pt.y=y;
+				pt.diffCr=diffCr;
                 transitions->push_back(pt);
                 transitionCount++;
                 //solutionArray->push_back(pt);
@@ -176,7 +185,7 @@ std::vector<std::vector<CalcStruct>*> *bionsCalc(cv::Mat image) {
         vectors->push_back(transitions);
     }
     
-    for(int i = 0; i < vectors->at(i)->size(); i++) {
+    for(int i = 0; i < vectors->size(); i++) {
         for(int y = 0; y < vectors->at(i)->size(); y++) {
             NotCGPoint debug = vectors->at(i)->at(y).pt;
             SET_PIXEL_OF_MATRIX(image, debug.x, debug.y, 0,0xff);

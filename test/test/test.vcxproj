@@ -188,7 +188,9 @@
     <ClInclude Include="..\..\DrewFace\DrewFaceDetectPart2.h" />
     <ClInclude Include="..\..\DrewFace\FaceDetectExports.h" />
     <ClInclude Include="..\..\DrewFace\FaceDetectRenamed.h" />
+    <ClInclude Include="..\..\DrewFace\jpegHelpers.h" />
     <ClInclude Include="..\..\DrewFace\openCVNative.h" />
+    <ClInclude Include="..\..\DrewFace\SmileStitcher.h" />
     <ClInclude Include="exif-byte-order.h" />
     <ClInclude Include="exif-content.h" />
     <ClInclude Include="exif-data-type.h" />
@@ -224,7 +226,9 @@
     <ClCompile Include="..\..\DrewFace\Detect.cpp" />
     <ClCompile Include="..\..\DrewFace\DrewFaceDetectPart2.cpp" />
     <ClCompile Include="..\..\DrewFace\FaceDetectRenamed.cpp" />
+    <ClCompile Include="..\..\DrewFace\jpegHelpers.cpp" />
     <ClCompile Include="..\..\DrewFace\openCVNative.cpp" />
+    <ClCompile Include="..\..\DrewFace\SmileStitcher.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
