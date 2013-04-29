@@ -7,7 +7,7 @@
 //
 
 #include "jpegHelpers.h"
-#include <opencv2\imgproc\imgproc.hpp>
+#include <opencv2/imgproc/imgproc_c.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "exif-data.h"

@@ -8,8 +8,8 @@
 
 #include "SmileStitcher.h"
 #include <opencv2/highgui/highgui_c.h>
-#include <opencv2\imgproc\imgproc.hpp>
-#include <opencv2\stitching\detail\exposure_compensate.hpp>
+#include <opencv2/imgproc/imgproc_c.h>
+#include <opencv2/stitching/detail/exposure_compensate.hpp>
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdint.h> //gets uint8_t
