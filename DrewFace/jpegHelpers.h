@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include "jpeglib.h"
-#include <opencv2/core/core_c.h>
+#include <opencv2/imgproc/imgproc.hpp>
 
 struct jpeg {
     IplImage *data;
