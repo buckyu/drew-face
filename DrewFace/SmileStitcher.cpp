@@ -39,12 +39,26 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //this is THE screwiest coordinate conversion I have ever seen. I shall refrain from ranting. But you, dear reader, should feel free.
     cv::Point facePoint = cv::Point(fileInfo->facedetectX / fileInfo->facedetectScaleFactor, fileInfo->facedetectY / fileInfo->facedetectScaleFactor);
     cv::Point mouthPoint = cv::Point(facePoint.x + fileInfo->mouthdetectX / fileInfo->facedetectScaleFactor, facePoint.y + fileInfo->mouthdetectY / fileInfo->facedetectScaleFactor + MAGIC_HEIGHT * fileInfo->facedetectH / fileInfo->facedetectScaleFactor);
+
+    float xsquaredSum = 0;
+    float xSum = 0;
+    float ySum = 0;
+    float xySum = 0;
+    int n = fileInfo->points->size();
+    if(n == 0) {
+        return NULL;
+    }
+
     int minx = INT_MAX;
     int miny = INT_MAX;
     int maxx = INT_MIN;
     int maxy = INT_MIN;
-    for(int i = 0; i < fileInfo->points->size(); i++) {
+#define X_STEP 10
+    //FILE *file = fopen("/Users/bion/Desktop/data.csv", "w");
+    //int lastx = fileInfo->points->at(0).x;
+    for(int i = 0; i < n; i++) {
         NotCGPoint p = fileInfo->points->at(i);
+        //fprintf(file, "%d, %d\n", p.x, p.y);
         int x = mouthPoint.x + p.x / fileInfo->facedetectScaleFactor;
         if(x < minx) {
             minx = x;
@@ -63,14 +77,43 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         //printf("Point = (%d, %d)\n", p.x, p.y);
         bounds->push_back(pt);
         boundArray[i] = pt;
+
+        xsquaredSum += x*x;
+        xSum += x;
+        ySum += y;
+        xySum += x * y;
     }
+    //fclose(file);
+#undef X_STEP
     cv::Size mouthSize = cv::Size(maxx - minx, maxy - miny);
     cv::Rect mouthRect = cv::Rect(minx, miny, mouthSize.width, mouthSize.height);
+
+    //use a least squares regression on all the points to get a linear fit that will allow us to approximate the rotation of the overall polygon from horizontal.
+
+    //a * xsquaredSum + b * xSum = xySum
+    //a * xSum + b * n = ySum
+    cv::Mat_<float> equations1(2, 2);
+    equations1[0][0] = xsquaredSum;
+    equations1[0][1] = xSum;
+    equations1[1][0] = xSum;
+    equations1[1][1] = n;
+
+    cv::Mat_<float> equations2(2, 1);
+    equations2[0][0] = xySum;
+    equations2[0][1] = ySum;
+    cv::Mat_<float> solution;
+    cv::solve(equations1, equations2, solution);
+    float a = solution[0][0];
+    //float b = solution[0][1];
+    float rotation = atanf(a);
 
     cv::Mat faceMat = face->data;
     cv::Mat mouthMat = mouth->data;
     cv::Mat smallMouthMat;
     cv::resize(mouthMat, smallMouthMat, mouthSize);
+    //printf("img = %s\n", fileInfo->originalFileNamePath);
+    //not sure why we have to invert it...
+    cv::Mat *rotatedSmallMouthMat = rotateImage(smallMouthMat, -rotation);
 
     //http://stackoverflow.com/questions/10176184/with-opencv-try-to-extract-a-region-of-a-picture-described-by-arrayofarrays
     //http://www.pieter-jan.com/node/5
@@ -87,7 +130,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //balance image exposure
     //http://stackoverflow.com/questions/13978689/balancing-contrast-and-brightness-between-stitched-images
     //http://docs.opencv.org/modules/stitching/doc/exposure_compensation.html
-    cv::Mat smallMouthMask = cvCreateMat(smallMouthMat.rows, smallMouthMat.cols, CV_8UC1);
+    cv::Mat smallMouthMask = cvCreateMat(rotatedSmallMouthMat->rows, rotatedSmallMouthMat->cols, CV_8UC1);
     smallMouthMask.setTo(255);
 
     cv::detail::ExposureCompensator *compensator = new cv::detail::GainCompensator; //bypassing recommended constructor because it has memory issues. Stupid C++
@@ -96,7 +139,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     corners->push_back(cv::Point(mouthRect.x, mouthRect.y)); //based on GainCompensator's use of overlapRoi and overlapRoi's definition in modules/stitching/util.cpp:100
     std::vector<cv::Mat> *images = new std::vector<cv::Mat>;
     images->push_back(faceMat);
-    images->push_back(smallMouthMat);
+    images->push_back(*rotatedSmallMouthMat);
     std::vector<std::pair<cv::Mat, uchar>> *masks = new std::vector<std::pair<cv::Mat, uchar>>;
     masks->push_back(std::make_pair(mask, 255));
     masks->push_back(std::make_pair(smallMouthMask, 255));
@@ -104,8 +147,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
 
     compensator->feed(*corners, *images, *masks);
     compensator->apply(1, corners->at(1), images->at(1), masks->at(1).first);
-    assert(smallMouthMat.size() == mouthSize);
-    IplImage smallMouthImg = smallMouthMat;
+    IplImage smallMouthImg = *rotatedSmallMouthMat;
 
     //@see jpegHelpers.ccp
     //replace the mask region on face with mouth
@@ -117,7 +159,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
                 int smallMouthX = x - mouthRect.x;
                 int smallMouthY = y - mouthRect.y;
                 if(smallMouthY >= smallMouthImg.height || smallMouthX >= smallMouthImg.width) {
-                    continue;
+                    continue; //not sure why the mask didn't work for us. Probably and off-by-one issue. fillPoly drew a border or something.
                 }
                 data[y * faceImg.widthStep + x * faceImg.nChannels + 0] = smallMouthImg.imageData[smallMouthY * smallMouthImg.widthStep + smallMouthX * smallMouthImg.nChannels + 0];
                 data[y * faceImg.widthStep + x * faceImg.nChannels + 1] = smallMouthImg.imageData[smallMouthY * smallMouthImg.widthStep + smallMouthX * smallMouthImg.nChannels + 1];

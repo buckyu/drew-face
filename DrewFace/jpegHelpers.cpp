@@ -174,11 +174,11 @@ void freeJpeg(struct jpeg *jpg) {
     free(jpg);
 }
 
-cv::Mat *rotateImage(const cv::Mat& source, double angle)
-{
+//http://stackoverflow.com/questions/2289690/opencv-how-to-rotate-iplimage
+cv::Mat *rotateImage(const cv::Mat& source, double angle) {
     cv::Point2f src_center(source.cols/2.0F, source.rows/2.0F);
-    cv::Mat rot_mat = getRotationMatrix2D(src_center, angle, 1.0);
-    cv::Mat *dst = NULL;
+    cv::Mat rot_mat = getRotationMatrix2D(src_center, angle * 180 / M_PI, 1.0);
+    cv::Mat *dst = new cv::Mat;
     warpAffine(source, *dst, rot_mat, source.size());
     return dst;
 }
