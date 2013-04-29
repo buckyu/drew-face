@@ -41,8 +41,7 @@ typedef struct FileInfo {
 } FileInfo;
 
 FileInfo* completeDetect(char *fileName);
-
-
+const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage);
 
 
 #endif /* defined(__DrewFace__FaceDetectExports__) */
