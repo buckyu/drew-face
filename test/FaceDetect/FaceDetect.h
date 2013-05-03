@@ -10,5 +10,6 @@ namespace FaceDetect {
 
 	public:
 		static void detectFaces(FaceDetect::GeometryType ^geometryType);
+		static String ^stitchFace(FaceDetect::GeometryType ^geometryType, String ^mouth);
 	};
 }

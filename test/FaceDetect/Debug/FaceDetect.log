@@ -1,9 +1,70 @@
-﻿Build started 4/5/2013 9:32:58 PM.
-     1>Project "C:\Users\dev13\drew-face\test\FaceDetect\FaceDetect.vcxproj" on node 2 (Build target(s)).
-     1>Link:
-         FaceDetect.vcxproj -> C:\Users\dev13\drew-face\test\Debug\FaceDetect.dll
-     1>Done Building Project "C:\Users\dev13\drew-face\test\FaceDetect\FaceDetect.vcxproj" (Build target(s)).
+﻿Build started 5/3/2013 9:38:35 PM.
+Project "D:\drew-face\test\FaceDetect\FaceDetect.vcxproj" on node 2 (Build target(s)).
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\drew-face\test\Debug\FaceDetect.dll" /INCREMENTAL /NOLOGO /LIBPATH:"D:\drew-face\test\FaceDetect\\..\..\libexif_sleuth_windows\libexif-0.6.20\win32\Debug" /LIBPATH:"D:\drew-face\test\FaceDetect\\..\..\opencv\build\x86\vc10\lib" /LIBPATH:"D:\drew-face\test\FaceDetect\\..\..\jpeg-9\Release\\" lib_exif.lib opencv_core243d.lib opencv_imgproc243d.lib opencv_highgui243d.lib opencv_ml243d.lib opencv_video243d.lib opencv_features2d243d.lib opencv_calib3d243d.lib opencv_objdetect243d.lib opencv_contrib243d.lib opencv_legacy243d.lib opencv_flann243d.lib opencv_nonfree243d.lib opencv_stitching243d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\drew-face\test\Debug\FaceDetect.pdb" /ASSEMBLYDEBUG /TLBID:1 /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 /DLL Debug\app.res
+  Debug\AssemblyInfo.obj
+  Debug\FaceDetect.obj
+  Debug\Stdafx.obj
+  "Debug\.NETFramework,Version=v4.5.AssemblyAttributes.obj"
+  "D:\drew-face\test\Debug\FaceDetectInternalNative.lib"
+FaceDetectInternalNative.lib(Source.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
+  FaceDetectInternalNative.lib(jerror.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
+FaceDetectInternalNative.lib(Source.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  Generating code
+  Finished generating code
+FaceDetectInternalNative.lib(jerror.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jerror.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jdapimin.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jdapimin.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jdatasrc.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jdatasrc.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jdapistd.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jdapistd.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jcomapi.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jcomapi.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jdmarker.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jdmarker.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jdinput.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jdinput.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jmemmgr.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jmemmgr.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jdmaster.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jdmaster.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jutils.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jutils.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jmemnobs.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jmemnobs.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jdhuff.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jdhuff.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jquant1.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jquant1.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jddctmgr.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jddctmgr.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jdsample.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jdsample.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jdarith.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jdarith.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jdcolor.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jdcolor.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jdcoefct.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jdcoefct.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jquant2.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jquant2.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jdmerge.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jdmerge.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jdmainct.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jdmainct.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jdpostct.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jdpostct.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jidctint.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jidctint.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jidctflt.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jidctflt.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jidctfst.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jidctfst.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+FaceDetectInternalNative.lib(jaricom.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'FaceDetectInternalNative.lib(jaricom.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(exif-content.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(exif-content.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(exif-data.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(exif-data.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(exif-entry.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(exif-entry.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(exif-format.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(exif-format.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(exif-ifd.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(exif-ifd.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(exif-loader.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(exif-loader.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(exif-log.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(exif-log.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(exif-mem.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(exif-mem.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(exif-mnote-data-canon.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(exif-mnote-data-canon.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(exif-mnote-data-fuji.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(exif-mnote-data-fuji.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(exif-mnote-data-olympus.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(exif-mnote-data-olympus.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(exif-mnote-data-pentax.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(exif-mnote-data-pentax.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(exif-mnote-data.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(exif-mnote-data.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(exif-tag.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(exif-tag.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(exif-utils.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(exif-utils.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(mnote-canon-entry.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(mnote-canon-entry.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(mnote-canon-tag.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(mnote-canon-tag.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(mnote-fuji-entry.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(mnote-fuji-entry.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(mnote-fuji-tag.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(mnote-fuji-tag.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(mnote-olympus-entry.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(mnote-olympus-entry.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(mnote-olympus-tag.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(mnote-olympus-tag.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(mnote-pentax-entry.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(mnote-pentax-entry.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+lib_exif.lib(mnote-pentax-tag.obj) : warning LNK4099: PDB 'vc110.pdb' was not found with 'lib_exif.lib(mnote-pentax-tag.obj)' or at 'D:\drew-face\test\Debug\vc110.pdb'; linking object as if no debug info
+  FaceDetect.vcxproj -> D:\drew-face\test\Debug\FaceDetect.dll
+Done Building Project "D:\drew-face\test\FaceDetect\FaceDetect.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.26
+Time Elapsed 00:00:13.33

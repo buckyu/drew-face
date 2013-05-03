@@ -4,7 +4,32 @@
 #include <vector>
 #include "FaceDetect.h"
 #include "FaceDetectRenamed.h"
+#include "SmileStitcher.h"
 using namespace System::Runtime::InteropServices;
+
+String ^FaceDetect::FaceDetector::stitchFace(FaceDetect::GeometryType ^geometryType, String ^mouth) {
+	char *cmouth = (char*)(void*)Marshal::StringToHGlobalAnsi(mouth);
+	FileInfo *info = (FileInfo*)malloc(sizeof(FileInfo));
+	std::vector<NotCGPoint> *imagePoints = new std::vector<NotCGPoint>;
+	for(int i = 0; i < geometryType->teethArea->Count; i++) {
+		Point ^pt = geometryType->teethArea[i];
+		NotCGPoint p;
+		p.x = pt->x;
+		p.y = pt->y;
+		imagePoints->push_back(p);
+	}
+	char *filename = (char*)(void*)Marshal::StringToHGlobalAnsi(geometryType->fileName);
+	info->originalFileNamePath = filename;
+	info->imagePoints = imagePoints;
+
+	printf("cmouth = %s\n", cmouth);
+	printf("filename = %s\n", filename);
+	//return gcnew String("foo");
+	const char *ret = stitchMouthOnFace(info, cmouth);
+	free(info);
+	String ^result = gcnew String(ret);
+	return result;
+}
 
 void FaceDetect::FaceDetector::detectFaces(FaceDetect::GeometryType ^geometryType) {
 	//here is where you would call the detect function
@@ -13,7 +38,7 @@ void FaceDetect::FaceDetector::detectFaces(FaceDetect::GeometryType ^geometryTyp
 	char *str = (char*)(void*)Marshal::StringToHGlobalAnsi(geometryType->fileName);
 	FileInfo *info = extractGeometry(str,"haarcascade_frontalface_default.xml","haarcascade_mcs_mouth.xml");
 	System::Collections::Generic::List<Point^> ^l = gcnew System::Collections::Generic::List<Point^>();
-	std::vector<NotCGPoint> points = *(info->points);
+	std::vector<NotCGPoint> points = *(info->imagePoints);
 
 	geometryType->faceArea = gcnew Rect;
 	geometryType->faceArea->x = info->facedetectX / info->facedetectScaleFactor;
@@ -31,8 +56,8 @@ void FaceDetect::FaceDetector::detectFaces(FaceDetect::GeometryType ^geometryTyp
 	for(int i = 0; i < (info->points)->size(); i++) {
 		Point ^p = gcnew Point();
 		NotCGPoint point = points[i];
-		p->x = geometryType->mouthArea->x + point.x / info->facedetectScaleFactor;
-		p->y =geometryType->mouthArea->y + point.y / info->facedetectScaleFactor;
+		p->x = point.x;
+		p->y = point.y;
 		l->Add(p);
 	}
 	geometryType->teethArea = l;

@@ -15,3 +15,4 @@ Class FaceDetect.FaceDetector: AutoLayout, AnsiClass, Class, Public, BeforeField
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Methods:
     detectFaces(GeometryType): PrivateScope, Public, Static, HideBySig
+    stitchFace(GeometryType, String): PrivateScope, Public, Static, HideBySig

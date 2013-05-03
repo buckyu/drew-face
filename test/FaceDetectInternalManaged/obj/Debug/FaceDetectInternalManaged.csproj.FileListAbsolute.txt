@@ -2,3 +2,8 @@ C:\Users\dev13\drew-face\test\FaceDetectInternalManaged\bin\Debug\FaceDetectInte
 C:\Users\dev13\drew-face\test\FaceDetectInternalManaged\bin\Debug\FaceDetectInternalManaged.pdb
 C:\Users\dev13\drew-face\test\FaceDetectInternalManaged\obj\Debug\FaceDetectInternalManaged.dll
 C:\Users\dev13\drew-face\test\FaceDetectInternalManaged\obj\Debug\FaceDetectInternalManaged.pdb
+D:\drew-face\test\FaceDetectInternalManaged\bin\Debug\FaceDetectInternalManaged.dll
+D:\drew-face\test\FaceDetectInternalManaged\bin\Debug\FaceDetectInternalManaged.pdb
+D:\drew-face\test\FaceDetectInternalManaged\obj\Debug\FaceDetectInternalManaged.csprojResolveAssemblyReference.cache
+D:\drew-face\test\FaceDetectInternalManaged\obj\Debug\FaceDetectInternalManaged.dll
+D:\drew-face\test\FaceDetectInternalManaged\obj\Debug\FaceDetectInternalManaged.pdb

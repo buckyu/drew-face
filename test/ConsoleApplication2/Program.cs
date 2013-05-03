@@ -24,6 +24,11 @@ namespace ConsoleApplication2
 
                 Console.WriteLine("{0},{1}", p.x,p.y);
             }
+
+            String mouthImage = "C:\\mouth.jpg";
+            String result = FaceDetect.FaceDetector.stitchFace(geometryType, mouthImage);
+            Console.WriteLine("Result written to {0}", result);
+            
             Console.ReadLine();
         }
     }

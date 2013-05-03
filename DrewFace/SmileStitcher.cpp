@@ -35,12 +35,15 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         return NULL;
     }
     sprintf(ret, "%s-replaced", fileInfo->originalFileNamePath);
+	//ret = "C:\\Users\\Administrator\\test.jpg";
 
     struct jpeg *face = loadJPEGFromFile(fileInfo->originalFileNamePath, COLOR_CHANNELS);
+	printf("Loaded face\n");
     struct jpeg *mouth = loadJPEGFromFile(mouthImage, COLOR_CHANNELS);
+	printf("Loaded mouth\n");
 
     std::vector<cv::Point> *bounds = new std::vector<cv::Point>;
-    int boundArraySize = fileInfo->points->size();
+    int boundArraySize = fileInfo->imagePoints->size();
     cv::Point *boundArray = (cv::Point*)calloc(boundArraySize, sizeof(cv::Point));
 
     float xsquaredSum = 0;
@@ -88,6 +91,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
 #undef X_STEP
     cv::Size mouthSize = cv::Size(maxx - minx, maxy - miny);
     cv::Rect mouthRect = cv::Rect(minx, miny, mouthSize.width, mouthSize.height);
+	printf("Sized\n");
 
     //use a least squares regression on all the points to get a linear fit that will allow us to approximate the rotation of the overall polygon from horizontal.
 
