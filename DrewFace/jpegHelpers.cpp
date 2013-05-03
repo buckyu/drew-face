@@ -7,6 +7,9 @@
 //
 
 #include "jpegHelpers.h"
+#include <opencv2/imgproc/imgproc_c.h>
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include "exif-data.h"
 #include "jerror.h"
 
@@ -39,7 +42,7 @@ int exifOrientation(const char *filename) {
     return orientation[0] - '1' + 1;
 }
 
-struct jpeg *loadJPEGFromFile(const char *filename) {
+struct jpeg *loadJPEGFromFile(const char *filename, int colorChannels) {
     /* This struct contains the JPEG decompression parameters and pointers to
      * working space (which is allocated as needed by the JPEG library).
      */
@@ -105,12 +108,12 @@ struct jpeg *loadJPEGFromFile(const char *filename) {
 
     assert(cinfo->output_components == 3);
     ret->colorSpace = cinfo->jpeg_color_space;
-    cinfo->output_components = 4;
+    cinfo->output_components = colorChannels;
     ret->colorComponents = cinfo->output_components;
     ret->width = cinfo->output_width;
     ret->height = cinfo->output_height;
 
-    ret->data = cvCreateImage(cvSize(ret->width, ret->height), IPL_DEPTH_8U, 4);
+    ret->data = cvCreateImage(cvSize(ret->width, ret->height), IPL_DEPTH_8U, colorChannels);
 
     /* JSAMPLEs per row in output buffer */
     int row_stride = cinfo->output_width * cinfo->output_components; /* physical row width in output buffer */
@@ -124,8 +127,8 @@ struct jpeg *loadJPEGFromFile(const char *filename) {
      * loop counter, so that we don't have to keep track ourselves.
      */
     assert(ret->data->widthStep >= row_stride);
+    uint8_t *data = (uint8_t*) ret->data->imageData;
     for(int y = 0; y < ret->data->height; y++) {
-
         /* jpeg_read_scanlines expects an array of pointers to scanlines.
          * Here the array is only one element long, but you could ask for
          * more than one scanline at a time if that's more convenient.
@@ -135,11 +138,9 @@ struct jpeg *loadJPEGFromFile(const char *filename) {
         //assert(scanline * ret->data->widthStep + row_stride < ret->data->imageSize);
         //memcpy(&(ret->data->imageData[scanline * ret->data->widthStep]), buffer[0], row_stride);
         for(int x = 0; x < ret->data->width; x++) {
-            uint8_t *data = (uint8_t*) ret->data->imageData;
-
-            data[y * ret->data->width * 4 + x * 4 + 0] = buffer[0][x*3+0];
-            data[y * ret->data->width * 4 + x * 4 + 1] = buffer[0][x*3+1];
-            data[y * ret->data->width * 4 + x * 4 + 2] = buffer[0][x*3+2];
+            data[y * ret->data->width * colorChannels + x * colorChannels + 0] = buffer[0][x*3+0];
+            data[y * ret->data->width * colorChannels + x * colorChannels + 1] = buffer[0][x*3+1];
+            data[y * ret->data->width * colorChannels + x * colorChannels + 2] = buffer[0][x*3+2];
 
         }
     }
@@ -176,11 +177,11 @@ void freeJpeg(struct jpeg *jpg) {
     free(jpg);
 }
 
-cv::Mat *rotateImage(const cv::Mat& source, double angle)
-{
+//http://stackoverflow.com/questions/2289690/opencv-how-to-rotate-iplimage
+cv::Mat *rotateImage(const cv::Mat& source, double angle) {
     cv::Point2f src_center(source.cols/2.0F, source.rows/2.0F);
-    cv::Mat rot_mat = getRotationMatrix2D(src_center, angle, 1.0);
-    cv::Mat *dst = NULL;
+    cv::Mat rot_mat = getRotationMatrix2D(src_center, angle * 180 / M_PI, 1.0);
+    cv::Mat *dst = new cv::Mat;
     warpAffine(source, *dst, rot_mat, source.size());
     return dst;
 }

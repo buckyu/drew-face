@@ -87,6 +87,12 @@
     <ClInclude Include="..\..\DrewFace\FaceDetectExports.h">
       <Filter>Resource Files\Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\DrewFace\jpegHelpers.h">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DrewFace\SmileStitcher.h">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\..\..\..\Downloads\haarcascade_frontalface_default.xml">
@@ -115,6 +121,12 @@
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source.cpp">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DrewFace\jpegHelpers.cpp">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DrewFace\SmileStitcher.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

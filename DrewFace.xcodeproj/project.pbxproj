@@ -724,6 +724,12 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				"OTHER_CFLAGS[arch=*]" = "";
+				OTHER_LDFLAGS = (
+					"-Wl,-no_implicit_dylibs",
+					"-fsanitize=undefined",
+					"-fsanitize=address",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -744,6 +750,11 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-no_implicit_dylibs",
+					"-fsanitize=undefined",
+					"-fsanitize=address",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

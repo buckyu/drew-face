@@ -9,7 +9,9 @@
 #ifndef __DrewFace__jpegHelpers__
 #define __DrewFace__jpegHelpers__
 
+#include <stdio.h>
 #include "jpeglib.h"
+#include <opencv2/imgproc/imgproc.hpp>
 
 struct jpeg {
     IplImage *data;
@@ -20,7 +22,7 @@ struct jpeg {
 };
 
 int exifOrientation(const char *filename);
-struct jpeg *loadJPEGFromFile(const char *filename);
+struct jpeg *loadJPEGFromFile(const char *filename, int colorChannels);
 void freeJpeg(struct jpeg *jpg);
 cv::Mat *rotateImage(const cv::Mat& source, double angle);
 

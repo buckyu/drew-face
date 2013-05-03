@@ -41,7 +41,7 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
 
     // Find Mouths in original images here
     
-    struct jpeg *jpeg = loadJPEGFromFile(fileNamePath);
+    struct jpeg *jpeg = loadJPEGFromFile(fileNamePath, 4);
     float facedetectScaleFactor = 1;
     cv::Mat scaledImg;
     {
