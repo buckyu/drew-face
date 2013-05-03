@@ -42,15 +42,12 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     std::vector<cv::Point> *bounds = new std::vector<cv::Point>;
     int boundArraySize = fileInfo->points->size();
     cv::Point *boundArray = (cv::Point*)calloc(boundArraySize, sizeof(cv::Point));
-    //this is THE screwiest coordinate conversion I have ever seen. I shall refrain from ranting. But you, dear reader, should feel free.
-    cv::Point facePoint = cv::Point(fileInfo->facedetectX / fileInfo->facedetectScaleFactor, fileInfo->facedetectY / fileInfo->facedetectScaleFactor);
-    cv::Point mouthPoint = cv::Point(facePoint.x + fileInfo->mouthdetectX / fileInfo->facedetectScaleFactor, facePoint.y + fileInfo->mouthdetectY / fileInfo->facedetectScaleFactor + MAGIC_HEIGHT * fileInfo->facedetectH / fileInfo->facedetectScaleFactor);
 
     float xsquaredSum = 0;
     float xSum = 0;
     float ySum = 0;
     float xySum = 0;
-    int n = fileInfo->points->size();
+    int n = fileInfo->imagePoints->size();
     if(n == 0) {
         return NULL;
     }
@@ -63,31 +60,29 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //FILE *file = fopen("/Users/bion/Desktop/data.csv", "w");
     //int lastx = fileInfo->points->at(0).x;
     for(int i = 0; i < n; i++) {
-        NotCGPoint p = fileInfo->points->at(i);
+        NotCGPoint p = fileInfo->imagePoints->at(i);
         //fprintf(file, "%d, %d\n", p.x, p.y);
-        int x = mouthPoint.x + p.x / fileInfo->facedetectScaleFactor;
-        if(x < minx) {
-            minx = x;
+        if(p.x < minx) {
+            minx = p.x;
         }
-        if(x > maxx) {
-            maxx = x;
+        if(p.x > maxx) {
+            maxx = p.x;
         }
-        int y = mouthPoint.y + p.y / fileInfo->facedetectScaleFactor;
-        if(y < miny) {
-            miny = y;
+        if(p.y < miny) {
+            miny = p.y;
         }
-        if(y > maxy) {
-            maxy = y;
+        if(p.y > maxy) {
+            maxy = p.y;
         }
-        cv::Point pt = cv::Point(x, y);
+        cv::Point pt = cv::Point(p.x, p.y);
         //printf("Point = (%d, %d)\n", p.x, p.y);
         bounds->push_back(pt);
         boundArray[i] = pt;
 
-        xsquaredSum += x*x;
-        xSum += x;
-        ySum += y;
-        xySum += x * y;
+        xsquaredSum += p.x * p.x;
+        xSum += p.x;
+        ySum += p.y;
+        xySum += p.x * p.y;
     }
     //fclose(file);
 #undef X_STEP

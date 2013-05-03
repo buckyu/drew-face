@@ -136,19 +136,12 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
     
     // write mouth images to EXTRACTED_MOUTHS directory
 #if DONT_PORT
-    
     writeToDisk(mouthImage,fileNamePath);
 #endif
     
     //processedMouthImage = [ocv edgeDetectReturnEdges:mouthImage];
-    std::vector<NotCGPoint> *points;
-
-    
     FileInfo *ret = (FileInfo*)malloc(sizeof(FileInfo));
     ret->originalFileNamePath = fileNamePath;
-	    if ((faceRect.width > 0) && (faceRect.height > 0)) {
-        ret->points = findTeethArea(mouthImage);
-    }
     ret->facedetectScaleFactor = facedetectScaleFactor;
     ret->facedetectX = faceRect.x;
     ret->facedetectY = faceRect.y;
@@ -158,6 +151,23 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
     ret->mouthdetectY = mouthRectInBottomHalfOfFace.y;
     ret->mouthdetectW = mouthRectInBottomHalfOfFace.width;
     ret->mouthdetectH = mouthRectInBottomHalfOfFace.height;
+    
+    if ((faceRect.width > 0) && (faceRect.height > 0)) {
+        ret->points = findTeethArea(mouthImage);
+
+        std::vector<NotCGPoint> *imagePoints = new std::vector<NotCGPoint>;
+        //this is THE screwiest coordinate conversion I have ever seen. I shall refrain from ranting. But you, dear reader, should feel free.
+        cv::Point facePoint = cv::Point(ret->facedetectX / ret->facedetectScaleFactor, ret->facedetectY / ret->facedetectScaleFactor);
+        cv::Point mouthPoint = cv::Point(facePoint.x + ret->mouthdetectX / ret->facedetectScaleFactor, facePoint.y + ret->mouthdetectY / ret->facedetectScaleFactor + MAGIC_HEIGHT * ret->facedetectH / ret->facedetectScaleFactor);
+        for(int i = 0; i < ret->points->size(); i++) {
+            NotCGPoint pt = ret->points->at(i);
+            NotCGPoint p;
+            p.x = mouthPoint.x + pt.x / ret->facedetectScaleFactor;
+            p.y = mouthPoint.y + pt.y / ret->facedetectScaleFactor;
+            imagePoints->push_back(p);
+        }
+        ret->imagePoints = imagePoints;
+    }
     
     return ret;
 }

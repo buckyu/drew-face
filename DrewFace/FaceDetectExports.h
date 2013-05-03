@@ -28,7 +28,8 @@ typedef struct NCGP NotCGPoint;
 //everything here is in a different coordinate space. So says Drew
 typedef struct FileInfo {
     const char *originalFileNamePath;
-    std::vector<NotCGPoint> *points;
+    std::vector<NotCGPoint> *points; //points WRT the mouth
+    std::vector<NotCGPoint> *imagePoints; //points WRT the image
     float facedetectScaleFactor;
     float facedetectX;
     float facedetectY;
