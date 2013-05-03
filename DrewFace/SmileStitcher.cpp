@@ -111,7 +111,11 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     cv::Mat faceMat = face->data;
     cv::Mat mouthMat = mouth->data;
     cv::Mat smallMouthMat;
+    if (mouthSize.width ==0) { //seems to crash in this case.  i assume because the geometry is rediculous
+        return "";
+    }
     cv::resize(mouthMat, smallMouthMat, mouthSize);
+
     //printf("img = %s\n", fileInfo->originalFileNamePath);
     //not sure why we have to invert it...
     cv::Mat *rotatedSmallMouthMat = rotateImage(smallMouthMat, -rotation);

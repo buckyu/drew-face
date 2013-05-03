@@ -32,45 +32,6 @@
 #define NO 0
 #define YES 1
 
-const int HOW_MANY_BUCKETS = 50;
-
-#ifndef roundf
-float roundf(float r) {
-    return (r > 0.0) ? floor(r + 0.5) : ceil(r - 0.5);
-}
-#endif
-
-struct CalcStruct {
-    NotCGPoint pt;
-    int diffCr;
-};
-typedef struct CalcStruct CalcStruct;
-
-struct pindex {
-    NotCGPoint first;
-    int second;
-    /**I continue to be sorry*/
-    pindex(NotCGPoint ifirst,int isecond) {
-        this->first = ifirst;
-        this->second = isecond;
-    }
-    pindex() {
-        
-    }
-    bool operator<( const pindex & n ) const {
-        //compute hash
-        int hash = this->first.x * 100000 + this->first.y * 10000 + this->second;
-        int hash2 = n.first.x * 100000 + n.first.y * 10000 + n.second;
-        return hash < hash2;   // for example
-    }
-    bool operator==( const pindex & n) const {
-        return this->first.x==n.first.x && this->first.y == n.first.y && this->second==n.second;
-    }
-
-};
-typedef struct pindex pointIndex;
-
-
 char looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToothY) {
     if (toothY < MIN_Y_BRIGHTNESS_THRESHOLD) {
         return NO;
@@ -88,20 +49,33 @@ char looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToo
     return YES;
 }
 
-std::vector<std::vector<CalcStruct>*> *bionsCalc(cv::Mat image) {
+cv::Mat findTeethAreaDebug(cv::Mat image) {
+    return image;
+}
+std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
+    //originally: mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
+    //this implementation looks approximately in-place to me
+    //cv::blur(myCvMat, edges, cv::Size(4,4));
+	printf("finding teeth area\n");
+    cv::cvtColor(image, image, CV_BGRA2BGR);
+    cv::pyrMeanShiftFiltering(image.clone(), image, 10, 10, 4);
+    cv::cvtColor(image, image, CV_BGR2BGRA);
+    
     assert(image.dims==2);
     assert(CV_MAT_TYPE(image.type())==CV_8UC4);
+    
+    
     
     /**drew's handy dandy translation guide:
      image.size.width == matrix.cols
      image.size.height == matrix.rows
      */
-    printf("%ld\n",sizeof(ushort));
+    printf("%d\n",sizeof(ushort));
     //if you want to grab x: 5, y: 12, channel: g, you do this one:
 #define GET_PIXEL_OF_MATRIX(MTX,X,Y,CHANNEL) image.at<cv::Vec<uint8_t,4>>(Y,X)[CHANNEL]
-#define SET_PIXEL_OF_MATRIX(MTX,X,Y,CHANNEL,VALUE) image.at<cv::Vec<uint8_t,4>>(Y,X)[CHANNEL] = VALUE
 #define WIDTH image.cols
 #define HEIGHT image.rows
+    
     
     uint8_t *testimagedataMod1 = (uint8_t*)malloc(HEIGHT * WIDTH *4);
     uint8_t *testimagedataMod2 = (uint8_t*)malloc(HEIGHT * WIDTH *4);
@@ -125,255 +99,193 @@ std::vector<std::vector<CalcStruct>*> *bionsCalc(cv::Mat image) {
             GET_PIXELMOD1(x,y,0) = Y;
             GET_PIXELMOD1(x,y,1) = CR;
             GET_PIXELMOD1(x,y,2) = CB;
+            
         }
     }
     
-    printf("hi!");
-#define SLICE_FOR_NUM_SLICES(num) (M_PI_4 / (num / 8))
-#define COLOR_THRESHOLD 20
-#define MIN_POINTS_PER_VECTOR 8
-    //std::vector<NotCGPoint> *solutionArray = new std::vector<NotCGPoint>;
-    std::vector<std::vector<CalcStruct>*> *vectors = new std::vector<std::vector<CalcStruct>*>;
-    int cX = WIDTH / 2;
-    int cY = HEIGHT / 2;
-    for(float theta = 0; theta <= 2 * M_PI; theta += SLICE_FOR_NUM_SLICES(1024)) {
-        int colorThreshold = COLOR_THRESHOLD;
-    radius_loop:
-        int transitionCount = 0;
-        int baseY = GET_PIXELMOD1(cX, cY, 0);
-        int baseCr = GET_PIXELMOD1(cX, cY, 1);
-        int baseCb = GET_PIXELMOD1(cX, cY, 2);
-        std::vector<CalcStruct> *transitions = new std::vector<CalcStruct>;
-        for(float r = 0; r <= WIDTH / 2; r += 0.5) {
-            int x = (int)roundf(cX + r * cos(theta));
-            int y = (int)roundf(cY + r * sin(theta));
-            if(x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) {
+    int MouthWidth = WIDTH;
+    int MouthHeight = HEIGHT;
+    int cX = MouthWidth / 2;
+    
+    
+    for(int cY = 0; cY < MouthHeight * .5; cY += 5) {
+        for(float theta = -M_PI_4 / 2; theta <= M_PI_4 / 2; theta+= 0.1) {
+            for(int searchBeginPx = 0; searchBeginPx < 100; searchBeginPx++) {
+                int prevToothY = -1;
+                
+                typedef struct {
+                    int x;
+                    int y;
+                    int z;
+                } NotCG3DPoint;
+                std::vector<NotCG3DPoint> line = std::vector<NotCG3DPoint>();
+                
+                int prevToothCenter = searchBeginPx;
+                int toothCenter = prevToothCenter + (MIN_TOOTH_SIZE);
+            searchTooth:
+                for(; toothCenter <= prevToothCenter + MAX_TOOTH_SIZE; toothCenter++) {
+                    int tooth_notRotated_Y = 0;
+                    int toothCenterX = toothCenter;
+                    int toothCenterY = tooth_notRotated_Y;
+                    int tooth_rotatedX = toothCenterX*cos(theta) - toothCenterY*sin(theta);
+                    int tooth_rotatedY = toothCenterX * sin(theta) + toothCenterY * cos(theta) + cY; //which we rotate along some angle, §L95
+                    if (tooth_rotatedX >= WIDTH || tooth_rotatedX < 0) {
+                        continue;
+                    }
+                    if (tooth_rotatedY >= HEIGHT || tooth_rotatedY < 0) {
+                        continue;
+                    }
+                    
+                    int toothY = GET_PIXELMOD1(tooth_rotatedX, tooth_rotatedY, 0);
+                    int toothCR = GET_PIXELMOD1(tooth_rotatedX, tooth_rotatedY, 1);
+                    int toothCB = GET_PIXELMOD1(tooth_rotatedX, tooth_rotatedY, 2);
+                    
+                    if (!looksWhite(toothY, toothCR, toothCB, prevToothY)) continue;
+                    //now let's look for a suitable dark patch
+                    
+                    char found_dark = NO;
+                    int dark_rotatedX_sln = -99;
+                    int dark_rotatedY_sln = -99;
+                    for(int darkCenter = toothCenter + MIN_TOOTH_SIZE / 2; darkCenter <= toothCenter + MAX_TOOTH_SIZE / 2; darkCenter++) {
+                        int dark_notRotated_Y = tooth_notRotated_Y;
+                        int dark_rotatedX = darkCenter * cos(theta) - dark_notRotated_Y * sin(theta);
+                        int dark_rotatedY = darkCenter * sin(theta) + dark_notRotated_Y * cos(theta) + cY;
+                        if (dark_rotatedX >= WIDTH || dark_rotatedX < 0) {
+                            continue;
+                        }
+                        if (dark_rotatedY >= HEIGHT || dark_rotatedY < 0) {
+                            continue;
+                        }
+                        int darkY = GET_PIXELMOD1(dark_rotatedX, dark_rotatedY, 0);
+                        if (abs(toothY - darkY) < THRESHOLD_WHITE_BLACK) {
+                            continue;
+                        }
+                        if (darkY > MAX_Y_FOR_DARK_THRESHOLD) {
+                            continue;
+                        }
+                        //check that we've gone back to white after MAX_DARK_SIZE
+                        int darkEnd = darkCenter + MAX_DARK_SIZE;
+                        int dark_rotatedEndX = darkEnd * cos(theta) - dark_notRotated_Y * sin(theta);
+                        int dark_rotatedEndY = darkEnd * sin(theta) + dark_notRotated_Y * cos(theta) + cY;
+                        if (dark_rotatedEndY < 0 || dark_rotatedEndY >= MouthHeight) continue;
+                        if (dark_rotatedEndX < 0 || dark_rotatedEndX >= MouthWidth) continue;
+                        int darkEndY = GET_PIXELMOD1(dark_rotatedEndX, dark_rotatedEndY, 0);
+                        int darkEndCr = GET_PIXELMOD1(dark_rotatedEndX, dark_rotatedEndY, 1);
+                        int darkEndCb = GET_PIXELMOD1(dark_rotatedEndX, dark_rotatedEndY, 2);
+                        if (!looksWhite(darkEndY, darkEndCr, darkEndCb, prevToothY)) {
+                            continue;
+                        }
+                        
+                        found_dark = YES;
+                        dark_rotatedX_sln = dark_rotatedX;
+                        dark_rotatedY_sln = dark_rotatedY;
+                        
+                    }
+                    if (!found_dark) {
+                        continue;
+                    }
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    NotCG3DPoint coord;
+                    coord.x = tooth_rotatedX;
+                    coord.y = tooth_rotatedY;
+                    coord.z = 0;
+                    
+                    NotCG3DPoint darkCoord;
+                    darkCoord.x = dark_rotatedX_sln;
+                    darkCoord.y = dark_rotatedY_sln;
+                    darkCoord.z = 2;
+                    
+                    line.push_back(coord);
+                    line.push_back(darkCoord);
+                    prevToothY = toothY;
+                    prevToothCenter = toothCenter;
+                    toothCenter = prevToothCenter + MIN_TOOTH_SIZE;
+                }
+                
+                if (line.size() >= EXPECT_TEETH) {
+                    //NSLog(@"found teeth at %@",line);
+                    for(int i = 0; i < line.size(); i++) {
+                        NotCG3DPoint coord = line[i];
+                        GET_PIXELMOD2(coord.x, coord.y, coord.z) = 0xff;
+                    }
+                }
+                
+            }
+        }
+        
+    }
+    
+    //gitftwrap
+    //todo: convert this to more C
+    
+    
+    
+    std::vector<NotCGPoint> *solutionArray = new std::vector<NotCGPoint>;
+    int leftmostX = -1;
+    int leftmostY = -1;
+    for(int x = 0; x < WIDTH; x++) {
+        for(int y = 0; y < HEIGHT; y++) {
+            if (GET_PIXELMOD2(x, y, 0)==0xff) {
+                leftmostX = x;
+                leftmostY = y;
                 break;
             }
-            
-            int testY = GET_PIXELMOD1(x, y, 0);
-            int testCr = GET_PIXELMOD1(x, y, 1);
-            int testCb = GET_PIXELMOD1(x, y, 2);
-            
-            int diffY = abs(testY - baseY);
-            int diffCr = abs(testCr - baseCr);
-            int diffCb = abs(testCb - baseCb);
-            
-            if(diffCr > colorThreshold) {
-                //GET_PIXELMOD2(x, y, 0) = 0xff;
-                CalcStruct pt;
-				pt.pt.x=x;
-				pt.pt.y=y;
-				pt.diffCr=diffCr;
-                transitions->push_back(pt);
-                transitionCount++;
-                //solutionArray->push_back(pt);
-                baseY = testY;
-                baseCr = testCr;
-                baseCb = testCb;
-            }
         }
-        if(transitionCount < MIN_POINTS_PER_VECTOR && 0) {
-            if(colorThreshold == 0) {
-                fprintf(stderr, "There is no red shift anywhere along this angle. Your image just sucks.\n");
-                assert(!vectors->empty());
-                return new std::vector<std::vector<CalcStruct>*>;
-            }
-            colorThreshold--;
-            goto radius_loop;
-        }
-        vectors->push_back(transitions);
+        if (leftmostX != -1) break;
     }
-    
-    for(int i = 0; i < vectors->size(); i++) {
-        for(int y = 0; y < vectors->at(i)->size(); y++) {
-            NotCGPoint debug = vectors->at(i)->at(y).pt;
-            SET_PIXEL_OF_MATRIX(image, debug.x, debug.y, 0,0xff);
-            SET_PIXEL_OF_MATRIX(image, debug.x, debug.y, 1,0xff);
+    int pX = leftmostX;
+    int pY = leftmostY;
+    while(true) {
+        int qX = -1;
+        int qY = -1;
+        //p --> q --> r
+        
+        qX = leftmostX;
+        qY = leftmostY;
+        for(int rX = 0; rX < WIDTH; rX++) {
+            for(int rY = 0; rY < HEIGHT; rY++) {
+                
+                if (GET_PIXELMOD2(rX, rY, 0)!=0xff) continue;
+#define TURN_LEFT 1
+#define TURN_RIGHT -1
+#define TURN_NONE 0
+                
+                float dist_p_r = pow(pX - rX,2) + pow(pY - rY,2);
+                float dist_p_q = pow(pX - qX,2) + pow(pY - qY,2);
+                //compute the turn
+                int t = -999;
+                int lside = (qX - pX) * (rY - pY) - (rX - pX) * (qY - pY);
+                if (lside < 0) t = -1;
+                if (lside > 0) t = 1;
+                if (lside==0) t = 0;
+                if (t==TURN_RIGHT || (t==TURN_NONE && dist_p_r > dist_p_q)) {
+                    qX = rX;
+                    qY = rY;
+                }
+            }
         }
+        //we consider qX to be in our solution
+        NotCGPoint soln;
+        soln.x = qX;
+        soln.y = qY;
+        solutionArray->push_back(soln);
+        if (qX == leftmostX && qY == leftmostY) {
+            break;
+        }
+        pX = qX;
+        pY = qY;
     }
     free(testimagedataMod1);
     free(testimagedataMod2);
     
-    return vectors;
+    printf("solution of size %lu\n",solutionArray->size());
     
-}
-
-cv::Mat findTeethAreaDebug(cv::Mat image) {
-    cv::cvtColor(image, image, CV_BGRA2BGR);
-    cv::pyrMeanShiftFiltering(image.clone(), image, 20, 20, 4);
-    cv::cvtColor(image, image, CV_BGR2BGRA);
-    std::vector<std::vector<CalcStruct> *> *vectors = bionsCalc(image);
-
-    return image;
-}
-
-float heuristic(pointIndex where, std::vector<CalcStruct> goals) {
-    NotCGPoint stupid = goals[0].pt;
-    return HOW_MANY_BUCKETS - where.second;
-}
-
-float heuristic2(NotCGPoint from, CalcStruct to, NotCGPoint centerPt) {
-    float weighted_diffcr = 1/ (to.diffCr / 0.3);
-    float horizontal_is_good = 1 / (fabsf(from.x - to.pt.x) + 1) * 5;
-    //printf("adjusted diffcf %f\n",weighted_diffcr);
-    //if (from.x==to.pt.x && from.y==to.pt.y) return 2;
-    float euclid = sqrtf(powf(from.y - to.pt.y, 2) + powf(from.x - to.pt.x, 2));
-    return weighted_diffcr + euclid + horizontal_is_good+  1;
-    //the cost is the inverse of the distance from the center? (e.g. find the outermost point such that)
-
-    //return abs(from.y - to.y) + 1.0 / (sqrtf(powf(centerPt.y - to.y, 2) + pow(centerPt.x - to.x, 2)));
-}
-
-std::vector<pointIndex> *reconstruct_path(std::map<pointIndex,pointIndex> *came_from, pointIndex current_node) {
-    if (came_from->count(current_node)) {
-        pointIndex a = came_from->at(current_node);
-        assert(a.second==current_node.second - 1);
-        std::vector<pointIndex> *path = reconstruct_path(came_from, came_from->at(current_node));
-        path->insert(path->begin(), current_node);
-        return path;
-    }
-    std::vector<pointIndex> *newPath = new std::vector<pointIndex>;
-    newPath->push_back(current_node);
-    return newPath;
-}
-
-std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
-    //originally: mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
-    //this implementation looks approximately in-place to me
-    //cv::blur(myCvMat, edges, cv::Size(4,4));
-	printf("finding teeth area\n");
-    image = findTeethAreaDebug(image);
+    return solutionArray;
     
-    std::vector<std::vector<CalcStruct> *> *vectors = bionsCalc(image);
-    
-    //scale down to 100 results
-    std::vector<std::vector<CalcStruct> *> *scaled = new std::vector<std::vector<CalcStruct> *>;
-    int bucket = 0;
-    std::vector<CalcStruct> *bucketV = new std::vector<CalcStruct>;
-
-    for(int i = 0; i < vectors->size(); i++) {
-        for(int y = 0; y < vectors->at(i)->size(); y++) {
-            bucketV->push_back(vectors->at(i)->at(y));
-        }
-        bucket++;
-        if (bucketV->size() && bucket >  HOW_MANY_BUCKETS / bucketV->size()) {
-            printf("bucket of size %d\n",bucketV->size());
-            scaled->push_back(bucketV);
-            bucketV = new std::vector<CalcStruct>;
-            bucket = 0;
-        }
-    }
-    printf("total buckets %d\n",scaled->size());
-    vectors = scaled;
-    
-    std::vector<pointIndex> *closedSet = new std::vector<pointIndex>;
-    std::vector<pointIndex> *openSet = new std::vector<pointIndex>;
-    std::map<pointIndex,pointIndex> *came_from = new std::map<pointIndex,pointIndex>();
-    typedef std::pair<pointIndex,pointIndex> pointToPoint;
-    std::map<pointIndex,float> *g = new std::map<pointIndex,float>;
-    typedef std::pair<pointIndex,float> score;
-    std::map<pointIndex,float> *f = new std::map<pointIndex,float>;
-    //typedef std::pair<pointIndex,int> pointIndex;
-    if (!vectors->size()) {
-        printf("bion gave us no solution, you're not getting one either\n");
-        return new std::vector<NotCGPoint>;
-    }
-    std::vector<CalcStruct> *goals = vectors->at(vectors->size() - 1);
-    for (int i = 0; i < vectors->at(0)->size(); i++) {
-        NotCGPoint node = vectors->at(0)->at(i).pt;
-        openSet->push_back(pointIndex(node,0));
-        g->insert(score(pointIndex(node,0),0));
-        f->insert(score(pointIndex(node,0),heuristic(pointIndex(node,vectors->size()), *goals)));
-        printf("start node %d,%d at position %d\n",node.x,node.y,vectors->size());
-    }
-    while (openSet->size()) {
-        pointIndex current;
-        float low_f = 999999999;
-        int currentOSIndex = -1;
-        for(int i = 0; i < openSet->size(); i++) {
-            pointIndex test = openSet->at(i);
-            float test_f = f->at(test);
-            if (test_f < low_f) {
-                low_f = test_f;
-                current = test;
-                currentOSIndex = i;
-            }
-        }
-        printf("visiting node %d,%d\n",current.first.x,current.first.y);
-        //if(g->at(current) > 10 && std::find(goals->begin(), goals->end(), current.first) != goals->end()) {
-        if (current.second==vectors->size()-1) { 
-            std::vector<pointIndex> *solution = reconstruct_path(came_from, current);
-            printf("solution of size %d\n",solution->size());
-            std::vector<NotCGPoint> *actualSolution = new std::vector<NotCGPoint>;
-            for(int i = 0; i < solution->size(); i++) {
-                actualSolution->push_back(solution->at(i).first);
-            }
-            return actualSolution;
-        }
-        openSet->erase(openSet->begin() + currentOSIndex);
-        closedSet->push_back(current);
-        int nextIndex = current.second + 1;
-        printf("the next index is %d\n",nextIndex);
-        
-        std::vector<CalcStruct> *next = vectors->at(nextIndex);
-        for(int i = 0; i < next->size(); i++) {
-            NotCGPoint neighbor = next->at(i).pt;
-            pointIndex neighborPointIndex = pointIndex(neighbor,nextIndex);
-            NotCGPoint centerPt;
-            int MouthWidth = WIDTH;
-            int MouthHeight = HEIGHT;
-
-            centerPt.x = MouthWidth / 2;
-            centerPt.y = MouthHeight / 2;
-            float tentative_g_score = g->at(current) + heuristic2(current.first, next->at(i),centerPt);
-            if(std::find(closedSet->begin(), closedSet->end(), neighborPointIndex) != closedSet->end()) {
-                if (tentative_g_score >= g->at(neighborPointIndex)) {
-                    continue;
-                }
-            }
-            if (std::find(openSet->begin(), openSet->end(), neighborPointIndex)==openSet->end() || tentative_g_score < g->at(neighborPointIndex)) {
-                if (neighborPointIndex.second != current.second + 1) {
-                    printf("what\n");
-                    abort();
-                }
-                (*came_from)[neighborPointIndex]=current;
-                (*g)[neighborPointIndex] = tentative_g_score; //(score(neighborPointIndex,tentative_g_score));
-                (*f)[neighborPointIndex] = g->at(neighborPointIndex) + heuristic(neighborPointIndex, *goals);
-                //f->insert(score(neighborPointIndex,g->at(neighborPointIndex) + heuristic(neighbor, *goals)));
-                if (std::find(openSet->begin(), openSet->end(), neighborPointIndex)==openSet->end()) {
-                    openSet->push_back(neighborPointIndex);
-                    printf("scheduling %d,%d for visit\n",neighbor.x,neighbor.y);
-                }
-                
-            }
-            else {
-                printf("not considering node %d,%d because not open or poor score\n",neighbor.x,neighbor.y);
-            }
-        }
-    }
-    printf("no solution??\n");
-    return new std::vector<NotCGPoint>;
-    
-    for(int i = 0; i < vectors->size(); i++) {
-        std::vector<NotCGPoint> *transitions = new std::vector<NotCGPoint>;
-        //while
-        
-    }
-
-
-    
-    return new std::vector<NotCGPoint>;
-    
-    
-}
-
-float quadRegA(NotCGPoint p1, NotCGPoint p2, NotCGPoint p3) {
-    float x1 = p1.x;
-    float y1 = p1.y;
-    float x2 = p2.x;
-    float y2 = p2.y;
-    float x3 = p3.x;
-    float y3 = p3.y;
-    return (x3 * (-y1 + y2) + x2 * (y1 - y3) + x1 * (-y2 + y3)) / ((x1 - x2) * (x1 - x3) * (x2 - x3));
 }
