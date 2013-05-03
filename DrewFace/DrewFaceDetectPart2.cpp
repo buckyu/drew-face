@@ -158,10 +158,10 @@ cv::Mat findTeethAreaDebug(cv::Mat image) {
     assert(stdevU<= 255);
     
     int tA = meanA - stdevA;
-    if (tA < 9) tA = 9;
+    if (tA < 142) tA = 142;
     
     int tU = meanU - stdevU;
-    if (tU < 29) tU = 29;
+    if (tU < 75) tU = 75;
     
     for(int x = 0; x < image.cols; x++) {
         for(int y = 0; y < image.rows; y++) {
