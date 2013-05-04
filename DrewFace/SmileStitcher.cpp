@@ -17,7 +17,11 @@
 #include "jpegHelpers.h"
 #include "FaceDetectRenamed.h"
 
-#define COLOR_CHANNELS 4
+#ifdef DONT_PORT
+    #define COLOR_CHANNELS 4
+#else
+    #define COLOR_CHANNELS 3
+#endif
 
 #ifdef DONT_PORT
 #include "FaceDetectRenamedObjCExtensions.h"
@@ -35,12 +39,10 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         return NULL;
     }
     sprintf(ret, "%s-replaced", fileInfo->originalFileNamePath);
-	//ret = "C:\\Users\\Administrator\\test.jpg";
 
     struct jpeg *face = loadJPEGFromFile(fileInfo->originalFileNamePath, COLOR_CHANNELS);
-	printf("Loaded face\n");
+    //writeJpegToFile(face, ret, 100);
     struct jpeg *mouth = loadJPEGFromFile(mouthImage, COLOR_CHANNELS);
-	printf("Loaded mouth\n");
 
     std::vector<cv::Point> *bounds = new std::vector<cv::Point>;
     int boundArraySize = fileInfo->imagePoints->size();
@@ -91,7 +93,6 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
 #undef X_STEP
     cv::Size mouthSize = cv::Size(maxx - minx, maxy - miny);
     cv::Rect mouthRect = cv::Rect(minx, miny, mouthSize.width, mouthSize.height);
-	printf("Sized\n");
 
     //use a least squares regression on all the points to get a linear fit that will allow us to approximate the rotation of the overall polygon from horizontal.
 
@@ -177,15 +178,19 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         }
     }
 
+#ifdef DONT_PORT
     cv::Mat outMatrix = &faceImg;
-#if DONT_PORT
     writeReplaceToDisk(outMatrix, ret);
+#else
+    face->data = &faceImg;
+    face->width = faceImg.width;
+    face->height = faceImg.height;
+    writeJpegToFile(face, ret, 100);
 #endif
 
     //Short version: free these last. Seriously!
     //Long version: = is overloaded for converting IplImage* <-> cv::Mat. IplImage is a C structure, so when you free it, it actually goes away. cv::Mat is a C++ structure and does some kind of magical reference counting that makes it go away (magically) when you don't need it anymore. So, if you set mat = img and free the img, the img is no longer valid, *BUT* the mat still is. That's right, = has lost the transitive property because of memory management differences within C++. Oh, but some of the data is shared, so although your struct is intact, accessing it can be bad (EXC_BAD_ACCESS bad). Ha ha!
     free(boundArray);
-    freeJpeg(face);
     freeJpeg(mouth);
 
     return ret;

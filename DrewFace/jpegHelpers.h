@@ -23,6 +23,8 @@ struct jpeg {
 
 int exifOrientation(const char *filename);
 struct jpeg *loadJPEGFromFile(const char *filename, int colorChannels);
+///quality is 0..100
+void writeJpegToFile(struct jpeg *jpeg, const char *filename, int quality);
 void freeJpeg(struct jpeg *jpg);
 cv::Mat *rotateImage(const cv::Mat& source, double angle);
 
