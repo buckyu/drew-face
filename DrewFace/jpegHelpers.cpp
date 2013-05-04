@@ -217,8 +217,6 @@ void writeJpegToFile(struct jpeg *jpeg, const char *filename, int quality) {
         exit(1);
     }
     jpeg_stdio_dest(&cinfo, outfile);
-    fwrite(jpeg->data->imageData, sizeof(unsigned char), 4096, outfile);
-    fflush(outfile);
 
     /* Step 3: set parameters for compression */
 
@@ -256,16 +254,14 @@ void writeJpegToFile(struct jpeg *jpeg, const char *filename, int quality) {
      */
     row_stride = jpeg->width * jpeg->colorComponents;	/* JSAMPLEs per row in image_buffer */
 
-    row_pointer[0] = (uint8_t*)calloc(row_stride, sizeof(uint8_t));
     while (cinfo.next_scanline < cinfo.image_height) {
         /* jpeg_write_scanlines expects an array of pointers to scanlines.
          * Here the array is only one element long, but you could pass
          * more than one scanline at a time if that's more convenient.
          */
-        //row_pointer[0] = (uint8_t*)& (jpeg->data->imageData[cinfo.next_scanline * row_stride]);
+        row_pointer[0] = (uint8_t*)& (jpeg->data->imageData[cinfo.next_scanline * row_stride]);
         (void) jpeg_write_scanlines(&cinfo, row_pointer, 1);
     }
-    free(row_pointer[0]);
 
     /* Step 6: Finish compression */
 
