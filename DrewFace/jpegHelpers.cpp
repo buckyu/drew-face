@@ -171,6 +171,26 @@ struct jpeg *loadJPEGFromFile(const char *filename, int colorChannels) {
     return ret;
 }
 
+void YCbCrToRGB(IplImage* ScrY, IplImage* ScrCb, IplImage* ScrCr, IplImage* DesR, IplImage* DesG, IplImage* DesB) {
+    for(int i=0; i < ScrY->height; i++) {
+        for(int j=0; j < ScrY->width; j++) {
+            double Y = (uchar)(ScrY->imageData + ScrY->widthStep*i)[j];
+            double Cb = (uchar)(ScrCb->imageData + ScrCb->widthStep*i)[j];
+            double Cr = (uchar)(ScrCr->imageData + ScrCr->widthStep*i)[j];
+
+            Cb = Cb -128;
+            Cr = Cr -128;
+            int r;
+            int g;
+            int b;
+
+            (DesR->imageData + DesR->widthStep*i)[j] = (int)(1 * Y + 0 * Cb + 1.4 * Cr);
+            (DesG->imageData + DesG->widthStep*i)[j] = (int)(1 * Y - 0.343 * Cb - 0.711 *Cr);
+            (DesB->imageData + DesB->widthStep*i)[j] = (int)(1* Y + 1.765 * Cb + 0* Cr);
+        }
+    }
+}
+
 void writeJpegToFile(struct jpeg *jpeg, const char *filename, int quality) {
     /* This struct contains the JPEG compression parameters and pointers to
      * working space (which is allocated as needed by the JPEG library).
@@ -226,7 +246,7 @@ void writeJpegToFile(struct jpeg *jpeg, const char *filename, int quality) {
     cinfo.image_width = jpeg->width; 	/* image width and height, in pixels */
     cinfo.image_height = jpeg->height;
     cinfo.input_components = jpeg->colorComponents;		/* # of color components per pixel */
-    cinfo.in_color_space = jpeg->colorSpace; 	/* colorspace of input image */
+    cinfo.in_color_space = JCS_RGB; 	/* colorspace of input image */
     /* Now use the library's routine to set default compression parameters.
      * (You must set at least cinfo.in_color_space before calling this,
      * since the defaults depend on the source color space.)
@@ -254,14 +274,25 @@ void writeJpegToFile(struct jpeg *jpeg, const char *filename, int quality) {
      */
     row_stride = jpeg->width * jpeg->colorComponents;	/* JSAMPLEs per row in image_buffer */
 
+    row_pointer[0] = (uint8_t*)calloc(row_stride, sizeof(uint8_t));
     while (cinfo.next_scanline < cinfo.image_height) {
         /* jpeg_write_scanlines expects an array of pointers to scanlines.
          * Here the array is only one element long, but you could pass
          * more than one scanline at a time if that's more convenient.
          */
-        row_pointer[0] = (uint8_t*)& (jpeg->data->imageData[cinfo.next_scanline * row_stride]);
+        for(int i = 0; i < row_stride / jpeg->colorComponents; i++) {
+            uint8_t r = jpeg->data->imageData[cinfo.next_scanline * row_stride + i * jpeg->colorComponents + 0];
+            uint8_t g = jpeg->data->imageData[cinfo.next_scanline * row_stride + i * jpeg->colorComponents + 1];
+            uint8_t b = jpeg->data->imageData[cinfo.next_scanline * row_stride + i * jpeg->colorComponents + 2];
+
+            row_pointer[0][i * jpeg->colorComponents + 0] = r;
+            row_pointer[0][i * jpeg->colorComponents + 1] = g;
+            row_pointer[0][i * jpeg->colorComponents + 2] = b;
+        }
+        //row_pointer[0] = (uint8_t*)& (jpeg->data->imageData[cinfo.next_scanline * row_stride]);
         (void) jpeg_write_scanlines(&cinfo, row_pointer, 1);
     }
+    free(row_pointer[0]);
 
     /* Step 6: Finish compression */
 
