@@ -8,3 +8,12 @@ C:\Users\dev13\drew-face\distribute\bin\Debug\FaceDetectInternalManaged.pdb
 C:\Users\dev13\drew-face\distribute\obj\Debug\ConsoleApplication2.csprojResolveAssemblyReference.cache
 C:\Users\dev13\drew-face\distribute\obj\Debug\ConsoleApplication2.exe
 C:\Users\dev13\drew-face\distribute\obj\Debug\ConsoleApplication2.pdb
+D:\drew-face\distribute\bin\Debug\ConsoleApplication2.exe.config
+D:\drew-face\distribute\obj\Debug\ConsoleApplication2.exe
+D:\drew-face\distribute\obj\Debug\ConsoleApplication2.pdb
+D:\drew-face\distribute\bin\Debug\ConsoleApplication2.exe
+D:\drew-face\distribute\bin\Debug\ConsoleApplication2.pdb
+D:\drew-face\distribute\bin\Debug\FaceDetect.dll
+D:\drew-face\distribute\bin\Debug\FaceDetectInternalManaged.dll
+D:\drew-face\distribute\bin\Debug\FaceDetectInternalManaged.pdb
+D:\drew-face\distribute\obj\Debug\ConsoleApplication2.csprojResolveAssemblyReference.cache

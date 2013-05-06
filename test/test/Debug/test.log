@@ -1,11 +1,15 @@
-﻿Build started 5/3/2013 9:38:26 PM.
+﻿Build started 5/5/2013 2:36:34 AM.
 Project "D:\drew-face\test\test\test.vcxproj" on node 2 (Build target(s)).
 ClCompile:
-  C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"D:\drew-face\test\test\\..\..\libexif_sleuth_windows\libexif-0.6.20\\" /I"D:\drew-face\test\test\\..\..\jpeg-9\\" /I"D:\drew-face\test\test\\..\..\libexif_sleuth_windows\libexif-0.6.20\libexif" /I"D:\drew-face\test\test\\..\..\opencv\build\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D TEST_EXPORTS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\DrewFace\SmileStitcher.cpp
-  SmileStitcher.cpp
-d:\drew-face\drewface\smilestitcher.cpp(37): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-          c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : see declaration of 'sprintf'
-d:\drew-face\drewface\smilestitcher.cpp(104): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+  C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"D:\drew-face\test\test\\..\..\libexif_sleuth_windows\libexif-0.6.20\\" /I"D:\drew-face\test\test\\..\..\jpeg-9\\" /I"D:\drew-face\test\test\\..\..\libexif_sleuth_windows\libexif-0.6.20\libexif" /I"D:\drew-face\test\test\\..\..\opencv\build\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D TEST_EXPORTS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\DrewFace\jpegHelpers.cpp
+  jpegHelpers.cpp
+d:\drew-face\drewface\jpeghelpers.cpp(61): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(218) : see declaration of 'fopen'
+d:\drew-face\drewface\jpeghelpers.cpp(185): warning C4101: 'b' : unreferenced local variable
+d:\drew-face\drewface\jpeghelpers.cpp(184): warning C4101: 'g' : unreferenced local variable
+d:\drew-face\drewface\jpeghelpers.cpp(183): warning C4101: 'r' : unreferenced local variable
+d:\drew-face\drewface\jpeghelpers.cpp(235): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(218) : see declaration of 'fopen'
 Lib:
   C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"D:\drew-face\test\Debug\FaceDetectInternalNative.lib" /NOLOGO Debug\Detect.obj
   Debug\DrewFaceDetectPart2.obj
@@ -21,4 +25,4 @@ Done Building Project "D:\drew-face\test\test\test.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:08.94
+Time Elapsed 00:00:06.52

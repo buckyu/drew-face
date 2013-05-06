@@ -2,6 +2,7 @@ This is v1.1 of FaceDetect, the image recognition component of selected smiles.
 
 Version History:
 
+1.2 - added new API for stitching photos
 1.1 - fixed a bug that causes a crash if the image is missing EXIF data
 1.0 - initial release
 
