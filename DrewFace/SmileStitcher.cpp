@@ -169,7 +169,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
                 int smallMouthX = x - mouthRect.x;
                 int smallMouthY = y - mouthRect.y;
                 if(smallMouthY >= smallMouthImg.height || smallMouthX >= smallMouthImg.width) {
-                    continue; //not sure why the mask didn't work for us. Probably and off-by-one issue. fillPoly drew a border or something.
+                    continue; //not sure why the mask didn't work for us. Probably an off-by-one issue. fillPoly drew a border or something.
                 }
                 data[y * faceImg.widthStep + x * faceImg.nChannels + 0] = smallMouthImg.imageData[smallMouthY * smallMouthImg.widthStep + smallMouthX * smallMouthImg.nChannels + 0];
                 data[y * faceImg.widthStep + x * faceImg.nChannels + 1] = smallMouthImg.imageData[smallMouthY * smallMouthImg.widthStep + smallMouthX * smallMouthImg.nChannels + 1];

@@ -171,26 +171,6 @@ struct jpeg *loadJPEGFromFile(const char *filename, int colorChannels) {
     return ret;
 }
 
-void YCbCrToRGB(IplImage* ScrY, IplImage* ScrCb, IplImage* ScrCr, IplImage* DesR, IplImage* DesG, IplImage* DesB) {
-    for(int i=0; i < ScrY->height; i++) {
-        for(int j=0; j < ScrY->width; j++) {
-            double Y = (uchar)(ScrY->imageData + ScrY->widthStep*i)[j];
-            double Cb = (uchar)(ScrCb->imageData + ScrCb->widthStep*i)[j];
-            double Cr = (uchar)(ScrCr->imageData + ScrCr->widthStep*i)[j];
-
-            Cb = Cb -128;
-            Cr = Cr -128;
-            int r;
-            int g;
-            int b;
-
-            (DesR->imageData + DesR->widthStep*i)[j] = (int)(1 * Y + 0 * Cb + 1.4 * Cr);
-            (DesG->imageData + DesG->widthStep*i)[j] = (int)(1 * Y - 0.343 * Cb - 0.711 *Cr);
-            (DesB->imageData + DesB->widthStep*i)[j] = (int)(1* Y + 1.765 * Cb + 0* Cr);
-        }
-    }
-}
-
 void writeJpegToFile(struct jpeg *jpeg, const char *filename, int quality) {
     /* This struct contains the JPEG compression parameters and pointers to
      * working space (which is allocated as needed by the JPEG library).
