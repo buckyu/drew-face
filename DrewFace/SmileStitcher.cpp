@@ -38,7 +38,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         //out of memory
         return NULL;
     }
-    sprintf(ret, "%s-replaced", fileInfo->originalFileNamePath);
+    sprintf(ret, "%.*s-replaced.jpg", (int)strlen(fileInfo->originalFileNamePath) - 4, fileInfo->originalFileNamePath);
 
     struct jpeg *face = loadJPEGFromFile(fileInfo->originalFileNamePath, COLOR_CHANNELS);
     //writeJpegToFile(face, ret, 100);
@@ -163,17 +163,22 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //replace the mask region on face with mouth
     IplImage faceImg = faceMat;
     uint8_t *data = (uint8_t*) faceImg.imageData;
+    printf("Using %d color channels\n", COLOR_CHANNELS);
+	assert(COLOR_CHANNELS == faceImg.nChannels && COLOR_CHANNELS == smallMouthImg.nChannels);
     for(int y = 0; y < faceImg.height; ++y) {
+        uint8_t *maskRow = (uint8_t*)&maskImg.imageData[y * maskImg.width * maskImg.nChannels];
+        uint8_t *dataRow = &data[y * faceImg.width * faceImg.nChannels];
         for(int x = 0; x < faceImg.width; ++x) {
-            if(maskImg.imageData[y * maskImg.widthStep + x * maskImg.nChannels]) {
+            if(maskRow[x * maskImg.nChannels]) {
                 int smallMouthX = x - mouthRect.x;
                 int smallMouthY = y - mouthRect.y;
                 if(smallMouthY >= smallMouthImg.height || smallMouthX >= smallMouthImg.width) {
                     continue; //not sure why the mask didn't work for us. Probably an off-by-one issue. fillPoly drew a border or something.
                 }
-                data[y * faceImg.widthStep + x * faceImg.nChannels + 0] = smallMouthImg.imageData[smallMouthY * smallMouthImg.widthStep + smallMouthX * smallMouthImg.nChannels + 0];
-                data[y * faceImg.widthStep + x * faceImg.nChannels + 1] = smallMouthImg.imageData[smallMouthY * smallMouthImg.widthStep + smallMouthX * smallMouthImg.nChannels + 1];
-                data[y * faceImg.widthStep + x * faceImg.nChannels + 2] = smallMouthImg.imageData[smallMouthY * smallMouthImg.widthStep + smallMouthX * smallMouthImg.nChannels + 2];
+                uint8_t *smallMouthRow = (uint8_t*)&smallMouthImg.imageData[smallMouthY * smallMouthImg.width * smallMouthImg.nChannels];
+                dataRow[x * faceImg.nChannels + 0] = smallMouthRow[smallMouthX * smallMouthImg.nChannels + 0];
+                dataRow[x * faceImg.nChannels + 1] = smallMouthRow[smallMouthX * smallMouthImg.nChannels + 1];
+                dataRow[x * faceImg.nChannels + 2] = smallMouthRow[smallMouthX * smallMouthImg.nChannels + 2];
             }
         }
     }

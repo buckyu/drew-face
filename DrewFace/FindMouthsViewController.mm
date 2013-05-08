@@ -110,6 +110,7 @@
         [fileInfos addObject:fileInfo];
         
         const char *teeth = [[docsDir stringByAppendingPathComponent:@"front.jpg"] cStringUsingEncoding:NSUTF8StringEncoding];
+        NSLog(@"Points for %@: %@", fileInfo[@"originalFileName"], fileInfo[@"imagePoints"]);
         stitchMouthOnFace(info, teeth);
         free(info);
     }

@@ -107,6 +107,12 @@ NSMutableDictionary *objcDictOfStruct(FileInfo *dict) {
         [points addObject:[NSValue valueWithCGPoint:CGPointMake(point.x, point.y)]];
     }
     ret[@"points"] = points;
+    NSMutableArray *imagePoints = [[NSMutableArray alloc] init];
+    for(std::vector<NotCGPoint>::size_type i = 0; i < dict->imagePoints->size(); ++i) {
+        NotCGPoint point = (*dict->imagePoints)[i];
+        [imagePoints addObject:[NSValue valueWithCGPoint:CGPointMake(point.x, point.y)]];
+    }
+    ret[@"imagePoints"] = imagePoints;
     ret[@"facedetectScaleFactor"] = @(dict->facedetectScaleFactor);
     ret[@"facedetectX"] = @(dict->facedetectX);
     ret[@"facedetectY"] = @(dict->facedetectY);
