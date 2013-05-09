@@ -20,7 +20,7 @@
 #ifdef DONT_PORT
     #define COLOR_CHANNELS 4
 #else
-    #define COLOR_CHANNELS 3
+    #define COLOR_CHANNELS 4
 #endif
 
 #ifdef DONT_PORT

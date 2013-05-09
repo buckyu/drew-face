@@ -225,7 +225,7 @@ void writeJpegToFile(struct jpeg *jpeg, const char *filename, int quality) {
      */
     cinfo.image_width = jpeg->width; 	/* image width and height, in pixels */
     cinfo.image_height = jpeg->height;
-    cinfo.input_components = jpeg->colorComponents;		/* # of color components per pixel */
+    cinfo.input_components = 3;		/* # of color components per pixel */
     cinfo.in_color_space = JCS_RGB; 	/* colorspace of input image */
     /* Now use the library's routine to set default compression parameters.
      * (You must set at least cinfo.in_color_space before calling this,
@@ -265,9 +265,9 @@ void writeJpegToFile(struct jpeg *jpeg, const char *filename, int quality) {
             uint8_t g = jpeg->data->imageData[cinfo.next_scanline * row_stride + i * jpeg->colorComponents + 1];
             uint8_t b = jpeg->data->imageData[cinfo.next_scanline * row_stride + i * jpeg->colorComponents + 2];
 
-            row_pointer[0][i * jpeg->colorComponents + 0] = r;
-            row_pointer[0][i * jpeg->colorComponents + 1] = g;
-            row_pointer[0][i * jpeg->colorComponents + 2] = b;
+            row_pointer[0][i * 3 + 0] = r;
+            row_pointer[0][i * 3 + 1] = g;
+            row_pointer[0][i * 3 + 2] = b;
         }
         //row_pointer[0] = (uint8_t*)& (jpeg->data->imageData[cinfo.next_scanline * row_stride]);
         (void) jpeg_write_scanlines(&cinfo, row_pointer, 1);
