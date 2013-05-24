@@ -18,7 +18,7 @@ void Detect(IplImage *myImage, const char *xml_filename_utf8, rect *result, cons
     CvHaarClassifierCascade *cascade = (CvHaarClassifierCascade *)cvLoad(xml_filename_utf8, NULL, NULL, NULL);
     CvMemStorage *storage = cvCreateMemStorage(0);
     
-    CvSeq *detections = cvHaarDetectObjects(myImage, cascade, storage, 1.1, 5, 0, cvSize(w/4,h/4), cvSize(w, h));
+    CvSeq *detections = cvHaarDetectObjects(myImage, cascade, storage, 1.05, 5, 0, cvSize(w/4,h/4), cvSize(w, h));
     
     //printf("%d Objects Detected\n",detections->total);
     
