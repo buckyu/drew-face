@@ -15,19 +15,26 @@ namespace ConsoleApplication2
             Console.ReadLine();
 
             FaceDetect.GeometryType geometryType = new FaceDetect.GeometryType();
-            geometryType.fileName = "C:\\test.jpg";
+            geometryType.fileName = "C:\\Bears.jpg";
             FaceDetect.FaceDetector.detectFaces(geometryType);
 
-            Console.WriteLine("List value is {0}", geometryType.teethArea.ToString());
-            foreach (Point p in geometryType.teethArea)
+            if (geometryType.fileName.Length > 0)
             {
+                Console.WriteLine("List value is {0}", geometryType.teethArea.ToString());
+                foreach (Point p in geometryType.teethArea)
+                {
 
-                Console.WriteLine("{0},{1}", p.x,p.y);
+                    Console.WriteLine("{0},{1}", p.x, p.y);
+                }
+
+                String mouthImage = "C:\\mouth.jpg";
+                String result = FaceDetect.FaceDetector.stitchFace(geometryType, mouthImage);
+                Console.WriteLine("Result written to {0}", result);
             }
-
-            String mouthImage = "C:\\mouth.jpg";
-            String result = FaceDetect.FaceDetector.stitchFace(geometryType, mouthImage);
-            Console.WriteLine("Result written to {0}", result);
+            else
+            {
+                Console.WriteLine("Couldn't find a face and/or mouth");
+            }
             
             Console.ReadLine();
         }

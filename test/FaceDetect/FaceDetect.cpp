@@ -37,6 +37,10 @@ void FaceDetect::FaceDetector::detectFaces(FaceDetect::GeometryType ^geometryTyp
 
 	char *str = (char*)(void*)Marshal::StringToHGlobalAnsi(geometryType->fileName);
 	FileInfo *info = extractGeometry(str,"haarcascade_frontalface_default.xml","haarcascade_mcs_mouth.xml");
+	if(info == NULL) {
+		geometryType->fileName = gcnew String("");
+		return;
+	}
 	System::Collections::Generic::List<Point^> ^l = gcnew System::Collections::Generic::List<Point^>();
 	std::vector<NotCGPoint> points = *(info->imagePoints);
 
