@@ -10,6 +10,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui_c.h>
 
 #define GET_PIXELORIG(X,Y,Z) testimagedataOrig[((int)WIDTH * 4 * Y) + (4 * X) + Z]
 #define GET_PIXEL(X,Y,Z) testimagedata[((int)WIDTH * 4 * Y) + (4 * X) + Z]
@@ -49,10 +50,307 @@ char looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToo
     return YES;
 }
 
-cv::Mat findTeethAreaDebug(cv::Mat image) {
-    return image;
+const int HOW_MANY_BUCKETS = 50;
+
+const float deg45 = M_PI_4;
+
+struct CalcStruct {
+    NotCGPoint pt;
+    int diffCr;
+};
+typedef struct CalcStruct CalcStruct;
+
+typedef struct pindex pointIndex;
+
+
+/**drew's handy dandy translation guide:
+ image.size.width == matrix.cols
+ image.size.height == matrix.rows
+ */
+
+float *xyzOfRGB(float r, float g, float b) {
+    /**
+     var_R = ( R / 255 )        //R from 0 to 255
+     var_G = ( G / 255 )        //G from 0 to 255
+     var_B = ( B / 255 )        //B from 0 to 255
+     
+     if ( var_R > 0.04045 ) var_R = ( ( var_R + 0.055 ) / 1.055 ) ^ 2.4
+     else                   var_R = var_R / 12.92
+     if ( var_G > 0.04045 ) var_G = ( ( var_G + 0.055 ) / 1.055 ) ^ 2.4
+     else                   var_G = var_G / 12.92
+     if ( var_B > 0.04045 ) var_B = ( ( var_B + 0.055 ) / 1.055 ) ^ 2.4
+     else                   var_B = var_B / 12.92
+     
+     var_R = var_R * 100
+     var_G = var_G * 100
+     var_B = var_B * 100
+     
+     //Observer. = 2°, Illuminant = D65
+     X = var_R * 0.4124 + var_G * 0.3576 + var_B * 0.1805
+     Y = var_R * 0.2126 + var_G * 0.7152 + var_B * 0.0722
+     Z = var_R * 0.0193 + var_G * 0.1192 + var_B * 0.9505
+     */
+    if(r > 0.04045) {
+        r = pow((r + 0.055) / 1.055, 2.4);
+    } else {
+        r = r / 12.92;
+    }
+    if(g > 0.04045) {
+        g = pow((g + 0.055) / 1.055, 2.4);
+    } else {
+        g = g / 12.92;
+    }
+    if(b > 0.04045) {
+        b = pow((b + 0.055) / 1.055, 2.4);
+    } else {
+        b = b / 12.92;
+    }
+    
+    r *= 100;
+    g *= 100;
+    b *= 100;
+    
+    float *ret = (float*)calloc(sizeof(float), 3);
+    ret[0] = r * 0.4124 + g * 0.3576 + b * 0.1805;
+    ret[1] = r * 0.2126 + g * 0.7152 + b * 0.0722;
+    ret[2] = r * 0.0193 + g * 0.1192 + b * 0.9505;
+    return ret;
 }
-std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
+
+float *clabOfXYZ(float *xyz) {
+    /**
+     var_X = X / ref_X          //ref_X =  95.047   Observer= 2°, Illuminant= D65
+     var_Y = Y / ref_Y          //ref_Y = 100.000
+     var_Z = Z / ref_Z          //ref_Z = 108.883
+     
+     if ( var_X > 0.008856 ) var_X = var_X ^ ( 1/3 )
+     else                    var_X = ( 7.787 * var_X ) + ( 16 / 116 )
+     if ( var_Y > 0.008856 ) var_Y = var_Y ^ ( 1/3 )
+     else                    var_Y = ( 7.787 * var_Y ) + ( 16 / 116 )
+     if ( var_Z > 0.008856 ) var_Z = var_Z ^ ( 1/3 )
+     else                    var_Z = ( 7.787 * var_Z ) + ( 16 / 116 )
+     
+     CIE-L* = ( 116 * var_Y ) - 16
+     CIE-a* = 500 * ( var_X - var_Y )
+     CIE-b* = 200 * ( var_Y - var_Z )
+     */
+    float x = xyz[0] / 95.047;
+    float y = xyz[1] / 100.000;
+    float z = xyz[2] / 108.883;
+    if(x > 0.008856) {
+        x = pow(x, 1/3.0);
+    } else {
+        x = (7.787 * x) + (16 / 116.0);
+    }
+    if(y > 0.008856) {
+        y = pow(y, 1/3.0);
+    } else {
+        y = (7.787 * y) + (16 / 116.0);
+    }
+    if(z > 0.008856) {
+        z = pow(z, 1/3.0);
+    } else {
+        z = (7.787 * z) + (16 / 116.0);
+    }
+    
+    float *ret = (float*)calloc(sizeof(float), 3);
+    ret[0] = (116 * y) - 16;
+    ret[1] = 500 * (x - y);
+    ret[2] = 200 * (y - z);
+    return ret;
+}
+
+float *cluvOfXYZ(float *xyz) {
+    /**
+     var_U = ( 4 * X ) / ( X + ( 15 * Y ) + ( 3 * Z ) )
+     var_V = ( 9 * Y ) / ( X + ( 15 * Y ) + ( 3 * Z ) )
+     
+     var_Y = Y / 100
+     if ( var_Y > 0.008856 ) var_Y = var_Y ^ ( 1/3 )
+     else                    var_Y = ( 7.787 * var_Y ) + ( 16 / 116 )
+     
+     ref_X =  95.047        //Observer= 2°, Illuminant= D65
+     ref_Y = 100.000
+     ref_Z = 108.883
+     
+     ref_U = ( 4 * ref_X ) / ( ref_X + ( 15 * ref_Y ) + ( 3 * ref_Z ) )
+     ref_V = ( 9 * ref_Y ) / ( ref_X + ( 15 * ref_Y ) + ( 3 * ref_Z ) )
+     
+     CIE-L* = ( 116 * var_Y ) - 16
+     CIE-u* = 13 * CIE-L* * ( var_U - ref_U )
+     CIE-v* = 13 * CIE-L* * ( var_V - ref_V )
+     */
+    
+    float x = xyz[0];
+    float y = xyz[1];
+    float z = xyz[2];
+    float refx = 95.047;
+    float refy = 100.000;
+    float refz = 108.883;
+    
+    float u = (4 * x) / (x + (15 * y) + (3 * z));
+    float v = (9 * y) / (x + (15 * y) + (3 * z));
+    y /= 100;
+    if(y > 0.008856) {
+        y = pow(y, 1/3.0);
+    } else {
+        y = (7.787 * y) + (16 / 116);
+    }
+    
+    float refu = (4 * refx ) / (refx + (15 * refy) + (3 * refz));
+    float refv = (9 * refy ) / (refx + (15 * refy) + (3 * refz));
+    
+    float *ret = (float*)calloc(sizeof(float), 3);
+    ret[0] = ( 116 * y ) - 16;
+    ret[1] = 13 * ret[0] * (u - refu);
+    ret[2] = 13 * ret[0] * (v - refv);
+    
+    return ret;
+}
+
+#define GET_PIXEL_OF_MATRIXN(MTX, X, Y, CHANNEL, TYPE, NUM) ((MTX).at<cv::Vec<TYPE,(NUM)>>((Y),(X))[(CHANNEL)])
+#define SET_PIXEL_OF_MATRIXN(MTX, X, Y, CHANNEL, TYPE, VALUE, NUM) ((MTX).at<cv::Vec<TYPE,(NUM)>>((Y),(X)))[(CHANNEL)] = (VALUE)
+float rawflow(NotCGPoint top, NotCGPoint bottom,cv::Mat grad_x, cv::Mat grad_y, float angle) {
+    int xcmp = sin(angle) *  GET_PIXEL_OF_MATRIXN(grad_x,top.x,top.y,0,uint8_t,3);
+    int ycmp = cos(angle) * GET_PIXEL_OF_MATRIXN(grad_y,top.x,top.y,0,uint8_t,3);
+    return abs(xcmp) + abs(ycmp);
+}
+
+/**This function is more or less eqn 4 from p. 3
+ Automatic and Accurate Lip Tracking
+ Nicolas EVENO, Alice CAPLIER, Pierre-Yves COULON
+ 
+ Something to do with "barycentre" I'm told
+ 
+ */
+NotCGPoint reseed(int sx, int sy, std::vector<NotCGPoint> snake,cv::Mat grad) {
+    float num = 0;
+    float denom = 0;
+    //This isn't right, but let's take an average of the Y values?
+    
+    for(int i = 0; i < snake.size(); i++) {
+        NotCGPoint consider = snake[0];
+        denom += 1;
+        num += consider.y;
+    }
+    float newY = sy;
+    if (denom > 0) { //it's possible that the whole system could have no flow, right.  in which case we should halt.
+        newY = num/ denom;
+        
+    }
+    NotCGPoint newseed;
+    newseed.x = sx;
+    newseed.y = newY;
+    return newseed;
+}
+std::vector<NotCGPoint> flowFind(int sx, int sy, cv::Mat grad_x, cv::Mat grad_y, int right,const int snake_delta,float min_angle, float max_angle, int *barycentre_num, int *barycentre_denom) {
+    std::vector<NotCGPoint> snake;
+    
+    
+    //now in the R direction, we have some point
+    float deg45 = M_PI_4;
+    //float theta = deg45/2 - DEGREE;
+    int best_flow = 0;
+    
+    for(float theta = min_angle; theta < max_angle; theta += .01) {
+        std::vector<NotCGPoint> localSnake;
+        int dx = 0;
+        int dy = 0;
+        //this is drawn over at §R22
+        if (theta <= deg45/2 && theta >= -deg45/2) {
+            //more or less horizontal, so the normal is vertical
+            dy = 1;
+        }
+        else if (theta >= deg45/2 && theta <= deg45 + deg45/2) { //region B1
+            //more or less even
+            dx = 1;
+            dy = 1;
+        }
+        else if (theta <= -deg45/2 && theta >= -deg45 - deg45/2) { //region B2
+            //more or less even
+            dx = 1;
+            dy = 1;
+        }
+        else if (theta > deg45 + deg45/2 && theta <= deg45 * 2 + deg45/2) { //region C1
+            //more or less vertical, so the normal is horizontal
+            dx = 1;
+        }
+        else if (theta < -deg45 - deg45/2 && theta >= -deg45*2 - deg45/2) { //region C2
+            //more or less vertical, so the normal is horizontal
+            dx = 1;
+        }
+        else {
+            abort(); //wtf
+        }
+        //we have some points in a line to the R point
+        float flow = 0;
+        float flow_in_x_dir = 0;
+        float flow_in_y_dir = 0;
+        for(int i = 0; i < snake_delta; i++) {
+            float ix = i * cos(theta); //§R17
+            float iy = i * sin(theta);
+            if (right) ix *= -1;
+            NotCGPoint top;
+            top.x = sx + ix + dx;
+            top.y = sy + iy+dy;
+            
+            if (abs(top.x-66)<3 && abs(top.y-41)<3) {
+                int i = 0;
+                printf("This will be a good solution\n");
+            }
+            
+            
+            //so the question is, what is the total flow from top to bottom
+            NotCGPoint bottom;
+            bottom.x = sx + ix - dx;
+            bottom.y = sy + iy - dy;
+            //let's not go off the reservation shall we
+            if (top.x < 0 || top.y < 0 || top.x >= grad_x.cols || top.y >= grad_x.rows) break;
+            
+            //float flowdiff =  rawflow(top,bottom,grad_x,grad_y,theta);
+            int xcmp = sin(theta) *  GET_PIXEL_OF_MATRIXN(grad_x,top.x,top.y,0,float,3);
+            int ycmp = cos(theta) * GET_PIXEL_OF_MATRIXN(grad_y,top.x,top.y,0,float,3);
+            flow_in_x_dir += xcmp;
+            flow_in_y_dir += ycmp;
+            flow += abs(xcmp) + abs(ycmp);
+            localSnake.push_back(top);
+            //printf("Assisting is point %d,%d with xcmp %d and ycmp %d\n",top.x,top.y,xcmp,ycmp);
+        }
+        
+        
+        printf("angle %f had flow %f composed of %f and %f\n",theta,flow,flow_in_x_dir,flow_in_y_dir);
+        if (flow > best_flow) {
+            *barycentre_num = flow * localSnake[0].y;
+            *barycentre_denom = flow;
+            snake = localSnake;
+            best_flow = flow;
+            
+            
+        }
+        
+    }
+    assert (snake.size());
+    int xcmp = GET_PIXEL_OF_MATRIXN(grad_x,snake.back().x,snake.back().y,0,float,3);
+    int ycmp = GET_PIXEL_OF_MATRIXN(grad_y,snake.back().x,snake.back().y,0,float,3);
+    printf("We found a solution at %d %d.  Best flow is %d\n",snake.back().x,snake.back().y,best_flow);
+    return snake;
+    
+}
+float downwardAngleCalc(int currentX, int startX) {
+    /*we're being really clever with how we pick our angles here.  Essentially if we are pretty close to the center, we allow a downward slant of nearly 90 degrees.
+     But near the edge, we require very near horizontal.*/
+    
+    return deg45/5;
+    
+    int distance_from_center = abs(currentX-startX);
+    if (!distance_from_center) distance_from_center = 1; //avoids divide by zero
+    float downward_angle = deg45*2 - distance_from_center * .01745 * 3; //there's really no rhyme or reason to this formula, it just works in practice.  accept it.
+    if (downward_angle < deg45/2) downward_angle = deg45/2;
+    if (downward_angle > deg45*2) downward_angle = deg45*2;
+    return downward_angle;
+}
+
+std::vector<NotCGPoint>* oldAlgorithm(cv::Mat image) {
     //originally: mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
     //this implementation looks approximately in-place to me
     //cv::blur(myCvMat, edges, cv::Size(4,4));
@@ -287,5 +585,374 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
     printf("solution of size %lu\n",solutionArray->size());
     
     return solutionArray;
+}
+
+cv::Mat snakeSearch(int sx, int sy, cv::Mat abs_grad_x, cv::Mat abs_grad_y, cv::Mat gradDisplay, int top, std::vector<NotCGPoint> *snake) {
+    int iterations = 0;
+    const int max_iterations = 15;
+    while(true) {
+        if (iterations >=  max_iterations) {
+            break;
+        }
+        iterations++;
+        (*snake).clear();
+        NotCGPoint start;
+        start.x = sx;
+        start.y = sy;
+        
+        
+        
+        
+        /**Let's begin a search to the right
+         start--x--y--z */
+#define APPEND(dest,src) dest.insert(dest.end(),src.begin(),src.end())
+        std::vector<NotCGPoint> R;
+        R.push_back(start);
+        const int segment_len = 40;
+        float deg45 = M_PI_4;
+        const float DEGREE = 0.0174532925;
+        
+        float angle_inf, angle_sup;
+        if (top) {
+            angle_inf = -M_PI/6.0;
+            angle_sup = M_PI/6.0;
+        }
+        else {
+            angle_inf = -M_PI/3.0;
+            angle_sup = M_PI/6.0;
+        }
+        int total_num = 0;
+        int total_denom = 0;
+        printf("left calc\n");
+        for(int x = sx; x < gradDisplay.cols; x+= segment_len) {
+            int l_num = 0;
+            int l_denom = 0;
+            float downward_angle = downwardAngleCalc(R.back().x,start.x);
+            std::vector<NotCGPoint> segment = flowFind(R.back().x, R.back().y,abs_grad_x, abs_grad_y, true, segment_len,angle_inf,angle_sup,&l_num,&l_denom);
+            printf("segment %d / %d \n",l_num,l_denom);
+            total_num += l_num;
+            total_denom += l_denom;
+            APPEND(R, segment);
+        }
+        
+        /**Now searching to the left
+         a--b--c--start
+         
+         However, our list is processing in reverse order here
+         start--c--b--a
+         
+         */
+        std::vector<NotCGPoint> L;
+        L.push_back(start);
+        for(int x = sx; x > 0; x-= segment_len) {
+            int l_num = 0;
+            int l_denom = 0;
+            float downward_angle = downwardAngleCalc(L.back().x,start.x);
+            std::vector<NotCGPoint> segment = flowFind(L.back().x, L.back().y,abs_grad_x,abs_grad_y, false, segment_len,angle_inf,angle_sup,&l_num,&l_denom);
+            total_num+=l_num;
+            total_denom += l_denom;
+            
+            APPEND(L, segment);
+        }
+        
+        //convert to a-b-c-start order
+        std::reverse(L.begin(),L.end());
+        
+        APPEND((*snake), L);
+        APPEND((*snake), R);
+        
+        
+        //let's go ahead and compute a new seed for fun
+        NotCGPoint newseed;
+        newseed.x = sx;
+        if (total_denom==0) {
+            newseed.y = sy;
+        }
+        else {
+            newseed.y = 0.5 * (sy + total_num / total_denom);
+        }
+        printf("Recommend moving from %d,%d to %d,%d\n",sx,sy,newseed.x,newseed.y);
+        //now there are two cases here.  either our newseed is close to the original one or it isn't.
+        if (sqrt(powf(newseed.y-start.y, 2)+powf(newseed.x-start.x, 2)) < 2) {
+            break;
+#warning
+        }
+        /*if (true) {
+         break;
+         }*/
+        sx = newseed.x;
+        sy = newseed.y;
+        
+        
+        
+    }
     
+    
+    for(int i = 0; i < (*snake).size(); i++) {
+        NotCGPoint snakePT = (*snake)[i];
+        SET_PIXEL_OF_MATRIXN(gradDisplay,snakePT.x,snakePT.y,0,uint8_t,255,3);
+        
+    }
+    return gradDisplay;
+}
+
+//NOTE: Input coordinate system is inverted from what you expect (higher y value is *lower*)
+std::vector<NotCGPoint> *mergeVectors(std::vector<NotCGPoint> *target, std::vector<NotCGPoint> *v1, std::vector<NotCGPoint> *v2) {
+    //make sure v1 is on top of v2
+    float avgy1 = 0;
+    for(int i = 0; i < (*v1).size(); i++) {
+        avgy1 += (*v1)[i].y;
+    }
+    avgy1 /= (*v1).size();
+
+    float avgy2 = 0;
+    for(int i = 0; i < (*v2).size(); i++) {
+        avgy2 += (*v2)[i].y;
+    }
+    avgy2 /= (*v2).size();
+
+    if(avgy1 > avgy2) {
+        std::vector<NotCGPoint> *tmp = v2;
+        v2 = v1;
+        v1 = tmp;
+    }
+
+    //combine and exclude overlap
+    NotCGPoint pt2  = (*v2)[0];
+    for(int i = 0, j = 0; i < (*v1).size(); i++) {
+        NotCGPoint pt1 = (*v1)[i];
+        while(j + 1 < (*v2).size() && pt1.x > pt2.x) {
+            pt2 = (*v2)[++j];
+        }
+        if(pt2.y >= pt1.y && fabs(pt2.y - pt1.y) > 3) {
+            target->push_back(pt1);
+        }
+    }
+    NotCGPoint pt1 = (*v1)[(*v1).size() - 1];
+    for(int i = (*v2).size() - 1, j = (*v1).size() - 1; i >= 0; i--) {
+        NotCGPoint pt2 = (*v2)[i];
+        while(j > 0 && pt1.x > pt2.x) {
+            pt1 = (*v1)[--j];
+        }
+        if(pt2.y >= pt1.y && fabs(pt2.y - pt1.y) > 3) {
+            target->push_back(pt2);
+        }
+    }
+
+    return target;
+}
+
+cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area) {
+    cv::Mat originalImage = image.clone();
+    image.convertTo(image, CV_32F);
+    
+    cv::Mat RGB = cvCreateMat(image.rows, image.cols, CV_32F);
+    cv::cvtColor(image, RGB, CV_BGRA2BGR);
+    
+    cv::Mat CIELAB = RGB.clone();
+    cv::cvtColor(image, CIELAB, CV_BGR2Lab);
+    
+    cv::Mat CIELUV = RGB.clone();
+    cv::cvtColor(image, CIELUV, CV_BGR2Luv);
+    
+    cv::Mat HSV = RGB.clone();
+    cv::cvtColor(image, HSV, CV_BGR2HSV);
+    
+    //R, G, B, H, S, V, L, a, b, u, v, ?
+    cv::Mat_<cv::Vec<float, 12>> colorSpace(RGB.rows, RGB.cols);
+    float max[3];
+    float meanU = 0;
+    float meanA = 0;
+    for(int y = 0; y < RGB.rows; y++) {
+        for(int x = 0; x < RGB.cols; x++) {
+            int i = 0;
+            float r = GET_PIXEL_OF_MATRIXN(RGB, x, y, 0, float, 3) / 255.0;
+            float g = GET_PIXEL_OF_MATRIXN(RGB, x, y, 1, float, 3) / 255.0;
+            float b = GET_PIXEL_OF_MATRIXN(RGB, x, y, 2, float, 3) / 255.0;
+            SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, r, 12);
+            SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, g, 12);
+            SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, b, 12);
+            float h = (GET_PIXEL_OF_MATRIXN(HSV, x, y, 0, float, 3) / 360.0 + 30 / 360.0);
+            if(h >= 1) {
+                h -= 1;
+            }
+            float s = GET_PIXEL_OF_MATRIXN(HSV, x, y, 1, float, 3);
+            float v = GET_PIXEL_OF_MATRIXN(HSV, x, y, 2, float, 3) / 255.0;
+            SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, h, 12);
+            SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, s, 12);
+            SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, v, 12);
+            
+            /*float l = GET_PIXEL_OF_MATRIXN(CIELAB, x, y, 0, float, 3);
+             float a = GET_PIXEL_OF_MATRIXN(CIELAB, x, y, 1, float, 3);
+             b = GET_PIXEL_OF_MATRIXN(CIELAB, x, y, 2, float, 3);
+             SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, l, 12);
+             SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, a, 12);
+             SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, b, 12);
+             SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, GET_PIXEL_OF_MATRIXN(CIELUV, x, y, 1, float, 3), 12);
+             SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, GET_PIXEL_OF_MATRIXN(CIELUV, x, y, 2, float, 3), 12);*/
+            
+            float *xyz = xyzOfRGB(r, g, b);
+            float *lab = clabOfXYZ(xyz);
+            float *luv = cluvOfXYZ(xyz);
+            free(xyz);
+            SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, lab[0], 12);
+            SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, lab[1], 12);
+            SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, lab[2], 12);
+            SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, luv[1], 12);
+            SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, luv[2], 12);
+            meanU += luv[1] / (RGB.rows * RGB.cols);
+            meanA += lab[1] / (RGB.rows * RGB.cols);
+            free(lab);
+            free(luv);
+            
+            float denom = r + g;
+            if(denom == 0) {
+                SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, 0, 12);
+            } else {
+                SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i++, float, r / denom, 12);
+            }
+        }
+    }
+    
+    //compute std
+    float stdevU = 0;
+    float stdevA = 0;
+    for(int y = 0; y < RGB.rows; y++) {
+        for(int x = 0; x < RGB.cols; x++) {
+            float u = GET_PIXEL_OF_MATRIXN(colorSpace,x,y,9,float,12);
+            float a = GET_PIXEL_OF_MATRIXN(colorSpace,x,y,7,float,12);
+            stdevU += powf(u - meanU,2);
+            stdevA += powf(a - meanA,2);
+        }
+    }
+    stdevU = sqrtf(stdevU / (RGB.rows * RGB.cols));
+    stdevA = sqrt(stdevA / (RGB.rows * RGB.cols));
+    
+    
+    
+    cv::Mat_<cv::Vec<float, 3>> Snakes(RGB.rows, RGB.cols);
+    for(int y = 0; y < RGB.rows; y++) {
+        for(int x = 0; x < RGB.cols; x++) {
+            float L = GET_PIXEL_OF_MATRIXN(colorSpace, x, y, 6, float, 12);
+            float X = GET_PIXEL_OF_MATRIXN(colorSpace, x, y, 11, float, 12);
+            float R = GET_PIXEL_OF_MATRIXN(colorSpace,x,y,0,float,12);
+            
+            
+            /**The algorithm below is given by
+             INNER LIP SEGMENTATION BY COMBINING ACTIVE CONTOURS AND PARAMETRIC MODELS
+             Sebastien Stillittano 1 and Alice Caplier 2
+             */
+            /*SET_PIXEL_OF_MATRIXN(Snakes,x,y,0,float,R*255*.33 - u/100*255*.33 - X*255*.33,3);
+             SET_PIXEL_OF_MATRIXN(Snakes,x,y,1,float,R*255*.33 - u/100*255*.33 - X*255*.33,3);
+             SET_PIXEL_OF_MATRIXN(Snakes,x,y,2,float,R*255*.33 - u/100*255*.33 - X*255*.33,3);*/
+            
+            /**The algorithm below is given by
+             Automatic and Accurate Lip Tracking
+             Nicolas EVENO, Alice CAPLIER, Pierre-Yves COULON
+             */
+            float value = 0;
+            value = X * 255 * .5 - L / 100 * 255 * .5;
+            SET_PIXEL_OF_MATRIXN(Snakes,x,y,0,float,value,3);
+            SET_PIXEL_OF_MATRIXN(Snakes,x,y,1,float,value,3);
+            SET_PIXEL_OF_MATRIXN(Snakes,x,y,2,float,value,3);
+            
+        }
+    }
+    
+    
+    //GaussianBlur( Snakes, Snakes, cv::Size(5,5), 0, 0, cv::BORDER_DEFAULT );
+    
+    
+    //compute a sobel derivative
+    cv::Mat grad_x, grad_y;
+    cv::Mat abs_grad_x, abs_grad_y;
+    cv::Mat grad;
+    int ddepth = -1;
+    int scale = 1;
+    int delta = 0;
+    
+    //http://docs.opencv.org/doc/tutorials/imgproc/imgtrans/sobel_derivatives/sobel_derivatives.html
+    
+    /// Gradient X
+    Sobel( Snakes, abs_grad_x, ddepth, 1, 0, 3, scale, delta, cv::BORDER_DEFAULT );
+    //convertScaleAbs( grad_x, abs_grad_x );
+    /// Gradient Y
+    Sobel( Snakes, abs_grad_y, ddepth, 0, 1, 3, scale, delta, cv::BORDER_DEFAULT );
+    //convertScaleAbs( grad_y, abs_grad_y );
+    
+    //we should probably display something
+    cv::Mat scaledX;
+    convertScaleAbs(abs_grad_x,scaledX);
+    cv::Mat scaledY;
+    convertScaleAbs(abs_grad_y,scaledY);
+    
+    cv::Mat gradDisplay = cvCreateMat(image.rows, image.cols, CV_8UC3);
+    for(int y = 0; y < RGB.rows; y++) {
+        for (int x = 0; x < RGB.cols; x++) {
+            int y_px = GET_PIXEL_OF_MATRIXN(scaledY,x,y,0,uint8_t,3);
+            SET_PIXEL_OF_MATRIXN(gradDisplay,x,y,1,uint8_t,y_px,3);
+            int x_px = GET_PIXEL_OF_MATRIXN(scaledX,x,y,0,uint8_t,3);
+            SET_PIXEL_OF_MATRIXN(gradDisplay,x,y,2,uint8_t,x_px,3);
+            
+        }
+    }
+    
+    /*(for(int y = 0; y < RGB.rows; y++) {
+     for(int x = 0; x < RGB.cols; x++) {
+     //this method was first shown in Wang, 2004.  Sourced from INNER LIP SEGMENTATION BY COMBINING ACTIVE CONTOURS AND PARAMETRIC MODELS
+     //I believe the source has an error, this is Wang's formula
+     float u = GET_PIXEL_OF_MATRIXN(colorSpace,x,y,9,float,12);
+     float a = GET_PIXEL_OF_MATRIXN(colorSpace,x,y,7,float,12);
+     if (u <= meanU  - stdevU|| a <= meanA - stdevA) {
+     SET_PIXEL_OF_MATRIXN(abs_grad_x,x,y,0,uint8_t,0,3);
+     SET_PIXEL_OF_MATRIXN(abs_grad_x,x,y,1,uint8_t,0,3);
+     SET_PIXEL_OF_MATRIXN(abs_grad_x,x,y,2,uint8_t,0,3);
+     
+     SET_PIXEL_OF_MATRIXN(abs_grad_y,x,y,0,uint8_t,0,3);
+     SET_PIXEL_OF_MATRIXN(abs_grad_y,x,y,1,uint8_t,0,3);
+     SET_PIXEL_OF_MATRIXN(abs_grad_y,x,y,2,uint8_t,0,3);
+     
+     
+     }
+     }
+     }*/
+    
+    addWeighted( abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad );
+    
+    //first, we're going to run the old algorithm
+    
+    std::vector<NotCGPoint> *old_algorithm = oldAlgorithm(originalImage);
+    NotCGPoint tallestPoint;
+    NotCGPoint shortestPoint;
+    tallestPoint.y = 1000;
+    shortestPoint.y = 0;
+    for (int x = 0; x < old_algorithm->size(); x++) {
+        if ((*old_algorithm)[x].y < tallestPoint.y) {
+            tallestPoint = (*old_algorithm)[x];
+        }
+        if ((*old_algorithm)[x].y > shortestPoint.y) {
+            shortestPoint = (*old_algorithm)[x];
+        }
+    }
+    
+    //okay, let's pick a point
+    int sx = grad.cols * .5;
+    int sy = tallestPoint.y;
+
+    std::vector<NotCGPoint> *snake1 = new std::vector<NotCGPoint>;
+    std::vector<NotCGPoint> *snake2 = new std::vector<NotCGPoint>;
+    snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay,1, snake1);
+    sy = shortestPoint.y;
+    snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay,0, snake2);
+
+    mergeVectors(area, snake1, snake2);
+
+    return gradDisplay;
+}
+
+std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
+    std::vector<NotCGPoint> *ret = new std::vector<NotCGPoint>;
+    findTeethAreaDebug(image, ret);
+
+    return ret;
 }
