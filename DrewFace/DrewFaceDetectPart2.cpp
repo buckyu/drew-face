@@ -868,9 +868,13 @@ cv::Mat findTeethAreaDebug(cv::Mat image) {
     
     std::vector<NotCGPoint> *old_algorithm = oldAlgorithm(originalImage);
     NotCGPoint tallestPoint;
+    NotCGPoint shortestPoint;
     for (int x = 0; x < old_algorithm->size(); x++) {
         if ((*old_algorithm)[x].y < tallestPoint.y) {
             tallestPoint = (*old_algorithm)[x];
+        }
+        if ((*old_algorithm)[x].y > shortestPoint.y) {
+            shortestPoint = (*old_algorithm)[x];
         }
     }
     
@@ -879,8 +883,9 @@ cv::Mat findTeethAreaDebug(cv::Mat image) {
     int sy = tallestPoint.y;
     
     snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay);
-    
-    
+    sy = shortestPoint.y;
+    snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay);
+
     
     return gradDisplay;
     
