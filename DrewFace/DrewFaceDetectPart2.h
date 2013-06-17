@@ -22,7 +22,7 @@ std::vector<NotCGPoint>* findTeethArea(cv::Mat image);
 #include <stdint.h> //gets uint8_t
 char looksWhite(uint8_t toothY, uint8_t toothCr, uint8_t toothCb,uint8_t prevToothY);
 
-cv::Mat findTeethAreaDebug(cv::Mat image);
+cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area);
 
 //y = ax^2 + bx + c
 float quadRegA(NotCGPoint p1, NotCGPoint p2, NotCGPoint p3);

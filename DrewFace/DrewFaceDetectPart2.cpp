@@ -587,8 +587,7 @@ std::vector<NotCGPoint>* oldAlgorithm(cv::Mat image) {
     return solutionArray;
 }
 
-cv::Mat snakeSearch(int sx, int sy, cv::Mat abs_grad_x, cv::Mat abs_grad_y, cv::Mat gradDisplay, int top) {
-    std::vector<NotCGPoint> snake;
+cv::Mat snakeSearch(int sx, int sy, cv::Mat abs_grad_x, cv::Mat abs_grad_y, cv::Mat gradDisplay, int top, std::vector<NotCGPoint> *snake) {
     int iterations = 0;
     const int max_iterations = 15;
     while(true) {
@@ -596,7 +595,7 @@ cv::Mat snakeSearch(int sx, int sy, cv::Mat abs_grad_x, cv::Mat abs_grad_y, cv::
             break;
         }
         iterations++;
-        snake.clear();
+        (*snake).clear();
         NotCGPoint start;
         start.x = sx;
         start.y = sy;
@@ -659,8 +658,8 @@ cv::Mat snakeSearch(int sx, int sy, cv::Mat abs_grad_x, cv::Mat abs_grad_y, cv::
         //convert to a-b-c-start order
         std::reverse(L.begin(),L.end());
         
-        APPEND(snake, L);
-        APPEND(snake, R);
+        APPEND((*snake), L);
+        APPEND((*snake), R);
         
         
         //let's go ahead and compute a new seed for fun
@@ -689,15 +688,61 @@ cv::Mat snakeSearch(int sx, int sy, cv::Mat abs_grad_x, cv::Mat abs_grad_y, cv::
     }
     
     
-    for(int i = 0; i < snake.size(); i++) {
-        NotCGPoint snakePT = snake[i];
+    for(int i = 0; i < (*snake).size(); i++) {
+        NotCGPoint snakePT = (*snake)[i];
         SET_PIXEL_OF_MATRIXN(gradDisplay,snakePT.x,snakePT.y,0,uint8_t,255,3);
         
     }
     return gradDisplay;
 }
 
-cv::Mat findTeethAreaDebug(cv::Mat image) {
+//NOTE: Input coordinate system is inverted from what you expect (higher y value is *lower*)
+std::vector<NotCGPoint> *mergeVectors(std::vector<NotCGPoint> *target, std::vector<NotCGPoint> *v1, std::vector<NotCGPoint> *v2) {
+    //make sure v1 is on top of v2
+    float avgy1 = 0;
+    for(int i = 0; i < (*v1).size(); i++) {
+        avgy1 += (*v1)[i].y;
+    }
+    avgy1 /= (*v1).size();
+
+    float avgy2 = 0;
+    for(int i = 0; i < (*v2).size(); i++) {
+        avgy2 += (*v2)[i].y;
+    }
+    avgy2 /= (*v2).size();
+
+    if(avgy1 > avgy2) {
+        std::vector<NotCGPoint> *tmp = v2;
+        v2 = v1;
+        v1 = tmp;
+    }
+
+    //combine and exclude overlap
+    NotCGPoint pt2  = (*v2)[0];
+    for(int i = 0, j = 0; i < (*v1).size(); i++) {
+        NotCGPoint pt1 = (*v1)[i];
+        while(j + 1 < (*v2).size() && pt1.x > pt2.x) {
+            pt2 = (*v2)[++j];
+        }
+        if(pt2.y >= pt1.y && fabs(pt2.y - pt1.y) > 3) {
+            target->push_back(pt1);
+        }
+    }
+    NotCGPoint pt1 = (*v1)[(*v1).size() - 1];
+    for(int i = (*v2).size() - 1, j = (*v1).size() - 1; i >= 0; i--) {
+        NotCGPoint pt2 = (*v2)[i];
+        while(j > 0 && pt1.x > pt2.x) {
+            pt1 = (*v1)[--j];
+        }
+        if(pt2.y >= pt1.y && fabs(pt2.y - pt1.y) > 3) {
+            target->push_back(pt2);
+        }
+    }
+
+    return target;
+}
+
+cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area) {
     cv::Mat originalImage = image.clone();
     image.convertTo(image, CV_32F);
     
@@ -879,6 +924,8 @@ cv::Mat findTeethAreaDebug(cv::Mat image) {
     std::vector<NotCGPoint> *old_algorithm = oldAlgorithm(originalImage);
     NotCGPoint tallestPoint;
     NotCGPoint shortestPoint;
+    tallestPoint.y = 1000;
+    shortestPoint.y = 0;
     for (int x = 0; x < old_algorithm->size(); x++) {
         if ((*old_algorithm)[x].y < tallestPoint.y) {
             tallestPoint = (*old_algorithm)[x];
@@ -891,20 +938,21 @@ cv::Mat findTeethAreaDebug(cv::Mat image) {
     //okay, let's pick a point
     int sx = grad.cols * .5;
     int sy = tallestPoint.y;
-    
-    snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay,1);
-    sy = shortestPoint.y;
-    snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay,0);
 
-    
+    std::vector<NotCGPoint> *snake1 = new std::vector<NotCGPoint>;
+    std::vector<NotCGPoint> *snake2 = new std::vector<NotCGPoint>;
+    snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay,1, snake1);
+    sy = shortestPoint.y;
+    snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay,0, snake2);
+
+    mergeVectors(area, snake1, snake2);
+
     return gradDisplay;
-    
 }
 
-
-
-
 std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
-    return new std::vector<NotCGPoint>();
-    
+    std::vector<NotCGPoint> *ret = new std::vector<NotCGPoint>;
+    findTeethAreaDebug(image, ret);
+
+    return ret;
 }
