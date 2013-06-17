@@ -587,6 +587,106 @@ std::vector<NotCGPoint>* oldAlgorithm(cv::Mat image) {
     return solutionArray;
 }
 
+cv::Mat snakeSearch(int sx, int sy, cv::Mat abs_grad_x, cv::Mat abs_grad_y, cv::Mat gradDisplay) {
+    std::vector<NotCGPoint> snake;
+    int iterations = 0;
+    const int max_iterations = 15;
+    while(true) {
+        if (iterations >=  max_iterations) {
+            break;
+        }
+        iterations++;
+        snake.clear();
+        NotCGPoint start;
+        start.x = sx;
+        start.y = sy;
+        
+        
+        
+        
+        /**Let's begin a search to the right
+         start--x--y--z */
+#define APPEND(dest,src) dest.insert(dest.end(),src.begin(),src.end())
+        std::vector<NotCGPoint> R;
+        R.push_back(start);
+        const int segment_len = 40;
+        float deg45 = M_PI_4;
+        const float DEGREE = 0.0174532925;
+        int total_num = 0;
+        int total_denom = 0;
+        printf("left calc\n");
+        for(int x = sx; x < gradDisplay.cols; x+= segment_len) {
+            int l_num = 0;
+            int l_denom = 0;
+            float downward_angle = downwardAngleCalc(R.back().x,start.x);
+            std::vector<NotCGPoint> segment = flowFind(R.back().x, R.back().y,abs_grad_x, abs_grad_y, true, segment_len,-M_PI/6.0,M_PI/3.0,&l_num,&l_denom);
+            printf("segment %d / %d \n",l_num,l_denom);
+            total_num += l_num;
+            total_denom += l_denom;
+            APPEND(R, segment);
+        }
+        
+        /**Now searching to the left
+         a--b--c--start
+         
+         However, our list is processing in reverse order here
+         start--c--b--a
+         
+         */
+        std::vector<NotCGPoint> L;
+        L.push_back(start);
+        for(int x = sx; x > 0; x-= segment_len) {
+            int l_num = 0;
+            int l_denom = 0;
+            float downward_angle = downwardAngleCalc(L.back().x,start.x);
+            std::vector<NotCGPoint> segment = flowFind(L.back().x, L.back().y,abs_grad_x,abs_grad_y, false, segment_len,-M_PI/6.0,M_PI/3.0,&l_num,&l_denom);
+            total_num+=l_num;
+            total_denom += l_denom;
+            
+            APPEND(L, segment);
+        }
+        
+        //convert to a-b-c-start order
+        std::reverse(L.begin(),L.end());
+        
+        APPEND(snake, L);
+        APPEND(snake, R);
+        
+        
+        //let's go ahead and compute a new seed for fun
+        NotCGPoint newseed;
+        newseed.x = sx;
+        if (total_denom==0) {
+            newseed.y = sy;
+        }
+        else {
+            newseed.y = 0.5 * (sy + total_num / total_denom);
+        }
+        printf("Recommend moving from %d,%d to %d,%d\n",sx,sy,newseed.x,newseed.y);
+        //now there are two cases here.  either our newseed is close to the original one or it isn't.
+        if (sqrt(powf(newseed.y-start.y, 2)+powf(newseed.x-start.x, 2)) < 2) {
+            break;
+#warning
+        }
+        /*if (true) {
+         break;
+         }*/
+        sx = newseed.x;
+        sy = newseed.y;
+        
+        
+        
+    }
+    
+    
+    for(int i = 0; i < snake.size(); i++) {
+        NotCGPoint snakePT = snake[i];
+        SET_PIXEL_OF_MATRIXN(gradDisplay,snakePT.x,snakePT.y,0,uint8_t,255,3);
+        
+    }
+    return gradDisplay;
+}
+
 cv::Mat findTeethAreaDebug(cv::Mat image) {
     cv::Mat originalImage = image.clone();
     image.convertTo(image, CV_32F);
@@ -778,270 +878,12 @@ cv::Mat findTeethAreaDebug(cv::Mat image) {
     int sx = grad.cols * .5;
     int sy = tallestPoint.y;
     
-    
-    std::vector<NotCGPoint> snake;
-    int iterations = 0;
-    const int max_iterations = 15;
-    while(true) {
-        if (iterations >=  max_iterations) {
-            break;
-        }
-        iterations++;
-        snake.clear();
-        NotCGPoint start;
-        start.x = sx;
-        start.y = sy;
-        
-        
-        
-        
-        /**Let's begin a search to the right
-         start--x--y--z */
-#define APPEND(dest,src) dest.insert(dest.end(),src.begin(),src.end())
-        std::vector<NotCGPoint> R;
-        R.push_back(start);
-        const int segment_len = 40;
-        float deg45 = M_PI_4;
-        const float DEGREE = 0.0174532925;
-        int total_num = 0;
-        int total_denom = 0;
-        printf("left calc\n");
-        for(int x = sx; x < image.cols; x+= segment_len) {
-            int l_num = 0;
-            int l_denom = 0;
-            float downward_angle = downwardAngleCalc(R.back().x,start.x);
-            std::vector<NotCGPoint> segment = flowFind(R.back().x, R.back().y,abs_grad_x, abs_grad_y, true, segment_len,-M_PI/6.0,M_PI/3.0,&l_num,&l_denom);
-            printf("segment %d / %d \n",l_num,l_denom);
-            total_num += l_num;
-            total_denom += l_denom;
-            APPEND(R, segment);
-        }
-        
-        /**Now searching to the left
-         a--b--c--start
-         
-         However, our list is processing in reverse order here
-         start--c--b--a
-         
-         */
-        std::vector<NotCGPoint> L;
-        L.push_back(start);
-        for(int x = sx; x > 0; x-= segment_len) {
-            int l_num = 0;
-            int l_denom = 0;
-            float downward_angle = downwardAngleCalc(L.back().x,start.x);
-            std::vector<NotCGPoint> segment = flowFind(L.back().x, L.back().y,abs_grad_x,abs_grad_y, false, segment_len,-M_PI/6.0,M_PI/3.0,&l_num,&l_denom);
-            total_num+=l_num;
-            total_denom += l_denom;
-            
-            APPEND(L, segment);
-        }
-        
-        //convert to a-b-c-start order
-        std::reverse(L.begin(),L.end());
-        
-        APPEND(snake, L);
-        APPEND(snake, R);
-        
-        
-        //let's go ahead and compute a new seed for fun
-        NotCGPoint newseed;
-        newseed.x = sx;
-        if (total_denom==0) {
-            newseed.y = sy;
-        }
-        else {
-            newseed.y = 0.5 * (sy + total_num / total_denom);
-        }
-        printf("Recommend moving from %d,%d to %d,%d\n",sx,sy,newseed.x,newseed.y);
-        //now there are two cases here.  either our newseed is close to the original one or it isn't.
-        if (sqrt(powf(newseed.y-start.y, 2)+powf(newseed.x-start.x, 2)) < 2) {
-            break;
-#warning
-        }
-        /*if (true) {
-         break;
-         }*/
-        sx = newseed.x;
-        sy = newseed.y;
-        
-        
-        
-    }
+    snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay);
     
     
-    for(int i = 0; i < snake.size(); i++) {
-        NotCGPoint snakePT = snake[i];
-        SET_PIXEL_OF_MATRIXN(gradDisplay,snakePT.x,snakePT.y,0,uint8_t,255,3);
-        
-    }
     
     return gradDisplay;
     
-    
-    
-    
-    
-    
-    
-    printf("Max l, a, b = {%f, %f, %f}\n", max[0], max[1], max[2]);
-    
-    const char *labels[12] = {"r", "g", "b", "h", "s", "v", "l", "a", "b", "u", "v", "?"};
-    printf("Light tooth\n");
-    printf("H = %f\n", GET_PIXEL_OF_MATRIXN(HSV, 122, 68, 0, float, 3));
-    for(int i = 0; i < 12; i++) {
-        printf("Pixel[%s] = %f\n", labels[i], GET_PIXEL_OF_MATRIXN(colorSpace, 122, 68, i, float, 12));
-    }
-    printf("Dark tooth\n");
-    printf("H = %f\n", GET_PIXEL_OF_MATRIXN(HSV, 36, 54, 0, float, 3));
-    for(int i = 0; i < 12; i++) {
-        printf("Pixel[%s] = %f\n", labels[i], GET_PIXEL_OF_MATRIXN(colorSpace, 36, 54, i, float, 12));
-    }
-    printf("Lip\n");
-    printf("H = %f\n", GET_PIXEL_OF_MATRIXN(HSV, 127, 50, 0, float, 3));
-    for(int i = 0; i < 12; i++) {
-        printf("Pixel[%s] = %f\n", labels[i], GET_PIXEL_OF_MATRIXN(colorSpace, 127, 50, i, float, 12));
-    }
-    printf("Max H\n");
-    printf("H = %f\n", GET_PIXEL_OF_MATRIXN(HSV, 5, 45, 0, float, 3));
-    for(int i = 0; i < 12; i++) {
-        printf("Pixel[%s] = %f\n", labels[i], GET_PIXEL_OF_MATRIXN(colorSpace, 5, 45, i, float, 12));
-    }
-    
-    // a' = (a - mu) / aleph
-    // a'' = a' * m
-    // a'' = (a - mu) * m / aleph
-    float mu[12];
-    int i = 0;
-    mu[i++] = .5676;
-    mu[i++] = .4568;
-    mu[i++] = .4427;
-    mu[i++] = .4044;
-    mu[i++] = .2650;
-    mu[i++] = .5718;
-    mu[i++] = 51.2836;
-    mu[i++] = 11.2164;
-    mu[i++] = 6.6904;
-    mu[i++] = .2410;
-    mu[i++] = .4951;
-    mu[i++] = .5600;
-    i = 0;
-    float aleph[12];
-    aleph[i++] = .1982;
-    aleph[i++] = .1861;
-    aleph[i++] = .1837;
-    aleph[i++] = .4200;
-    aleph[i++] = .1269;
-    aleph[i++] = .2008;
-    aleph[i++] = 18.6664;
-    aleph[i++] = 9.4382;
-    aleph[i++] = 7.5667;
-    aleph[i++] = 0.0246;
-    aleph[i++] = .0119;
-    aleph[i++] = .0456;
-    float m[12];
-    i = 0;
-    m[i++] = 16.2401;
-    m[i++] = -10.6024;
-    m[i++] = -1.1409;
-    m[i++] = -.0264;
-    m[i++] = -.513;
-    m[i++] = .475;
-    m[i++] = -3.98;
-    m[i++] = -8.4148;
-    m[i++] = -1.2962;
-    m[i++] = 6.2434;
-    m[i++] = -1.0480;
-    m[i++] = -4.6361;
-    float m2[12];
-    i = 0;
-    m2[i++] = -14.9876;
-    m2[i++] = 30.9664;
-    m2[i++] = -16.7017;
-    m2[i++] = .1505;
-    m2[i++] = -1.0330;
-    m2[i++] = 4.6850;
-    m2[i++] = -4.6476;
-    m2[i++] = 9.5569;
-    m2[i++] = -4.8199;
-    m2[i++] = -2.3136;
-    m2[i++] = 2.1365;
-    m2[i++] = 1.7660;
-    
-    for(int y = 0; y < RGB.rows; y++) {
-        for(int x = 0; x < RGB.cols; x++) {
-            for(int i = 0; i < 12; i++) {
-                SET_PIXEL_OF_MATRIXN(colorSpace, x, y, i, float, (GET_PIXEL_OF_MATRIXN(colorSpace, x, y, i, float, 12) - mu[i]) * m[i] / aleph[i], 12);
-            }
-        }
-    }
-    
-    cv::Mat_<uint8_t> membership(RGB.rows, RGB.cols);
-    
-#define NUM_CLUSTERS 2
-    cv::Vec<double, 12> means[NUM_CLUSTERS];
-    for(int i = 0; i < 12; i++) {
-        means[0][i] = (0 - mu[i]) * m[i] / aleph[i];
-    }
-    for(int i = 0; i < 12; i++) {
-        means[1][i] = (0 - mu[i]) * m2[i] / aleph[i];
-    }
-    
-    while(true) {
-        //assign pixels to clusters based on euclidean distance
-        for(int y = 0; y < RGB.rows; y++) {
-            for(int x = 0; x < RGB.cols; x++) {
-                uint8_t minCluster = -1;
-                double minClusterDist = MAXFLOAT;
-                for(uint8_t cluster = 0; cluster < NUM_CLUSTERS; cluster++) {
-                    double subtotal = 0;
-                    for(int i = 0; i < 12; i++) {
-                        subtotal += pow(means[cluster][i] - GET_PIXEL_OF_MATRIXN(colorSpace, x, y, i, float, 12), 2);
-                    }
-                    double dist = sqrt(subtotal);
-                    if(dist < minClusterDist) {
-                        minCluster = cluster;
-                        minClusterDist = dist;
-                    }
-                    assert(minCluster >= 0 && minCluster < NUM_CLUSTERS);
-                    assert(minClusterDist >= 0);
-                }
-                assert(minCluster >= 0 && minCluster < NUM_CLUSTERS);
-                membership.at<uint8_t>(y, x) = minCluster;
-            }
-        }
-        
-        //recompute means for clusters
-        for(int i = 0; i < NUM_CLUSTERS; i++) {
-            for(int j = 0; j < 12; j++) {
-                means[i][j] = 0;
-            }
-        }
-        for(int y = 0; y < RGB.rows; y++) {
-            for(int x = 0; x < RGB.cols; x++) {
-                uint8_t group = membership.at<uint8_t>(y, x);
-                for(int i = 0; i < 12; i++) {
-                    means[group][i] += GET_PIXEL_OF_MATRIXN(colorSpace, x, y, i, float, 12) / (double)(RGB.rows * RGB.cols);
-                }
-            }
-        }
-        
-        //TODO: break for some reason
-        break;
-    }
-    
-    cv::Mat ret = RGB.clone();
-    for(int y = 0; y < ret.rows; y++) {
-        for(int x = 0; x < ret.cols; x++) {
-            uint8_t group = membership.at<uint8_t>(y, x);
-            uint8_t color = (group == 1)?0:255;
-            for(int i = 0; i < 3; i++) {
-                SET_PIXEL_OF_MATRIXN(ret, x, y, i, float, color, 3);
-            }
-        }
-    }
-    
-    return ret;
 }
 
 
