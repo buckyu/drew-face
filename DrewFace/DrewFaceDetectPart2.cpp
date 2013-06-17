@@ -675,7 +675,6 @@ cv::Mat snakeSearch(int sx, int sy, cv::Mat abs_grad_x, cv::Mat abs_grad_y, cv::
         //now there are two cases here.  either our newseed is close to the original one or it isn't.
         if (sqrt(powf(newseed.y-start.y, 2)+powf(newseed.x-start.x, 2)) < 2) {
             break;
-#warning
         }
         /*if (true) {
          break;
@@ -724,7 +723,7 @@ std::vector<NotCGPoint> *mergeVectors(std::vector<NotCGPoint> *target, std::vect
         while(j + 1 < (*v2).size() && pt1.x > pt2.x) {
             pt2 = (*v2)[++j];
         }
-        if(pt2.y >= pt1.y && fabs(pt2.y - pt1.y) > 3) {
+        if(pt2.y >= pt1.y && fabsf(pt2.y - pt1.y) > 3) {
             target->push_back(pt1);
         }
     }
@@ -734,7 +733,7 @@ std::vector<NotCGPoint> *mergeVectors(std::vector<NotCGPoint> *target, std::vect
         while(j > 0 && pt1.x > pt2.x) {
             pt1 = (*v1)[--j];
         }
-        if(pt2.y >= pt1.y && fabs(pt2.y - pt1.y) > 3) {
+        if(pt2.y >= pt1.y && fabsf(pt2.y - pt1.y) > 3) {
             target->push_back(pt2);
         }
     }
