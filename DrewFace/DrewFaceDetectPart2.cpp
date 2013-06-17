@@ -587,7 +587,7 @@ std::vector<NotCGPoint>* oldAlgorithm(cv::Mat image) {
     return solutionArray;
 }
 
-cv::Mat snakeSearch(int sx, int sy, cv::Mat abs_grad_x, cv::Mat abs_grad_y, cv::Mat gradDisplay) {
+cv::Mat snakeSearch(int sx, int sy, cv::Mat abs_grad_x, cv::Mat abs_grad_y, cv::Mat gradDisplay, int top) {
     std::vector<NotCGPoint> snake;
     int iterations = 0;
     const int max_iterations = 15;
@@ -612,6 +612,16 @@ cv::Mat snakeSearch(int sx, int sy, cv::Mat abs_grad_x, cv::Mat abs_grad_y, cv::
         const int segment_len = 40;
         float deg45 = M_PI_4;
         const float DEGREE = 0.0174532925;
+        
+        float angle_inf, angle_sup;
+        if (top) {
+            angle_inf = -M_PI/6.0;
+            angle_sup = M_PI/6.0;
+        }
+        else {
+            angle_inf = -M_PI/3.0;
+            angle_sup = M_PI/6.0;
+        }
         int total_num = 0;
         int total_denom = 0;
         printf("left calc\n");
@@ -619,7 +629,7 @@ cv::Mat snakeSearch(int sx, int sy, cv::Mat abs_grad_x, cv::Mat abs_grad_y, cv::
             int l_num = 0;
             int l_denom = 0;
             float downward_angle = downwardAngleCalc(R.back().x,start.x);
-            std::vector<NotCGPoint> segment = flowFind(R.back().x, R.back().y,abs_grad_x, abs_grad_y, true, segment_len,-M_PI/6.0,M_PI/3.0,&l_num,&l_denom);
+            std::vector<NotCGPoint> segment = flowFind(R.back().x, R.back().y,abs_grad_x, abs_grad_y, true, segment_len,angle_inf,angle_sup,&l_num,&l_denom);
             printf("segment %d / %d \n",l_num,l_denom);
             total_num += l_num;
             total_denom += l_denom;
@@ -639,7 +649,7 @@ cv::Mat snakeSearch(int sx, int sy, cv::Mat abs_grad_x, cv::Mat abs_grad_y, cv::
             int l_num = 0;
             int l_denom = 0;
             float downward_angle = downwardAngleCalc(L.back().x,start.x);
-            std::vector<NotCGPoint> segment = flowFind(L.back().x, L.back().y,abs_grad_x,abs_grad_y, false, segment_len,-M_PI/6.0,M_PI/3.0,&l_num,&l_denom);
+            std::vector<NotCGPoint> segment = flowFind(L.back().x, L.back().y,abs_grad_x,abs_grad_y, false, segment_len,angle_inf,angle_sup,&l_num,&l_denom);
             total_num+=l_num;
             total_denom += l_denom;
             
@@ -882,9 +892,9 @@ cv::Mat findTeethAreaDebug(cv::Mat image) {
     int sx = grad.cols * .5;
     int sy = tallestPoint.y;
     
-    snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay);
+    snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay,1);
     sy = shortestPoint.y;
-    snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay);
+    snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay,0);
 
     
     return gradDisplay;
