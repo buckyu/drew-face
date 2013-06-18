@@ -2,6 +2,7 @@ This is v1.1 of FaceDetect, the image recognition component of selected smiles.
 
 Version History:
 
+1.3 - Incorporating jumping snakes algorithm for additional accuracy
 1.2.2 - bugfix release
 1.2.1 - bugfix release
 1.2 - added new API for stitching photos

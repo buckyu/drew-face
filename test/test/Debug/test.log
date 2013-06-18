@@ -1,9 +1,106 @@
-﻿Build started 6/10/2013 10:12:38 PM.
+﻿Build started 6/17/2013 9:36:25 PM.
 Project "D:\drew-face\test\test\test.vcxproj" on node 2 (Build target(s)).
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"D:\drew-face\test\test\\..\..\libexif_sleuth_windows\libexif-0.6.20\\" /I"D:\drew-face\test\test\\..\..\jpeg-9\\" /I"D:\drew-face\test\test\\..\..\libexif_sleuth_windows\libexif-0.6.20\libexif" /I"D:\drew-face\test\test\\..\..\opencv\build\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D TEST_EXPORTS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\DrewFace\DrewFaceDetectPart2.cpp
+  DrewFaceDetectPart2.cpp
+d:\drew-face\drewface\drewfacedetectpart2.cpp(55): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+d:\drew-face\drewface\drewfacedetectpart2.cpp(94): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(96): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(99): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(101): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(104): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(106): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(114): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(115): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(116): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(137): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(138): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(139): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(141): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(143): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(146): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(148): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(151): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(153): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(187): warning C4305: 'initializing' : truncation from 'double' to 'float'
+d:\drew-face\drewface\drewfacedetectpart2.cpp(189): warning C4305: 'initializing' : truncation from 'double' to 'float'
+d:\drew-face\drewface\drewfacedetectpart2.cpp(195): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(197): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(214): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(215): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(216): warning C4244: 'return' : conversion from 'int' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(231): warning C4018: '<' : signed/unsigned mismatch
+d:\drew-face\drewface\drewfacedetectpart2.cpp(236): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(243): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(251): warning C4305: 'initializing' : truncation from 'double' to 'float'
+d:\drew-face\drewface\drewfacedetectpart2.cpp(255): warning C4305: '+=' : truncation from 'double' to 'float'
+d:\drew-face\drewface\drewfacedetectpart2.cpp(294): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(295): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(305): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(306): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(311): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(312): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(323): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(324): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(326): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(333): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(334): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(347): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(389): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(390): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(393): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(397): warning C4244: '=' : conversion from 'float' to 'uint8_t', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(398): warning C4244: '=' : conversion from 'float' to 'uint8_t', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(399): warning C4244: '=' : conversion from 'float' to 'uint8_t', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(410): warning C4305: 'initializing' : truncation from 'double' to 'float'
+d:\drew-face\drewface\drewfacedetectpart2.cpp(410): warning C4305: '+=' : truncation from 'double' to 'float'
+d:\drew-face\drewface\drewfacedetectpart2.cpp(428): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(429): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(449): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(450): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(466): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(467): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(511): warning C4018: '<' : signed/unsigned mismatch
+d:\drew-face\drewface\drewfacedetectpart2.cpp(557): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(558): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(423): warning C4102: 'searchTooth' : unreferenced label
+d:\drew-face\drewface\drewfacedetectpart2.cpp(612): warning C4305: 'initializing' : truncation from 'double' to 'float'
+d:\drew-face\drewface\drewfacedetectpart2.cpp(613): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+d:\drew-face\drewface\drewfacedetectpart2.cpp(617): warning C4305: '=' : truncation from 'double' to 'float'
+d:\drew-face\drewface\drewfacedetectpart2.cpp(618): warning C4305: '=' : truncation from 'double' to 'float'
+d:\drew-face\drewface\drewfacedetectpart2.cpp(621): warning C4305: '=' : truncation from 'double' to 'float'
+d:\drew-face\drewface\drewfacedetectpart2.cpp(622): warning C4305: '=' : truncation from 'double' to 'float'
+d:\drew-face\drewface\drewfacedetectpart2.cpp(672): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(676): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(690): warning C4018: '<' : signed/unsigned mismatch
+d:\drew-face\drewface\drewfacedetectpart2.cpp(702): warning C4018: '<' : signed/unsigned mismatch
+d:\drew-face\drewface\drewfacedetectpart2.cpp(708): warning C4018: '<' : signed/unsigned mismatch
+d:\drew-face\drewface\drewfacedetectpart2.cpp(721): warning C4018: '<' : signed/unsigned mismatch
+d:\drew-face\drewface\drewfacedetectpart2.cpp(723): warning C4018: '<' : signed/unsigned mismatch
+d:\drew-face\drewface\drewfacedetectpart2.cpp(726): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(736): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(768): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(769): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(770): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(774): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(779): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(853): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(928): warning C4018: '<' : signed/unsigned mismatch
+d:\drew-face\drewface\drewfacedetectpart2.cpp(938): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+d:\drew-face\drewface\drewfacedetectpart2.cpp(762): warning C4101: 'max' : unreferenced local variable
 Lib:
+  C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"D:\drew-face\test\Debug\FaceDetectInternalNative.lib" /NOLOGO Debug\Detect.obj
+  Debug\DrewFaceDetectPart2.obj
+  Debug\FaceDetectRenamed.obj
+  Debug\jpegHelpers.obj
+  Debug\openCVNative.obj
+  Debug\SmileStitcher.obj
+  Debug\Source.obj
+  "..\..\jpeg-9\Release\jpeg.lib"
+  jpeg.lib(jaricom.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
   test.vcxproj -> D:\drew-face\test\Debug\FaceDetectInternalNative.lib
 Done Building Project "D:\drew-face\test\test\test.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.38
+Time Elapsed 00:00:10.90
