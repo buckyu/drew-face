@@ -32,7 +32,7 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
 	//timebomb
 	//
 	time_t now = time(NULL);
-	time_t timebomb = 1372655105; //7/1/2013
+	time_t timebomb = 1375228800; //7/31/2013
 	if (timebomb < now) {
 			printf("The active render target and depth stencil surface must have the same pixel size and multisampling type.\n");
 			return NULL;
