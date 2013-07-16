@@ -39,6 +39,7 @@ typedef struct FileInfo {
     float mouthdetectY;
     float mouthdetectW;
     float mouthdetectH;
+    float frontToothWidth;
 } FileInfo;
 
 FileInfo* completeDetect(char *fileName);

@@ -1011,11 +1011,7 @@
 					"\"$(SRCROOT)/../../../Downloads\"",
 				);
 				"OTHER_CFLAGS[arch=*]" = "";
-				OTHER_LDFLAGS = (
-					"-Wl,-no_implicit_dylibs",
-					"-fsanitize=undefined",
-					"-fsanitize=address",
-				);
+				OTHER_LDFLAGS = "-Wl,-no_implicit_dylibs";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1039,11 +1035,7 @@
 					"\"$(SRCROOT)/jpeg-8b/.libs\"",
 					"\"$(SRCROOT)/../../../Downloads\"",
 				);
-				OTHER_LDFLAGS = (
-					"-Wl,-no_implicit_dylibs",
-					"-fsanitize=undefined",
-					"-fsanitize=address",
-				);
+				OTHER_LDFLAGS = "-Wl,-no_implicit_dylibs";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
