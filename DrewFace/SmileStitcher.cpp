@@ -29,6 +29,8 @@
 
 //http://stackoverflow.com/questions/14063070/overlay-a-smaller-image-on-a-larger-image-python-opencv
 
+//see http://felix.abecassis.me/2011/10/opencv-rotation-deskewing/ for an example of deskewing using an affine transform and a rotation matrix
+
 //**********************************************
 //SERIOUSLY: jpegs do NOT have alpha channels!!!
 //**********************************************
@@ -90,10 +92,13 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     }
     //fclose(file);
 #define STOCK_IMAGE_TOOTH_WIDTH 25
+    //Drew wants to resize width based on matching front tooth widths, and resize height proportionally wrt to the *original* mouth image scale (not any scale based on mouthSize)
     /*srand(10);
     fileInfo->frontToothWidth = rand() % 30 + 20;*/
+    //fileInfo->frontToothWidth = 32.2;
     cv::Size mouthSize = cv::Size(maxx - minx, maxy - miny);
-    cv::Size toothScaledMouthSize = cv::Size(STOCK_IMAGE_TOOTH_WIDTH / fileInfo->frontToothWidth * mouth->width, STOCK_IMAGE_TOOTH_WIDTH / fileInfo->frontToothWidth * mouth->height);
+    float tempWidth = fileInfo->frontToothWidth / STOCK_IMAGE_TOOTH_WIDTH * mouth->width;
+    cv::Size toothScaledMouthSize = cv::Size(tempWidth, tempWidth / mouth->width * mouth->height);
     cv::Rect mouthRect = cv::Rect(minx + (mouthSize.width - toothScaledMouthSize.width) / 2, miny + (mouthSize.height - toothScaledMouthSize.height) / 2, toothScaledMouthSize.width, toothScaledMouthSize.height);
     if(toothScaledMouthSize.width == 0) { //seems to crash in this case.  i assume because the geometry is rediculous
         return "";
