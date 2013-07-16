@@ -61,7 +61,6 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     int miny = INT_MAX;
     int maxx = INT_MIN;
     int maxy = INT_MIN;
-#define X_STEP 10
     //FILE *file = fopen("/Users/bion/Desktop/data.csv", "w");
     //int lastx = fileInfo->points->at(0).x;
     for(int i = 0; i < n; i++) {
@@ -90,9 +89,16 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         xySum += p.x * p.y;
     }
     //fclose(file);
-#undef X_STEP
+#define STOCK_IMAGE_TOOTH_WIDTH 25
+    /*srand(10);
+    fileInfo->frontToothWidth = rand() % 30 + 20;*/
     cv::Size mouthSize = cv::Size(maxx - minx, maxy - miny);
-    cv::Rect mouthRect = cv::Rect(minx, miny, mouthSize.width, mouthSize.height);
+    cv::Size toothScaledMouthSize = cv::Size(STOCK_IMAGE_TOOTH_WIDTH / fileInfo->frontToothWidth * mouth->width, STOCK_IMAGE_TOOTH_WIDTH / fileInfo->frontToothWidth * mouth->height);
+    cv::Rect mouthRect = cv::Rect(minx + (mouthSize.width - toothScaledMouthSize.width) / 2, miny + (mouthSize.height - toothScaledMouthSize.height) / 2, toothScaledMouthSize.width, toothScaledMouthSize.height);
+    if(toothScaledMouthSize.width == 0) { //seems to crash in this case.  i assume because the geometry is rediculous
+        return "";
+    }
+#undef STOCK_IMAGE_TOOTH_WIDTH
 
     //use a least squares regression on all the points to get a linear fit that will allow us to approximate the rotation of the overall polygon from horizontal.
 
@@ -116,10 +122,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     cv::Mat faceMat = face->data;
     cv::Mat mouthMat = mouth->data;
     cv::Mat smallMouthMat;
-    if (mouthSize.width ==0) { //seems to crash in this case.  i assume because the geometry is rediculous
-        return "";
-    }
-    cv::resize(mouthMat, smallMouthMat, mouthSize);
+    cv::resize(mouthMat, smallMouthMat, toothScaledMouthSize);
 
     //printf("img = %s\n", fileInfo->originalFileNamePath);
     //not sure why we have to invert it...
@@ -170,15 +173,21 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         uint8_t *dataRow = &data[y * faceImg.width * faceImg.nChannels];
         for(int x = 0; x < faceImg.width; ++x) {
             if(maskRow[x * maskImg.nChannels]) {
-                int smallMouthX = x - mouthRect.x;
-                int smallMouthY = y - mouthRect.y;
-                if(smallMouthY >= smallMouthImg.height || smallMouthX >= smallMouthImg.width) {
-                    continue; //not sure why the mask didn't work for us. Probably an off-by-one issue. fillPoly drew a border or something.
+                if(x >= mouthRect.x && y >= mouthRect.y && x < mouthRect.x + mouthRect.width && y < mouthRect.y + mouthRect.height) {
+                    int smallMouthX = x - mouthRect.x;
+                    int smallMouthY = y - mouthRect.y;
+                    if(smallMouthY >= smallMouthImg.height || smallMouthX >= smallMouthImg.width) {
+                        continue; //not sure why the mask didn't work for us. Probably an off-by-one issue. fillPoly drew a border or something.
+                    }
+                    uint8_t *smallMouthRow = (uint8_t*)&smallMouthImg.imageData[smallMouthY * smallMouthImg.width * smallMouthImg.nChannels];
+                    dataRow[x * faceImg.nChannels + 0] = smallMouthRow[smallMouthX * smallMouthImg.nChannels + 0];
+                    dataRow[x * faceImg.nChannels + 1] = smallMouthRow[smallMouthX * smallMouthImg.nChannels + 1];
+                    dataRow[x * faceImg.nChannels + 2] = smallMouthRow[smallMouthX * smallMouthImg.nChannels + 2];
+                } else {
+                    dataRow[x * faceImg.nChannels + 0] = 0;
+                    dataRow[x * faceImg.nChannels + 1] = 0;
+                    dataRow[x * faceImg.nChannels + 2] = 0;
                 }
-                uint8_t *smallMouthRow = (uint8_t*)&smallMouthImg.imageData[smallMouthY * smallMouthImg.width * smallMouthImg.nChannels];
-                dataRow[x * faceImg.nChannels + 0] = smallMouthRow[smallMouthX * smallMouthImg.nChannels + 0];
-                dataRow[x * faceImg.nChannels + 1] = smallMouthRow[smallMouthX * smallMouthImg.nChannels + 1];
-                dataRow[x * faceImg.nChannels + 2] = smallMouthRow[smallMouthX * smallMouthImg.nChannels + 2];
             }
         }
     }
