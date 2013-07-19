@@ -91,9 +91,10 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //fclose(file);
 #define STOCK_IMAGE_TOOTH_WIDTH 25
     //Drew wants to resize width based on matching front tooth widths, and resize height proportionally wrt to the *original* mouth image scale (not any scale based on mouthSize)
-    srand(10);
-    fileInfo->frontToothWidth = rand() % 30 + 20;
+    //srand(10);
+    //fileInfo->frontToothWidth = rand() % 30 + 20;
     //fileInfo->frontToothWidth = 32.2;
+    assert(fileInfo->frontToothWidth > 0);
     cv::Size mouthSize = cv::Size(maxx - minx, maxy - miny);
     float tempWidth = fileInfo->frontToothWidth / STOCK_IMAGE_TOOTH_WIDTH * mouth->width;
     cv::Size toothScaledMouthSize = cv::Size(tempWidth, tempWidth / mouth->width * mouth->height);
