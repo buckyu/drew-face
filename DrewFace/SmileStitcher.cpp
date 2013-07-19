@@ -29,8 +29,6 @@
 
 //http://stackoverflow.com/questions/14063070/overlay-a-smaller-image-on-a-larger-image-python-opencv
 
-//see http://felix.abecassis.me/2011/10/opencv-rotation-deskewing/ for an example of deskewing using an affine transform and a rotation matrix
-
 //**********************************************
 //SERIOUSLY: jpegs do NOT have alpha channels!!!
 //**********************************************
@@ -93,8 +91,8 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //fclose(file);
 #define STOCK_IMAGE_TOOTH_WIDTH 25
     //Drew wants to resize width based on matching front tooth widths, and resize height proportionally wrt to the *original* mouth image scale (not any scale based on mouthSize)
-    /*srand(10);
-    fileInfo->frontToothWidth = rand() % 30 + 20;*/
+    srand(10);
+    fileInfo->frontToothWidth = rand() % 30 + 20;
     //fileInfo->frontToothWidth = 32.2;
     cv::Size mouthSize = cv::Size(maxx - minx, maxy - miny);
     float tempWidth = fileInfo->frontToothWidth / STOCK_IMAGE_TOOTH_WIDTH * mouth->width;
@@ -133,6 +131,22 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //not sure why we have to invert it...
     cv::Mat *rotatedSmallMouthMat = rotateImage(smallMouthMat, -rotation);
 
+    //skew correction
+    cv::Mat warpedRotatedSmallMouthMat = *rotatedSmallMouthMat;
+    //See also http://opencv.willowgarage.com/wiki/Welcome?action=AttachFile&do=get&target=opencv_cheatsheet.pdf
+    //map image onto a sphere and rotate the sphere "up" to flatten out the curvature. Make sure "up" is orthogonal to the center teeth meeting line (ie accounts for the previous rotation)
+    //actually... I wonder if you could do the sphere trick with skew in the affine transform... http://stackoverflow.com/questions/10667834/trying-to-understand-the-affine-transform
+
+    /*cv::Mat transform(2, 3, CV_32F);
+     float skew = 5 * (M_PI / 180);
+     transform.at<float>(0, 0) = 1 * cos(skew);
+     transform.at<float>(0, 1) = -sin(skew);
+     transform.at<float>(0, 2) = 0;
+     transform.at<float>(1, 0) = 1 * sin(skew);
+     transform.at<float>(1, 1) = cos(skew);
+     transform.at<float>(1, 2) = 0;
+     cv::warpAffine(*rotatedSmallMouthMat, warpedRotatedSmallMouthMat, transform, cvSize(rotatedSmallMouthMat->cols, rotatedSmallMouthMat->rows));*/
+
     //http://stackoverflow.com/questions/10176184/with-opencv-try-to-extract-a-region-of-a-picture-described-by-arrayofarrays
     //http://www.pieter-jan.com/node/5
     //create a mask and black it out
@@ -148,7 +162,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //balance image exposure
     //http://stackoverflow.com/questions/13978689/balancing-contrast-and-brightness-between-stitched-images
     //http://docs.opencv.org/modules/stitching/doc/exposure_compensation.html
-    cv::Mat smallMouthMask = cvCreateMat(rotatedSmallMouthMat->rows, rotatedSmallMouthMat->cols, CV_8UC1);
+    cv::Mat smallMouthMask = cvCreateMat(warpedRotatedSmallMouthMat.rows, warpedRotatedSmallMouthMat.cols, CV_8UC1);
     smallMouthMask.setTo(255);
 
     cv::detail::ExposureCompensator *compensator = new cv::detail::GainCompensator; //bypassing recommended constructor because it has memory issues. Stupid C++
@@ -157,7 +171,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     corners->push_back(cv::Point(mouthRect.x, mouthRect.y)); //based on GainCompensator's use of overlapRoi and overlapRoi's definition in modules/stitching/util.cpp:100
     std::vector<cv::Mat> *images = new std::vector<cv::Mat>;
     images->push_back(faceMat);
-    images->push_back(*rotatedSmallMouthMat);
+    images->push_back(warpedRotatedSmallMouthMat);
     std::vector<std::pair<cv::Mat, uchar>> *masks = new std::vector<std::pair<cv::Mat, uchar>>;
     masks->push_back(std::make_pair(mask, 255));
     masks->push_back(std::make_pair(smallMouthMask, 255));
@@ -165,7 +179,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
 
     compensator->feed(*corners, *images, *masks);
     compensator->apply(1, corners->at(1), images->at(1), masks->at(1).first);
-    IplImage smallMouthImg = *rotatedSmallMouthMat;
+    IplImage smallMouthImg = warpedRotatedSmallMouthMat;
 
     //@see jpegHelpers.ccp
     //replace the mask region on face with mouth
