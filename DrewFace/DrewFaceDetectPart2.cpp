@@ -947,6 +947,20 @@ cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area, int *to
     cv::Mat colorSpace2 = colorSpace.clone(); //for reasons that aren't immediately clear to me, the following line borks colorSpace...
     mergeVectors(area, snake1, snake2);
     
+    //compute the max and min Y for the solution
+    int maxy = 0;
+    int miny = image.rows;
+    for(int i = 0; i < area->size(); i++) {
+        NotCGPoint p = (*area)[i];
+        if (p.y > maxy) {
+            maxy = p.y;
+        }
+        if (p.y < miny) {
+            miny = p.y;
+        }
+        
+    }
+    
     //FFTPro teeth sizing algorithm
     
     cv::Mat LuminancePro;
@@ -983,7 +997,7 @@ cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area, int *to
         cv::Mat luminanceSobel;
         int ratio = 3;
         int kernel_size = 3;
-        blur( LuminancePro, LuminancePro, cv::Size(6,6) );
+        blur( LuminancePro, LuminancePro, cv::Size(3,3) );
         Canny( LuminancePro, luminanceSobel, lowThreshold, lowThreshold*ratio, kernel_size );
         //Sobel(LuminancePro, luminanceSobel, ddepth, 1, 0, 3, 1, delta, cv::BORDER_DEFAULT );
         convertScaleAbs(luminanceSobel,luminanceDisplay);
@@ -995,7 +1009,7 @@ cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area, int *to
         int thresh = 220;
         
         int best_goodPks = 0;
-        for(int y = 0; y < RGB.rows; y++) {
+        for(int y = miny; y < maxy; y++) {
             int rapidPks = 0;
             int latePks = 0;
             int goodPks = 0;
@@ -1022,7 +1036,7 @@ cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area, int *to
                 
                 
             }
-            //printf("row result for y  %d, %d %d %d\n",y, rapidPks,latePks,goodPks);
+            printf("row result for y  %d, %d %d %d\n",y, rapidPks,latePks,goodPks);
             if (goodPks > best_goodPks) {
                 best_goodPks = goodPks;
                 best_row = y;
