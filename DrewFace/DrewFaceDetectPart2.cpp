@@ -741,7 +741,7 @@ std::vector<NotCGPoint> *mergeVectors(std::vector<NotCGPoint> *target, std::vect
     return target;
 }
 
-cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area) {
+cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area, int *toothSize) {
     cv::Mat originalImage = image.clone();
     image.convertTo(image, CV_32F);
     
@@ -1015,7 +1015,7 @@ cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area) {
                     latePks++;
                 }
                 else if (gs > thresh) {
-                    avgPeakSize += (lastPk - x);
+                    avgPeakSize += (x - lastPk);
                     lastPk = x;
                     goodPks++;
                 }
@@ -1051,15 +1051,17 @@ cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area) {
 
     printf("avg peak size %f\n",best_avgPeakSize);
     
+    *toothSize = best_avgPeakSize;
+    
     return luminanceDisplay;
     
 
     return gradDisplay;
 }
 
-std::vector<NotCGPoint>* findTeethArea(cv::Mat image) {
+std::vector<NotCGPoint>* findTeethArea(cv::Mat image, int *toothSize) {
     std::vector<NotCGPoint> *ret = new std::vector<NotCGPoint>;
-    findTeethAreaDebug(image, ret);
+    findTeethAreaDebug(image, ret, toothSize);
 
     return ret;
 }

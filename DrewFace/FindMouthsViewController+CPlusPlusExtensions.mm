@@ -45,9 +45,10 @@
     CFRelease(pixelData);*/
 
     cv::Mat mouthImageMatrix = [OpenCvClass cvMatFromUIImage:mouthImage];
-    
-    std::vector<NotCGPoint> *ptrSolution = findTeethArea(mouthImageMatrix);
-    mouthImageMatrix = findTeethAreaDebug(mouthImageMatrix, new std::vector<NotCGPoint>);
+    int toothSize;
+
+    std::vector<NotCGPoint> *ptrSolution = findTeethArea(mouthImageMatrix, &toothSize);
+    mouthImageMatrix = findTeethAreaDebug(mouthImageMatrix, new std::vector<NotCGPoint>, &toothSize);
     //now we're going to use the mouthImageMatrix (which was probably mutated?)
     mouthImage = [OpenCvClass UIImageFromCVMat:mouthImageMatrix];
     std::vector<NotCGPoint> solution = *ptrSolution;
