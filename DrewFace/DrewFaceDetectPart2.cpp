@@ -943,8 +943,116 @@ cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area) {
     snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay,1, snake1);
     sy = shortestPoint.y;
     snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay,0, snake2);
-
+    
+    cv::Mat colorSpace2 = colorSpace.clone(); //for reasons that aren't immediately clear to me, the following line borks colorSpace...
     mergeVectors(area, snake1, snake2);
+    
+    //FFTPro teeth sizing algorithm
+    
+    cv::Mat LuminancePro;
+    //cv::Mat_<cv::Vec<float, 1>> LuminancePro(RGB.rows, RGB.cols);
+    cvtColor( originalImage, LuminancePro, CV_RGB2GRAY );
+    /*for(int y = 0; y < RGB.rows; y++) {
+        for(int x = 0; x < RGB.cols; x++) {
+            /**discrimination power:
+             0 - worthless
+             1 - worthless
+             2 - worthless
+             3 - w
+             4 - with 200 it is sort of ok?
+             5 - with 200 it is sort of ok?
+             6 - wth a scale factor of 2 i'd sa it's pretty good.  maybe try 3-4
+             7 - not very good.  try scale of 5?
+             8 - continues not to be good
+             9 - eh
+             10 - eh
+             11 - eh, even with SF 400 it's not that great.
+             //greyscale is pretty good...
+             
+            float L = GET_PIXEL_OF_MATRIXN(colorSpace2, x, y, 6, float, 12);
+            SET_PIXEL_OF_MATRIXN(LuminancePro, x, y, 0, float, L, 1);
+        }
+    }*/
+    int lowThreshold = 20;
+    int best_row = 0;
+    float best_avgPeakSize = 0;
+    cv::Mat luminanceDisplay = cvCreateMat(image.rows, image.cols, CV_8UC3);
+
+
+    for(int i = 0; i < 5 ; i++) {
+        cv::Mat luminanceSobel;
+        int ratio = 3;
+        int kernel_size = 3;
+        blur( LuminancePro, LuminancePro, cv::Size(6,6) );
+        Canny( LuminancePro, luminanceSobel, lowThreshold, lowThreshold*ratio, kernel_size );
+        //Sobel(LuminancePro, luminanceSobel, ddepth, 1, 0, 3, 1, delta, cv::BORDER_DEFAULT );
+        convertScaleAbs(luminanceSobel,luminanceDisplay);
+        
+        //ideally we want them spaced more than 5x and less than 20x apart?
+        
+        int min_px = 5;
+        int max_px = 30;
+        int thresh = 220;
+        
+        int best_goodPks = 0;
+        for(int y = 0; y < RGB.rows; y++) {
+            int rapidPks = 0;
+            int latePks = 0;
+            int goodPks = 0;
+            int lastPk = 0;
+            float avgPeakSize = 0;
+            
+            
+            for(int x = 0; x < RGB.cols; x++) {
+                int gs = GET_PIXEL_OF_MATRIXN(luminanceSobel, x, y, 0, uint8_t, 1);
+                assert (gs >= 0);
+                if (gs > thresh && x - lastPk < min_px) {
+                    lastPk = x;
+                    rapidPks ++;
+                }
+                else if (gs > thresh && x - lastPk > max_px) {
+                    lastPk = x;
+                    latePks++;
+                }
+                else if (gs > thresh) {
+                    avgPeakSize += (lastPk - x);
+                    lastPk = x;
+                    goodPks++;
+                }
+                
+                
+            }
+            //printf("row result for y  %d, %d %d %d\n",y, rapidPks,latePks,goodPks);
+            if (goodPks > best_goodPks) {
+                best_goodPks = goodPks;
+                best_row = y;
+                best_avgPeakSize = avgPeakSize / goodPks;
+                
+            }
+        }
+        printf("best_goodpx round %d is %d\n",i,best_goodPks);
+        if (best_goodPks >= 15) {
+            lowThreshold *= 1.5;
+        }
+        else if (best_goodPks <= 12) {
+            lowThreshold /= 2;
+            printf("adjusting threshold downward to %d\n",lowThreshold);
+        }
+        else {
+            break;
+        }
+    }
+    
+    
+    //overlay best row
+    for(int x = 0; x < RGB.cols; x++) {
+        SET_PIXEL_OF_MATRIXN(luminanceDisplay, x, best_row, 0, uint8_t, 255, 1);
+    }
+
+    printf("avg peak size %f\n",best_avgPeakSize);
+    
+    return luminanceDisplay;
+    
 
     return gradDisplay;
 }
