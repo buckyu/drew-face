@@ -88,19 +88,60 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         ySum += p.y;
         xySum += p.x * p.y;
     }
+
+    ///http://math.stackexchange.com/questions/267865/equations-for-quadratic-regression
+    float n2 = fileInfo->bottomLip->size();
+    if(n == 0) {
+        return NULL;
+    }
+    float x2Sum = 0;
+    float x1Sum = 0;
+    float x1x2Sum = 0;
+    float x2SquaredSum = 0;
+    float x1y1Sum = 0;
+    float y1Sum = 0;
+    float x2y1Sum = 0;
+    float x1SquaredSum = 0;
+    for(int i = 0; i < n2; i++) {
+        NotCGPoint p = fileInfo->bottomLip->at(i);
+        float x1 = p.x;
+        float x2 = p.x * p.x;
+        x2Sum += x2;
+        x1Sum += x1;
+        x1x2Sum += x1 * x2;
+        x2SquaredSum += x2 * x2;
+        x1y1Sum += x1 * p.y;
+        y1Sum += p.y;
+        x2y1Sum += x2 * p.y;
+        x1SquaredSum += x1 * x1;
+    }
+
+    float s11 = x1SquaredSum - x1Sum * x1Sum / n2;
+    float s12 = x1x2Sum - x1Sum * x2Sum / n2;
+    float s22 = x2SquaredSum - x2Sum * x2Sum / n2;
+    float sy1 = x1y1Sum - y1Sum * x1Sum / n2;
+    float sy2 = x2y1Sum - y1Sum * x2Sum / n2;
+    float x1Bar = x1Sum / n2;
+    float x2Bar = x2Sum / n2;
+    float y1Bar = y1Sum / n2;
+    float beta2 = (sy1 * s22 - sy2 * s12) / (s22 * s11 - s12 * s12);
+    float beta3 = (sy2 * s11 - sy1 * s12) / (s22 * s11 - s12 * s12);
+    float beta1 = y1Bar - beta2 * x1Bar - beta3 * x2Bar;
+    //y = beta1 + beta2 * x + beta3 * xsquared
+
     //fclose(file);
 #define STOCK_IMAGE_TOOTH_WIDTH 25
     //Drew wants to resize width based on matching front tooth widths, and resize height proportionally wrt to the *original* mouth image scale (not any scale based on mouthSize)
     //srand(10);
     //fileInfo->frontToothWidth = rand() % 30 + 20;
-    //fileInfo->frontToothWidth = 32.2;
+    fileInfo->frontToothWidth = 32.2;
     assert(fileInfo->frontToothWidth > 0);
     cv::Size mouthSize = cv::Size(maxx - minx, maxy - miny);
     float tempWidth = fileInfo->frontToothWidth / STOCK_IMAGE_TOOTH_WIDTH * mouth->width;
     cv::Size toothScaledMouthSize = cv::Size(tempWidth, tempWidth / mouth->width * mouth->height);
     cv::Rect mouthRect = cv::Rect(minx + (mouthSize.width - toothScaledMouthSize.width) / 2, miny + (mouthSize.height - toothScaledMouthSize.height) / 2, toothScaledMouthSize.width, toothScaledMouthSize.height);
     if(toothScaledMouthSize.width == 0) { //seems to crash in this case.  i assume because the geometry is rediculous
-        return "";
+        return NULL;
     }
 #undef STOCK_IMAGE_TOOTH_WIDTH
 
@@ -128,6 +169,18 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     cv::Mat smallMouthMat;
     cv::resize(mouthMat, smallMouthMat, toothScaledMouthSize);
 
+#ifdef DONT_PORT
+    cv::circle(smallMouthMat, cvPoint(fileInfo->bottomLip->at(0).x, fileInfo->bottomLip->at(0).y), 1, CV_RGB(0, 0, 255), -1);
+    for(int i = 1; i < n2; i++) {
+        NotCGPoint p1 = fileInfo->bottomLip->at(i - 1);
+        NotCGPoint p2 = fileInfo->bottomLip->at(i);
+        float y1 = beta1 + beta2 * p1.x + beta3 * p1.x * p1.x;
+        float y2 = beta1 + beta2 * p2.x + beta3 * p2.x * p2.x;
+        cv::line(smallMouthMat, cvPoint(p1.x, y1), cvPoint(p2.x, y2), CV_RGB(255, 0, 0), 4);
+        cv::circle(smallMouthMat, cvPoint(p2.x, p2.y), 1, CV_RGB(0, 0, 255), -1);
+    }
+#endif
+
     //printf("img = %s\n", fileInfo->originalFileNamePath);
     //not sure why we have to invert it...
     cv::Mat *rotatedSmallMouthMat = rotateImage(smallMouthMat, -rotation);
@@ -136,17 +189,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     cv::Mat warpedRotatedSmallMouthMat = *rotatedSmallMouthMat;
     //See also http://opencv.willowgarage.com/wiki/Welcome?action=AttachFile&do=get&target=opencv_cheatsheet.pdf
     //map image onto a sphere and rotate the sphere "up" to flatten out the curvature. Make sure "up" is orthogonal to the center teeth meeting line (ie accounts for the previous rotation)
-    //actually... I wonder if you could do the sphere trick with skew in the affine transform... http://stackoverflow.com/questions/10667834/trying-to-understand-the-affine-transform
-
-    /*cv::Mat transform(2, 3, CV_32F);
-     float skew = 5 * (M_PI / 180);
-     transform.at<float>(0, 0) = 1 * cos(skew);
-     transform.at<float>(0, 1) = -sin(skew);
-     transform.at<float>(0, 2) = 0;
-     transform.at<float>(1, 0) = 1 * sin(skew);
-     transform.at<float>(1, 1) = cos(skew);
-     transform.at<float>(1, 2) = 0;
-     cv::warpAffine(*rotatedSmallMouthMat, warpedRotatedSmallMouthMat, transform, cvSize(rotatedSmallMouthMat->cols, rotatedSmallMouthMat->rows));*/
+    ///http://rosettacode.org/wiki/Map_range
 
     //http://stackoverflow.com/questions/10176184/with-opencv-try-to-extract-a-region-of-a-picture-described-by-arrayofarrays
     //http://www.pieter-jan.com/node/5

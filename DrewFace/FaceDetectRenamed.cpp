@@ -157,7 +157,8 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
     
     if ((faceRect.width > 0) && (faceRect.height > 0)) {
         int toothSize;
-        ret->points = findTeethArea(mouthImage, &toothSize);
+        ret->bottomLip = new std::vector<NotCGPoint>;
+        ret->points = findTeethArea(mouthImage, &toothSize, ret->bottomLip);
         ret->frontToothWidth = toothSize / 1.5;
 
         std::vector<NotCGPoint> *imagePoints = new std::vector<NotCGPoint>;

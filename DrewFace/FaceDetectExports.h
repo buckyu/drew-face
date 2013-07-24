@@ -30,6 +30,7 @@ typedef struct FileInfo {
     const char *originalFileNamePath;
     std::vector<NotCGPoint> *points; //points WRT the mouth
     std::vector<NotCGPoint> *imagePoints; //points WRT the image
+    std::vector<NotCGPoint> *bottomLip; //this is intended purely for internal consumption, and only appears here because we've given up all appearance of good design
     float facedetectScaleFactor;
     float facedetectX;
     float facedetectY;
