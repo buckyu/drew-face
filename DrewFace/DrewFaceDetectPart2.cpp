@@ -998,9 +998,13 @@ cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area, int *to
         int ratio = 3;
         int kernel_size = 3;
         blur( LuminancePro, LuminancePro, cv::Size(3,3) );
+
         Canny( LuminancePro, luminanceSobel, lowThreshold, lowThreshold*ratio, kernel_size );
         //Sobel(LuminancePro, luminanceSobel, ddepth, 1, 0, 3, 1, delta, cv::BORDER_DEFAULT );
         convertScaleAbs(luminanceSobel,luminanceDisplay);
+        cvtColor( luminanceDisplay, luminanceDisplay, CV_GRAY2RGB );
+
+        
         
         //ideally we want them spaced more than 5x and less than 20x apart?
         
@@ -1032,6 +1036,11 @@ cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area, int *to
                     avgPeakSize += (x - lastPk);
                     lastPk = x;
                     goodPks++;
+                    SET_PIXEL_OF_MATRIXN(luminanceDisplay, x, y, 0, uint8_t, 255, 3);
+                    SET_PIXEL_OF_MATRIXN(luminanceDisplay, x, y, 1, uint8_t, 0, 3);
+                    SET_PIXEL_OF_MATRIXN(luminanceDisplay, x, y, 2, uint8_t, 0, 3);
+
+
                 }
                 
                 
@@ -1060,7 +1069,7 @@ cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area, int *to
     
     //overlay best row
     for(int x = 0; x < RGB.cols; x++) {
-        SET_PIXEL_OF_MATRIXN(luminanceDisplay, x, best_row, 0, uint8_t, 255, 1);
+        SET_PIXEL_OF_MATRIXN(luminanceDisplay, x, best_row, 0, uint8_t, 255, 3);
     }
 
     printf("avg peak size %f\n",best_avgPeakSize);
