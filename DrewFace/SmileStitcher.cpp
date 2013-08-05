@@ -5,17 +5,20 @@
 //  Created by Bion Oren on 4/24/13.
 //  Copyright (c) 2013 FCW Consulting LLC. All rights reserved.
 //
-
+#define INFINITY 99999999999999
 #include "SmileStitcher.h"
 #include <opencv2/highgui/highgui_c.h>
 #include <opencv2/imgproc/imgproc_c.h>
 #include <opencv2/stitching/detail/exposure_compensate.hpp>
+#include <amp_math.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdint.h> //gets uint8_t
 #include <vector>
 #include "jpegHelpers.h"
 #include "FaceDetectRenamed.h"
+inline double roundf(double x) { return (x-floor(x))>0.5 ? ceil(x) : floor(x); }
+
 
 #ifdef DONT_PORT
     #define COLOR_CHANNELS 4
