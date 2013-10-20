@@ -1,6 +1,5 @@
 test/FaceDetect/Debug/*
 test/Debug/*
-test/ConsoleApplication2/bin/*
 *.opensdf
 *.vcxproj.user
 *.obj
