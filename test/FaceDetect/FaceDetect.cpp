@@ -21,7 +21,6 @@ String ^FaceDetect::FaceDetector::stitchFace(FaceDetect::GeometryType ^geometryT
 	char *filename = (char*)(void*)Marshal::StringToHGlobalAnsi(geometryType->fileName);
 	info->originalFileNamePath = filename;
 	info->imagePoints = imagePoints;
-
 	printf("cmouth = %s\n", cmouth);
 	printf("filename = %s\n", filename);
 	//return gcnew String("foo");
@@ -54,6 +53,7 @@ void FaceDetect::FaceDetector::detectFaces(FaceDetect::GeometryType ^geometryTyp
 	geometryType->mouthArea->y = geometryType->faceArea->y +info->mouthdetectY / info->facedetectScaleFactor + MAGIC_HEIGHT * geometryType->faceArea->height;
 	geometryType->mouthArea->width = geometryType->faceArea->x + info->mouthdetectW / info->facedetectScaleFactor;
 	geometryType->mouthArea->height = geometryType->faceArea->y + info->mouthdetectH / info->facedetectScaleFactor;
+	geometryType->teethWidth = info->frontToothWidth;
 
 
 

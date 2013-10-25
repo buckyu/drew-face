@@ -22,5 +22,6 @@ namespace FaceDetect
         public String fileName;
         public Rect mouthArea;
         public Rect faceArea;
+        public int teethWidth;
     }
 }

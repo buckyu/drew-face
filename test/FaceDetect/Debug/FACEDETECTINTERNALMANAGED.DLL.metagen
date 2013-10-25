@@ -22,3 +22,4 @@ Class FaceDetect.GeometryType: AutoLayout, AnsiClass, Class, Public, BeforeField
     System.String fileName : Public
     FaceDetect.Rect mouthArea : Public
     FaceDetect.Rect faceArea : Public
+    Int32 teethWidth : Public
