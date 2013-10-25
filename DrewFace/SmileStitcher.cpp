@@ -96,7 +96,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         ySum += p.y;
         xySum += p.x * p.y;
     }
-
+    return NULL;
     ///http://math.stackexchange.com/questions/267865/equations-for-quadratic-regression
     float n2 = fileInfo->bottomLip->size();
     if(n == 0) {
