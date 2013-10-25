@@ -10,7 +10,9 @@
 #include <opencv2/highgui/highgui_c.h>
 #include <opencv2/imgproc/imgproc_c.h>
 #include <opencv2/stitching/detail/exposure_compensate.hpp>
+#ifndef DONT_PORT
 #include <amp_math.h>
+#endif
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdint.h> //gets uint8_t
@@ -46,7 +48,10 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     struct jpeg *face = loadJPEGFromFile(fileInfo->originalFileNamePath, COLOR_CHANNELS);
     //writeJpegToFile(face, ret, 100);
     struct jpeg *mouth = loadJPEGFromFile(mouthImage, COLOR_CHANNELS);
-
+    if (!mouth) {
+        printf("mouth could not be loaded from path %s\n",mouthImage);
+        assert(0);
+    }
     std::vector<cv::Point> *bounds = new std::vector<cv::Point>;
     int boundArraySize = fileInfo->imagePoints->size();
     cv::Point *boundArray = (cv::Point*)calloc(boundArraySize, sizeof(cv::Point));
