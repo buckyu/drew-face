@@ -112,6 +112,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     for(int i = 0; i < n2; i++) {
         NotCGPoint p = fileInfo->bottomLip->at(i);
         float x1 = p.x;
+        return NULL;
         float x2 = p.x * p.x;
         x2Sum += x2;
         x1Sum += x1;
@@ -127,7 +128,6 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     float s12 = x1x2Sum - x1Sum * x2Sum / n2;
     float s22 = x2SquaredSum - x2Sum * x2Sum / n2;
     float sy1 = x1y1Sum - y1Sum * x1Sum / n2;
-    return NULL;
     float sy2 = x2y1Sum - y1Sum * x2Sum / n2;
     float x1Bar = x1Sum / n2;
     float x2Bar = x2Sum / n2;
