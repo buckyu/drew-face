@@ -114,6 +114,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
             printf("A bottom lip is required\n");
             return NULL;
         }
+        return NULL;
         NotCGPoint p = fileInfo->bottomLip->at(i);
         float x1 = p.x;
         float x2 = p.x * p.x;
