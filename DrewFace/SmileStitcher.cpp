@@ -105,12 +105,11 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     float x1Sum = 0;
     float x1x2Sum = 0;
     float x2SquaredSum = 0;
-    return NULL;
-
     float x1y1Sum = 0;
     float y1Sum = 0;
     float x2y1Sum = 0;
     float x1SquaredSum = 0;
+    return NULL;
     for(int i = 0; i < n2; i++) {
         if (!fileInfo->bottomLip) {
             printf("A bottom lip is required\n");
