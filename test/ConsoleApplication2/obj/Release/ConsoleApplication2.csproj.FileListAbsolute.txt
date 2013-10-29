@@ -1,0 +1,9 @@
+C:\Users\Administrator\Documents\GitHub\drew-face\test\ConsoleApplication2\bin\Release\ConsoleApplication2.exe.config
+C:\Users\Administrator\Documents\GitHub\drew-face\test\ConsoleApplication2\bin\Release\ConsoleApplication2.exe
+C:\Users\Administrator\Documents\GitHub\drew-face\test\ConsoleApplication2\bin\Release\ConsoleApplication2.pdb
+C:\Users\Administrator\Documents\GitHub\drew-face\test\ConsoleApplication2\bin\Release\FaceDetect.dll
+C:\Users\Administrator\Documents\GitHub\drew-face\test\ConsoleApplication2\bin\Release\FaceDetectInternalManaged.dll
+C:\Users\Administrator\Documents\GitHub\drew-face\test\ConsoleApplication2\bin\Release\FaceDetectInternalManaged.pdb
+C:\Users\Administrator\Documents\GitHub\drew-face\test\ConsoleApplication2\obj\Release\ConsoleApplication2.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Documents\GitHub\drew-face\test\ConsoleApplication2\obj\Release\ConsoleApplication2.exe
+C:\Users\Administrator\Documents\GitHub\drew-face\test\ConsoleApplication2\obj\Release\ConsoleApplication2.pdb

@@ -1,0 +1,5 @@
+C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetectInternalManaged\bin\Release\FaceDetectInternalManaged.dll
+C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetectInternalManaged\bin\Release\FaceDetectInternalManaged.pdb
+C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetectInternalManaged\obj\Release\FaceDetectInternalManaged.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetectInternalManaged\obj\Release\FaceDetectInternalManaged.dll
+C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetectInternalManaged\obj\Release\FaceDetectInternalManaged.pdb
