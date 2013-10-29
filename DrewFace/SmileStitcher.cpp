@@ -156,6 +156,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
 #define SET_PIXEL_OF_MATRIXN(MTX, X, Y, CHANNEL, TYPE, VALUE, NUM) ((MTX).at<cv::Vec<TYPE,(NUM)>>((Y),(X)))[(CHANNEL)] = (VALUE)
     cv::Mat mouthMat = mouth->data;
     cv::Mat skewedMouthMat = mouthMat.clone();
+    return NULL;
     skewedMouthMat.setTo(0);
     float curve_maxy = -INFINITY;
     float curve_miny = INFINITY;
@@ -214,7 +215,6 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
 
     //a * xsquaredSum + b * xSum = xySum
     //a * xSum + b * n = ySum
-    return NULL;
     cv::Mat_<float> equations1(2, 2);
     equations1[0][0] = xsquaredSum;
     equations1[0][1] = xSum;
