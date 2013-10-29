@@ -127,6 +127,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     float s12 = x1x2Sum - x1Sum * x2Sum / n2;
     float s22 = x2SquaredSum - x2Sum * x2Sum / n2;
     float sy1 = x1y1Sum - y1Sum * x1Sum / n2;
+    return NULL;
     float sy2 = x2y1Sum - y1Sum * x2Sum / n2;
     float x1Bar = x1Sum / n2;
     float x2Bar = x2Sum / n2;
@@ -156,7 +157,6 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
 #define SET_PIXEL_OF_MATRIXN(MTX, X, Y, CHANNEL, TYPE, VALUE, NUM) ((MTX).at<cv::Vec<TYPE,(NUM)>>((Y),(X)))[(CHANNEL)] = (VALUE)
     cv::Mat mouthMat = mouth->data;
     cv::Mat skewedMouthMat = mouthMat.clone();
-    return NULL;
     skewedMouthMat.setTo(0);
     float curve_maxy = -INFINITY;
     float curve_miny = INFINITY;
