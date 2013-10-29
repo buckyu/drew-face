@@ -1,0 +1,42 @@
+﻿Build started 10/29/2013 6:15:07 PM.
+Project "C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetect\FaceDetect.vcxproj" on node 2 (Build target(s)).
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetect\/../../DrewFace" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /clr /nologo /W3 /WX- /Ox /Ob2 /Oy /GL /D WIN32 /D NDEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Release\FaceDetect.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /TP /FU"C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetectInternalManaged\bin\Release\FaceDetectInternalManaged.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /analyze- /errorReport:prompt /clr:nostdlib Stdafx.cpp
+  Stdafx.cpp
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetect\/../../DrewFace" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /clr /nologo /W3 /WX- /Ox /Ob2 /Oy /GL /D WIN32 /D NDEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Release\FaceDetect.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /TP /FU"C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetectInternalManaged\bin\Release\FaceDetectInternalManaged.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /analyze- /errorReport:prompt /clr:nostdlib AssemblyInfo.cpp FaceDetect.cpp
+  AssemblyInfo.cpp
+AssemblyInfo.cpp(40): warning C4947: 'RequestMinimum' : marked as obsolete
+          Message: 'Assembly level declarative security is obsolete and is no longer enforced by the CLR by default. See http://go.microsoft.com/fwlink/?LinkID=155570 for more information.'
+  FaceDetect.cpp
+FaceDetect.cpp(17): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+FaceDetect.cpp(18): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+FaceDetect.cpp(53): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+FaceDetect.cpp(56): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+FaceDetect.cpp(60): warning C4018: '<' : signed/unsigned mismatch
+FaceDetect.cpp(63): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+FaceDetect.cpp(64): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+  Generating Code...
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetect\/../../DrewFace" /clr /nologo /W3 /WX- /Ox /Ob2 /Oy /GL /D WIN32 /D NDEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /TP /analyze- /errorReport:prompt "C:\Users\Administrator\AppData\Local\Temp\.NETFramework,Version=v4.5.AssemblyAttributes.cpp"
+  .NETFramework,Version=v4.5.AssemblyAttributes.cpp
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Release\app.res" app.rc 
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Administrator\Documents\GitHub\drew-face\test\Release\FaceDetect.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetect\\..\..\libexif_sleuth_windows\libexif-0.6.20\win32\Debug" /LIBPATH:"C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetect\\..\..\opencv\build\x86\vc10\lib" /LIBPATH:"C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetect\\..\..\jpeg-9\Release\\" lib_exif.lib opencv_core243.lib opencv_imgproc243.lib opencv_highgui243.lib opencv_ml243.lib opencv_video243.lib opencv_features2d243.lib opencv_calib3d243.lib opencv_objdetect243.lib opencv_contrib243.lib opencv_legacy243.lib opencv_flann243.lib opencv_nonfree243.lib opencv_stitching243.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"C:\Users\Administrator\Documents\GitHub\drew-face\test\Release\FaceDetect.pdb" /TLBID:1 /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 /SAFESEH /DLL Release\app.res
+  Release\AssemblyInfo.obj
+  Release\FaceDetect.obj
+  Release\Stdafx.obj
+  "Release\.NETFramework,Version=v4.5.AssemblyAttributes.obj"
+  "C:\Users\Administrator\Documents\GitHub\drew-face\test\Release\FaceDetectInternalNative.lib"
+  FaceDetectInternalNative.lib(Source.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
+lib_exif.lib(exif-entry.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:ICF' specification
+MSVCRT.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrtd.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
+  Generating code
+c:\users\administrator\documents\github\drew-face\drewface\smilestitcher.cpp(161): warning C4756: overflow in constant arithmetic
+c:\users\administrator\documents\github\drew-face\drewface\smilestitcher.cpp(162): warning C4756: overflow in constant arithmetic
+  Finished generating code
+  FaceDetect.vcxproj -> C:\Users\Administrator\Documents\GitHub\drew-face\test\Release\FaceDetect.dll
+Done Building Project "C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetect\FaceDetect.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:39.84
