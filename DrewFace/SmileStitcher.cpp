@@ -96,7 +96,6 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         ySum += p.y;
         xySum += p.x * p.y;
     }
-    return NULL;
     ///http://math.stackexchange.com/questions/267865/equations-for-quadratic-regression
     float n2 = fileInfo->bottomLip->size();
     if(n == 0) {
@@ -215,6 +214,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
 
     //a * xsquaredSum + b * xSum = xySum
     //a * xSum + b * n = ySum
+    return NULL;
     cv::Mat_<float> equations1(2, 2);
     equations1[0][0] = xsquaredSum;
     equations1[0][1] = xSum;
