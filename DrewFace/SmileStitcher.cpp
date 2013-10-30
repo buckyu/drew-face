@@ -39,24 +39,37 @@ inline double roundf(double x) { return (x-floor(x))>0.5 ? ceil(x) : floor(x); }
 //**********************************************
 const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     betterPrintF("stitchMouthOnFace begun.\n");
+	betterPrintF("Attempting to load %s", fileInfo->originalFileNamePath);
+	struct jpeg *face = loadJPEGFromFile(fileInfo->originalFileNamePath, COLOR_CHANNELS);
+	betterPrintF("Loaded face image %s\n");
+	if (!face) {
+		betterPrintF("Failed to load image.  Check path or JPEG format.\n");
+		return NULL;
+	}
     char *ret = (char*)calloc(strlen(fileInfo->originalFileNamePath) + 9 + 1, sizeof(char));
     if(!ret) {
         //out of memory
+		betterPrintF("You are out of memory\n");
         return NULL;
     }
     sprintf(ret, "%.*s-replaced.jpg", (int)strlen(fileInfo->originalFileNamePath) - 4, fileInfo->originalFileNamePath);
 
-    struct jpeg *face = loadJPEGFromFile(fileInfo->originalFileNamePath, COLOR_CHANNELS);
+
+	betterPrintF("with width %d and height %d\n", fileInfo->originalFileNamePath, face->width, face->height);
     //writeJpegToFile(face, ret, 100);
     struct jpeg *mouth = loadJPEGFromFile(mouthImage, COLOR_CHANNELS);
     if (!mouth) {
         betterPrintF("mouth could not be loaded from path %s\n",mouthImage);
         assert(0);
     }
-    if (mouth->width <= 0 || mouth->height <= 0) {
+    if (mouth->width <= 0.01 || mouth->height <= 0.01) {
         betterPrintF("mouth size error\n");
         return NULL;
     }
+	if (mouth->height >= 9999 || mouth->width >= 9999) {
+		betterPrintF("mouth decode error or mouth too tall\n");
+		return NULL;
+	}
     std::vector<cv::Point> *bounds = new std::vector<cv::Point>;
     int boundArraySize = fileInfo->imagePoints->size();
     cv::Point *boundArray = (cv::Point*)calloc(boundArraySize, sizeof(cv::Point));
@@ -134,6 +147,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     
     float n2 = bottomLip->size();
     if(n == 0) {
+		betterPrintF("bottomLip = NULL\n");
         return NULL;
     }
     float x2Sum = 0;
@@ -145,7 +159,9 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     float x2y1Sum = 0;
     float x1SquaredSum = 0;
     for(int i = 0; i < n2; i++) {
+		betterPrintF("enter loop..\n");
         NotCGPoint p = bottomLip->at(i);
+		betterPrintF("got point\n");
         float x1 = p.x;
         float x2 = p.x * p.x;
         x2Sum += x2;
@@ -156,8 +172,9 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         y1Sum += p.y;
         x2y1Sum += x2 * p.y;
         x1SquaredSum += x1 * x1;
+		betterPrintF("loop complete\n");
     }
-    printf("checkpoint1.2\n");
+    betterPrintF("checkpoint1.2\n");
 
     float s11 = x1SquaredSum - x1Sum * x1Sum / n2;
     float s12 = x1x2Sum - x1Sum * x2Sum / n2;
@@ -178,15 +195,27 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //srand(10);
     //fileInfo->frontToothWidth = rand() % 30 + 20;
     //fileInfo->frontToothWidth = 32.2;
+	betterPrintF("checkpoint 1.3\n");
+
     assert(fileInfo->frontToothWidth > 0);
+	betterPrintF("frontToothWidth %f\n",fileInfo->frontToothWidth);
     cv::Size mouthSize = cv::Size(maxx - minx, maxy - miny);
     float tempWidth = fileInfo->frontToothWidth / STOCK_IMAGE_TOOTH_WIDTH * mouth->width;
     assert(tempWidth > 0);
+	betterPrintF("checkpoint 1.4\n");
 
     cv::Size toothScaledMouthSize = cv::Size(tempWidth, tempWidth / mouth->width * mouth->height);
+	betterPrintF("tempWidth %f\n", tempWidth);
+	betterPrintF("mouth->width %d\n", mouth->width);
+	betterPrintF("mouth->height %d\n", mouth->height);
+	if (mouth->width <= 0.01 || mouth->height <= 0.01) {
+		betterPrintF("mouth size error\n");
+		return NULL;
+	}
     cv::Rect mouthRect = cv::Rect(minx + (mouthSize.width - toothScaledMouthSize.width) / 2, miny + (mouthSize.height - toothScaledMouthSize.height) / 2, toothScaledMouthSize.width, toothScaledMouthSize.height);
     if(toothScaledMouthSize.width == 0) { //seems to crash in this case.  i assume because the geometry is rediculous
-        return NULL;
+		betterPrintF("geometry seems rediculous\n");
+		return NULL;
     }
     betterPrintF("checkpoint 2\n");
 
@@ -260,6 +289,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
 
     //a * xsquaredSum + b * xSum = xySum
     //a * xSum + b * n = ySum
+	betterPrintF("eqn Checkpoint\n");
     cv::Mat_<float> equations1(2, 2);
     equations1[0][0] = xsquaredSum;
     equations1[0][1] = xSum;
@@ -270,12 +300,15 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     equations2[0][0] = xySum;
     equations2[0][1] = ySum;
     cv::Mat_<float> solution;
+	betterPrintF("presolvet\n");
     cv::solve(equations1, equations2, solution);
+	betterPrintF("eqn postsolve\n");
     float a = solution[0][0];
     //float b = solution[0][1];
     float rotation = atanf(a);
-
+	betterPrintF("Going to getfaceMat\n");
     cv::Mat faceMat = face->data;
+	betterPrintF("Got faceMat\n");
     cv::Mat smallMouthMat;
     if (skewedMouthMat.rows <= 0) {
         betterPrintF("skewedMouthmat error\n");
@@ -285,6 +318,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         betterPrintF("toothScaledMouthSize error.\n");
         return NULL;
     }
+	betterPrintF("pre-resize %d\n",toothScaledMouthSize.width,toothScaledMouthSize.height);
     cv::resize(skewedMouthMat, smallMouthMat, toothScaledMouthSize);
     betterPrintF("checkpoint 3\n");
 

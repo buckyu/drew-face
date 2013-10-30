@@ -21,6 +21,7 @@ String ^FaceDetect::FaceDetector::stitchFace(FaceDetect::GeometryType ^geometryT
 	char *filename = (char*)(void*)Marshal::StringToHGlobalAnsi(geometryType->fileName);
 	info->originalFileNamePath = filename;
 	info->imagePoints = imagePoints;
+	info->frontToothWidth = geometryType->teethWidth;
 	printf("cmouth = %s\n", cmouth);
 	printf("filename = %s\n", filename);
 	//return gcnew String("foo");
