@@ -67,6 +67,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     float xySum = 0;
     int n = fileInfo->imagePoints->size();
     if(n == 0) {
+        betterPrintF("Cannot load mouth\n");
         return NULL;
     }
 
@@ -126,6 +127,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         betterPrintF("nothing along the bottom lip?");
         return NULL;
     }
+    betterPrintF("checkpoint1.1\n");
     
     
     
@@ -155,6 +157,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         x2y1Sum += x2 * p.y;
         x1SquaredSum += x1 * x1;
     }
+    printf("checkpoint1.2\n");
 
     float s11 = x1SquaredSum - x1Sum * x1Sum / n2;
     float s12 = x1x2Sum - x1Sum * x2Sum / n2;
