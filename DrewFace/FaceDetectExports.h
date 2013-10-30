@@ -49,13 +49,15 @@ typedef struct FileInfo {
 } FileInfo;
 
 static void betterPrintF(const char *format, ...) {
-#ifndef DONT_PORT
+#if DONT_PORT
     const char *fileName = "/Users/drew/Library/Application Support/iPhone Simulator/7.0.3/Applications/55E073BC-20F0-4293-8697-A79A7F45C4B9/Documents/FaceDetectDebug.txt";
 #else
-    const char *fileName = "FaceDetectDebug.txt";
+    const char *fileName = "c:\\Windows\\Temp\\FaceDetectDebug.txt";
 #endif
     va_list args;
     FILE *outfil = fopen(fileName,"a+");
+	printf("hello betterprintf9 %s %p\n",fileName,outfil);
+
     va_start (args, format);
 
     if (outfil) {
@@ -63,6 +65,7 @@ static void betterPrintF(const char *format, ...) {
         fclose(outfil);
     }
     else {
+		printf("error %d", errno);
         perror("Error opening file");
     }
     vprintf(format, args);

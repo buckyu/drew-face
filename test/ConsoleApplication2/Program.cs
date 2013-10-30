@@ -10,7 +10,9 @@ namespace ConsoleApplication2
     class Program
     {
         static void Main(string[] args)
-        {
+        
+      {
+          Console.BufferHeight = Int16.MaxValue - 1;
             Console.WriteLine("Press enter to detect an image.");
             Console.ReadLine();
 
