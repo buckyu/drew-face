@@ -38,7 +38,7 @@ inline double roundf(double x) { return (x-floor(x))>0.5 ? ceil(x) : floor(x); }
 //SERIOUSLY: jpegs do NOT have alpha channels!!!
 //**********************************************
 const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
-    printf("stitchMouthOnFace begun.\n");
+    betterPrintF("stitchMouthOnFace begun.\n");
     char *ret = (char*)calloc(strlen(fileInfo->originalFileNamePath) + 9 + 1, sizeof(char));
     if(!ret) {
         //out of memory
@@ -54,7 +54,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         assert(0);
     }
     if (mouth->width <= 0 || mouth->height <= 0) {
-        printf("mouth size error\n");
+        betterPrintF("mouth size error\n");
         return NULL;
     }
     std::vector<cv::Point> *bounds = new std::vector<cv::Point>;
@@ -102,14 +102,14 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         xySum += p.x * p.y;
     }
     ///http://math.stackexchange.com/questions/267865/equations-for-quadratic-regression
-    printf("checkpoint 1\n");
+    betterPrintF("checkpoint 1\n");
 
     std::vector<NotCGPoint> *bottomLip = new std::vector<NotCGPoint>();
     //what should go in the bottom lip?
     //how about all the things that are below the average height
     int highestY = 0;
     if (fileInfo->imagePoints->size() <= 0) {
-        printf("no imagePoints.  This won't work.\n");
+        betterPrintF("no imagePoints.  This won't work.\n");
         return NULL;
     }
     for(int i = 0; i < fileInfo->imagePoints->size(); i++) {
@@ -185,7 +185,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     if(toothScaledMouthSize.width == 0) { //seems to crash in this case.  i assume because the geometry is rediculous
         return NULL;
     }
-    printf("checkpoint 2\n");
+    betterPrintF("checkpoint 2\n");
 
 #undef STOCK_IMAGE_TOOTH_WIDTH
 
@@ -275,15 +275,15 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     cv::Mat faceMat = face->data;
     cv::Mat smallMouthMat;
     if (skewedMouthMat.rows <= 0) {
-        printf("skewedMouthmat error\n");
+        betterPrintF("skewedMouthmat error\n");
         return NULL;
     }
     if (toothScaledMouthSize.width <= 0 || toothScaledMouthSize.height <= 0) {
-        printf("toothScaledMouthSize error.\n");
+        betterPrintF("toothScaledMouthSize error.\n");
         return NULL;
     }
     cv::resize(skewedMouthMat, smallMouthMat, toothScaledMouthSize);
-    printf("checkpoint 3\n");
+    betterPrintF("checkpoint 3\n");
 
 
 #ifdef DONT_PORT
@@ -366,7 +366,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
             }
         }
     }
-    printf("checkpoint 4\n");
+    betterPrintF("checkpoint 4\n");
 
 
 #ifdef DONT_PORT
@@ -383,7 +383,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //Long version: = is overloaded for converting IplImage* <-> cv::Mat. IplImage is a C structure, so when you free it, it actually goes away. cv::Mat is a C++ structure and does some kind of magical reference counting that makes it go away (magically) when you don't need it anymore. So, if you set mat = img and free the img, the img is no longer valid, *BUT* the mat still is. That's right, = has lost the transitive property because of memory management differences within C++. Oh, but some of the data is shared, so although your struct is intact, accessing it can be bad (EXC_BAD_ACCESS bad). Ha ha!
     free(boundArray);
     freeJpeg(mouth);
-    printf("checkpoint 5\n");
+    betterPrintF("checkpoint 5\n");
 
 
     return ret;
