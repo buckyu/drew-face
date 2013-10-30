@@ -180,6 +180,8 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
 #define GET_PIXEL_OF_MATRIXN(MTX, X, Y, CHANNEL, TYPE, NUM) ((MTX).at<cv::Vec<TYPE,(NUM)>>((Y),(X))[(CHANNEL)])
 #define SET_PIXEL_OF_MATRIXN(MTX, X, Y, CHANNEL, TYPE, VALUE, NUM) ((MTX).at<cv::Vec<TYPE,(NUM)>>((Y),(X)))[(CHANNEL)] = (VALUE)
     cv::Mat mouthMat = mouth->data;
+    
+    
     cv::Mat skewedMouthMat = mouthMat.clone();
     skewedMouthMat.setTo(0);
     float curve_maxy = -INFINITY;
@@ -200,11 +202,15 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
             int newy = roundf(y + dy);
             if(newy >= 0 && newy < skewedMouthMat.rows) {
                 for(int i = 0; i < COLOR_CHANNELS; i++) {
-                    SET_PIXEL_OF_MATRIXN(skewedMouthMat, x, newy, i, uint8_t, GET_PIXEL_OF_MATRIXN(mouthMat, x, newy, i, uint8_t, COLOR_CHANNELS), COLOR_CHANNELS);
+                    uint8_t color =GET_PIXEL_OF_MATRIXN(mouthMat, x, newy, i, uint8_t, COLOR_CHANNELS);
+                    SET_PIXEL_OF_MATRIXN(skewedMouthMat, x, newy, i, uint8_t, color , COLOR_CHANNELS);
                 }
             }
         }
     }
+    
+    //temporarily disable skew
+    skewedMouthMat = mouthMat;
 
     /*    //skew correction
      //See also http://opencv.willowgarage.com/wiki/Welcome?action=AttachFile&do=get&target=opencv_cheatsheet.pdf
@@ -285,6 +291,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //void fillPoly(Mat& img, const Point** pts, const int* npts, int ncontours, const Scalar& color, int lineType=8, int shift=0, Point offset=Point() );
     cv::fillPoly(mask, (const cv::Point**)&boundArray, &boundArraySize, 1, white);
     IplImage maskImg = mask;
+    
 
     //balance image exposure
     //http://stackoverflow.com/questions/13978689/balancing-contrast-and-brightness-between-stitched-images
@@ -339,7 +346,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     }
 
 #ifdef DONT_PORT
-    cv::Mat outMatrix = &faceImg;
+    cv::Mat outMatrix = faceMat;
     writeReplaceToDisk(outMatrix, ret);
 #else
     face->data = &faceImg;
