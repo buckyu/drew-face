@@ -1,4 +1,4 @@
-﻿Build started 10/29/2013 6:14:11 PM.
+﻿Build started 10/30/2013 6:09:46 AM.
 Project "C:\Users\Administrator\Documents\GitHub\drew-face\test\test\test.vcxproj" on node 2 (Build target(s)).
 ClCompile:
   C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\Administrator\Documents\GitHub\drew-face\test\test\\..\..\libexif_sleuth_windows\libexif-0.6.20\\" /I"C:\Users\Administrator\Documents\GitHub\drew-face\test\test\\..\..\jpeg-9\\" /I"C:\Users\Administrator\Documents\GitHub\drew-face\test\test\\..\..\libexif_sleuth_windows\libexif-0.6.20\libexif" /I"C:\Users\Administrator\Documents\GitHub\drew-face\test\test\\..\..\opencv\build\include" /nologo /W3 /WX- /Ox /Oi /Oy /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D TEST_EXPORTS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\DrewFace\Detect.cpp ..\..\DrewFace\DrewFaceDetectPart2.cpp ..\..\DrewFace\FaceDetectRenamed.cpp ..\..\DrewFace\jpegHelpers.cpp ..\..\DrewFace\openCVNative.cpp ..\..\DrewFace\SmileStitcher.cpp Source.cpp
@@ -88,9 +88,9 @@ ClCompile:
 ..\..\DrewFace\DrewFaceDetectPart2.cpp(853): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
 ..\..\DrewFace\DrewFaceDetectPart2.cpp(928): warning C4018: '<' : signed/unsigned mismatch
 ..\..\DrewFace\DrewFaceDetectPart2.cpp(938): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-..\..\DrewFace\DrewFaceDetectPart2.cpp(952): warning C4018: '<' : signed/unsigned mismatch
-..\..\DrewFace\DrewFaceDetectPart2.cpp(1057): warning C4244: '*=' : conversion from 'double' to 'int', possible loss of data
-..\..\DrewFace\DrewFaceDetectPart2.cpp(1076): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+..\..\DrewFace\DrewFaceDetectPart2.cpp(953): warning C4018: '<' : signed/unsigned mismatch
+..\..\DrewFace\DrewFaceDetectPart2.cpp(1058): warning C4244: '*=' : conversion from 'double' to 'int', possible loss of data
+..\..\DrewFace\DrewFaceDetectPart2.cpp(1077): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
 ..\..\DrewFace\DrewFaceDetectPart2.cpp(762): warning C4101: 'max' : unreferenced local variable
   FaceDetectRenamed.cpp
 ..\..\DrewFace\FaceDetectRenamed.cpp(57): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
@@ -103,10 +103,10 @@ ClCompile:
 ..\..\DrewFace\FaceDetectRenamed.cpp(154): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
 ..\..\DrewFace\FaceDetectRenamed.cpp(155): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
 ..\..\DrewFace\FaceDetectRenamed.cpp(156): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-..\..\DrewFace\FaceDetectRenamed.cpp(162): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+..\..\DrewFace\FaceDetectRenamed.cpp(161): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+..\..\DrewFace\FaceDetectRenamed.cpp(165): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+..\..\DrewFace\FaceDetectRenamed.cpp(166): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
 ..\..\DrewFace\FaceDetectRenamed.cpp(166): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-..\..\DrewFace\FaceDetectRenamed.cpp(167): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
-..\..\DrewFace\FaceDetectRenamed.cpp(167): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
 ..\..\DrewFace\FaceDetectRenamed.cpp(168): warning C4018: '<' : signed/unsigned mismatch
 ..\..\DrewFace\FaceDetectRenamed.cpp(171): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
 ..\..\DrewFace\FaceDetectRenamed.cpp(172): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
@@ -121,14 +121,16 @@ C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\math.h(102): warn
           ..\..\DrewFace\SmileStitcher.cpp(8) : see previous definition of 'INFINITY'
 ..\..\DrewFace\SmileStitcher.cpp(46): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356) : see declaration of 'sprintf'
-..\..\DrewFace\SmileStitcher.cpp(101): warning C4244: 'initializing' : conversion from 'unsigned int' to 'float', possible loss of data
-..\..\DrewFace\SmileStitcher.cpp(115): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-..\..\DrewFace\SmileStitcher.cpp(116): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-..\..\DrewFace\SmileStitcher.cpp(149): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-..\..\DrewFace\SmileStitcher.cpp(161): warning C4056: overflow in floating-point constant arithmetic
-..\..\DrewFace\SmileStitcher.cpp(172): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-..\..\DrewFace\SmileStitcher.cpp(176): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-..\..\DrewFace\SmileStitcher.cpp(222): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+..\..\DrewFace\SmileStitcher.cpp(105): warning C4018: '<' : signed/unsigned mismatch
+..\..\DrewFace\SmileStitcher.cpp(110): warning C4018: '<' : signed/unsigned mismatch
+..\..\DrewFace\SmileStitcher.cpp(123): warning C4244: 'initializing' : conversion from 'unsigned int' to 'float', possible loss of data
+..\..\DrewFace\SmileStitcher.cpp(137): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+..\..\DrewFace\SmileStitcher.cpp(138): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+..\..\DrewFace\SmileStitcher.cpp(173): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+..\..\DrewFace\SmileStitcher.cpp(187): warning C4056: overflow in floating-point constant arithmetic
+..\..\DrewFace\SmileStitcher.cpp(198): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+..\..\DrewFace\SmileStitcher.cpp(202): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+..\..\DrewFace\SmileStitcher.cpp(252): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
   Source.cpp
 Lib:
   C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"C:\Users\Administrator\Documents\GitHub\drew-face\test\Release\FaceDetectInternalNative.lib" /NOLOGO /LTCG Release\Detect.obj
@@ -183,4 +185,4 @@ Done Building Project "C:\Users\Administrator\Documents\GitHub\drew-face\test\te
 
 Build succeeded.
 
-Time Elapsed 00:00:49.76
+Time Elapsed 00:00:28.44
