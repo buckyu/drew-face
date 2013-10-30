@@ -104,14 +104,14 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //what should go in the bottom lip?
     //how about all the things that are below the average height
     int highestY = 0;
-    for(int i = 0; i < fileInfo->points->size(); i++) {
-        if(fileInfo->points->at(i).y > highestY) {
-            highestY = fileInfo->points->at(i).y;
+    for(int i = 0; i < fileInfo->imagePoints->size(); i++) {
+        if(fileInfo->imagePoints->at(i).y > highestY) {
+            highestY = fileInfo->imagePoints->at(i).y;
         }
     }
-    for(int i = 0; i < fileInfo->points->size(); i++) {
-        if(fileInfo->points->at(i).y > highestY / 2.0) {
-                bottomLip->push_back(fileInfo->points->at(i));
+    for(int i = 0; i < fileInfo->imagePoints->size(); i++) {
+        if(fileInfo->imagePoints->at(i).y > highestY / 2.0) {
+                bottomLip->push_back(fileInfo->imagePoints->at(i));
         }
     }
     if (bottomLip->size() <= 0) {
