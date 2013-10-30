@@ -105,7 +105,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //how about all the things that are below the average height
     int highestY = 0;
     if (fileInfo->imagePoints->size() <= 0) {
-        printf("no imagePoints.  This won't work.");
+        printf("no imagePoints.  This won't work.\n");
         return NULL;
     }
     for(int i = 0; i < fileInfo->imagePoints->size(); i++) {
