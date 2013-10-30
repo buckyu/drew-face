@@ -38,6 +38,7 @@ inline double roundf(double x) { return (x-floor(x))>0.5 ? ceil(x) : floor(x); }
 //SERIOUSLY: jpegs do NOT have alpha channels!!!
 //**********************************************
 const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
+    printf("stitchMouthOnFace begun.\n");
     char *ret = (char*)calloc(strlen(fileInfo->originalFileNamePath) + 9 + 1, sizeof(char));
     if(!ret) {
         //out of memory
@@ -97,7 +98,8 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         xySum += p.x * p.y;
     }
     ///http://math.stackexchange.com/questions/267865/equations-for-quadratic-regression
-    
+    printf("checkpoint 1\n");
+
     std::vector<NotCGPoint> *bottomLip = new std::vector<NotCGPoint>();
     //what should go in the bottom lip?
     //how about all the things that are below the average height
@@ -175,6 +177,8 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     if(toothScaledMouthSize.width == 0) { //seems to crash in this case.  i assume because the geometry is rediculous
         return NULL;
     }
+    printf("checkpoint 2\n");
+
 #undef STOCK_IMAGE_TOOTH_WIDTH
 
 #define GET_PIXEL_OF_MATRIXN(MTX, X, Y, CHANNEL, TYPE, NUM) ((MTX).at<cv::Vec<TYPE,(NUM)>>((Y),(X))[(CHANNEL)])
@@ -263,6 +267,8 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     cv::Mat faceMat = face->data;
     cv::Mat smallMouthMat;
     cv::resize(skewedMouthMat, smallMouthMat, toothScaledMouthSize);
+    printf("checkpoint 3\n");
+
 
 #ifdef DONT_PORT
     cv::circle(smallMouthMat, cvPoint(bottomLip->at(0).x, bottomLip->at(0).y), 1, CV_RGB(0, 0, 255), -1);
@@ -344,6 +350,8 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
             }
         }
     }
+    printf("checkpoint 4\n");
+
 
 #ifdef DONT_PORT
     cv::Mat outMatrix = faceMat;
@@ -359,6 +367,8 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //Long version: = is overloaded for converting IplImage* <-> cv::Mat. IplImage is a C structure, so when you free it, it actually goes away. cv::Mat is a C++ structure and does some kind of magical reference counting that makes it go away (magically) when you don't need it anymore. So, if you set mat = img and free the img, the img is no longer valid, *BUT* the mat still is. That's right, = has lost the transitive property because of memory management differences within C++. Oh, but some of the data is shared, so although your struct is intact, accessing it can be bad (EXC_BAD_ACCESS bad). Ha ha!
     free(boundArray);
     freeJpeg(mouth);
+    printf("checkpoint 5\n");
+
 
     return ret;
 }
