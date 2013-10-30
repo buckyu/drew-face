@@ -157,14 +157,14 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
     
     if ((faceRect.width > 0) && (faceRect.height > 0)) {
         int toothSize;
-        ret->bottomLip = new std::vector<NotCGPoint>;
-        ret->points = findTeethArea(mouthImage, &toothSize, ret->bottomLip);
+        ret->points = findTeethArea(mouthImage, &toothSize);
         ret->frontToothWidth = toothSize / 1.5;
 
         std::vector<NotCGPoint> *imagePoints = new std::vector<NotCGPoint>;
         //this is THE screwiest coordinate conversion I have ever seen. I shall refrain from ranting. But you, dear reader, should feel free.
         cv::Point facePoint = cv::Point(ret->facedetectX / ret->facedetectScaleFactor, ret->facedetectY / ret->facedetectScaleFactor);
         cv::Point mouthPoint = cv::Point(facePoint.x + ret->mouthdetectX / ret->facedetectScaleFactor, facePoint.y + ret->mouthdetectY / ret->facedetectScaleFactor + MAGIC_HEIGHT * ret->facedetectH / ret->facedetectScaleFactor);
+        printf("size is %d\n",ret->points->size());
         for(int i = 0; i < ret->points->size(); i++) {
             NotCGPoint pt = ret->points->at(i);
             NotCGPoint p;

@@ -741,7 +741,7 @@ std::vector<NotCGPoint> *mergeVectors(std::vector<NotCGPoint> *target, std::vect
     return target;
 }
 
-cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area, int *toothSize, std::vector<NotCGPoint> *bottomLip) {
+cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area, int *toothSize) {
     cv::Mat originalImage = image.clone();
     image.convertTo(image, CV_32F);
     
@@ -941,10 +941,11 @@ cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area, int *to
     std::vector<NotCGPoint> *snake1 = new std::vector<NotCGPoint>;
     snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay,1, snake1);
     sy = shortestPoint.y;
-    snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay,0, bottomLip);
+    std::vector<NotCGPoint> *snake2 = new std::vector<NotCGPoint>;
+    snakeSearch(sx, sy, abs_grad_x, abs_grad_y, gradDisplay,0, snake2);
     
     cv::Mat colorSpace2 = colorSpace.clone(); //for reasons that aren't immediately clear to me, the following line borks colorSpace...
-    mergeVectors(area, snake1, bottomLip);
+    mergeVectors(area, snake1, snake2);
     
     //compute the max and min Y for the solution
     int maxy = 0;
@@ -1081,9 +1082,9 @@ cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area, int *to
     return gradDisplay;
 }
 
-std::vector<NotCGPoint>* findTeethArea(cv::Mat image, int *toothSize, std::vector<NotCGPoint> *bottomLip) {
+std::vector<NotCGPoint>* findTeethArea(cv::Mat image, int *toothSize) {
     std::vector<NotCGPoint> *ret = new std::vector<NotCGPoint>;
-    findTeethAreaDebug(image, ret, toothSize, bottomLip);
+    findTeethAreaDebug(image, ret, toothSize);
 
     return ret;
 }

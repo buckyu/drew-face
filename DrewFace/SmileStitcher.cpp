@@ -97,7 +97,30 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         xySum += p.x * p.y;
     }
     ///http://math.stackexchange.com/questions/267865/equations-for-quadratic-regression
-    float n2 = fileInfo->bottomLip->size();
+    
+    std::vector<NotCGPoint> *bottomLip = new std::vector<NotCGPoint>();
+    //what should go in the bottom lip?
+    //how about all the things that are below the average height
+    int highestY = 0;
+    for(int i = 0; i < fileInfo->points->size(); i++) {
+        if(fileInfo->points->at(i).y > highestY) {
+            highestY = fileInfo->points->at(i).y;
+        }
+    }
+    for(int i = 0; i < fileInfo->points->size(); i++) {
+        if(fileInfo->points->at(i).y > highestY / 2.0) {
+                bottomLip->push_back(fileInfo->points->at(i));
+        }
+    }
+    if (bottomLip->size() <= 0) {
+        printf("nothing along the bottom lip?");
+        return NULL;
+    }
+    
+    
+    
+    
+    float n2 = bottomLip->size();
     if(n == 0) {
         return NULL;
     }
@@ -110,12 +133,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     float x2y1Sum = 0;
     float x1SquaredSum = 0;
     for(int i = 0; i < n2; i++) {
-        return NULL;
-        if (!fileInfo->bottomLip) {
-            printf("A bottom lip is required\n");
-            return NULL;
-        }
-        NotCGPoint p = fileInfo->bottomLip->at(i);
+        NotCGPoint p = bottomLip->at(i);
         float x1 = p.x;
         float x2 = p.x * p.x;
         x2Sum += x2;
@@ -150,6 +168,8 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     assert(fileInfo->frontToothWidth > 0);
     cv::Size mouthSize = cv::Size(maxx - minx, maxy - miny);
     float tempWidth = fileInfo->frontToothWidth / STOCK_IMAGE_TOOTH_WIDTH * mouth->width;
+    assert(tempWidth > 0);
+
     cv::Size toothScaledMouthSize = cv::Size(tempWidth, tempWidth / mouth->width * mouth->height);
     cv::Rect mouthRect = cv::Rect(minx + (mouthSize.width - toothScaledMouthSize.width) / 2, miny + (mouthSize.height - toothScaledMouthSize.height) / 2, toothScaledMouthSize.width, toothScaledMouthSize.height);
     if(toothScaledMouthSize.width == 0) { //seems to crash in this case.  i assume because the geometry is rediculous
@@ -239,10 +259,10 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     cv::resize(skewedMouthMat, smallMouthMat, toothScaledMouthSize);
 
 #ifdef DONT_PORT
-    cv::circle(smallMouthMat, cvPoint(fileInfo->bottomLip->at(0).x, fileInfo->bottomLip->at(0).y), 1, CV_RGB(0, 0, 255), -1);
+    cv::circle(smallMouthMat, cvPoint(bottomLip->at(0).x, bottomLip->at(0).y), 1, CV_RGB(0, 0, 255), -1);
     for(int i = 1; i < n2; i++) {
-        NotCGPoint p1 = fileInfo->bottomLip->at(i - 1);
-        NotCGPoint p2 = fileInfo->bottomLip->at(i);
+        NotCGPoint p1 = bottomLip->at(i - 1);
+        NotCGPoint p2 = bottomLip->at(i);
         float y1 = beta1 + beta2 * p1.x + beta3 * p1.x * p1.x;
         float y2 = beta1 + beta2 * p2.x + beta3 * p2.x * p2.x;
         cv::line(smallMouthMat, cvPoint(p1.x, y1), cvPoint(p2.x, y2), CV_RGB(255, 0, 0), 4);
