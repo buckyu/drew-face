@@ -53,6 +53,10 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         betterPrintF("mouth could not be loaded from path %s\n",mouthImage);
         assert(0);
     }
+    if (mouth->width <= 0 || mouth->height <= 0) {
+        printf("mouth size error\n");
+        return NULL;
+    }
     std::vector<cv::Point> *bounds = new std::vector<cv::Point>;
     int boundArraySize = fileInfo->imagePoints->size();
     cv::Point *boundArray = (cv::Point*)calloc(boundArraySize, sizeof(cv::Point));
@@ -270,6 +274,14 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
 
     cv::Mat faceMat = face->data;
     cv::Mat smallMouthMat;
+    if (skewedMouthMat.rows <= 0) {
+        printf("skewedMouthmat error\n");
+        return NULL;
+    }
+    if (toothScaledMouthSize.width <= 0 || toothScaledMouthSize.height <= 0) {
+        printf("toothScaledMouthSize error.\n");
+        return NULL;
+    }
     cv::resize(skewedMouthMat, smallMouthMat, toothScaledMouthSize);
     printf("checkpoint 3\n");
 
