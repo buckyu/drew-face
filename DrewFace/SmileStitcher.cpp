@@ -191,7 +191,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     
     
     cv::Mat skewedMouthMat = mouthMat.clone();
-    skewedMouthMat.setTo(0);
+    /*skewedMouthMat.setTo(0);
     float curve_maxy = -INFINITY;
     float curve_miny = INFINITY;
     for(int x = 0; x < skewedMouthMat.cols; x++) {
@@ -215,7 +215,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
                 }
             }
         }
-    }
+    }*/
     
     //temporarily disable skew
     skewedMouthMat = mouthMat;
