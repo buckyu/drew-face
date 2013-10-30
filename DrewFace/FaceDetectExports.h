@@ -8,6 +8,11 @@
 
 #ifndef __DrewFace__FaceDetectExports__
 #define __DrewFace__FaceDetectExports__
+
+//VS requires for variadic functions
+#include <stdio.h>
+#include <stdarg.h>
+
 #include <vector>
 
 #include <iostream>

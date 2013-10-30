@@ -1,4 +1,4 @@
-﻿Build started 10/30/2013 6:10:15 AM.
+﻿Build started 10/30/2013 10:13:00 AM.
 Project "C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetect\FaceDetect.vcxproj" on node 2 (Build target(s)).
 ClCompile:
   C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetect\/../../DrewFace" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /clr /nologo /W3 /WX- /Ox /Ob2 /Oy /GL /D WIN32 /D NDEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Release\FaceDetect.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /TP /FU"C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetectInternalManaged\bin\Release\FaceDetectInternalManaged.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /analyze- /errorReport:prompt /clr:nostdlib Stdafx.cpp
@@ -8,6 +8,8 @@ ClCompile:
 AssemblyInfo.cpp(40): warning C4947: 'RequestMinimum' : marked as obsolete
           Message: 'Assembly level declarative security is obsolete and is no longer enforced by the CLR by default. See http://go.microsoft.com/fwlink/?LinkID=155570 for more information.'
   FaceDetect.cpp
+c:\users\administrator\documents\github\drew-face\drewface\FaceDetectExports.h(58): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(211) : see declaration of 'fopen'
 FaceDetect.cpp(17): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
 FaceDetect.cpp(18): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
 FaceDetect.cpp(53): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
@@ -39,4 +41,4 @@ Done Building Project "C:\Users\Administrator\Documents\GitHub\drew-face\test\Fa
 
 Build succeeded.
 
-Time Elapsed 00:00:26.66
+Time Elapsed 00:00:29.53
