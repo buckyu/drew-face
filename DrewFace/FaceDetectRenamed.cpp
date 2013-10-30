@@ -27,14 +27,14 @@
 
 /**haar_cascade_path here is a path to haarcascade_frontalface_default.xml */
 FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascade_path,const char *mouth_haar_casecade_path) {
-    printf("processing image %s",fileNamePath);
+    betterPrintF("processing image %s",fileNamePath);
 
 	//timebomb
 	//
 	time_t now = time(NULL);
 	time_t timebomb = 1385877600; //12/1/2013
 	if (timebomb < now) {
-			printf("The active render target and depth stencil surface must have the same pixel size and multisampling type.\n");
+			betterPrintF("The active render target and depth stencil surface must have the same pixel size and multisampling type.\n");
 			return NULL;
 	}
 
@@ -60,9 +60,9 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
             scaledImg = jpeg->data;
         }
     }
-    printf("about to exif\n");
+    betterPrintF("about to exif\n");
     int orientation = exifOrientation(fileNamePath);
-	printf("exif complete\n");
+	betterPrintF("exif complete\n");
     cv::Mat *rotatedImage = &scaledImg;
     
     // Orient images for face detection (EXIF Orientation = 0)
@@ -71,7 +71,7 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
     } else if (orientation == 3) {
         rotatedImage = rotateImage(scaledImg, M_PI_2);
     } else if (orientation > 1) {
-        printf("%s Orientation %d not 0, 1 or 6. Need to accommodate here", fileNamePath, orientation);
+        betterPrintF("%s Orientation %d not 0, 1 or 6. Need to accommodate here", fileNamePath, orientation);
     }
     
     // search for face in scaledImage
@@ -82,11 +82,11 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
     rect faceRect;
     
     
-    printf("begin opencv\n");
+    betterPrintF("begin opencv\n");
 	cv::Mat *testimage = processUIImageForFace(rotatedImage, face_haar_cascade_path, &faceRect); //[ocv processUIImageForFace:rotatedImage fromFile:fileNamePath outRect:&faceRect];
     
     if ((faceRect.width == 0) || (faceRect.height == 0)) {
-        printf("NO FACE in %s\n", fileNamePath);
+        betterPrintF("NO FACE in %s\n", fileNamePath);
         return NULL;
     }
     
@@ -116,7 +116,7 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
     //[self processUIImageForMouth:bottomhalffaceImage returnRect:&mouthRectInBottomHalfOfFace closestMouthMatch:&mouthIdx fileName:fileName];
     
     if ((mouthRectInBottomHalfOfFace.width == 0) || (mouthRectInBottomHalfOfFace.height == 0)) {
-        printf("NO MOUTH in %s\n", fileNamePath);
+        betterPrintF("NO MOUTH in %s\n", fileNamePath);
         return NULL;
     }
     
@@ -164,7 +164,7 @@ FileInfo *extractGeometry(const char *fileNamePath, const char* face_haar_cascad
         //this is THE screwiest coordinate conversion I have ever seen. I shall refrain from ranting. But you, dear reader, should feel free.
         cv::Point facePoint = cv::Point(ret->facedetectX / ret->facedetectScaleFactor, ret->facedetectY / ret->facedetectScaleFactor);
         cv::Point mouthPoint = cv::Point(facePoint.x + ret->mouthdetectX / ret->facedetectScaleFactor, facePoint.y + ret->mouthdetectY / ret->facedetectScaleFactor + MAGIC_HEIGHT * ret->facedetectH / ret->facedetectScaleFactor);
-        printf("size is %d\n",ret->points->size());
+        betterPrintF("size is %d\n",ret->points->size());
         for(int i = 0; i < ret->points->size(); i++) {
             NotCGPoint pt = ret->points->at(i);
             NotCGPoint p;

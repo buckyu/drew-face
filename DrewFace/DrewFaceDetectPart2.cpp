@@ -296,7 +296,7 @@ std::vector<NotCGPoint> flowFind(int sx, int sy, cv::Mat grad_x, cv::Mat grad_y,
             
             if (abs(top.x-66)<3 && abs(top.y-41)<3) {
                 int i = 0;
-                printf("This will be a good solution\n");
+                betterPrintF("This will be a good solution\n");
             }
             
             
@@ -314,11 +314,11 @@ std::vector<NotCGPoint> flowFind(int sx, int sy, cv::Mat grad_x, cv::Mat grad_y,
             flow_in_y_dir += ycmp;
             flow += abs(xcmp) + abs(ycmp);
             localSnake.push_back(top);
-            //printf("Assisting is point %d,%d with xcmp %d and ycmp %d\n",top.x,top.y,xcmp,ycmp);
+            //betterPrintF("Assisting is point %d,%d with xcmp %d and ycmp %d\n",top.x,top.y,xcmp,ycmp);
         }
         
         
-        printf("angle %f had flow %f composed of %f and %f\n",theta,flow,flow_in_x_dir,flow_in_y_dir);
+        betterPrintF("angle %f had flow %f composed of %f and %f\n",theta,flow,flow_in_x_dir,flow_in_y_dir);
         if (flow > best_flow) {
             *barycentre_num = flow * localSnake[0].y;
             *barycentre_denom = flow;
@@ -332,7 +332,7 @@ std::vector<NotCGPoint> flowFind(int sx, int sy, cv::Mat grad_x, cv::Mat grad_y,
     assert (snake.size());
     int xcmp = GET_PIXEL_OF_MATRIXN(grad_x,snake.back().x,snake.back().y,0,float,3);
     int ycmp = GET_PIXEL_OF_MATRIXN(grad_y,snake.back().x,snake.back().y,0,float,3);
-    printf("We found a solution at %d %d.  Best flow is %d\n",snake.back().x,snake.back().y,best_flow);
+    betterPrintF("We found a solution at %d %d.  Best flow is %d\n",snake.back().x,snake.back().y,best_flow);
     return snake;
     
 }
@@ -354,7 +354,7 @@ std::vector<NotCGPoint>* oldAlgorithm(cv::Mat image) {
     //originally: mouthImage = [ocv edgeDetectReturnEdges:mouthImage];
     //this implementation looks approximately in-place to me
     //cv::blur(myCvMat, edges, cv::Size(4,4));
-	printf("finding teeth area\n");
+	betterPrintF("finding teeth area\n");
     cv::cvtColor(image, image, CV_BGRA2BGR);
     cv::pyrMeanShiftFiltering(image.clone(), image, 10, 10, 4);
     cv::cvtColor(image, image, CV_BGR2BGRA);
@@ -368,7 +368,7 @@ std::vector<NotCGPoint>* oldAlgorithm(cv::Mat image) {
      image.size.width == matrix.cols
      image.size.height == matrix.rows
      */
-    printf("%d\n",sizeof(ushort));
+    betterPrintF("%d\n",sizeof(ushort));
     //if you want to grab x: 5, y: 12, channel: g, you do this one:
 #define GET_PIXEL_OF_MATRIX(MTX,X,Y,CHANNEL) image.at<cv::Vec<uint8_t,4>>(Y,X)[CHANNEL]
 #define WIDTH image.cols
@@ -582,7 +582,7 @@ std::vector<NotCGPoint>* oldAlgorithm(cv::Mat image) {
     free(testimagedataMod1);
     free(testimagedataMod2);
     
-    printf("solution of size %lu\n",solutionArray->size());
+    betterPrintF("solution of size %lu\n",solutionArray->size());
     
     return solutionArray;
 }
@@ -623,13 +623,13 @@ cv::Mat snakeSearch(int sx, int sy, cv::Mat abs_grad_x, cv::Mat abs_grad_y, cv::
         }
         int total_num = 0;
         int total_denom = 0;
-        printf("left calc\n");
+        betterPrintF("left calc\n");
         for(int x = sx; x < gradDisplay.cols; x+= segment_len) {
             int l_num = 0;
             int l_denom = 0;
             float downward_angle = downwardAngleCalc(R.back().x,start.x);
             std::vector<NotCGPoint> segment = flowFind(R.back().x, R.back().y,abs_grad_x, abs_grad_y, true, segment_len,angle_inf,angle_sup,&l_num,&l_denom);
-            printf("segment %d / %d \n",l_num,l_denom);
+            betterPrintF("segment %d / %d \n",l_num,l_denom);
             total_num += l_num;
             total_denom += l_denom;
             APPEND(R, segment);
@@ -671,7 +671,7 @@ cv::Mat snakeSearch(int sx, int sy, cv::Mat abs_grad_x, cv::Mat abs_grad_y, cv::
         else {
             newseed.y = 0.5 * (sy + total_num / total_denom);
         }
-        printf("Recommend moving from %d,%d to %d,%d\n",sx,sy,newseed.x,newseed.y);
+        betterPrintF("Recommend moving from %d,%d to %d,%d\n",sx,sy,newseed.x,newseed.y);
         //now there are two cases here.  either our newseed is close to the original one or it isn't.
         if (sqrt(powf(newseed.y-start.y, 2)+powf(newseed.x-start.x, 2)) < 2) {
             break;
@@ -1045,7 +1045,7 @@ cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area, int *to
                 
                 
             }
-            printf("row result for y  %d, %d %d %d\n",y, rapidPks,latePks,goodPks);
+            betterPrintF("row result for y  %d, %d %d %d\n",y, rapidPks,latePks,goodPks);
             if (goodPks > best_goodPks) {
                 best_goodPks = goodPks;
                 best_row = y;
@@ -1053,13 +1053,13 @@ cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area, int *to
                 
             }
         }
-        printf("best_goodpx round %d is %d\n",i,best_goodPks);
+        betterPrintF("best_goodpx round %d is %d\n",i,best_goodPks);
         if (best_goodPks >= 15) {
             lowThreshold *= 1.5;
         }
         else if (best_goodPks <= 12) {
             lowThreshold /= 2;
-            printf("adjusting threshold downward to %d\n",lowThreshold);
+            betterPrintF("adjusting threshold downward to %d\n",lowThreshold);
         }
         else {
             break;
@@ -1072,7 +1072,7 @@ cv::Mat findTeethAreaDebug(cv::Mat image, std::vector<NotCGPoint> *area, int *to
         SET_PIXEL_OF_MATRIXN(luminanceDisplay, x, best_row, 0, uint8_t, 255, 3);
     }
 
-    printf("avg peak size %f\n",best_avgPeakSize);
+    betterPrintF("avg peak size %f\n",best_avgPeakSize);
     
     *toothSize = best_avgPeakSize;
     

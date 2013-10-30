@@ -43,6 +43,28 @@ typedef struct FileInfo {
     float frontToothWidth;
 } FileInfo;
 
+static void betterPrintF(const char *format, ...) {
+#ifndef DONT_PORT
+    const char *fileName = "/Users/drew/Library/Application Support/iPhone Simulator/7.0.3/Applications/55E073BC-20F0-4293-8697-A79A7F45C4B9/Documents/FaceDetectDebug.txt";
+#else
+    const char *fileName = "FaceDetectDebug.txt";
+#endif
+    va_list args;
+    FILE *outfil = fopen(fileName,"a+");
+    va_start (args, format);
+
+    if (outfil) {
+        vfprintf( outfil, format, args );
+        fclose(outfil);
+    }
+    else {
+        perror("Error opening file");
+    }
+    vprintf(format, args);
+    va_end (args);
+}
+
+
 FileInfo* completeDetect(char *fileName);
 const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage);
 

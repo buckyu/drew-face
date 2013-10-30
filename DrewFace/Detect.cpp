@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include "Detect.h"
 #include <opencv2/objdetect/objdetect.hpp>
-
+#include "FaceDetectExports.h"
 
 
 void Detect(IplImage *myImage, const char *xml_filename_utf8, rect *result, const char *targetType, const char *fn) {
@@ -37,7 +37,7 @@ void Detect(IplImage *myImage, const char *xml_filename_utf8, rect *result, cons
     }
     
     if (detections->total > 1) {
-        printf("Warning, multiple %ss detected - %d - %s\n",targetType,detections->total,fn);
+        betterPrintF("Warning, multiple %ss detected - %d - %s\n",targetType,detections->total,fn);
     }
     
     cvReleaseHaarClassifierCascade(&cascade);

@@ -49,7 +49,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //writeJpegToFile(face, ret, 100);
     struct jpeg *mouth = loadJPEGFromFile(mouthImage, COLOR_CHANNELS);
     if (!mouth) {
-        printf("mouth could not be loaded from path %s\n",mouthImage);
+        betterPrintF("mouth could not be loaded from path %s\n",mouthImage);
         assert(0);
     }
     std::vector<cv::Point> *bounds = new std::vector<cv::Point>;
@@ -73,7 +73,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //int lastx = fileInfo->points->at(0).x;
     for(int i = 0; i < n; i++) {
         NotCGPoint p = fileInfo->imagePoints->at(i);
-        //fprintf(file, "%d, %d\n", p.x, p.y);
+        //fbetterPrintF(file, "%d, %d\n", p.x, p.y);
         if(p.x < minx) {
             minx = p.x;
         }
@@ -87,7 +87,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
             maxy = p.y;
         }
         cv::Point pt = cv::Point(p.x, p.y);
-        //printf("Point = (%d, %d)\n", p.x, p.y);
+        //betterPrintF("Point = (%d, %d)\n", p.x, p.y);
         bounds->push_back(pt);
         boundArray[i] = pt;
 
@@ -113,7 +113,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
         }
     }
     if (bottomLip->size() <= 0) {
-        printf("nothing along the bottom lip?");
+        betterPrintF("nothing along the bottom lip?");
         return NULL;
     }
     
@@ -276,7 +276,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     }
 #endif
 
-    //printf("img = %s\n", fileInfo->originalFileNamePath);
+    //betterPrintF("img = %s\n", fileInfo->originalFileNamePath);
     //not sure why we have to invert it...
     cv::Mat *rotatedSmallMouthMat = rotateImage(smallMouthMat, -rotation);
 
@@ -319,7 +319,7 @@ const char *stitchMouthOnFace(FileInfo *fileInfo, const char *mouthImage) {
     //replace the mask region on face with mouth
     IplImage faceImg = faceMat;
     uint8_t *data = (uint8_t*) faceImg.imageData;
-    printf("Using %d color channels\n", COLOR_CHANNELS);
+    betterPrintF("Using %d color channels\n", COLOR_CHANNELS);
 	assert(COLOR_CHANNELS == faceImg.nChannels && COLOR_CHANNELS == smallMouthImg.nChannels);
     for(int y = 0; y < faceImg.height; ++y) {
         uint8_t *maskRow = (uint8_t*)&maskImg.imageData[y * maskImg.width * maskImg.nChannels];
