@@ -1,4 +1,4 @@
-﻿Build started 10/30/2013 10:50:04 AM.
+﻿Build started 10/30/2013 12:46:59 PM.
 Project "C:\Users\Administrator\Documents\GitHub\drew-face\test\test\test.vcxproj" on node 2 (Build target(s)).
 ClCompile:
   C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\Administrator\Documents\GitHub\drew-face\test\test\\..\..\libexif_sleuth_windows\libexif-0.6.20\\" /I"C:\Users\Administrator\Documents\GitHub\drew-face\test\test\\..\..\jpeg-9\\" /I"C:\Users\Administrator\Documents\GitHub\drew-face\test\test\\..\..\libexif_sleuth_windows\libexif-0.6.20\libexif" /I"C:\Users\Administrator\Documents\GitHub\drew-face\test\test\\..\..\opencv\build\include" /nologo /W3 /WX- /Ox /Oi /Oy /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D TEST_EXPORTS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\DrewFace\Detect.cpp ..\..\DrewFace\DrewFaceDetectPart2.cpp ..\..\DrewFace\FaceDetectRenamed.cpp ..\..\DrewFace\jpegHelpers.cpp ..\..\DrewFace\openCVNative.cpp ..\..\DrewFace\SmileStitcher.cpp Source.cpp
@@ -125,18 +125,15 @@ C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\math.h(102): warn
           ..\..\DrewFace\SmileStitcher.cpp(8) : see previous definition of 'INFINITY'
 c:\users\administrator\documents\github\drew-face\drewface\FaceDetectExports.h(58): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(211) : see declaration of 'fopen'
-..\..\DrewFace\SmileStitcher.cpp(46): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+..\..\DrewFace\SmileStitcher.cpp(47): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356) : see declaration of 'sprintf'
-..\..\DrewFace\SmileStitcher.cpp(105): warning C4018: '<' : signed/unsigned mismatch
-..\..\DrewFace\SmileStitcher.cpp(110): warning C4018: '<' : signed/unsigned mismatch
-..\..\DrewFace\SmileStitcher.cpp(123): warning C4244: 'initializing' : conversion from 'unsigned int' to 'float', possible loss of data
-..\..\DrewFace\SmileStitcher.cpp(137): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-..\..\DrewFace\SmileStitcher.cpp(138): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-..\..\DrewFace\SmileStitcher.cpp(173): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-..\..\DrewFace\SmileStitcher.cpp(187): warning C4056: overflow in floating-point constant arithmetic
-..\..\DrewFace\SmileStitcher.cpp(198): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-..\..\DrewFace\SmileStitcher.cpp(202): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-..\..\DrewFace\SmileStitcher.cpp(252): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+..\..\DrewFace\SmileStitcher.cpp(115): warning C4018: '<' : signed/unsigned mismatch
+..\..\DrewFace\SmileStitcher.cpp(120): warning C4018: '<' : signed/unsigned mismatch
+..\..\DrewFace\SmileStitcher.cpp(133): warning C4244: 'initializing' : conversion from 'unsigned int' to 'float', possible loss of data
+..\..\DrewFace\SmileStitcher.cpp(147): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+..\..\DrewFace\SmileStitcher.cpp(148): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+..\..\DrewFace\SmileStitcher.cpp(183): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+..\..\DrewFace\SmileStitcher.cpp(264): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
   Source.cpp
 c:\users\administrator\documents\github\drew-face\drewface\FaceDetectExports.h(58): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(211) : see declaration of 'fopen'
@@ -193,4 +190,4 @@ Done Building Project "C:\Users\Administrator\Documents\GitHub\drew-face\test\te
 
 Build succeeded.
 
-Time Elapsed 00:00:44.00
+Time Elapsed 00:00:43.39

@@ -1,4 +1,4 @@
-﻿Build started 10/30/2013 10:50:49 AM.
+﻿Build started 10/30/2013 12:47:42 PM.
 Project "C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetect\FaceDetect.vcxproj" on node 2 (Build target(s)).
 ClCompile:
   C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetect\/../../DrewFace" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /clr /nologo /W3 /WX- /Ox /Ob2 /Oy /GL /D WIN32 /D NDEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Release\FaceDetect.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /TP /FU"C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetectInternalManaged\bin\Release\FaceDetectInternalManaged.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /analyze- /errorReport:prompt /clr:nostdlib Stdafx.cpp
@@ -31,14 +31,10 @@ Link:
 lib_exif.lib(exif-entry.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:ICF' specification
 MSVCRT.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrtd.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-c:\users\administrator\documents\github\drew-face\drewface\smilestitcher.cpp(187): warning C4756: overflow in constant arithmetic
-c:\users\administrator\documents\github\drew-face\drewface\smilestitcher.cpp(188): warning C4756: overflow in constant arithmetic
-c:\users\administrator\documents\github\drew-face\drewface\smilestitcher.cpp(187): warning C4756: overflow in constant arithmetic
-c:\users\administrator\documents\github\drew-face\drewface\smilestitcher.cpp(188): warning C4756: overflow in constant arithmetic
   Finished generating code
   FaceDetect.vcxproj -> C:\Users\Administrator\Documents\GitHub\drew-face\test\Release\FaceDetect.dll
 Done Building Project "C:\Users\Administrator\Documents\GitHub\drew-face\test\FaceDetect\FaceDetect.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:29.50
+Time Elapsed 00:00:23.23
